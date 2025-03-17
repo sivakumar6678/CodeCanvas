@@ -1,9 +1,13 @@
 .hero {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: linear-gradient(135deg, #6a71cf, #f8e00bdc);
     color: #fff;
     text-align: center;
     padding: 50px 0;
-  
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
     .container {
       h1 {
         font-size: 2.5rem;

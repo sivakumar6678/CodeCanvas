@@ -5,10 +5,10 @@ import "./styles/global.scss";
 
 const App = () => {
   return (
-    <>
+    <div className="main-page">
       <Navbar />
       <Hero />
-    </>
+    </div>
   );
 };
 
