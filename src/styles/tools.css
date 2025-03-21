@@ -1,0 +1,163 @@
+.tools {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+.tools .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.tools .container h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #2d3436;
+}
+.tools .container .category-filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.tools .container .category-filters .filter-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: white;
+  color: #2d3436;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.tools .container .category-filters .filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.tools .container .category-filters .filter-btn.active {
+  background: #6a71cf;
+  color: white;
+}
+.tools .container .tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+}
+.tools .container .tools-grid .tool-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.tools .container .tools-grid .tool-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(106, 113, 207, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.tools .container .tools-grid .tool-card:hover::before {
+  transform: translateX(100%);
+}
+.tools .container .tools-grid .tool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+.tools .container .tools-grid .tool-card.expanded {
+  grid-column: 1/-1;
+  background: linear-gradient(135deg, #6a71cf 0%, #5a61bf 100%);
+  color: white;
+}
+.tools .container .tools-grid .tool-card.expanded .tool-header {
+  color: white;
+}
+.tools .container .tools-grid .tool-card.expanded .tool-description {
+  color: rgba(255, 255, 255, 0.9);
+}
+.tools .container .tools-grid .tool-card.expanded .tool-details {
+  color: white;
+}
+.tools .container .tools-grid .tool-card.expanded .try-tool-btn {
+  background: white;
+  color: #6a71cf;
+}
+.tools .container .tools-grid .tool-card.expanded .try-tool-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+.tools .container .tools-grid .tool-card .tool-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.tools .container .tools-grid .tool-card .tool-header .tool-icon {
+  font-size: 2rem;
+}
+.tools .container .tools-grid .tool-card .tool-header h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #2d3436;
+}
+.tools .container .tools-grid .tool-card .tool-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+.tools .container .tools-grid .tool-card .tool-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.tools .container .tools-grid .tool-card .tool-details p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.tools .container .tools-grid .tool-card .tool-details .try-tool-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  background: #6a71cf;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.tools .container .tools-grid .tool-card .tool-details .try-tool-btn:hover {
+  background: #5a61bf;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .tools {
+    padding: 60px 0;
+  }
+  .tools .container h1 {
+    font-size: 2rem;
+  }
+  .tools .container .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .tools .container .tools-grid .tool-card {
+    padding: 20px;
+  }
+  .tools .container .tools-grid .tool-card .tool-header h3 {
+    font-size: 1.3rem;
+  }
+  .tools .container .tools-grid .tool-card .tool-description {
+    font-size: 1rem;
+  }
+}/*# sourceMappingURL=tools.css.map */
