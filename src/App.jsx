@@ -5,29 +5,28 @@ import Hero from './components/Hero';
 import About from './pages/About';
 import Tools from './pages/Tools';
 import Contact from './pages/Contact';
-import './styles/App.scss';
+import "./styles/global.scss";
 
 const App = () => {
   return (
     <Router>
-      <div className="app">
+      <div className="main-page">
         <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={
               <>
                 <Hero />
                 <About />
                 <Tools />
                 <Contact />
               </>
-            }
-          />
-          <Route path="/about" element={<About />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+            } />
+            <Route path="/about" element={<About />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );

@@ -2,12 +2,13 @@
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background: linear-gradient(-45deg, #2c3e50, #3498db, #2980b9, #1abc9c);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   padding: 100px 0;
   position: relative;
   overflow: hidden;
+  z-index: 0;
 
   &::before {
     content: '';
@@ -16,13 +17,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
   }
 
   .container {
     position: relative;
-    z-index: 1;
+    z-index: 5;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -33,13 +34,15 @@
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-    color: white;
+    color: rgb(3, 3, 3);
+    z-index: 1;
 
     h1 {
       font-size: 3.5rem;
       margin-bottom: 20px;
       line-height: 1.2;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      font-weight: 800;
 
       @media (max-width: 768px) {
         font-size: 2.5rem;
@@ -50,6 +53,8 @@
       font-size: 1.5rem;
       margin-bottom: 30px;
       min-height: 2em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
 
       @media (max-width: 768px) {
         font-size: 1.2rem;
@@ -59,7 +64,9 @@
     p {
       font-size: 1.2rem;
       margin-bottom: 40px;
-      opacity: 0.9;
+      opacity: 0.95;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      font-weight: 500;
 
       @media (max-width: 768px) {
         font-size: 1rem;
@@ -78,10 +85,11 @@
         border: none;
         border-radius: 30px;
         font-size: 1rem;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
         color: white;
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
 
         &::placeholder {
           color: rgba(255, 255, 255, 0.7);
@@ -89,8 +97,9 @@
 
         &:focus {
           outline: none;
-          background: rgba(255, 255, 255, 0.3);
-          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
         }
       }
 
@@ -98,7 +107,7 @@
         padding: 15px 30px;
         border: none;
         border-radius: 30px;
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
         color: white;
         font-size: 1rem;
         cursor: pointer;
@@ -107,10 +116,12 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
 
         &:hover {
-          background: rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.25);
           transform: translateY(-2px);
+          border-color: rgba(255, 255, 255, 0.3);
         }
 
         .button-icon {
@@ -137,6 +148,7 @@
         gap: 8px;
         position: relative;
         overflow: hidden;
+        font-weight: 600;
 
         &::before {
           content: '';
@@ -168,7 +180,7 @@
 
       .primary-btn {
         background: white;
-        color: #333;
+        color: #2c3e50;
 
         &:hover {
           transform: translateY(-2px);

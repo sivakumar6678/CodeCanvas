@@ -2,30 +2,38 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background: transparent;
-  padding: 20px 0;
-  transition: all 0.3s ease;
+  right: 0;
   z-index: 1000;
+  background: transparent;
+  transition: all 0.3s ease;
+  padding: 20px 0;
 
   &.scrolled {
     background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 15px 0;
-
-    .nav-links a {
-      color: #2d3436;
-    }
 
     .logo {
       color: #2d3436;
     }
+
+    .nav-links {
+      a {
+        color: #2d3436;
+
+        &:hover {
+          color: #6a71cf;
+        }
+
+        &.active {
+          color: #6a71cf;
+        }
+      }
+    }
   }
 
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,9 +41,8 @@
 
   .logo {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 700;
     color: white;
-    text-decoration: none;
     transition: color 0.3s ease;
   }
 
@@ -43,17 +50,15 @@
     display: flex;
     gap: 30px;
     list-style: none;
-    margin: 0;
-    padding: 0;
 
     a {
       color: white;
-      text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      font-weight: 500;
       transition: all 0.3s ease;
       position: relative;
 
-      &:after {
+      &::after {
         content: '';
         position: absolute;
         bottom: -5px;
@@ -64,9 +69,13 @@
         transition: width 0.3s ease;
       }
 
-      &:hover:after,
-      &.active:after {
+      &:hover::after,
+      &.active::after {
         width: 100%;
+      }
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.8);
       }
 
       &.active {
@@ -80,9 +89,8 @@
     flex-direction: column;
     gap: 6px;
     background: none;
-    border: none;
-    cursor: pointer;
     padding: 5px;
+    cursor: pointer;
 
     span {
       display: block;
@@ -92,8 +100,10 @@
       transition: all 0.3s ease;
     }
   }
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .navbar {
     .hamburger {
       display: flex;
     }
@@ -101,26 +111,41 @@
     .nav-links {
       position: fixed;
       top: 70px;
-      left: -100%;
-      width: 100%;
-      height: calc(100vh - 70px);
+      left: 0;
+      right: 0;
       background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
       flex-direction: column;
-      align-items: center;
-      padding: 40px 0;
-      transition: left 0.3s ease;
+      padding: 20px;
+      gap: 20px;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
 
       &.active {
-        left: 0;
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
       }
 
       a {
         color: #2d3436;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+        padding: 10px 0;
+        display: block;
+
+        &:hover {
+          color: #6a71cf;
+        }
+
+        &.active {
+          color: #6a71cf;
+        }
       }
     }
 
-    .scrolled {
+    &.scrolled {
       .hamburger span {
         background: #2d3436;
       }
