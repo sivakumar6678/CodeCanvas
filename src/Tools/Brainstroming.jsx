@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { FaMicrophone, FaMicrophoneSlash, FaDownload, FaPaperPlane, FaLanguage, FaLightbulb } from 'react-icons/fa';
+import { FaMicrophone, FaMicrophoneSlash, FaDownload, FaPaperPlane, FaLanguage, FaLightbulb, FaLink, FaFileAlt } from 'react-icons/fa';
 import '../styles/tools_styles/brainstorming.scss';
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -25,6 +25,8 @@ const Brainstorming = () => {
   });
   const brainstormingRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportOptions, setExportOptions] = useState({});
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -513,7 +515,9 @@ const Brainstorming = () => {
     return response;
   };
 
-  // Handle message submission with typing animation
+  // Add typing animation for AI responses
+  const [isTyping, setIsTyping] = useState(false);
+
   const handleSubmit = async (message) => {
     if (!message.trim()) return;
 
@@ -521,10 +525,14 @@ const Brainstorming = () => {
     setMessages(prev => [...prev, { type: 'user', content: message }]);
     setInputValue('');
     setIsProcessing(true);
+    setIsTyping(true);
 
     // Generate AI response
     const aiResponse = await generateAIResponse(message);
     if (aiResponse) {
+      // Simulate typing delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       // Add AI response with typing animation
       setMessages(prev => [...prev, aiResponse]);
       
@@ -538,6 +546,7 @@ const Brainstorming = () => {
     }
 
     setIsProcessing(false);
+    setIsTyping(false);
   };
 
   const handleCorrection = (useCorrected) => {
@@ -567,20 +576,232 @@ const Brainstorming = () => {
   };
 
   const exportSession = () => {
+    // Create a more detailed export object
     const data = {
       conversation: messages,
       context,
       timestamp: new Date().toISOString(),
-      mindMap: showMindMap
+      mindMap: showMindMap,
+      projectSummary: {
+        type: context.projectType,
+        features: context.features,
+        techStack: context.techStack,
+        requirements: context.requirements,
+        tools: generateRecommendedTools(context),
+        estimatedTimeline: generateTimeline(context),
+        nextSteps: generateNextSteps(context)
+      }
     };
 
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'brainstorming-session.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    // Create export options
+    const exportOptions = {
+      json: {
+        content: JSON.stringify(data, null, 2),
+        type: 'application/json',
+        filename: 'brainstorming-session.json'
+      },
+      markdown: {
+        content: generateMarkdownExport(data),
+        type: 'text/markdown',
+        filename: 'brainstorming-session.md'
+      },
+      pdf: {
+        content: generatePDFContent(data),
+        type: 'application/pdf',
+        filename: 'brainstorming-session.pdf'
+      }
+    };
+
+    // Show export options modal
+    setShowExportModal(true);
+    setExportOptions(exportOptions);
+  };
+
+  // Generate timeline based on project complexity
+  const generateTimeline = (context) => {
+    const features = context.features?.length || 0;
+    const complexity = context.techStack?.includes('AI') ? 1.5 : 1;
+    
+    const baseTime = features * 2; // 2 weeks per feature
+    const totalWeeks = Math.ceil(baseTime * complexity);
+    
+    return {
+      totalWeeks,
+      phases: [
+        {
+          name: 'Planning & Setup',
+          weeks: Math.ceil(totalWeeks * 0.2),
+          tasks: ['Project setup', 'Architecture design', 'Tech stack setup']
+        },
+        {
+          name: 'Development',
+          weeks: Math.ceil(totalWeeks * 0.5),
+          tasks: ['Core features', 'Integration', 'Testing']
+        },
+        {
+          name: 'Polish & Launch',
+          weeks: Math.ceil(totalWeeks * 0.3),
+          tasks: ['UI/UX refinement', 'Performance optimization', 'Deployment']
+        }
+      ]
+    };
+  };
+
+  // Generate next steps based on current progress
+  const generateNextSteps = (context) => {
+    const steps = [];
+    
+    if (!context.projectType) {
+      steps.push('Define project type and scope');
+    }
+    if (!context.features?.length) {
+      steps.push('List and prioritize features');
+    }
+    if (!context.techStack) {
+      steps.push('Select technology stack');
+    }
+    if (context.features?.length && !context.requirements?.length) {
+      steps.push('Define technical requirements');
+    }
+    
+    return steps.length ? steps : ['Review and refine current plan', 'Start implementation'];
+  };
+
+  // Generate markdown export
+  const generateMarkdownExport = (data) => {
+    const { projectSummary, conversation } = data;
+    
+    let markdown = `# Project Brainstorming Session\n\n`;
+    markdown += `## Project Summary\n\n`;
+    markdown += `- **Type:** ${projectSummary.type || 'Not specified'}\n`;
+    markdown += `- **Features:** ${projectSummary.features.join(', ') || 'Not specified'}\n`;
+    markdown += `- **Tech Stack:** ${projectSummary.techStack || 'Not specified'}\n\n`;
+    
+    markdown += `## Recommended Tools\n\n`;
+    Object.entries(projectSummary.tools).forEach(([category, tools]) => {
+      markdown += `### ${category.charAt(0).toUpperCase() + category.slice(1)}\n\n`;
+      tools.forEach(tool => {
+        markdown += `- [${tool.name}](${tool.url}) - ${tool.description}\n`;
+      });
+      markdown += '\n';
+    });
+
+    markdown += `## Conversation History\n\n`;
+    conversation.forEach(msg => {
+      markdown += `### ${msg.type === 'user' ? 'User' : 'AI'}\n\n`;
+      markdown += `${msg.content}\n\n`;
+      if (msg.suggestions) {
+        markdown += `**Suggestions:**\n`;
+        msg.suggestions.forEach(suggestion => {
+          markdown += `- ${suggestion}\n`;
+        });
+        markdown += '\n';
+      }
+    });
+
+    return markdown;
+  };
+
+  // Generate PDF content
+  const generatePDFContent = (data) => {
+    const { projectSummary, conversation } = data;
+    
+    return `
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; }
+            h1 { color: #2d3436; }
+            h2 { color: #0984e3; }
+            .section { margin: 20px 0; }
+            .timeline { margin-left: 20px; }
+          </style>
+        </head>
+        <body>
+          <h1>Project Brainstorming Session</h1>
+          
+          <div class="section">
+            <h2>Project Summary</h2>
+            <p><strong>Type:</strong> ${projectSummary.type || 'Not specified'}</p>
+            <p><strong>Features:</strong> ${projectSummary.features.join(', ') || 'Not specified'}</p>
+            <p><strong>Tech Stack:</strong> ${projectSummary.techStack || 'Not specified'}</p>
+          </div>
+
+          <div class="section">
+            <h2>Timeline</h2>
+            <p><strong>Estimated Duration:</strong> ${projectSummary.estimatedTimeline.totalWeeks} weeks</p>
+            <div class="timeline">
+              ${projectSummary.estimatedTimeline.phases.map(phase => `
+                <p><strong>${phase.name}:</strong> ${phase.weeks} weeks</p>
+                <ul>
+                  ${phase.tasks.map(task => `<li>${task}</li>`).join('')}
+                </ul>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="section">
+            <h2>Next Steps</h2>
+            <ul>
+              ${projectSummary.nextSteps.map(step => `<li>${step}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="section">
+            <h2>Recommended Tools</h2>
+            ${Object.entries(projectSummary.tools).map(([category, tools]) => `
+              <h3>${category.charAt(0).toUpperCase() + category.slice(1)}</h3>
+              <ul>
+                ${tools.map(tool => `
+                  <li><a href="${tool.url}">${tool.name}</a> - ${tool.description}</li>
+                `).join('')}
+              </ul>
+            `).join('')}
+          </div>
+
+          <div class="section">
+            <h2>Conversation History</h2>
+            ${conversation.map(msg => `
+              <p><strong>${msg.type === 'user' ? 'User' : 'AI'}:</strong></p>
+              <p>${msg.content}</p>
+              ${msg.suggestions ? `
+                <p><em>Suggestions:</em></p>
+                <ul>
+                  ${msg.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+                </ul>
+              ` : ''}
+            `).join('')}
+          </div>
+        </body>
+      </html>
+    `;
+  };
+
+  // Export Modal Component
+  const ExportModal = ({ options, onClose, onExport }) => {
+    return (
+      <div className="export-modal">
+        <div className="export-modal-content">
+          <h2>Export Session</h2>
+          <p>Choose your preferred export format:</p>
+          <div className="export-options">
+            {Object.entries(options).map(([format, option]) => (
+              <button
+                key={format}
+                className={`export-option-btn ${format}`}
+                onClick={() => onExport(option)}
+              >
+                <FaFileAlt className={`fa-${format}`} />
+                <span>{format.toUpperCase()}</span>
+              </button>
+            ))}
+          </div>
+          <button className="close-btn" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -610,6 +831,13 @@ const Brainstorming = () => {
                 )}
               </div>
             ))}
+            {isTyping && (
+              <div className="typing-indicator">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+              </div>
+            )}
             {correction && (
               <div className="correction-message">
                 <p>Did you mean: "{correction.corrected}"?</p>
@@ -662,7 +890,37 @@ const Brainstorming = () => {
             <FaLightbulb /> {showMindMap ? 'Hide Mind Map' : 'Show Mind Map'}
           </button>
         </div>
+
+        {showMindMap && (
+          <div className="mindmap-container">
+            <div className="mindmap">
+              <div className="mindmap-node central">
+                <h3>{context.projectType || 'Project'}</h3>
+              </div>
+              {context.features.map((feature, index) => (
+                <div key={index} className="mindmap-node feature">
+                  <h4>{feature}</h4>
+                </div>
+              ))}
+              {context.techStack && (
+                <div className="mindmap-node tech">
+                  <h4>{context.techStack}</h4>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
+
+      {showExportModal && (
+        <ExportModal
+          options={exportOptions}
+          onClose={() => setShowExportModal(false)}
+          onExport={(option) => {
+            // Handle export
+          }}
+        />
+      )}
     </div>
   );
 };
