@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ml5 from 'ml5';
 import gsap from 'gsap';
 import { FaMicrophone, FaMicrophoneSlash, FaDownload } from 'react-icons/fa';
 import '../styles/tools_styles/brainstorming.scss';
@@ -11,122 +10,150 @@ const Brainstorming = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const brainstormingRef = useRef(null);
-  const [model, setModel] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
 
   const questions = [
     {
       id: 'projectType',
       question: 'What type of project are you building?',
-      placeholder: 'e.g., Web Application, Mobile App, Game, etc.'
+      placeholder: 'e.g., Web Application, Mobile App, Game, etc.',
+      suggestions: {
+        'Web Application': [
+          'Consider implementing user authentication',
+          'Plan for responsive design',
+          'Think about API integration'
+        ],
+        'Mobile App': [
+          'Plan for offline functionality',
+          'Consider push notifications',
+          'Think about app store requirements'
+        ],
+        'Game': [
+          'Plan for game mechanics',
+          'Consider multiplayer features',
+          'Think about performance optimization'
+        ]
+      }
     },
     {
       id: 'targetAudience',
       question: 'Who is your target audience?',
-      placeholder: 'e.g., Students, Professionals, Gamers, etc.'
+      placeholder: 'e.g., Students, Professionals, Gamers, etc.',
+      suggestions: {
+        'Students': [
+          'Focus on educational value',
+          'Consider gamification elements',
+          'Plan for mobile-first design'
+        ],
+        'Professionals': [
+          'Emphasize productivity features',
+          'Consider integration with existing tools',
+          'Plan for advanced functionality'
+        ],
+        'Gamers': [
+          'Focus on engaging mechanics',
+          'Consider competitive features',
+          'Plan for social interactions'
+        ]
+      }
     },
     {
       id: 'mainFeatures',
       question: 'What are the main features you want to include?',
-      placeholder: 'e.g., User Authentication, Real-time Updates, etc.'
+      placeholder: 'e.g., User Authentication, Real-time Updates, etc.',
+      suggestions: {
+        'User Authentication': [
+          'Consider OAuth integration',
+          'Plan for password recovery',
+          'Think about session management'
+        ],
+        'Real-time Updates': [
+          'Consider WebSocket implementation',
+          'Plan for data synchronization',
+          'Think about offline support'
+        ],
+        'Data Analytics': [
+          'Consider data visualization',
+          'Plan for reporting features',
+          'Think about data privacy'
+        ]
+      }
     },
     {
       id: 'techStack',
       question: 'Do you have any preferences for the tech stack?',
-      placeholder: 'e.g., React, Node.js, Python, etc.'
+      placeholder: 'e.g., React, Node.js, Python, etc.',
+      suggestions: {
+        'React': [
+          'Consider Next.js for SSR',
+          'Plan for state management',
+          'Think about component architecture'
+        ],
+        'Node.js': [
+          'Consider microservices architecture',
+          'Plan for API design',
+          'Think about deployment strategy'
+        ],
+        'Python': [
+          'Consider Django or Flask',
+          'Plan for data processing',
+          'Think about ML integration'
+        ]
+      }
     }
   ];
 
-
-useEffect(() => {
-  const loadModel = async () => {
-    try {
-      const word2vec = ml5.word2vec('https://raw.githubusercontent.com/ml5js/ml5-data-and-models/master/models/word2vec/word2vec.json', () => {
-        console.log('Model loaded successfully!');
-        setModel(word2vec);
-      });
-    } catch (error) {
-      console.error('Error loading model:', error);
-      setModel(null);
-    }
-  };
-
-  loadModel();
-}, []);
-
-  
+  useEffect(() => {
+    gsap.from(brainstormingRef.current, {
+    //   opacity: 0,
+      y: 30,
+      duration: 1,
+      ease: 'power3.out'
+    });
+  }, []);
 
   const handleAnswer = async (answer) => {
+    if (!answer.trim()) return;
+
     setAnswers(prev => ({ ...prev, [questions[currentStep].id]: answer }));
     setIsProcessing(true);
+    setInputValue('');
 
-    try {
-      // Generate suggestions based on current answer
-      const newSuggestions = await generateSuggestions(answer, questions[currentStep].id);
-      setSuggestions(newSuggestions);
-    } catch (error) {
-      console.error('Error generating suggestions:', error);
-      // Fallback to mock suggestions if there's an error
-      setSuggestions(getMockSuggestions(questions[currentStep].id));
-    }
+    // Simulate AI processing
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Move to next question
+    // Generate suggestions based on current answer
+    const currentQuestion = questions[currentStep];
+    const newSuggestions = generateSuggestions(answer, currentQuestion);
+    setSuggestions(newSuggestions);
+
+    // Move to next question or complete
     if (currentStep < questions.length - 1) {
       setCurrentStep(prev => prev + 1);
+    } else {
+      setIsComplete(true);
     }
 
     setIsProcessing(false);
   };
 
-  const generateSuggestions = async (answer, questionId) => {
-    if (!model) {
-      return getMockSuggestions(questionId);
+  const generateSuggestions = (answer, question) => {
+    // Find matching suggestions based on keywords
+    const keywords = answer.toLowerCase().split(' ');
+    const allSuggestions = Object.values(question.suggestions).flat();
+    
+    // Filter suggestions based on keywords
+    const matchedSuggestions = allSuggestions.filter(suggestion => 
+      keywords.some(keyword => suggestion.toLowerCase().includes(keyword))
+    );
+
+    // If no matches found, return default suggestions for the current question
+    if (matchedSuggestions.length === 0) {
+      return Object.values(question.suggestions)[0] || [];
     }
 
-    try {
-      // Using the correct syntax for ML5.js v1.2.1
-      const nearest = await new Promise((resolve, reject) => {
-        model.nearest(answer, 3, (err, results) => {
-          if (err) reject(err);
-          else resolve(results);
-        });
-      });
-      
-      // Generate suggestions based on the nearest words
-      return nearest.map(word => {
-        const suggestion = word.word.charAt(0).toUpperCase() + word.word.slice(1);
-        return `Consider incorporating ${suggestion} into your project`;
-      });
-    } catch (error) {
-      console.error('Error in generateSuggestions:', error);
-      return getMockSuggestions(questionId);
-    }
-  };
-
-  const getMockSuggestions = (questionId) => {
-    const mockSuggestions = {
-      projectType: [
-        'Consider adding user authentication',
-        'Think about data persistence',
-        'Plan for scalability'
-      ],
-      targetAudience: [
-        'Design for accessibility',
-        'Consider mobile responsiveness',
-        'Plan for user onboarding'
-      ],
-      mainFeatures: [
-        'Consider API integration',
-        'Plan for error handling',
-        'Think about user feedback'
-      ],
-      techStack: [
-        'Consider testing frameworks',
-        'Plan for deployment strategy',
-        'Think about monitoring'
-      ]
-    };
-
-    return mockSuggestions[questionId] || [];
+    return matchedSuggestions.slice(0, 3);
   };
 
   const startVoiceRecognition = () => {
@@ -140,6 +167,7 @@ useEffect(() => {
       recognition.onend = () => setIsListening(false);
       recognition.onresult = (event) => {
         const answer = event.results[0][0].transcript;
+        setInputValue(answer);
         handleAnswer(answer);
       };
 
@@ -169,49 +197,67 @@ useEffect(() => {
         <h1>AI Project Brainstorming</h1>
         
         <div className="brainstorming-content">
-          <div className="question-section">
-            <h2>{questions[currentStep].question}</h2>
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder={questions[currentStep].placeholder}
-                onKeyPress={(e) => e.key === 'Enter' && handleAnswer(e.target.value)}
-              />
-              <button 
-                className={`voice-input ${isListening ? 'listening' : ''}`}
-                onClick={startVoiceRecognition}
-                aria-label="Voice input"
-              >
-                {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+          {!isComplete ? (
+            <>
+              <div className="question-section">
+                <h2>{questions[currentStep].question}</h2>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder={questions[currentStep].placeholder}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAnswer(inputValue)}
+                  />
+                  <button 
+                    className={`voice-input ${isListening ? 'listening' : ''}`}
+                    onClick={startVoiceRecognition}
+                    aria-label="Voice input"
+                  >
+                    {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                  </button>
+                </div>
+              </div>
+
+              {suggestions.length > 0 && (
+                <div className="suggestions-section">
+                  <h3>AI Suggestions</h3>
+                  <ul>
+                    {suggestions.map((suggestion, index) => (
+                      <li key={index}>{suggestion}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="progress-section">
+                <div className="progress-bar">
+                  <div 
+                    className="progress"
+                    style={{ width: `${(currentStep / questions.length) * 100}%` }}
+                  />
+                </div>
+                <span>Step {currentStep + 1} of {questions.length}</span>
+              </div>
+            </>
+          ) : (
+            <div className="completion-section">
+              <h2>Brainstorming Complete! 🎉</h2>
+              <p>Here's a summary of your project plan:</p>
+              <div className="summary-section">
+                {Object.entries(answers).map(([key, value]) => (
+                  <div key={key} className="summary-item">
+                    <h3>{questions.find(q => q.id === key)?.question}</h3>
+                    <p>{value}</p>
+                  </div>
+                ))}
+              </div>
+              <button className="export-btn" onClick={exportSession}>
+                <FaDownload /> Export Session
               </button>
             </div>
-          </div>
-
-          {suggestions.length > 0 && (
-            <div className="suggestions-section">
-              <h3>AI Suggestions</h3>
-              <ul>
-                {suggestions.map((suggestion, index) => (
-                  <li key={index}>{suggestion}</li>
-                ))}
-              </ul>
-            </div>
           )}
-
-          <div className="progress-section">
-            <div className="progress-bar">
-              <div 
-                className="progress"
-                style={{ width: `${(currentStep / questions.length) * 100}%` }}
-              />
-            </div>
-            <span>Step {currentStep + 1} of {questions.length}</span>
-          </div>
         </div>
-
-        <button className="export-btn" onClick={exportSession}>
-          <FaDownload /> Export Session
-        </button>
       </div>
     </div>
   );
