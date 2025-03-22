@@ -66,7 +66,7 @@ const Contact = () => {
     // Animate heading
     gsap.from('h1', {
       y: -50,
-      opacity: 0,
+      opacity: 1,
       duration: 1,
       scrollTrigger: {
         trigger: section,
@@ -77,7 +77,7 @@ const Contact = () => {
     // Animate description
     gsap.from('.contact-info h2, .contact-info p', {
       y: 30,
-      opacity: 0,
+      opacity: 1,
       duration: 1,
       stagger: 0.2,
       scrollTrigger: {
@@ -89,7 +89,7 @@ const Contact = () => {
     // Animate social links
     gsap.from('.social-link', {
       scale: 0,
-      opacity: 0,
+      opacity: 1,
       duration: 0.5,
       stagger: 0.1,
       ease: 'back.out(1.7)',

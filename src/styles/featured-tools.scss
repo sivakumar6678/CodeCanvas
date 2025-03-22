@@ -1,0 +1,104 @@
+.featured-tools {
+  padding: 5rem 0;
+  background: #f8f9fa;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #2d3436;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  .section-desc {
+    text-align: center;
+    color: #636e72;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+
+  .featured-tool {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #2d3436;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+
+      .tool-link {
+        color: #0984e3;
+        transform: translateX(5px);
+      }
+    }
+
+    .tool-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #636e72;
+      margin-bottom: 1rem;
+    }
+
+    .tool-link {
+      color: #0984e3;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .view-all-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #0984e3;
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    margin: 5rem auto 0 auto;
+    width: fit-content;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    span {
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background: #0773c5;
+      
+      span {
+        transform: translateX(5px);
+      }
+    }
+  }
+} 

@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import About from './pages/About';
 import Tools from './pages/Tools';
 import Contact from './pages/Contact';
+import FeaturedTools from './components/FeaturedTools';
 import "./styles/global.scss";
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
               <>
                 <Hero />
                 <About />
-                <Tools />
+                <FeaturedTools />
                 <Contact />
               </>
             } />
