@@ -1,95 +1,89 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import "../styles/navbar.scss";
+import { FaBars, FaTimes, FaTools, FaUser, FaHome, FaEnvelope } from 'react-icons/fa';
+import gsap from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import '../styles/navbar.scss';
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeLink, setActiveLink] = useState('/');
   const location = useLocation();
+
+  const navLinks = [
+    { name: 'Home', path: '/', icon: <FaHome /> },
+    { name: 'About', path: '/about', icon: <FaUser /> },
+    { name: 'Tools', path: '/tools', icon: <FaTools /> },
+    { name: 'Contact', path: '/contact', icon: <FaEnvelope /> }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsOpen(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('resize', handleResize);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    // Set active link based on current path
+    setActiveLink(location.pathname);
 
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [location]);
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+  const handleNavClick = (path, e) => {
+    if (path === location.pathname) {
+      e.preventDefault();
+      gsap.to(window, {
+        duration: 1,
+        scrollTo: { y: 0, autoKill: false },
+        ease: 'power3.inOut'
       });
     }
-    closeMenu();
+    setIsOpen(false);
+    setActiveLink(path);
   };
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container">
-        <Link to="/" className="logo">
-          Frontend Toolbox
+    <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isOpen ? 'nav-open' : ''}`}>
+      <div className="nav-container">
+        <Link to="/" className="nav-logo" onClick={(e) => handleNavClick('/', e)}>
+          Dev<span>Tools</span>
         </Link>
 
-        <button className="hamburger" onClick={toggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
+        <button 
+          className="nav-toggle" 
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle navigation"
+        >
+          {isOpen ? <FaTimes /> : <FaBars />}
         </button>
 
-        <ul className={`nav-links ${isOpen ? 'active' : ''}`}>
-          <li>
+        <div className={`nav-menu ${isOpen ? 'active' : ''}`}>
+          {navLinks.map((link) => (
             <Link
-              to="/"
-              className={isActive('/') ? 'active' : ''}
-              onClick={() => scrollToSection('hero')}
+              key={link.path}
+              to={link.path}
+              className={`nav-link ${activeLink === link.path ? 'active' : ''}`}
+              onClick={(e) => handleNavClick(link.path, e)}
             >
-              Home
+              <span className="nav-icon">{link.icon}</span>
+              <span className="nav-text">{link.name}</span>
             </Link>
-          </li>
-          <li>
-            <Link
-              to="/about"
-              className={isActive('/about') ? 'active' : ''}
-              onClick={() => scrollToSection('about')}
-            >
-              About
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/tools"
-              className={isActive('/tools') ? 'active' : ''}
-              onClick={() => scrollToSection('tools')}
-            >
-              Tools
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              className={isActive('/contact') ? 'active' : ''}
-              onClick={() => scrollToSection('contact')}
-            >
-              Contact
-            </Link>
-          </li>
-        </ul>
+          ))}
+        </div>
       </div>
     </nav>
   );
