@@ -40,13 +40,9 @@
 
         .social-links {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
           gap: 20px;
           margin-top: 40px;
-
-          @media (max-width: 480px) {
-            grid-template-columns: 1fr;
-          }
 
           .social-link {
             display: flex;
@@ -57,34 +53,82 @@
             border-radius: 15px;
             text-decoration: none;
             color: #2d3436;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: red;
+              transform: translateX(-100%);
+              transition: transform 0.4s ease;
+              z-index: 1;
+            }
 
             &:hover {
-              transform: translateY(-5px);
-              background: var(--icon-color);
-              color: white;
-              box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+              transform: translateY(-5px) scale(1.02);
+              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+              &::before {
+                transform: translateX(0);
+              }
 
               .icon {
-                transform: scale(1.1);
+                transform: rotate(360deg) scale(1.2);
+                color: white;
+              }
+
+              .name {
+                color: white;
+                transform: translateX(5px);
               }
             }
 
             .icon {
               font-size: 1.8rem;
               color: var(--icon-color);
-              transition: transform 0.3s ease;
+              transition: all 0.5s ease;
+              position: relative;
+              z-index: 2;
             }
 
             .name {
               font-size: 1.2rem;
               font-weight: 500;
+              transition: all 0.4s ease;
+              position: relative;
+              z-index: 2;
+            }
+
+            &:active {
+              transform: scale(0.95) translateY(-2px);
             }
           }
         }
       }
     }
+  }
+
+  // Add floating animation
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  .social-link:nth-child(odd) {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .social-link:nth-child(even) {
+    animation: float 3s ease-in-out infinite;
+    animation-delay: 1.5s;
   }
 }
 
@@ -111,3 +155,4 @@
     }
   }
 } 
+ 

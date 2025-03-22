@@ -24,27 +24,27 @@ const Hero = () => {
     });
 
     tl.from('.hero-content h1', {
-      opacity: 0,
+      opacity: 1,
       y: 30,
       duration: 1
     })
     .from('.typewriter-container', {
-      opacity: 0,
+      // opacity: 0,
       y: 20,
       duration: 0.8
     }, '-=0.5')
     .from('.hero-content p', {
-      opacity: 0,
+      // opacity: 0,
       y: 20,
       duration: 0.8
     }, '-=0.5')
     .from('.search-container', {
-      opacity: 0,
+      // opacity: 0,
       y: 20,
       duration: 0.8
     }, '-=0.5')
     .from('.hero-buttons button', {
-      opacity: 0,
+      // opacity: 0,
       y: 20,
       duration: 0.5,
       stagger: 0.2
@@ -81,9 +81,9 @@ const Hero = () => {
               ]}
               loop={true}
               cursor
-              cursorStyle="_"
-              typeSpeed={70}
-              deleteSpeed={50}
+              cursorStyle="|"
+              typeSpeed={80}
+              deleteSpeed={60}
             />
           </div>
           <p>
