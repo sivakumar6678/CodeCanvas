@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/tools.scss';
 
 const tools = [
@@ -9,7 +10,8 @@ const tools = [
     description: 'Generate beautiful color palettes using AI',
     fullDescription: 'Create harmonious color combinations for your projects using our AI-powered color palette generator. Get suggestions based on color theory and current design trends.',
     icon: '🎨',
-    category: 'Colors'
+    category: 'Colors',
+    path: '/tools/color-palette'
   },
   {
     id: 2,
@@ -17,7 +19,8 @@ const tools = [
     description: 'Create stunning gradients with ease',
     fullDescription: 'Design beautiful gradients with our intuitive gradient generator. Choose from preset styles or create custom gradients with multiple color stops.',
     icon: '🌈',
-    category: 'Colors'
+    category: 'Colors',
+    path: '/tools/gradient'
   },
   {
     id: 3,
@@ -25,7 +28,8 @@ const tools = [
     description: 'Generate CSS box shadows instantly',
     fullDescription: 'Create perfect box shadows for your elements with our shadow generator. Customize spread, blur, and color to match your design.',
     icon: '💫',
-    category: 'Effects'
+    category: 'Effects',
+    path: '/tools/shadow'
   },
   {
     id: 4,
@@ -33,33 +37,57 @@ const tools = [
     description: 'Optimize images for web performance',
     fullDescription: 'Optimize your images for web use with our image optimizer. Reduce file size while maintaining quality, and get different format options.',
     icon: '🖼️',
-    category: 'Images'
+    category: 'Images',
+    path: '/tools/image-optimizer'
   },
   {
     id: 5,
     name: 'Typography Scale',
     description: 'Generate consistent typography scales',
+    fullDescription: 'Create consistent typography scales for your projects with our typography scale generator.',
     icon: '📝',
-    category: 'Typography'
+    category: 'Typography',
+    path: '/tools/typography'
   },
   {
     id: 6,
     name: 'Layout Generator',
     description: 'Create responsive layouts with AI',
+    fullDescription: 'Generate responsive layouts using AI-powered suggestions and best practices.',
     icon: '📐',
-    category: 'Layout'
+    category: 'Layout',
+    path: '/tools/layout'
+  },
+  {
+    id: 7,
+    name: 'Brainstorming',
+    description: 'Brainstorming with AI',
+    fullDescription: 'Use AI to help brainstorm and refine your project ideas with intelligent suggestions.',
+    icon: '💡',
+    category: 'Brainstorming',
+    path: '/tools/brainstorming'
   }
 ];
 
 const Tools = () => {
   const [selectedTool, setSelectedTool] = useState(null);
   const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
 
   const filteredTools = filter === 'all'
     ? tools
     : tools.filter(tool => tool.category === filter);
 
   const categories = ['all', ...new Set(tools.map(tool => tool.category))];
+
+  const handleToolClick = (tool) => {
+    setSelectedTool(selectedTool?.id === tool.id ? null : tool);
+  };
+
+  const handleTryTool = (e, path) => {
+    e.stopPropagation(); // Prevent the card click event
+    navigate(path);
+  };
 
   return (
     <section className="tools" id="tools">
@@ -85,7 +113,7 @@ const Tools = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={() => setSelectedTool(selectedTool?.id === tool.id ? null : tool)}
+              onClick={() => handleToolClick(tool)}
             >
               <div className="tool-header">
                 <span className="tool-icon">{tool.icon}</span>
@@ -102,7 +130,14 @@ const Tools = () => {
                     transition={{ duration: 0.3 }}
                   >
                     <p>{tool.fullDescription}</p>
-                    <button className="try-tool-btn">Try Tool</button>
+                    {tool.path && (
+                      <button 
+                        className="try-tool-btn"
+                        onClick={(e) => handleTryTool(e, tool.path)}
+                      >
+                        Try Tool
+                      </button>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
