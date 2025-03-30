@@ -66,6 +66,15 @@ const tools = [
     icon: '💡',
     category: 'Brainstorming',
     path: '/tools/brainstorming'
+  },
+  {
+    id: 8,
+    name: 'Code Snippet Generator',
+    description: 'Generate code snippets with AI',
+    fullDescription: 'Create code snippets with our AI-powered code snippet generator. Get suggestions based on your project requirements.',
+    icon: '💻',
+    category: 'Code',
+    path: '/tools/code-snippet-generator'
   }
 ];
 
