@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { FaCopy, FaDownload, FaSync, FaCode } from 'react-icons/fa';
-import Prism from 'prismjs';
-import 'prismjs/themes/prism-tomorrow.css'; // You can choose a different theme if you prefer
-
+import "prismjs";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-python";
 import { generateCodeSnippet } from '../apiService';
 import '../styles/tools_styles/codeSnippetGenerator.scss';
 
 const CodeSnippetGenerator = () => {
   const [description, setDescription] = useState('');
-  const [code, setCode] = useState('');
-  const [language, setLanguage] = useState('javascript');
+  const [snippets, setSnippets] = useState([]); // Change to an array to hold multiple snippets
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
@@ -22,12 +22,21 @@ const CodeSnippetGenerator = () => {
       const data = await generateCodeSnippet(description);
       if (data.candidates && data.candidates[0].content.parts[0].text) {
         const responseText = data.candidates[0].content.parts[0].text;
-        const languageMatch = responseText.match(/LANGUAGE:\s*(\w+)/i);
-        const codeMatch = responseText.match(/CODE:\s*([\s\S]+)/i);
 
-        if (languageMatch && codeMatch) {
-          setLanguage(languageMatch[1].toLowerCase());
-          setCode(codeMatch[1].trim());
+        // Update regex to capture multiple languages and codes
+        const regex = /LANGUAGE:\s*(\w+)\s*CODE:\s*([\s\S]*?)(?=LANGUAGE:|$)/g;
+        const newSnippets = [];
+        let match;
+
+        while ((match = regex.exec(responseText)) !== null) {
+          newSnippets.push({
+            language: match[1].toLowerCase(),
+            code: match[2].trim(),
+          });
+        }
+
+        if (newSnippets.length > 0) {
+          setSnippets(newSnippets);
         } else {
           setError('Failed to parse AI response');
         }
@@ -42,7 +51,7 @@ const CodeSnippetGenerator = () => {
     }
   };
 
-  const copyToClipboard = async () => {
+  const copyToClipboard = async (code) => {
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
@@ -52,7 +61,7 @@ const CodeSnippetGenerator = () => {
     }
   };
 
-  const downloadCode = () => {
+  const downloadCode = (code, language) => {
     const extension = language === 'javascript' ? 'js' : 
                      language === 'css' ? 'css' : 'html';
     const blob = new Blob([code], { type: 'text/plain' });
@@ -98,32 +107,36 @@ const CodeSnippetGenerator = () => {
 
         {error && <div className="error-message">{error}</div>}
 
-        {code && (
+        {snippets.length > 0 && (
           <div className="code-section">
-            <div className="code-header">
-              <div className="language-badge">
-                <FaCode /> {language.toUpperCase()}
+            {snippets.map((snippet, index) => (
+              <div key={index} className="snippet">
+                <div className="code-header">
+                  <div className="language-badge">
+                    <FaCode /> {snippet.language.toUpperCase()}
+                  </div>
+                  <div className="code-actions">
+                    <button 
+                      onClick={() => copyToClipboard(snippet.code)}
+                      className={`action-btn ${copied ? 'copied' : ''}`}
+                    >
+                      <FaCopy /> {copied ? 'Copied!' : 'Copy'}
+                    </button>
+                    <button onClick={() => downloadCode(snippet.code, snippet.language)} className="action-btn">
+                      <FaDownload /> Download
+                    </button>
+                    <button onClick={refineCode} className="action-btn">
+                      <FaSync /> Refine
+                    </button>
+                  </div>
+                </div>
+                <pre className="code-display">
+                  <code className={`language-${snippet.language}`}>
+                    {snippet.code}
+                  </code>
+                </pre>
               </div>
-              <div className="code-actions">
-                <button 
-                  onClick={copyToClipboard}
-                  className={`action-btn ${copied ? 'copied' : ''}`}
-                >
-                  <FaCopy /> {copied ? 'Copied!' : 'Copy'}
-                </button>
-                <button onClick={downloadCode} className="action-btn">
-                  <FaDownload /> Download
-                </button>
-                <button onClick={refineCode} className="action-btn">
-                  <FaSync /> Refine
-                </button>
-              </div>
-            </div>
-            <pre className="code-display">
-              <code className={`language-${language}`}>
-                {Prism.highlight(code, Prism.languages[language], language)}
-              </code>
-            </pre>
+            ))}
           </div>
         )}
       </div>
