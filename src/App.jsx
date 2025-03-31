@@ -8,6 +8,7 @@ import Contact from './pages/Contact';
 import FeaturedTools from './components/FeaturedTools';
 import Brainstorming from './Tools/Brainstroming';
 import CodeSnippetGenerator from './Tools/CodeSnippetGenerator';
+import ProjectSuggestion from './Tools/ProjectSuggestion';
 import "./styles/global.scss";
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/tools/brainstorming" element={<Brainstorming />} />
             <Route path="/tools/code-snippet-generator" element={<CodeSnippetGenerator />} />
+            <Route path="/tools/project-suggestion" element={<ProjectSuggestion />} />
           </Routes>
         </main>
         <footer style={{

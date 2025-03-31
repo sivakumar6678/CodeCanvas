@@ -75,6 +75,15 @@ const tools = [
     icon: '💻',
     category: 'Code',
     path: '/tools/code-snippet-generator'
+  },
+  {
+    id: 9,
+    name: 'Project Suggestion',
+    description: 'Generate project ideas with AI',
+    fullDescription: 'Generate project ideas with our AI-powered project suggestion tool.',
+    icon: '💡',
+    category: 'Project',
+    path: '/tools/project-suggestion'
   }
 ];
 

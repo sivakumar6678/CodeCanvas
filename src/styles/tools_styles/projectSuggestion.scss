@@ -1,0 +1,176 @@
+// src/styles/tools_styles/projectSuggestion.scss
+
+.project-suggestion {
+  padding: 1rem 2rem;
+  background-color: rgba(245, 222, 179, 0.822);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 5rem auto;
+  font-family: 'Arial', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+label{
+  font-weight: bold;
+}
+.input-field {
+  width: 100%;
+  margin:1rem auto;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  }
+}
+
+.language-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.language-list{
+  
+}
+.language-list span{
+  margin:0 0.2rem;
+  padding: 0.5rem;
+  border: 1px solid #0113b3;
+  border-radius: 0.5rem;
+}
+.language-list span button{
+  background: none;
+  border: none;
+  color: rgb(255, 1, 14);
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 0rem;
+  padding-right: 0.5rem;
+}
+.add-button {
+  padding: 0.8rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+
+  &:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+  }
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.generate-btn {
+  padding: 0.8rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.suggestions {
+  margin-top: 2rem;
+}
+
+.idea-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.idea-card h3 {
+  margin: 0 0 0.5rem;
+  color: #007bff;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.idea-card p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.idea-card strong {
+  display: block;
+  margin-top: 1rem;
+  color: #333;
+}
+
+.idea-card ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
