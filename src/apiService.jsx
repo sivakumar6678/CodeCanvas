@@ -136,3 +136,60 @@ export const generateColorPalette = async (theme) => {
       throw new Error(error.message || 'Failed to fetch color palette.');
   }
 };
+
+export const generateGradients = async (projectType, mood, theme) => {
+  const response = await fetch(BASE_URL + `?key=${API_KEY}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          contents: [{
+              parts: [{
+                  text: `Suggest 5 to 15 unique CSS gradients for a ${projectType} with a ${mood} mood and ${theme} theme.
+                  Return only a list of gradients, formatted exactly like this:
+                  linear-gradient(to right, #ff7e5f, #feb47b)
+                  linear-gradient(to bottom, #4facfe, #00f2fe)
+                  linear-gradient(45deg, #ff9a9e, #fad0c4)
+                  radial-gradient(circle, #ff9a9e, #fad0c4)
+                  radial-gradient(circle, #ff9a9e, #fad0c4)
+                  conic-gradient(#ff0000, #ffd800, #00ff00)
+                  radial-gradient(#ff0000, #ffff00, #00ff00)
+                  radial-gradient(#ff0000 5%, #ffff00 15%, #00ff00 60%)
+                  repeating-radial-gradient(#ff0000, #ffff00 10%, #00ff00 15%)
+                  radial-gradient(closest-side at 60% 55%, #ff0000, #ffff00, #000000)
+                  Do not include explanations, markdown, bullet points, or extra text. Just the raw CSS gradient values, one per line.`
+              }]
+          }]
+      })
+  });
+
+  if (!response.ok) {
+      throw new Error('Error connecting to AI service');
+  }
+
+  const data = await response.json();
+  console.log("API Response:", data);
+
+  if (data.candidates && data.candidates.length > 0) {
+      const candidate = data.candidates[0];
+
+      let responseText = "";
+      if (candidate.content && Array.isArray(candidate.content.parts)) {
+          responseText = candidate.content.parts.map(part => part.text).join(' ').trim();
+      }
+
+      console.log("Extracted Response:", responseText);
+
+      // ✅ Extract all CSS gradients using regex
+      const gradientRegex = /linear-gradient\([^)]*\)|radial-gradient\([^)]*\)|conic-gradient\([^)]*\)/g;
+      const extractedGradients = responseText.match(gradientRegex);
+
+      if (Array.isArray(extractedGradients) && extractedGradients.length > 0) {
+          console.log("Extracted Gradients:", extractedGradients);
+          return extractedGradients.slice(0, 15); // Limit to 15 gradients
+      }
+  }
+
+  throw new Error('No valid gradients found in API response');
+};

@@ -20,7 +20,7 @@ const FeaturedTools = () => {
       title: 'Gradient Maker',
       description: 'Create stunning gradients with ease',
       icon: '🌈',
-      path: '/tools/gradient-maker'
+      path: '/tools/gradient-generator'
     },
     {
       id: 3,

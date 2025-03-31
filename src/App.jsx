@@ -10,6 +10,7 @@ import Brainstorming from './Tools/Brainstroming';
 import CodeSnippetGenerator from './Tools/CodeSnippetGenerator';
 import ProjectSuggestion from './Tools/ProjectSuggestion';
 import ColorPaletteGenerator from './Tools/ColorPaletteGenerator';
+import GradientGenerator from './Tools/Gradient';
 import "./styles/global.scss";
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/tools/code-snippet-generator" element={<CodeSnippetGenerator />} />
             <Route path="/tools/project-suggestion" element={<ProjectSuggestion />} />
             <Route path="/tools/color-palette-generator" element={<ColorPaletteGenerator />} />
+            <Route path="/tools/gradient-generator" element={<GradientGenerator />} />
           </Routes>
         </main>
         <footer style={{

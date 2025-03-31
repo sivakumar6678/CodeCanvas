@@ -20,7 +20,7 @@ const tools = [
     fullDescription: 'Design beautiful gradients with our intuitive gradient generator. Choose from preset styles or create custom gradients with multiple color stops.',
     icon: '🌈',
     category: 'Colors',
-    path: '/tools/gradient'
+    path: '/tools/gradient-generator'
   },
   {
     id: 3,

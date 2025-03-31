@@ -3,6 +3,7 @@ import '../styles/tools_styles/colorpalettegenerator.scss';
 import { generateColorPalette } from '../apiService';
 import Draggable from 'react-draggable';
 import html2canvas from 'html2canvas';
+import { FaSync } from 'react-icons/fa';
 
 const projectTypes = ['Website', 'Mobile App', 'Dashboard', 'E-commerce', 'Blog'];
 const colorThemes = ['Dark', 'Pastel', 'Vibrant', 'Minimal'];
@@ -18,7 +19,7 @@ const ColorPaletteGenerator = () => {
     const [error, setError] = useState('');
     const [favorites, setFavorites] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         const savedPalette = loadPalette();
         if (savedPalette) {
@@ -37,6 +38,7 @@ const ColorPaletteGenerator = () => {
     
 
     const handleGeneratePalette = async () => {
+        setIsLoading(true);
         try {
             setError('');
             setPalette([]);
@@ -44,6 +46,8 @@ const ColorPaletteGenerator = () => {
             setPalette(newPalette);
         } catch (err) {
             setError(err.message || 'Failed to generate the palette.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -87,10 +91,10 @@ const ColorPaletteGenerator = () => {
             <h2>Color Palette Generator</h2>
             <div className="input-section">
                 <label>Project Title:</label>
-                <input type="text" value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} placeholder="Enter project title" />
+                <input type="text" className='input-field' value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} placeholder="Enter project title" />
                 
                 <label>Project Description:</label>
-                <textarea value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} placeholder="Describe your project"></textarea>
+                <textarea className='input-field' value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)} placeholder="Describe your project"></textarea>
                 
                 <label>Project Type:</label>
                 <select value={projectType} onChange={(e) => setProjectType(e.target.value)}>
@@ -107,10 +111,13 @@ const ColorPaletteGenerator = () => {
                     {colorFormats.map(format => <option key={format} value={format}>{format}</option>)}
                 </select>
                 
-                <button onClick={handleGeneratePalette}>Generate Palette</button>
-                <button onClick={handleSavePalette}>Save Palette</button>
-                <button onClick={handleExportJSON}>Export as JSON</button>
-                <button onClick={handleExportPNG}>Export as PNG</button>
+                <button onClick={handleGeneratePalette}>{isLoading ?  <>
+                            <FaSync className="animate-spin mr-2" />
+                            
+                        </> : "Generate Palette 🎨"}</button>
+                <button onClick={handleSavePalette}>Save Palette 💾</button>
+                <button onClick={handleExportJSON}>Export as JSON 📄</button>
+                <button onClick={handleExportPNG}>Export as PNG 📸</button>
             </div>
             
             {error && <div className="error">⚠️ {error}</div>}

@@ -86,3 +86,8 @@ select {
         }
     }
 }
+
+.animate-spin{
+    animation: spin 0.5s linear ease-in-out;
+}
+
