@@ -45,6 +45,9 @@ const Gradient = () => {
     };
 
     return (
+        <div className="gradinet-main">
+
+        
         <div className="gradient-generator p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4 text-center">CSS Gradient Generator</h2>
             <div className="input-section mb-4">
@@ -110,6 +113,7 @@ const Gradient = () => {
                     <p className="text-center text-gray-500">No gradients found.</p>
                 )}
             </div>
+        </div>
         </div>
     );
 };

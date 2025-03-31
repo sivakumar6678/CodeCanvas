@@ -27,7 +27,7 @@ const FeaturedTools = () => {
       title: 'Shadow Generator',
       description: 'Design perfect shadows for your elements',
       icon: '💫',
-      path: '/tools/shadow-generator'
+      path: '/tools/box-shadow-generator'
     }
   ];
 

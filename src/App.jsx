@@ -12,7 +12,8 @@ import ProjectSuggestion from './Tools/ProjectSuggestion';
 import ColorPaletteGenerator from './Tools/ColorPaletteGenerator';
 import GradientGenerator from './Tools/Gradient';
 import "./styles/global.scss";
-
+import BoxShadowGenerator from './Tools/BoxShadowGenerator';
+import ToolsGallery from './pages/ToolsGallery';
 const App = () => {
   return (
     <Router>
@@ -31,11 +32,13 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/tools" element={<Tools />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/tools-galery" element={<ToolsGallery />} />
             <Route path="/tools/brainstorming" element={<Brainstorming />} />
             <Route path="/tools/code-snippet-generator" element={<CodeSnippetGenerator />} />
             <Route path="/tools/project-suggestion" element={<ProjectSuggestion />} />
             <Route path="/tools/color-palette-generator" element={<ColorPaletteGenerator />} />
             <Route path="/tools/gradient-generator" element={<GradientGenerator />} />
+            <Route path="/tools/box-shadow-generator" element={<BoxShadowGenerator />} />
           </Routes>
         </main>
         <footer style={{

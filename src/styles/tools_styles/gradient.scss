@@ -1,3 +1,13 @@
+
+.gradinet-main{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: conic-gradient(#ff0000, #ffd800, #00ff00);
+    animation: rotate 10s linear infinite;
+
+}
 .gradient-generator{
     margin:2.5rem auto;
     padding:2rem;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaTimes, FaTools, FaUser, FaHome, FaEnvelope } from 'react-icons/fa';
+import { FaBars, FaTimes, FaTools, FaUser, FaHome, FaEnvelope, FaImages } from 'react-icons/fa';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import '../styles/navbar.scss';
@@ -17,6 +17,7 @@ const Navbar = () => {
     { name: 'Home', path: '/', icon: <FaHome /> },
     { name: 'About', path: '/about', icon: <FaUser /> },
     { name: 'Tools', path: '/tools', icon: <FaTools /> },
+    { name: 'Tools Galery', path: '/tools-galery', icon: <FaImages /> },
     { name: 'Contact', path: '/contact', icon: <FaEnvelope /> }
   ];
 

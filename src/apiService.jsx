@@ -193,3 +193,37 @@ export const generateGradients = async (projectType, mood, theme) => {
 
   throw new Error('No valid gradients found in API response');
 };
+
+
+export const generateBoxShadow = async (projectType, mood, theme) => {
+    const response = await fetch(BASE_URL + `?key=${API_KEY}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            contents: [{
+                parts: [{
+                    text: `Suggest a beautiful box shadow for a ${projectType} with a ${mood} mood and ${theme} theme. 
+                    Return only the box shadow in CSS format like: '10px 10px 20px rgba(0, 0, 0, 0.5)'. 
+                    Do not include explanations or additional text.`
+                }]
+            }]
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error('Error connecting to AI service');
+    }
+
+    const data = await response.json();
+    console.log("API Response:", data); // Debugging line
+
+    // Ensure to extract the box shadow string from the response
+    const boxShadowString = data.candidates[0]?.content?.parts[0]?.text || '';
+    if (!boxShadowString) {
+        throw new Error('No box shadow string found in the response.');
+    }
+
+    return boxShadowString; // Return the box shadow string
+}

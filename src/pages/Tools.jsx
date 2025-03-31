@@ -29,7 +29,7 @@ const tools = [
     fullDescription: 'Create perfect box shadows for your elements with our shadow generator. Customize spread, blur, and color to match your design.',
     icon: '💫',
     category: 'Effects',
-    path: '/tools/shadow'
+    path: '/tools/box-shadow-generator'
   },
   {
     id: 4,
