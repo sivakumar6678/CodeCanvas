@@ -11,7 +11,7 @@ const tools = [
     fullDescription: 'Create harmonious color combinations for your projects using our AI-powered color palette generator. Get suggestions based on color theory and current design trends.',
     icon: '🎨',
     category: 'Colors',
-    path: '/tools/color-palette'
+    path: '/tools/color-palette-generator'
   },
   {
     id: 2,

@@ -13,7 +13,7 @@ const FeaturedTools = () => {
       title: 'Color Palette Generator',
       description: 'Generate beautiful color palettes using AI',
       icon: '🎨',
-      path: '/tools/palette-generator'
+      path: '/tools/color-palette-generator'
     },
     {
       id: 2,

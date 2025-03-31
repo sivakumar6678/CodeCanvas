@@ -82,3 +82,57 @@ export const generateProjectIdeas = async ({ technologies, difficulty, projectTy
   const data = await response.json();
   return data;
 };
+
+
+// Function to generate color palette
+export const generateColorPalette = async (theme) => {
+  if (!theme) {
+      throw new Error('Theme is required');
+  }
+
+  try {
+      const response = await fetch(`${BASE_URL}?key=${API_KEY}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              contents: [{
+                  parts: [{
+                      text: `Generate a modern, cohesive color palette for a ${theme} project. 
+                      The palette should only contain a list of hex color codes in this format:
+                      #FF5733, #33FF57, #3357FF, #AABBCC, #DDEEFF`
+                  }]
+              }]
+          })
+      });
+
+      if (!response.ok) {
+          throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("🔥 Full API Response:", data);
+
+      if (!data || !data.candidates || data.candidates.length === 0) {
+          throw new Error('Invalid or empty response from AI.');
+      }
+
+      // Extract AI-generated text response
+      const aiResponse = data.candidates[0]?.content?.parts[0]?.text || '';
+      console.log("🟢 Raw AI Response:", aiResponse);
+
+      // Extract hex codes using regex
+      const hexColors = aiResponse.match(/#[0-9A-Fa-f]{6}/g) || [];
+
+      if (hexColors.length === 0) {
+          throw new Error('No valid hex color codes found in the response.');
+      }
+
+      console.log("🎨 Extracted Palette:", hexColors);
+      return hexColors;
+  } catch (error) {
+      console.error('❌ API Error:', error);
+      throw new Error(error.message || 'Failed to fetch color palette.');
+  }
+};
