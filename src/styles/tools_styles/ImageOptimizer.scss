@@ -1,0 +1,136 @@
+.image-optimizer {
+    min-height: 90vh;
+    max-width: 600px;
+    margin: 7rem auto;
+    text-align: center;
+    font-family: 'Arial', sans-serif; // Classic font
+  
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+  
+    .file-upload {
+      position: relative;
+      margin-bottom: 1rem;
+  
+      input[type="file"] {
+        display: none; // Hide the default file input
+      }
+  
+      label {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-size: 1rem;
+  
+        &:hover {
+          background-color: #0056b3;
+          transform: translateY(-2px);
+        }
+      }
+    }
+  
+    .format-selection {
+      margin: 1rem 0;
+  
+      label {
+        margin-right: 1rem;
+        transition: transform 0.3s ease;
+  
+        &:hover {
+          transform: scale(1.1);
+        }
+  
+        input[type="radio"] {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+  
+      &:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+  
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  
+    .progress-bar {
+      height: 10px;
+      background-color: #4caf50;
+      margin: 1rem 0;
+      transition: width 0.3s ease;
+      animation: progressAnimation 1s ease-in-out forwards;
+    }
+  
+    .image-comparison {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+  
+      .original-image,
+      .optimized-image {
+        width: 45%;
+        opacity: 0;
+        animation: fadeIn 0.5s ease-in forwards;
+  
+        h2 {
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+  
+        img {
+          max-width: 100%;
+          height: auto;
+          border: 2px solid #ccc;
+          border-radius: 5px;
+          transition: transform 0.3s ease;
+  
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+      }
+    }
+  
+    .error {
+      color: red;
+      margin-top: 1rem;
+    }
+  }
+  
+  // Keyframes for animations
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes progressAnimation {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }

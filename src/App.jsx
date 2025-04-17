@@ -11,9 +11,11 @@ import CodeSnippetGenerator from './Tools/CodeSnippetGenerator';
 import ProjectSuggestion from './Tools/ProjectSuggestion';
 import ColorPaletteGenerator from './Tools/ColorPaletteGenerator';
 import GradientGenerator from './Tools/Gradient';
+import ImageOptimizer from './Tools/ImageOptimizer';
 import "./styles/global.scss";
 import BoxShadowGenerator from './Tools/BoxShadowGenerator';
 import ToolsGallery from './pages/ToolsGallery';
+import LayoutGenerator from './Tools/LayoutGenerator';
 const App = () => {
   return (
     <Router>
@@ -39,6 +41,8 @@ const App = () => {
             <Route path="/tools/color-palette-generator" element={<ColorPaletteGenerator />} />
             <Route path="/tools/gradient-generator" element={<GradientGenerator />} />
             <Route path="/tools/box-shadow-generator" element={<BoxShadowGenerator />} />
+            <Route path="/tools/image-optimizer" element={<ImageOptimizer />} />
+            <Route path='/tools/layout' element={<LayoutGenerator />} />
           </Routes>
         </main>
         <footer style={{
