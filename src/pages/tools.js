@@ -139,13 +139,7 @@ export const tools = [
       category: "JavaScript Libraries",
       icon: "🏎️"  // Racing car emoji for fast animations
     },
-    {
-      name: "Frontend Mentor",
-      description: "A platform that provides **real-world projects and challenges** to help developers improve their skills and build portfolios.",
-      url: "https://www.frontendmentor.io/",
-      category: "Design Inspiration",
-      icon: "💻"  // Laptop emoji for development-focused design tools
-    },
+    
     {
       name: "Dribbble",
       description: "A **creative community and design inspiration platform** where designers can showcase their work and connect with other creatives.",

@@ -40,15 +40,15 @@ const tools = [
     category: 'Images',
     path: '/tools/image-optimizer'
   },
-  {
-    id: 5,
-    name: 'Typography Scale',
-    description: 'Generate consistent typography scales',
-    fullDescription: 'Create consistent typography scales for your projects with our typography scale generator.',
-    icon: '📝',
-    category: 'Typography',
-    path: '/tools/typography'
-  },
+  // {
+  //   id: 5,
+  //   name: 'Typography Scale',
+  //   description: 'Generate consistent typography scales',
+  //   fullDescription: 'Create consistent typography scales for your projects with our typography scale generator.',
+  //   icon: '📝',
+  //   category: 'Typography',
+  //   path: '/tools/typography'
+  // },
   {
     id: 6,
     name: 'Layout Generator',
