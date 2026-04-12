@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { FaCopy, FaDownload, FaSync, FaCode } from 'react-icons/fa';
+import { 
+  FaCopy, 
+  FaDownload, 
+  FaSync, 
+  FaCode, 
+  FaRobot, 
+  FaMagic, 
+  FaFileCode, 
+  FaKeyboard 
+} from 'react-icons/fa';
 import "prismjs";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-css";
@@ -83,24 +92,39 @@ const CodeSnippetGenerator = () => {
   return (
     <div className="code-snippet-generator">
       <div className="container">
-        <h1>AI Code Snippet Generator</h1>
-        <p className="subtitle">Describe what you want, and AI will generate the code for you</p>
+        <h1>
+          <FaRobot className="title-icon" /> AI Code Snippet Generator
+        </h1>
+        <p className="subtitle">
+          <FaMagic className="subtitle-icon" /> Describe what you want, and AI will generate the code for you
+        </p>
 
         <div className="input-section">
           <div className="input-container">
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe the code you want (e.g., 'CSS card hover effect')"
-              className="description-input"
-            />
+            <div className="input-wrapper">
+              <FaKeyboard className="input-icon" />
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe the code you want (e.g., 'CSS card hover effect')"
+                className="description-input"
+              />
+            </div>
             <button 
               onClick={generateCode}
               disabled={isLoading}
               className="generate-btn"
             >
-              {isLoading ? 'Generating...' : 'Generate Code'}
+              {isLoading ? (
+                <>
+                  <FaSync className="spinning" /> Generating...
+                </>
+              ) : (
+                <>
+                  <FaMagic /> Generate Code
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -113,7 +137,7 @@ const CodeSnippetGenerator = () => {
               <div key={index} className="snippet">
                 <div className="code-header">
                   <div className="language-badge">
-                    <FaCode /> {snippet.language.toUpperCase()}
+                    <FaFileCode /> {snippet.language.toUpperCase()}
                   </div>
                   <div className="code-actions">
                     <button 

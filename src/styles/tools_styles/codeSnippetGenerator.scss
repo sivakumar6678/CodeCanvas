@@ -28,6 +28,59 @@
     margin-bottom: 3rem;
   }
 
+  .title-icon {
+    margin-right: 10px;
+    color: #4a90e2;
+  }
+
+  .subtitle-icon {
+    margin-right: 8px;
+    color: #666;
+  }
+
+  .input-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      color: #666;
+    }
+
+    .description-input {
+      padding-left: 35px;
+    }
+  }
+
+  .spinning {
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .generate-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .language-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .input-section {
     margin-bottom: 2rem;
 
