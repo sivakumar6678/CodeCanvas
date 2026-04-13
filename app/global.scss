@@ -78,18 +78,27 @@ button {
 
 // Container
 .container {
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
+@media (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
 // Main page layout
 .main-page {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 0;
 }
 
 .main-content {
