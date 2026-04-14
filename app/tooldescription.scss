@@ -1,56 +1,69 @@
+// Tool Description — Right Sidebar Panel ("About this tool")
+
 .tool-description-section {
   width: 100%;
-  
+
   .description-card {
-    background: white;
-    border-radius: 12px;
+    background: #ffffff;
+    border-radius: 14px;
     padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(102, 126, 234, 0.15);
-    
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.06),
+      0 4px 16px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(102, 126, 234, 0.13);
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.07),
+        0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    // ── Title row ──────────────────────────────────────────
     h2 {
-      font-size: 1.1rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
       font-weight: 700;
       color: #1f2937;
-      margin: 0 0 1rem 0;
-      font-family: 'Outfit', sans-serif;
+      margin: 0 0 0.875rem 0;
       display: flex;
       align-items: center;
       gap: 0.6rem;
 
+      // Accent bar before title
       &::before {
         content: '';
         display: inline-block;
-        width: 4px;
-        height: 18px;
+        width: 3px;
+        height: 16px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 4px;
+        flex-shrink: 0;
       }
     }
 
+    // ── Body text ──────────────────────────────────────────
     p {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       color: #4b5563;
-      line-height: 1.6;
+      line-height: 1.7;
       margin: 0;
+    }
+
+    // ── Subtle divider ─────────────────────────────────────
+    .description-divider {
+      height: 1px;
+      background: linear-gradient(to right, rgba(102, 126, 234, 0.2), transparent);
+      margin: 1rem 0;
     }
   }
 }
 
-@media (max-width: 768px) {
+// On mobile/tablet: panel stacks below (layout system handles positioning)
+@media (max-width: 1024px) {
   .tool-description-section {
-    padding: 2rem 0 3rem;
-    
     .description-card {
-      padding: 1.75rem;
-      
-      h2 {
-        font-size: 1.25rem;
-      }
-      
-      p {
-        font-size: 1rem;
-      }
+      padding: 1.25rem;
     }
   }
 }

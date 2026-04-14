@@ -1,0 +1,64 @@
+// Back Button — sits below navbar, outside container
+
+.tool-back-row {
+  max-width: 1500px; // Match new container width
+  margin: 1rem auto;
+  padding: 0.75rem 2rem 0; // Just breathing room — navbar clearance handled by .tool-page-wrapper
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem 0;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  letter-spacing: 0.01em;
+
+  .back-btn-icon {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #6b7280;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .back-btn-text {
+    color: #374151;
+    transition: color 0.2s ease;
+  }
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07);
+    transform: translateX(-2px);
+
+    .back-btn-icon {
+      transform: translateX(-3px);
+      color: #4f46e5;
+    }
+
+    .back-btn-text {
+      color: #111827;
+    }
+  }
+
+  &:active {
+    transform: translateX(-1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+}

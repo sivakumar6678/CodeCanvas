@@ -1,0 +1,164 @@
+// ============================================================
+// Tool Page — Unified Layout System
+// Named grid areas: inputs (left) | outputs + about (right)
+// ============================================================
+
+// ── Page wrapper: clears fixed navbar globally ───────────────
+.tool-page-wrapper {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  background: #f5f7fa;
+  padding-top: 4.5rem; // Clears fixed navbar (~64px). Back button + header sit naturally below.
+}
+
+// ── Main container ────────────────────────────────────────────
+.tool-page-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+
+  @media (max-width: 1024px) {
+    padding: 0 1.5rem 3rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 1rem 2.5rem;
+  }
+}
+
+// ── Two-column grid: inputs LEFT | outputs+about RIGHT ───────
+.tool-content-main {
+  display: grid;
+  grid-template-columns: 58fr 42fr;
+  grid-template-areas:
+    "inputs about"
+    "inputs outputs";
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 55fr 45fr;
+  }
+
+  // Stack vertically on tablet/mobile
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "about"
+      "outputs"
+      "inputs";
+    gap: 1.25rem;
+  }
+}
+
+// ── Full-width layout for Brainstorming only ─────────────────
+.tool-content-full {
+  margin-top: 1.5rem;
+
+  .tool-description-panel {
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+  }
+}
+
+// ── Tool component wrapper: transparent to grid ──────────────
+// display: contents makes the wrapper "invisible" so its children
+// (.tool-inputs-pane and .tool-outputs-pane) become direct grid participants.
+.tool-component-wrapper {
+  display: contents;
+
+  // Also make each tool's root element transparent so the panes
+  // participate directly in the page grid.
+  > * {
+    display: contents;
+  }
+}
+
+// ── INPUT PANE — Left column, spans all rows ─────────────────
+.tool-inputs-pane {
+  grid-area: inputs;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(102, 126, 234, 0.12);
+  min-width: 0; // Prevent grid blowout
+
+  // Remove any internal section card styling that was previously
+  // applied at the root level — pane is now the single card.
+  .input-section {
+    // Reset any old double-card Tailwind that may exist inline
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+// ── OUTPUT PANE — Right column, row 1 ────────────────────────
+.tool-outputs-pane {
+  grid-area: outputs;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(102, 126, 234, 0.12);
+  min-width: 0;
+  min-height: 220px; // Holds space even before output is generated
+  max-height: 400px;
+  overflow-y: auto;
+
+  // Custom sleek scrollbar for outputs
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 10px;
+    &:hover {
+      background: #d1d5db;
+    }
+  }
+
+  // Header label for outputs pane
+  &::before {
+    content: 'Output';
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+}
+
+// ── ABOUT PANEL — Right column, row 2 ────────────────────────
+.tool-description-panel {
+  grid-area: about;
+  min-width: 0;
+
+  // On mobile: separator from stacked output pane
+  @media (max-width: 1024px) {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+  }
+}
+
+// ── Utility: strip nested margin-top interference ────────────
+// Prevents double spacing when outputs pane has its own mt-8 classes
+.tool-outputs-pane > *:first-child {
+  margin-top: 0 !important;
+}

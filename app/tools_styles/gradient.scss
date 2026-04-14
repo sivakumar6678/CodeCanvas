@@ -1,13 +1,15 @@
+// Gradient Generator — scoped styles (no global leaks)
+
 .gradient-generator {
     padding: 2.5rem;
     background-color: #ffffff;
     border-radius: 16px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(102, 126, 234, 0.15);
-    max-width: 800px;
-    margin: 0 auto;
+    width: 100%;
     font-family: 'Inter', sans-serif;
 
+    // ── Inputs ─────────────────────────────────────────────────
     .input-section {
         display: flex;
         flex-direction: column;
@@ -39,6 +41,7 @@
         }
     }
 
+    // ── Buttons ────────────────────────────────────────────────
     .primary-btn {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: #ffffff;
@@ -72,12 +75,18 @@
         }
     }
 
+    // ── Error state ────────────────────────────────────────────
     .error {
         text-align: center;
         margin-top: 1rem;
         font-weight: bold;
         color: #ef4444;
         animation: fadeIn 0.5s;
+    }
+
+    // ── Gradient output cards ──────────────────────────────────
+    .gradient-output {
+        margin-top: 1.25rem;
     }
 
     .gradient-box {
@@ -90,34 +99,33 @@
         color: white;
         font-weight: bold;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
         &:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        span {
+            font-size: 0.8rem;
+            word-break: break-all;
+            max-width: 70%;
         }
     }
-}   
 
-.input-field{
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-}
-
-.animate-spin{
-    animation: spin 2s linear infinite;
-    color: #fff;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    // ── Spinner ────────────────────────────────────────────────
+    .animate-spin {
+        animation: spin 2s linear infinite;
+        color: #fff;
+    }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
