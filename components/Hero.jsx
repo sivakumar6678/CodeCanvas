@@ -27,35 +27,35 @@ const Hero = () => {
     });
 
     tl.from('.hero-badge', {
-      opacity: 0,
+      opacity: 1,
       y: 20,
       duration: 0.6
     })
-    .from('.hero-content h1', {
-      opacity: 0,
-      y: 30,
-      duration: 0.8
-    }, '-=0.3')
-    .from('.typewriter-container', {
-      opacity: 0,
-      y: 20,
-      duration: 0.6
-    }, '-=0.4')
-    .from('.hero-content p', {
-      opacity: 0,
-      y: 20,
-      duration: 0.6
-    }, '-=0.3')
-    .from('.hero-buttons', {
-      opacity: 0,
-      y: 20,
-      duration: 0.6
-    }, '-=0.3')
-    .from('.hero-stats', {
-      opacity: 0,
-      y: 20,
-      duration: 0.6
-    }, '-=0.3');
+      .from('.hero-content h1', {
+        opacity: 1,
+        y: 30,
+        duration: 0.8
+      }, '-=0.3')
+      .from('.typewriter-container', {
+        opacity: 1,
+        y: 20,
+        duration: 0.6
+      }, '-=0.4')
+      .from('.hero-content p', {
+        opacity: 1,
+        y: 20,
+        duration: 0.6
+      }, '-=0.3')
+      .from('.hero-buttons', {
+        opacity: 1,
+        y: 20,
+        duration: 0.6
+      }, '-=0.3')
+      .from('.hero-stats', {
+        opacity: 1,
+        y: 20,
+        duration: 0.6
+      }, '-=0.3');
   }, []);
 
   return (
@@ -65,11 +65,11 @@ const Hero = () => {
         <div className="gradient-orb orb-2"></div>
         <div className="gradient-orb orb-3"></div>
       </div>
-      
+
       <div className="container">
         <div className="hero-content">
           <div className="hero-left">
-            <motion.div 
+            <motion.div
               className="hero-badge"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -79,14 +79,14 @@ const Hero = () => {
               <span className="badge-text">Free & Open Source Developer Tools</span>
             </motion.div>
 
-            <h1 className="gradient-text">
+            <h1>
               Build Faster with
               <br />
-              AI-Powered Tools
+              <span className="hero-highlight">AI-Powered Tools</span>
             </h1>
-            
+
             <div className="typewriter-container">
-              <span className="typewriter-label">Generate</span>
+              <span className="typewriter-label">Generate </span>
               <Typewriter
                 words={[
                   'Color Palettes',
@@ -103,12 +103,12 @@ const Hero = () => {
                 deleteSpeed={50}
               />
             </div>
-            
+
             <p className="hero-description">
-              Supercharge your development workflow with intelligent design tools, 
+              Supercharge your development workflow with intelligent design tools,
               AI code generators, and a curated collection of 50+ external resources.
             </p>
-            
+
             <div className="hero-buttons">
               <Link href="/tools" className="primary-btn premium-btn">
                 <span className="button-content">Explore All Tools</span>
@@ -170,11 +170,11 @@ const Hero = () => {
 
               <div className="visual-card color-card">
                 <div className="color-palette">
-                  <div className="color-swatch" style={{background: '#667eea'}}></div>
-                  <div className="color-swatch" style={{background: '#764ba2'}}></div>
-                  <div className="color-swatch" style={{background: '#f093fb'}}></div>
-                  <div className="color-swatch" style={{background: '#4facfe'}}></div>
-                  <div className="color-swatch" style={{background: '#43e97b'}}></div>
+                  <div className="color-swatch" style={{ background: '#667eea' }}></div>
+                  <div className="color-swatch" style={{ background: '#764ba2' }}></div>
+                  <div className="color-swatch" style={{ background: '#f093fb' }}></div>
+                  <div className="color-swatch" style={{ background: '#4facfe' }}></div>
+                  <div className="color-swatch" style={{ background: '#43e97b' }}></div>
                 </div>
                 <div className="color-label">Color Palette</div>
               </div>

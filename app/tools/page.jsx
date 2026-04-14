@@ -1,13 +1,20 @@
 "use client";
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaFilter, FaChevronRight } from 'react-icons/fa';
+import { FaFilter, FaChevronRight, FaTimes } from 'react-icons/fa';
 import ToolCard from '../../components/ToolCard';
-import { allTools, builtinTools, externalTools, getAllCategories, getBuiltinCategories, getExternalCategories, categoryStructure } from '../../lib/toolData';
+import {
+  allTools,
+  builtinTools,
+  externalTools,
+  getAllCategories,
+  getBuiltinCategories,
+  getExternalCategories,
+  categoryStructure,
+} from '../../lib/toolData';
 import '../tools.scss';
 
 const Tools = () => {
-  const [toolType, setToolType] = useState('all'); // 'all', 'builtin', 'external'
+  const [toolType, setToolType] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [expandedCategories, setExpandedCategories] = useState({});
@@ -16,13 +23,13 @@ const Tools = () => {
   const toggleCategory = (parentCategory) => {
     setExpandedCategories(prev => ({
       ...prev,
-      [parentCategory]: !prev[parentCategory]
+      [parentCategory]: !prev[parentCategory],
     }));
   };
 
   // Get tools based on type filter
   const getFilteredToolsByType = () => {
-    switch(toolType) {
+    switch (toolType) {
       case 'builtin': return builtinTools;
       case 'external': return externalTools;
       default: return allTools;
@@ -31,7 +38,7 @@ const Tools = () => {
 
   // Get categories based on type filter
   const getCategories = () => {
-    switch(toolType) {
+    switch (toolType) {
       case 'builtin': return getBuiltinCategories();
       case 'external': return getExternalCategories();
       default: return getAllCategories();
@@ -40,203 +47,201 @@ const Tools = () => {
 
   // Apply all filters
   const filteredTools = getFilteredToolsByType().filter(tool => {
-    const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === 'All' || tool.category === categoryFilter;
+    const matchesSearch =
+      tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tool.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === 'All' || tool.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
   const categories = getCategories();
 
   // Check if a category is a subcategory
-  const isSubcategory = (category) => {
-    return Object.values(categoryStructure).some(
-      group => group.subcategories.includes(category)
+  const isSubcategory = (category) =>
+    Object.values(categoryStructure).some(group =>
+      group.subcategories.includes(category)
     );
-  };
-
-  // Get parent category for a subcategory
-  const getParentCategory = (subcategory) => {
-    for (const [parent, data] of Object.entries(categoryStructure)) {
-      if (data.subcategories.includes(subcategory)) {
-        return parent;
-      }
-    }
-    return null;
-  };
 
   return (
     <section className="tools" id="tools">
-      {/* Full-width header section */}
+
+      {/* ── Full-width gradient header ── */}
       <div className="tools-header-section">
-        <div className="tools-header-content">
+        <div className="tools-header-inner">
           <div className="tools-header">
             <h1>Developer Tools</h1>
-            <p className="tools-subtitle">AI-powered tools and curated resources to accelerate your workflow</p>
+            <p className="tools-subtitle">
+              AI-powered tools and curated resources to accelerate your workflow
+            </p>
           </div>
 
           {/* Type Tabs */}
           <div className="type-tabs">
-            <button
-              className={`type-tab ${toolType === 'all' ? 'active' : ''}`}
-              onClick={() => {
-                setToolType('all');
-                setCategoryFilter('All');
-              }}
-            >
-              All Tools
-            </button>
-            <button
-              className={`type-tab ${toolType === 'builtin' ? 'active' : ''}`}
-              onClick={() => {
-                setToolType('builtin');
-                setCategoryFilter('All');
-              }}
-            >
-              Built-in Tools
-            </button>
-            <button
-              className={`type-tab ${toolType === 'external' ? 'active' : ''}`}
-              onClick={() => {
-                setToolType('external');
-                setCategoryFilter('All');
-              }}
-            >
-              External Tools
-            </button>
+            {[
+              { id: 'all',      label: 'All Tools' },
+              { id: 'builtin',  label: 'Built-in Tools' },
+              { id: 'external', label: 'External Tools' },
+            ].map(tab => (
+              <button
+                key={tab.id}
+                className={`type-tab${toolType === tab.id ? ' active' : ''}`}
+                onClick={() => { setToolType(tab.id); setCategoryFilter('All'); }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Full-width main layout */}
-      <div className="tools-main-section">
-        <div className="tools-layout">
-          {/* Left: Main Content */}
-          <div className="tools-main-content">
-            {/* Mobile Filter Toggle */}
-            <button 
-              className="mobile-filter-toggle"
-              onClick={() => setShowMobileSidebar(!showMobileSidebar)}
+      {/* ── Full-width body: sidebar + grid ── */}
+      <div className="tools-body">
+
+        {/* Mobile sidebar toggle */}
+        <button
+          className="mobile-filter-toggle"
+          onClick={() => setShowMobileSidebar(v => !v)}
+          aria-label="Toggle category filter"
+        >
+          <FaFilter />
+          <span>Filter by Category</span>
+        </button>
+
+        {/* Mobile sidebar overlay */}
+        {showMobileSidebar && (
+          <div
+            className="mobile-sidebar-overlay"
+            onClick={() => setShowMobileSidebar(false)}
+          />
+        )}
+
+        {/* ── LEFT STICKY SIDEBAR ── */}
+        <aside className={`tools-sidebar${showMobileSidebar ? ' mobile-open' : ''}`}>
+          <div className="sidebar-card">
+
+            {/* Sidebar header */}
+            <div className="sidebar-header">
+              <h3>Categories</h3>
+              <span className="sidebar-count">{categories.length}</span>
+              {/* Mobile close */}
+              <button
+                className="sidebar-close"
+                onClick={() => setShowMobileSidebar(false)}
+                aria-label="Close sidebar"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            {/* All Categories shortcut */}
+            <button
+              className={`sidebar-item${categoryFilter === 'All' ? ' active' : ''}`}
+              onClick={() => { setCategoryFilter('All'); setShowMobileSidebar(false); }}
             >
-              <FaFilter /> Filter by Category
+              <span className="sidebar-item-icon">📋</span>
+              <span className="sidebar-item-label">All Categories</span>
             </button>
 
-            {/* Search Bar */}
-            <div className="tools-search-wrapper">
-              <input
-                type="text"
-                placeholder="Search tools..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="tools-search-input"
-              />
-            </div>
+            {/* Structured parent → subcategory groups */}
+            {Object.entries(categoryStructure).map(([parentCategory, data]) => {
+              const availableSubcategories = data.subcategories.filter(sub =>
+                categories.includes(sub)
+              );
+              if (availableSubcategories.length === 0) return null;
 
-            {/* Tools Count */}
-            <div className="tools-count">
-              Showing {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
-            </div>
+              const isExpanded = expandedCategories[parentCategory];
 
-            {/* Tools Grid */}
+              return (
+                <div key={parentCategory} className="sidebar-group">
+                  <button
+                    className="sidebar-group-header"
+                    onClick={() => toggleCategory(parentCategory)}
+                  >
+                    <span className="sidebar-group-icon">{data.icon}</span>
+                    <span className="sidebar-group-label">{parentCategory}</span>
+                    <FaChevronRight
+                      className={`sidebar-chevron${isExpanded ? ' rotated' : ''}`}
+                    />
+                  </button>
+
+                  {isExpanded && (
+                    <div className="sidebar-subcategories">
+                      {availableSubcategories.map(sub => (
+                        <button
+                          key={sub}
+                          className={`sidebar-subitem${categoryFilter === sub ? ' active' : ''}`}
+                          onClick={() => { setCategoryFilter(sub); setShowMobileSidebar(false); }}
+                        >
+                          <span className="sidebar-subitem-icon">🔖</span>
+                          <span className="sidebar-subitem-label">{sub}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Orphan categories (not in structure) */}
+            {categories
+              .filter(cat => cat !== 'All' && !isSubcategory(cat))
+              .map(category => (
+                <button
+                  key={category}
+                  className={`sidebar-item${categoryFilter === category ? ' active' : ''}`}
+                  onClick={() => { setCategoryFilter(category); setShowMobileSidebar(false); }}
+                >
+                  <span className="sidebar-item-icon">🔖</span>
+                  <span className="sidebar-item-label">{category}</span>
+                </button>
+              ))}
+          </div>
+        </aside>
+
+        {/* ── RIGHT MAIN CONTENT ── */}
+        <div className="tools-main">
+
+          {/* Search bar */}
+          <div className="tools-search-wrapper">
+            <input
+              type="text"
+              placeholder="Search tools..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="tools-search-input"
+            />
+          </div>
+
+          {/* Count */}
+          <p className="tools-count">
+            Showing <strong>{filteredTools.length}</strong> tool
+            {filteredTools.length !== 1 ? 's' : ''}
+          </p>
+
+          {/* Tools Grid */}
+          {filteredTools.length > 0 ? (
             <div className="tools-grid">
               {filteredTools.map(tool => (
                 <ToolCard key={tool.id} tool={tool} />
               ))}
             </div>
-
-            {filteredTools.length === 0 && (
-              <div className="no-results">
-                <p>No tools found matching your criteria.</p>
-                <button 
-                  className="clear-filters-btn"
-                  onClick={() => {
-                    setSearchTerm('');
-                    setCategoryFilter('All');
-                  }}
-                >
-                  Clear Filters
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Right: Sticky Sidebar */}
-          <aside className={`tools-sidebar ${showMobileSidebar ? 'mobile-visible' : ''}`}>
-            <div className="sidebar-content">
-              <div className="sidebar-header">
-                <h3>Categories</h3>
-                <span className="category-count">{categories.length}</span>
-              </div>
-              
-              {/* Structured Categories with Subcategories */}
-              <div className="sidebar-filters">
-                <button
-                  className={`sidebar-filter-btn ${categoryFilter === 'All' ? 'active' : ''}`}
-                  onClick={() => setCategoryFilter('All')}
-                >
-                  <span className="filter-icon">📋</span>
-                  <span className="filter-text">All Categories</span>
-                </button>
-
-                {Object.entries(categoryStructure).map(([parentCategory, data]) => {
-                  // Filter subcategories that exist in current categories list
-                  const availableSubcategories = data.subcategories.filter(
-                    sub => categories.includes(sub)
-                  );
-                  
-                  if (availableSubcategories.length === 0) return null;
-
-                  const isExpanded = expandedCategories[parentCategory];
-
-                  return (
-                    <div key={parentCategory} className="category-section">
-                      <button
-                        className={`category-header ${isExpanded ? 'expanded' : ''}`}
-                        onClick={() => toggleCategory(parentCategory)}
-                      >
-                        <span className="category-icon">{data.icon}</span>
-                        <span className="category-name">{parentCategory}</span>
-                        <FaChevronRight className="expand-icon" />
-                      </button>
-                      
-                      {isExpanded && (
-                        <div className="subcategory-list">
-                          {availableSubcategories.map(subcategory => (
-                            <button
-                              key={subcategory}
-                              className={`sidebar-filter-btn subcategory ${categoryFilter === subcategory ? 'active' : ''}`}
-                              onClick={() => setCategoryFilter(subcategory)}
-                            >
-                              <span className="filter-icon">🔖</span>
-                              <span className="filter-text">{subcategory}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                {/* Show any categories not in the structured system */}
-                {categories
-                  .filter(cat => cat !== 'All' && !isSubcategory(cat))
-                  .map(category => (
-                    <button
-                      key={category}
-                      className={`sidebar-filter-btn ${categoryFilter === category ? 'active' : ''}`}
-                      onClick={() => setCategoryFilter(category)}
-                    >
-                      <span className="filter-icon">🔖</span>
-                      <span className="filter-text">{category}</span>
-                    </button>
-                  ))}
-              </div>
+          ) : (
+            <div className="tools-empty">
+              <p>No tools found matching your criteria.</p>
+              <button
+                className="clear-filters-btn"
+                onClick={() => { setSearchTerm(''); setCategoryFilter('All'); }}
+              >
+                Clear Filters
+              </button>
             </div>
-          </aside>
+          )}
         </div>
+
       </div>
     </section>
   );
 };
 
-export default Tools; 
+export default Tools;

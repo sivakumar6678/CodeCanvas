@@ -1,20 +1,59 @@
-// ToolCard Component Styles
+// =====================================================
+// ToolCard — Premium Card Component Styles
+// =====================================================
+
+$primary:      #667eea;
+$primary-end:  #764ba2;
+$text:         #1f2937;
+$text-light:   #6b7280;
+$white:        #ffffff;
+$radius-lg:    14px;
+$transition:   all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
 .tool-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  background: $white;
+  border-radius: $radius-lg;
+  padding: 2rem;                       // ↑ from 1.75rem — more spacious
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  transition: $transition;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+
+  // Subtle gradient top-accent bar
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary 0%, $primary-end 100%);
+    opacity: 0;
+    transition: opacity 0.28s ease;
+    border-radius: #{$radius-lg} #{$radius-lg} 0 0;
+  }
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: 0 20px 56px rgba(0, 0, 0, 0.15);
+    border-color: rgba(102, 126, 234, 0.30);
+    // No translateY here — Framer Motion whileHover handles the Y lift
+
+    &::before {
+      opacity: 1;  // reveal accent bar on hover
+    }
+
+    .tool-card-icon {
+      transform: scale(1.12) rotate(-3deg);
+    }
+
+    .tool-card-btn.primary {
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.45);
+    }
   }
 }
 
@@ -26,92 +65,129 @@
 }
 
 .tool-card-icon {
-  font-size: 2.5rem;
+  font-size: 3rem;
   line-height: 1;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); // springy
+  display: block;
+  user-select: none;
 }
 
 .tool-card-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, $primary 0%, $primary-end 100%);
+  color: $white;
+  padding: 0.3rem 0.875rem;
   border-radius: 20px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tool-card-title {
-  font-size: 1.25rem;
+  font-size: 1.4rem;             // ↑ from 1.35rem
   font-weight: 700;
-  color: #1f2937;
+  color: $text;
   margin: 0;
   font-family: 'Outfit', sans-serif;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .tool-card-description {
-  font-size: 0.95rem;
-  color: #6b7280;
-  line-height: 1.6;
+  font-size: 1rem;
+  color: $text-light;
+  line-height: 1.7;
   margin: 0;
   flex-grow: 1;
 }
 
 .tool-card-footer {
   margin-top: auto;
-  padding-top: 1rem;
+  padding-top: 1.125rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05); // subtle divider
 }
 
 .tool-card-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.625rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: 0.875rem 1.5rem;      // ↑ from 0.75rem — more clickable
+  border-radius: 10px;
+  font-size: 0.975rem;           // ↑ from 0.95rem
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: $transition;
   cursor: pointer;
   border: none;
   width: 100%;
   font-family: 'Inter', sans-serif;
+  letter-spacing: 0.01em;
 
   &.primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, $primary 0%, $primary-end 100%);
+    color: $white;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.45);
+      filter: brightness(1.05);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
     }
   }
 
   &.secondary {
     background: transparent;
-    color: #667eea;
-    border: 2px solid #667eea;
+    color: $primary;
+    border: 2px solid rgba(102, 126, 234, 0.4);
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.08);
 
     &:hover {
-      background: #667eea;
-      color: white;
+      background: linear-gradient(135deg, $primary 0%, $primary-end 100%);
+      color: $white;
+      border-color: transparent;
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
   }
 }
 
-// Responsive adjustments
+// ── Responsive ───────────────────────────────────────
 @media (max-width: 768px) {
+  .tool-card {
+    padding: 1.5rem;
+  }
+
+  .tool-card-icon {
+    font-size: 2.5rem;
+  }
+
+  .tool-card-title {
+    font-size: 1.2rem;
+  }
+
+  .tool-card-btn {
+    padding: 0.8rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
   .tool-card {
     padding: 1.25rem;
   }
 
   .tool-card-icon {
-    font-size: 2rem;
-  }
-
-  .tool-card-title {
-    font-size: 1.1rem;
+    font-size: 2.25rem;
   }
 }
