@@ -801,8 +801,6 @@ const Brainstorming = () => {
   return (
     <div className="brainstorming" ref={brainstormingRef}>
       <div className="container">
-        <h1>AI Project Brainstorming</h1>
-        
         <div className="chat-container">
           <div className="messages-container">
             {messages.map((message, index) => (

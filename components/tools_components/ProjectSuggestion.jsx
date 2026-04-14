@@ -94,20 +94,19 @@ const ProjectSuggestion = () => {
 
   return (
     <div className="project-suggestion">
-      <h2>Project Suggestion Tool</h2>
-
-      {/* Known Languages Input */}
-      <label>Known Languages:</label>
-      <div className="language-input">
-        <input
-          type="text"
-          value={inputLanguage}
-          onChange={(e) => setInputLanguage(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Enter a language (e.g., Python, JavaScript)"
-          className="input-field"
-        />
-        <button onClick={handleAddLanguage} className="add-button">Add</button>
+      <div className="input-group">
+        <label>Known Languages</label>
+        <div className="language-input">
+          <input
+            type="text"
+            value={inputLanguage}
+            onChange={(e) => setInputLanguage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="e.g., Python, JavaScript"
+            className="input-field"
+          />
+          <button onClick={handleAddLanguage} className="secondary-btn">Add</button>
+        </div>
       </div>
 
       {/* Display Added Languages */}
@@ -119,31 +118,36 @@ const ProjectSuggestion = () => {
         ))}
       </div>
 
-      {/* Other Inputs */}
-      <label>Difficulty:</label>
-      <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field">
-        <option value="Beginner">Beginner</option>
-        <option value="Intermediate">Intermediate</option>
-        <option value="Advanced">Advanced</option>
-      </select>
+      <div className="controls-grid">
+        <div className="input-group">
+          <label>Difficulty</label>
+          <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
 
-      <label>Project Type:</label>
-      <select value={projectType} onChange={(e) => setProjectType(e.target.value)} className="input-field">
-        <option value="Web App">Web App</option>
-        <option value="AI Tool">AI Tool</option>
-        <option value="Blockchain">Blockchain</option>
-        {/* Add more project types as needed */}
-      </select>
+        <div className="input-group">
+          <label>Project Type</label>
+          <select value={projectType} onChange={(e) => setProjectType(e.target.value)} className="input-field">
+            <option value="Web App">Web App</option>
+            <option value="AI Tool">AI Tool</option>
+            <option value="Blockchain">Blockchain</option>
+          </select>
+        </div>
 
-      <label>Target Users:</label>
-      <select value={targetUsers} onChange={(e) => setTargetUsers(e.target.value)} className="input-field">
-        <option value="Students">Students</option>
-        <option value="Developers">Developers</option>
-        <option value="Businesses">Businesses</option>
-        {/* Add more target users as needed */}
-      </select>
+        <div className="input-group">
+          <label>Target Users</label>
+          <select value={targetUsers} onChange={(e) => setTargetUsers(e.target.value)} className="input-field">
+            <option value="Students">Students</option>
+            <option value="Developers">Developers</option>
+            <option value="Businesses">Businesses</option>
+          </select>
+        </div>
+      </div>
 
-      <button onClick={handleGenerateIdeas} disabled={isLoading} className="generate-btn">
+      <button onClick={handleGenerateIdeas} disabled={isLoading} className="primary-btn mt-4 w-full">
         {isLoading ? "Generating..." : "Generate Project Ideas"}
       </button>
 

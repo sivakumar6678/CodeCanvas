@@ -65,50 +65,50 @@ const ImageOptimizer = () => {
 
   return (
     <div className="image-optimizer">
-      <h1>Image Optimizer</h1>
-      <input className ="file-input" type="file" accept="image/*" onChange={handleImageUpload} />
-      <div className="format-selection">
-        <label>
-          <input
-            type="radio"
-            value="webp"
-            checked={fileFormat === 'webp'}
-            onChange={() => setFileFormat('webp')}
-          />
-          WebP
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="jpeg"
-            checked={fileFormat === 'jpeg'}
-            onChange={() => setFileFormat('jpeg')}
-          />
-          JPEG
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="png"
-            checked={fileFormat === 'png'}
-            onChange={() => setFileFormat('png')}
-          />
-          PNG
+      <div className="upload-section">
+        <label className="upload-label">
+          <span>Drop your image here or click to browse</span>
+          <input className="file-input" type="file" accept="image/*" onChange={handleImageUpload} />
         </label>
       </div>
-      <button onClick={optimizeImage}>Optimize Image</button>
+      {originalImage && (
+        <div className="optimizer-controls">
+          <div className="format-selection">
+            <label>
+              <input type="radio" value="webp" checked={fileFormat === 'webp'} onChange={() => setFileFormat('webp')} />
+              WebP
+            </label>
+            <label>
+              <input type="radio" value="jpeg" checked={fileFormat === 'jpeg'} onChange={() => setFileFormat('jpeg')} />
+              JPEG
+            </label>
+            <label>
+              <input type="radio" value="png" checked={fileFormat === 'png'} onChange={() => setFileFormat('png')} />
+              PNG
+            </label>
+          </div>
+          
+          <button onClick={optimizeImage} className="primary-btn w-full mt-4">
+            {progress > 0 && progress < 100 ? 'Optimizing...' : 'Optimize Image'}
+          </button>
+        </div>
+      )}
+
       {progress > 0 && <div className="progress-bar" style={{ width: `${progress}%` }} />}
-      {optimizedImage && (
+
+      {originalImage && (
         <div className="image-comparison">
           <div className="original-image">
-            <h2>Original Image</h2>
+            <h3>Original Image</h3>
             <img src={originalImage} alt="Original" />
           </div>
-          <div className="optimized-image">
-            <h2>Optimized Image</h2>
-            <img src={optimizedImage} alt="Optimized" />
-            <button onClick={downloadImage}>Download Optimized Image</button>
-          </div>
+          {optimizedImage && (
+            <div className="optimized-image">
+                <h3>Optimized Image</h3>
+                <img src={optimizedImage} alt="Optimized" />
+                <button onClick={downloadImage} className="secondary-btn w-full mt-3">Download Optimized Image</button>
+            </div>
+          )}
         </div>
       )}
       {error && <p className="error">{error}</p>}

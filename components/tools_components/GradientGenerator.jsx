@@ -46,11 +46,7 @@ const Gradient = () => {
     };
 
     return (
-        <div className="gradinet-main">
-
-        
-        <div className="gradient-generator p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-center">CSS Gradient Generator</h2>
+        <div className="gradient-generator">
             <div className="input-section mb-4">
                 <label className="block mb-2">Project Type:</label>
                 <select 
@@ -89,7 +85,7 @@ const Gradient = () => {
                     ))}
                 </select>
 
-                <button onClick={handleGenerateGradient} className="mt-4 bg-blue-600 text-white p-2 rounded w-full flex items-center justify-center">
+                <button onClick={handleGenerateGradient} className="mt-4 primary-btn w-full flex items-center justify-center">
                     {isLoading ? <FaSync className="animate-spin mr-2" /> : 'Generate Gradient 🎨'}
                 </button>
             </div>
@@ -105,7 +101,7 @@ const Gradient = () => {
                             style={{ background: applyGradient(gradient) }}
                         >
                             <span className="text-white font-bold">{gradient}</span>
-                            <button onClick={() => copyToClipboard(gradient)} className="bg-green-500 text-white p-2 rounded">
+                            <button onClick={() => copyToClipboard(gradient)} className="secondary-btn">
                                 Copy
                             </button>
                         </div>
@@ -114,7 +110,6 @@ const Gradient = () => {
                     <p className="text-center text-gray-500">No gradients found.</p>
                 )}
             </div>
-        </div>
         </div>
     );
 };

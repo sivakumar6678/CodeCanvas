@@ -1,0 +1,56 @@
+.tool-description-section {
+  width: 100%;
+  
+  .description-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(102, 126, 234, 0.15);
+    
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0 0 1rem 0;
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 18px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 4px;
+      }
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #4b5563;
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tool-description-section {
+    padding: 2rem 0 3rem;
+    
+    .description-card {
+      padding: 1.75rem;
+      
+      h2 {
+        font-size: 1.25rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+}

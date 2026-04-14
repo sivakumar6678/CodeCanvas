@@ -89,7 +89,6 @@ const ColorPaletteGenerator = () => {
 
     return (
         <div className={`color-palette-generator ${darkMode ? 'dark-mode' : ''}`}>
-            <h2>Color Palette Generator</h2>
             <div className="input-section">
                 <label>Project Title:</label>
                 <input type="text" className='input-field' value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} placeholder="Enter project title" />
@@ -112,13 +111,18 @@ const ColorPaletteGenerator = () => {
                     {colorFormats.map(format => <option key={format} value={format}>{format}</option>)}
                 </select>
                 
-                <button onClick={handleGeneratePalette}>{isLoading ?  <>
-                            <FaSync className="animate-spin mr-2" />
-                            
-                        </> : "Generate Palette 🎨"}</button>
-                <button onClick={handleSavePalette}>Save Palette 💾</button>
-                <button onClick={handleExportJSON}>Export as JSON 📄</button>
-                <button onClick={handleExportPNG}>Export as PNG 📸</button>
+                <div className="button-group">
+                    <button className="primary-btn" onClick={handleGeneratePalette}>
+                        {isLoading ? (
+                            <>
+                                <FaSync className="animate-spin mr-2" />
+                            </>
+                        ) : "Generate Palette 🎨"}
+                    </button>
+                    <button className="secondary-btn" onClick={handleSavePalette}>Save 💾</button>
+                    <button className="secondary-btn" onClick={handleExportJSON}>JSON 📄</button>
+                    <button className="secondary-btn" onClick={handleExportPNG}>PNG 📸</button>
+                </div>
             </div>
             
             {error && <div className="error">⚠️ {error}</div>}
@@ -130,7 +134,7 @@ const ColorPaletteGenerator = () => {
                         {palette.map((color, index) => (
                             <Draggable key={index}>
                                 <div className="color-box" style={{ backgroundColor: color }}>
-                                    <span className="color-hex">{color}</span>
+                                    <span style={{ textShadow: "0px 1px 4px rgba(0,0,0,0.8)" }} className="color-hex">{color}</span>
                                     <button onClick={() => handleCopyToClipboard(color)}>Copy HEX</button>
                                     <button onClick={() => handleToggleFavorite(color)}>
                                         {favorites.includes(color) ? '★' : '☆'}

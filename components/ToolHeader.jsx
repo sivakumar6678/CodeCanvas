@@ -33,22 +33,6 @@ const ToolHeader = ({ tool }) => {
             ← Back to Tools
           </Link>
         </div>
-
-        {/* Future Features Placeholder */}
-        <div className="tool-features-placeholder">
-          <div className="feature-item">
-            <span className="feature-icon">📊</span>
-            <span>Analytics coming soon</span>
-          </div>
-          <div className="feature-item">
-            <span className="feature-icon">⭐</span>
-            <span>Reviews & ratings</span>
-          </div>
-          <div className="feature-item">
-            <span className="feature-icon">💾</span>
-            <span>Save favorites</span>
-          </div>
-        </div>
       </div>
     </div>
   );

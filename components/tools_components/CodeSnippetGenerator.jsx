@@ -92,13 +92,6 @@ const CodeSnippetGenerator = () => {
   return (
     <div className="code-snippet-generator">
       <div className="container">
-        <h1>
-          <FaRobot className="title-icon" /> AI Code Snippet Generator
-        </h1>
-        <p className="subtitle">
-          <FaMagic className="subtitle-icon" /> Describe what you want, and AI will generate the code for you
-        </p>
-
         <div className="input-section">
           <div className="input-container">
             <div className="input-wrapper">

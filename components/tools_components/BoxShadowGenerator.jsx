@@ -42,8 +42,7 @@ export default function BoxShadowGenerator()  {
     };
 
     return (
-        <div className="box-shadow-generator p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-4 text-center">Box Shadow Generator</h2>
+        <div className="box-shadow-generator">
             <div className="input-section mb-4">
                 <label className="block mb-2">Horizontal Offset (X-axis):</label>
                 <input
@@ -52,48 +51,48 @@ export default function BoxShadowGenerator()  {
                     max="50"
                     value={horizontalOffset}
                     onChange={(e) => setHorizontalOffset(e.target.value)}
-                    className="w-full"
+                    className="range-field"
                 />
 
-                <label className="block mb-2">Vertical Offset (Y-axis):</label>
+                <label className="block mb-2 mt-3">Vertical Offset (Y-axis):</label>
                 <input
                     type="range"
                     min="-50"
                     max="50"
                     value={verticalOffset}
                     onChange={(e) => setVerticalOffset(e.target.value)}
-                    className="w-full"
+                    className="range-field"
                 />
 
-                <label className="block mb-2">Blur Radius:</label>
+                <label className="block mb-2 mt-3">Blur Radius:</label>
                 <input
                     type="range"
                     min="0"
                     max="100"
                     value={blurRadius}
                     onChange={(e) => setBlurRadius(e.target.value)}
-                    className="w-full"
+                    className="range-field"
                 />
 
-                <label className="block mb-2">Spread Radius:</label>
+                <label className="block mb-2 mt-3">Spread Radius:</label>
                 <input
                     type="range"
                     min="-50"
                     max="50"
                     value={spreadRadius}
                     onChange={(e) => setSpreadRadius(e.target.value)}
-                    className="w-full"
+                    className="range-field"
                 />
 
-                <label className="block mb-2">Shadow Color:</label>
+                <label className="block mb-2 mt-3">Shadow Color:</label>
                 <input
                     type="color"
                     value={shadowColor}
                     onChange={(e) => setShadowColor(e.target.value)}
-                    className="w-full"
+                    className="color-field input-field"
                 />
 
-                <label className="block mb-2">Opacity:</label>
+                <label className="block mb-2 mt-3">Opacity:</label>
                 <input
                     type="range"
                     min="0"
@@ -101,15 +100,15 @@ export default function BoxShadowGenerator()  {
                     step="0.1"
                     value={opacity}
                     onChange={(e) => setOpacity(e.target.value)}
-                    className="w-full"
+                    className="range-field"
                 />
 
-                <label className="block mb-2">Background Color:</label>
+                <label className="block mb-2 mt-3">Background Color:</label>
                 <input
                     type="color"
                     value={backgroundColor}
                     onChange={(e) => setBackgroundColor(e.target.value)}
-                    className="w-full"
+                    className="color-field input-field"
                 />
             </div>
 
@@ -118,15 +117,15 @@ export default function BoxShadowGenerator()  {
             </div>
 
             <div className="css-code text-center mb-4">
-                <p className="font-bold">CSS Code:</p>
-                <code>{`box-shadow: ${boxShadow};`}</code>
+                <p className="font-bold mb-2">CSS Code:</p>
+                <code className="block p-3 bg-gray-50 rounded-md border text-sm">{`box-shadow: ${boxShadow};`}</code>
             </div>
 
-            <button onClick={copyToClipboard} className="bg-blue-500 text-white p-2 rounded w-full">
+            <button onClick={copyToClipboard} className="primary-btn w-full">
                 Copy CSS
             </button>
 
-            <div className="ai-section mt-4">
+            <div className="ai-section mt-4 pt-4 border-t">
                 <label className="block mb-2">
                     <input
                         type="checkbox"
@@ -138,7 +137,7 @@ export default function BoxShadowGenerator()  {
 
                 {aiMode && (
                     <>
-                        <button onClick={handleGenerateAiSuggestion} className="bg-green-500 text-white p-2 rounded w-full">
+                        <button onClick={handleGenerateAiSuggestion} className="secondary-btn w-full flex items-center justify-center mt-3">
                             {isLoading ? <FaSync className="animate-spin mr-2" /> : 'Generate AI Suggestion'}       
                         </button>
                         {aiSuggestion && (
@@ -147,7 +146,7 @@ export default function BoxShadowGenerator()  {
                                 <div className="gradient-box" style={{ boxShadow: aiSuggestion, height: '100px', borderRadius: '8px', backgroundColor: backgroundColor }}>
                                     <p className="text-center">{aiSuggestion}</p>
                                 </div>
-                                <button onClick={() => copyToClipboard(aiSuggestion)} className="bg-blue-500 text-white p-2 rounded w-full">
+                                <button onClick={() => copyToClipboard(aiSuggestion)} className="primary-btn w-full mt-3">
                                     Copy AI CSS
                                 </button>
                             </div>
