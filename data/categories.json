@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cat-1",
+    "name": "AI Coding",
+    "slug": "coding",
+    "description": "Tools for generating, completing, and reviewing code."
+  },
+  {
+    "id": "cat-2",
+    "name": "AI Design",
+    "slug": "design",
+    "description": "Tools for UI/UX, graphics, and visual design."
+  },
+  {
+    "id": "cat-3",
+    "name": "AI Writing",
+    "slug": "writing",
+    "description": "Tools for copywriting, blogs, and content creation."
+  },
+  {
+    "id": "cat-4",
+    "name": "AI Productivity",
+    "slug": "productivity",
+    "description": "Tools for scheduling, note-taking, and organization."
+  }
+]

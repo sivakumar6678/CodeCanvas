@@ -1,0 +1,38 @@
+[
+  {
+    "id": "tool-1",
+    "name": "GitHub Copilot",
+    "slug": "github-copilot",
+    "logo": "https://github.githubassets.com/images/modules/site/copilot/copilot.png",
+    "description": "Your AI pair programmer that helps you write code faster.",
+    "website": "https://github.com/features/copilot",
+    "category": "coding",
+    "subCategory": "code-completion",
+    "pricing": "Paid",
+    "freeTrial": true,
+    "platform": ["Web", "VS Code", "JetBrains"],
+    "tags": ["AI", "Pair Programming", "Autocomplete"],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "createdDate": "2026-07-19T00:00:00.000Z"
+  },
+  {
+    "id": "tool-2",
+    "name": "Cursor",
+    "slug": "cursor",
+    "logo": "https://cursor.sh/brand/icon.svg",
+    "description": "The AI-first Code Editor. Write, edit, and chat with your code.",
+    "website": "https://cursor.sh",
+    "category": "coding",
+    "subCategory": "ide",
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platform": ["Windows", "macOS", "Linux"],
+    "tags": ["AI", "Editor", "Copilot Alternative"],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "createdDate": "2026-07-18T00:00:00.000Z"
+  }
+]

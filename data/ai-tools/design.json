@@ -1,0 +1,20 @@
+[
+  {
+    "id": "tool-3",
+    "name": "Midjourney",
+    "slug": "midjourney",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
+    "description": "An independent research lab exploring new mediums of thought and expanding the imaginative powers of the human species.",
+    "website": "https://midjourney.com",
+    "category": "design",
+    "subCategory": "image-generation",
+    "pricing": "Paid",
+    "freeTrial": false,
+    "platform": ["Discord", "Web"],
+    "tags": ["AI", "Image Generation", "Art"],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "createdDate": "2026-07-10T00:00:00.000Z"
+  }
+]
