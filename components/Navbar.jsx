@@ -2,23 +2,29 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaBars, FaTimes, FaTools, FaHome } from 'react-icons/fa';
-import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { 
+  FaBars, 
+  FaTimes, 
+  FaHome, 
+  FaTools, 
+  FaSlidersH, 
+  FaUsers, 
+  FaInfoCircle, 
+  FaUser, 
+  FaLock, 
+  FaSignOutAlt, 
+  FaSignInAlt 
+} from 'react-icons/fa';
+import { createClient } from '../lib/supabase/client';
+import CommandPalette from './ai-tools/CommandPalette';
 import '../app/navbar.scss';
-
-gsap.registerPlugin(ScrollToPlugin);
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState('/');
+  const [user, setUser] = useState(null);
   const pathname = usePathname();
-
-  const navLinks = [
-    { name: 'Home', path: '/', icon: <FaHome /> },
-    { name: 'Tools', path: '/tools', icon: <FaTools /> }
-  ];
+  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,34 +40,53 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
 
-    // Set active link based on current path
-    if (pathname) {
-      setActiveLink(pathname);
-    }
+    // Check auth status
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user || null);
+    });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
+      subscription.unsubscribe();
     };
   }, [pathname]);
 
-  const handleNavClick = (path, e) => {
-    if (path === pathname) {
-      e.preventDefault();
-      gsap.to(window, {
-        duration: 1,
-        scrollTo: { y: 0, autoKill: false },
-        ease: 'power3.inOut'
-      });
-    }
-    setIsOpen(false);
-    setActiveLink(path);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    window.location.href = '/';
+  };
+
+  const navLinks = [
+    { name: 'Home', path: '/', icon: <FaHome /> },
+    { name: 'Tools', path: '/tools', icon: <FaTools /> },
+    { name: 'AI Tools', path: '/ai-tools', icon: <FaSlidersH /> },
+    { name: 'About', path: '/about', icon: <FaInfoCircle /> },
+    ...(user ? [
+      { name: 'Profile', path: '/profile', icon: <FaUser /> }
+    ] : []),
+    { name: 'Admin', path: '/admin', icon: <FaLock /> }
+  ];
+
+  const isLinkActive = (path) => {
+    if (path === '/') return pathname === '/';
+    if (path === '/profile') return pathname.startsWith('/profile');
+    if (path === '/ai-tools') return pathname.startsWith('/ai-tools');
+    if (path === '/tools') return pathname.startsWith('/tools') || pathname.startsWith('/tool/');
+    return pathname === path || pathname.startsWith(path + '/');
   };
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isOpen ? 'nav-open' : ''}`}>
       <div className="nav-container">
-        <Link href="/" className="nav-logo" onClick={(e) => handleNavClick('/', e)}>
+        <Link href="/" className="nav-logo">
           Dev<span>Tools</span>
         </Link>
 
@@ -74,17 +99,33 @@ const Navbar = () => {
         </button>
 
         <div className={`nav-menu ${isOpen ? 'active' : ''}`}>
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              href={link.path}
-              className={`nav-link ${activeLink === link.path ? 'active' : ''}`}
-              onClick={(e) => handleNavClick(link.path, e)}
-            >
-              <span className="nav-icon">{link.icon}</span>
-              <span className="nav-text">{link.name}</span>
+          <CommandPalette />
+          {navLinks.map((link) => {
+            const active = isLinkActive(link.path);
+            return (
+              <Link
+                key={link.path}
+                href={link.path}
+                className={`nav-link ${active ? 'active' : ''}`}
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="nav-icon">{link.icon}</span>
+                <span className="nav-text">{link.name}</span>
+              </Link>
+            );
+          })}
+
+          {user ? (
+            <button onClick={handleLogout} className="nav-link nav-auth-btn logout">
+              <span className="nav-icon"><FaSignOutAlt /></span>
+              <span className="nav-text">Logout</span>
+            </button>
+          ) : (
+            <Link href="/login" className="nav-link nav-auth-btn login" onClick={() => setIsOpen(false)}>
+              <span className="nav-icon"><FaSignInAlt /></span>
+              <span className="nav-text">Login</span>
             </Link>
-          ))}
+          )}
         </div>
       </div>
     </nav>
@@ -92,5 +133,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

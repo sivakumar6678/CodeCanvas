@@ -3,19 +3,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 35%, #24243e 65%, #302b63 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #f5f3ff 70%, #f8fafc 100%);
   padding: 140px 0 100px;
   position: relative;
   overflow: hidden;
-  isolation: isolate; // creates a stacking context cleanly
+  isolation: isolate;
 
-  // Dark overlay — sits above background, below content
   &::after {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: 1; // above background orbs (z-index: -1), below content (z-index: 20)
+    z-index: 1;
     pointer-events: none;
   }
 
@@ -32,15 +30,15 @@
     .gradient-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.3;
+      filter: blur(90px);
+      opacity: 0.35;
       animation: float 20s ease-in-out infinite;
       will-change: transform;
 
       &.orb-1 {
         width: 500px;
         height: 500px;
-        background: #f093fb;
+        background: rgba(99, 102, 241, 0.25);
         top: -10%;
         left: -10%;
         animation-delay: 0s;
@@ -49,7 +47,7 @@
       &.orb-2 {
         width: 400px;
         height: 400px;
-        background: #4facfe;
+        background: rgba(139, 92, 246, 0.25);
         bottom: -10%;
         right: -10%;
         animation-delay: 5s;
@@ -58,7 +56,7 @@
       &.orb-3 {
         width: 300px;
         height: 300px;
-        background: #43e97b;
+        background: rgba(236, 72, 153, 0.15);
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -69,7 +67,7 @@
 
   .container {
     position: relative;
-    z-index: 20; // clearly above the ::after overlay (z-index: 1)
+    z-index: 20;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -83,9 +81,9 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    color: blue;
+    color: var(--text-main);
     position: relative;
-    z-index: 200; // must be >= container z-index to inherit correctly
+    z-index: 200;
 
     @media (max-width: 1024px) {
       gap: 3rem;
@@ -100,7 +98,7 @@
       text-align: left;
       max-width: 100%;
       position: relative;
-      z-index: 1; // above hero-content layer
+      z-index: 1;
 
       @media (max-width: 768px) {
         text-align: center;
@@ -111,14 +109,14 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.625rem 1.25rem;
-        background: rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(99, 102, 241, 0.08);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(99, 102, 241, 0.2);
         border-radius: 50px;
         margin-bottom: 2rem;
         font-size: 0.9rem;
-        font-weight: 500;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        font-weight: 600;
+        box-shadow: var(--shadow-sm);
 
         @media (max-width: 768px) {
           margin: 0 auto 2rem;
@@ -129,20 +127,19 @@
         }
 
         .badge-text {
-          color: #ffffff;
+          color: var(--primary);
           font-weight: 600;
         }
       }
 
       h1 {
-        font-size: 4.5rem;
+        font-size: 4.25rem;
         margin-bottom: 1.5rem;
         line-height: 1.1;
         font-weight: 800;
-        font-family: 'Outfit', sans-serif;
+        font-family: var(--font-display);
         letter-spacing: -0.02em;
-        color: #ffffff;
-        text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6), 0 0 60px rgba(102, 126, 234, 0.2);
+        color: var(--text-main);
 
         @media (max-width: 1024px) {
           font-size: 3.5rem;
@@ -158,7 +155,7 @@
       }
 
       .hero-highlight {
-        background: linear-gradient(90deg, #a78bfa, #60a5fa);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -175,12 +172,11 @@
         justify-content: flex-start;
         gap: 0.5rem;
         flex-wrap: wrap;
-        color: #ffffff;
-        text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+        color: var(--primary);
 
         .typewriter-label {
-          color: rgba(255, 255, 255, 0.85);
-          font-weight: 400;
+          color: var(--text-secondary);
+          font-weight: 500;
         }
 
         @media (max-width: 1024px) {
@@ -198,13 +194,12 @@
       }
 
       .hero-description {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         margin-bottom: 2.5rem;
         line-height: 1.7;
-        color: rgba(255, 255, 255, 1);
+        color: var(--text-secondary);
         font-weight: 400;
         max-width: 100%;
-        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
 
         @media (max-width: 1024px) {
           font-size: 1.15rem;
@@ -234,11 +229,11 @@
           align-items: center;
           gap: 0.5rem;
           padding: 1rem 2rem;
-          border-radius: 12px;
+          border-radius: var(--radius-md);
           font-size: 1.05rem;
           font-weight: 600;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: all 0.25 ease;
           cursor: pointer;
           border: none;
 
@@ -263,29 +258,29 @@
         }
 
         .primary-btn {
-          background: white;
-          color: #667eea;
-          box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+          background: var(--primary);
+          color: var(--text-inverse);
+          box-shadow: var(--shadow-md);
 
           &:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
-            background: #f5f5ff;
+            transform: translateY(-3px);
+            background: var(--primary-hover);
+            box-shadow: var(--shadow-lg);
           }
         }
 
         .secondary-btn {
-          background: rgba(255, 255, 255, 0.12);
-          color: white;
-          border: 2px solid rgba(255, 255, 255, 0.45);
-          backdrop-filter: blur(12px);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+          background: var(--bg-surface);
+          color: var(--text-main);
+          border: 1px solid var(--border-medium);
+          box-shadow: var(--shadow-sm);
 
           &:hover {
-            background: rgba(255, 255, 255, 0.22);
-            border-color: rgba(255, 255, 255, 0.7);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+            background: var(--bg-muted);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
           }
         }
 
@@ -308,10 +303,11 @@
         justify-content: flex-start;
         gap: 2rem;
         padding: 1.5rem 2rem;
-        background: rgba(255, 255, 255, 0.12);
+        background: var(--bg-surface);
         backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        border-radius: 16px;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
         max-width: 500px;
 
         @media (max-width: 768px) {
@@ -327,16 +323,15 @@
           .stat-number {
             font-size: 2rem;
             font-weight: 800;
-            font-family: 'Outfit', sans-serif;
+            font-family: var(--font-display);
             line-height: 1;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
+            color: var(--primary);
           }
 
           .stat-label {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 500;
+            color: var(--text-muted);
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
           }
@@ -345,7 +340,7 @@
         .stat-divider {
           width: 1px;
           height: 40px;
-          background: rgba(255, 255, 255, 0.3);
+          background: var(--border-subtle);
         }
 
         @media (max-width: 640px) {

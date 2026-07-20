@@ -1,0 +1,66 @@
+.upvoteBtn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #aaa;
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 54px;
+  user-select: none;
+
+  .icon {
+    font-size: 1.3rem;
+    transition: transform 0.2s ease;
+  }
+
+  .count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  &:hover {
+    background: rgba(110, 142, 251, 0.12);
+    border-color: rgba(110, 142, 251, 0.3);
+    color: #6e8efb;
+
+    .icon {
+      transform: translateY(-2px);
+    }
+  }
+
+  &.active {
+    background: linear-gradient(135deg, rgba(110, 142, 251, 0.25), rgba(167, 119, 227, 0.25));
+    border-color: #6e8efb;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(110, 142, 251, 0.2);
+
+    .icon {
+      color: #6e8efb;
+      stroke-width: 3;
+    }
+  }
+
+  &.compact {
+    flex-direction: row;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    min-width: auto;
+
+    .icon {
+      font-size: 1.1rem;
+    }
+
+    .count {
+      font-size: 0.8rem;
+      margin-top: 0;
+    }
+  }
+}

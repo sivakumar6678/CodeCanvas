@@ -1,6 +1,4 @@
 import '../app/global.scss';
-import '../app/index.css';
-import '../app/App.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 

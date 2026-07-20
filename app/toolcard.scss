@@ -2,12 +2,12 @@
 // ToolCard — Premium Card Component Styles
 // =====================================================
 
-$primary:      #667eea;
-$primary-end:  #764ba2;
-$text:         #1f2937;
-$text-light:   #6b7280;
-$white:        #ffffff;
-$radius-lg:    14px;
+$primary:      var(--primary);
+$primary-end:  var(--accent);
+$text:         var(--text-main);
+$text-light:   var(--text-secondary);
+$white:        var(--bg-surface);
+$radius-lg:    var(--radius-lg);
 $transition:   all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
 .tool-card {

@@ -1,14 +1,37 @@
-import { getToolBySlug } from '@/lib/data-fetchers';
+import { getToolBySlug, getRelatedTools, getCategories } from '../../../../lib/data-fetchers';
 import { notFound } from 'next/navigation';
-import { FiExternalLink, FiCheckCircle, FiTag, FiMonitor, FiDollarSign } from 'react-icons/fi';
+import TrackView from '../../../../components/ai-tools/TrackView';
+import Breadcrumb from '../../../../components/ai-tools/Breadcrumb';
+import ToolHero from '../../../../components/ai-tools/ToolHero';
+import ContentSection from '../../../../components/ai-tools/ContentSection';
+import RelatedTools from '../../../../components/ai-tools/RelatedTools';
+import ReviewsSection from '../../../../components/ai-tools/ReviewsSection';
+import CommentsSection from '../../../../components/ai-tools/CommentsSection';
 import styles from './page.module.scss';
 
 export async function generateMetadata({ params }) {
   const tool = await getToolBySlug(params.slug);
   if (!tool) return { title: 'Tool Not Found' };
+  
+  // Dynamic SEO generation based on JSON data
   return {
-    title: `${tool.name} - AI Tools`,
-    description: tool.description,
+    title: `${tool.name} - ${tool.description}`,
+    description: tool.overview ? tool.overview.substring(0, 160) : tool.description,
+    openGraph: {
+      title: `${tool.name} AI Tool Profile`,
+      description: tool.description,
+      images: [tool.banner || tool.logo || ''],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tool.name,
+      description: tool.description,
+      images: [tool.banner || tool.logo || ''],
+    },
+    alternates: {
+      canonical: `https://yourplatform.com/ai-tools/tool/${tool.slug}`,
+    },
   };
 }
 
@@ -19,73 +42,31 @@ export default async function ToolDetailPage({ params }) {
     notFound();
   }
 
+  const categories = await getCategories();
+  const categoryData = categories.find(c => c.slug === tool.category);
+  const relatedTools = await getRelatedTools(tool);
+
+  const breadcrumbItems = [
+    { label: 'AI Tools', href: '/ai-tools' },
+    { label: categoryData?.name || tool.category, href: `/ai-tools/${tool.category}` },
+    { label: tool.name }
+  ];
+
   return (
     <div className={styles.container}>
-      <div className={styles.backLink}>
-        <a href="/ai-tools">← Back to Directory</a>
-      </div>
+      <TrackView slug={tool.slug} />
+      
+      <Breadcrumb items={breadcrumbItems} />
+      
+      <ToolHero tool={tool} />
+      
+      <ContentSection tool={tool} />
 
-      <div className={styles.card}>
-        <div className={styles.header}>
-          <div className={styles.logoContainer}>
-            {tool.logo ? (
-              <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} />
-            ) : (
-              <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
-            )}
-          </div>
-          <div className={styles.titleArea}>
-            <h1 className={styles.title}>
-              {tool.name}
-              {tool.verified && <FiCheckCircle className={styles.verifiedIcon} title="Verified Tool" />}
-            </h1>
-            <p className={styles.categoryInfo}>
-              {tool.category} • {tool.subCategory}
-            </p>
-          </div>
-          <div className={styles.actionArea}>
-            <a href={tool.website} target="_blank" rel="noopener noreferrer" className={styles.websiteBtn}>
-              Visit Website <FiExternalLink />
-            </a>
-          </div>
-        </div>
+      <ReviewsSection slug={tool.slug} />
 
-        <div className={styles.content}>
-          <div className={styles.mainInfo}>
-            <h2 className={styles.sectionTitle}>Overview</h2>
-            <p className={styles.description}>{tool.description}</p>
+      <CommentsSection slug={tool.slug} />
 
-            <h2 className={styles.sectionTitle}>Tags</h2>
-            <div className={styles.tags}>
-              {tool.tags?.map((tag, i) => (
-                <span key={i} className={styles.tag}>
-                  <FiTag /> {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <aside className={styles.sidebar}>
-            <div className={styles.metaBox}>
-              <div className={styles.metaItem}>
-                <div className={styles.metaIcon}><FiDollarSign /></div>
-                <div className={styles.metaContent}>
-                  <strong>Pricing</strong>
-                  <span>{tool.pricing}</span>
-                  {tool.freeTrial && <span className={styles.trialBadge}>Free Trial</span>}
-                </div>
-              </div>
-              <div className={styles.metaItem}>
-                <div className={styles.metaIcon}><FiMonitor /></div>
-                <div className={styles.metaContent}>
-                  <strong>Platforms</strong>
-                  <span>{tool.platform?.join(', ')}</span>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </div>
+      <RelatedTools tools={relatedTools} />
     </div>
   );
 }

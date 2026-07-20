@@ -1,0 +1,47 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 0;
+  margin-bottom: 24px;
+}
+
+.itemWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  .icon {
+    font-size: 1rem;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+
+  &.active {
+    color: #fff;
+    cursor: default;
+    
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.separator {
+  color: #555;
+  font-size: 1rem;
+}

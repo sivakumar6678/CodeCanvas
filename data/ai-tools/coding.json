@@ -4,7 +4,24 @@
     "name": "GitHub Copilot",
     "slug": "github-copilot",
     "logo": "https://github.githubassets.com/images/modules/site/copilot/copilot.png",
+    "banner": "https://github.blog/wp-content/uploads/2022/06/Copilot-GA-Blog-Hero.png",
     "description": "Your AI pair programmer that helps you write code faster.",
+    "overview": "GitHub Copilot is an AI pair programmer that offers autocomplete-style suggestions as you code. You can receive suggestions from GitHub Copilot either by starting to write the code you want to use, or by writing a natural language comment describing what you want the code to do.",
+    "features": [
+      "Real-time code suggestions",
+      "Multi-language support",
+      "Chat interface in IDE",
+      "Inline code explanations"
+    ],
+    "pros": [
+      "Trained on billions of lines of code",
+      "Seamless IDE integration",
+      "Massive time saver for boilerplate"
+    ],
+    "cons": [
+      "Requires active subscription",
+      "Can sometimes suggest incorrect code"
+    ],
     "website": "https://github.com/features/copilot",
     "category": "coding",
     "subCategory": "code-completion",
@@ -22,7 +39,24 @@
     "name": "Cursor",
     "slug": "cursor",
     "logo": "https://cursor.sh/brand/icon.svg",
+    "banner": "https://mintlify.s3-us-west-1.amazonaws.com/cursor/assets/cursor-hero.png",
     "description": "The AI-first Code Editor. Write, edit, and chat with your code.",
+    "overview": "Cursor is a fork of VS Code built from the ground up for programming with AI. It includes advanced features like 'Cursor Tab' for multi-line edits, native codebase indexing for deep context, and Cmd-K for generating code inline.",
+    "features": [
+      "Cursor Tab (multi-line completions)",
+      "Codebase-wide indexing",
+      "Built-in chat with Claude/GPT-4",
+      "VS Code extension compatibility"
+    ],
+    "pros": [
+      "Deep understanding of entire codebase",
+      "Very fast and intuitive",
+      "Free tier available"
+    ],
+    "cons": [
+      "Requires migrating away from base VS Code",
+      "Some VS Code sync features missing"
+    ],
     "website": "https://cursor.sh",
     "category": "coding",
     "subCategory": "ide",

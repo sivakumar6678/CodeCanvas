@@ -4,7 +4,25 @@
     "name": "Midjourney",
     "slug": "midjourney",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
+    "banner": "https://images.unsplash.com/photo-1678483788775-81cc3f721ea7?w=1200&q=80",
     "description": "An independent research lab exploring new mediums of thought and expanding the imaginative powers of the human species.",
+    "overview": "Midjourney is a generative AI program and service created and hosted by a San Francisco-based independent research lab. Midjourney generates images from natural language descriptions, called 'prompts', similar to OpenAI's DALL-E and Stable Diffusion.",
+    "features": [
+      "High-fidelity image generation",
+      "Varying styles and artist emulation",
+      "Upscaling and variations",
+      "Discord integration"
+    ],
+    "pros": [
+      "Incredible artistic quality",
+      "Very active community",
+      "Constant model updates (V6+)"
+    ],
+    "cons": [
+      "Requires Discord to use easily",
+      "No free tier available anymore",
+      "Steep learning curve for advanced prompting"
+    ],
     "website": "https://midjourney.com",
     "category": "design",
     "subCategory": "image-generation",

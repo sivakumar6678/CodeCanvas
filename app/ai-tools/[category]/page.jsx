@@ -1,6 +1,6 @@
-import { getCategories, getToolsByCategory } from '@/lib/data-fetchers';
-import AIToolCard from '@/components/ai-tools/AIToolCard';
-import CategoryFilter from '@/components/ai-tools/CategoryFilter';
+import { getCategories, getToolsByCategory } from '../../../lib/data-fetchers';
+import AIToolCard from '../../../components/ai-tools/AIToolCard';
+import CategoryFilter from '../../../components/ai-tools/CategoryFilter';
 import { notFound } from 'next/navigation';
 import styles from '../page.module.scss'; // Reuse styles from main page
 

@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiExternalLink, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import TrackClickLink from './TrackClickLink';
+import UpvoteButton from './UpvoteButton';
+import BookmarkButton from './BookmarkButton';
 import styles from './AIToolCard.module.scss';
 
 export default function AIToolCard({ tool }) {
@@ -39,12 +42,14 @@ export default function AIToolCard({ tool }) {
       </div>
 
       <div className={styles.cardFooter}>
+        <UpvoteButton slug={tool.slug} compact={true} />
+        <BookmarkButton slug={tool.slug} />
         <Link href={`/ai-tools/tool/${tool.slug}`} className={styles.detailsBtn}>
           Details <FiArrowRight />
         </Link>
-        <a href={tool.website} target="_blank" rel="noopener noreferrer" className={styles.websiteBtn}>
+        <TrackClickLink href={tool.website} slug={tool.slug} className={styles.websiteBtn}>
           Visit <FiExternalLink />
-        </a>
+        </TrackClickLink>
       </div>
     </div>
   );

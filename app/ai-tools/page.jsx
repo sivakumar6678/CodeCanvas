@@ -1,7 +1,7 @@
-import { getAllTools, getCategories, getFeaturedTools } from '@/lib/data-fetchers';
-import AIToolCard from '@/components/ai-tools/AIToolCard';
-import CategoryFilter from '@/components/ai-tools/CategoryFilter';
-import SearchBar from '@/components/ai-tools/SearchBar';
+import { getAllTools, getCategories, getFeaturedTools } from '../../lib/data-fetchers';
+import AIToolCard from '../../components/ai-tools/AIToolCard';
+import CategoryFilter from '../../components/ai-tools/CategoryFilter';
+import SearchBar from '../../components/ai-tools/SearchBar';
 import styles from './page.module.scss';
 
 export const metadata = {

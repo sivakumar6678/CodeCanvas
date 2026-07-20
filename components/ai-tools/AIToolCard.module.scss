@@ -1,24 +1,24 @@
 .card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-md);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   height: 100%;
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.1);
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-md);
     
     .cardFooter .detailsBtn {
-      color: #fff;
+      color: var(--primary);
     }
   }
 }
@@ -27,20 +27,20 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--space-md);
 }
 
 .logoContainer {
   width: 56px;
   height: 56px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  background: var(--bg-muted);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-subtle);
 
   .logo {
     width: 100%;
@@ -51,14 +51,14 @@
   .placeholderLogo {
     font-size: 24px;
     font-weight: 700;
-    color: #fff;
+    color: var(--primary);
     text-transform: uppercase;
   }
 }
 
 .badges {
   display: flex;
-  gap: 8px;
+  gap: var(--space-xs);
   flex-wrap: wrap;
   justify-content: flex-end;
 
@@ -66,25 +66,25 @@
     font-size: 0.75rem;
     font-weight: 600;
     padding: 4px 10px;
-    border-radius: 20px;
+    border-radius: var(--radius-full);
     letter-spacing: 0.5px;
     text-transform: uppercase;
   }
 
   .badgeFeatured {
     background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-    color: #fff;
+    color: var(--text-inverse);
   }
 
   .badgeNew {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    color: #fff;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: var(--text-inverse);
   }
 
   .badgePricing {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ccc;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-muted);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
   }
 }
 
@@ -92,27 +92,27 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-sm);
 
   .title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-xs);
 
     .verifiedIcon {
-      color: #4facfe;
+      color: var(--primary);
       font-size: 1.1rem;
     }
   }
 
   .description {
     font-size: 0.9rem;
-    color: #aaa;
-    line-height: 1.5;
+    color: var(--text-secondary);
+    line-height: 1.55;
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -125,22 +125,23 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-xs);
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: var(--space-sm);
 
   .tag {
     font-size: 0.75rem;
-    color: #888;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    background: var(--bg-muted);
     padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
     transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
     }
   }
 }
@@ -149,17 +150,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
   margin-top: auto;
+  gap: var(--space-sm);
 
   .detailsBtn {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: #aaa;
-    font-size: 0.9rem;
-    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
     text-decoration: none;
     transition: color 0.2s ease;
 
@@ -168,7 +170,7 @@
     }
 
     &:hover {
-      color: #fff;
+      color: var(--primary);
       svg {
         transform: translateX(4px);
       }
@@ -179,20 +181,20 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    background: var(--primary);
+    color: var(--text-inverse);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid transparent;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: var(--primary-hover);
       transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
   }
 }

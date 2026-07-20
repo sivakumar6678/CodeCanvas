@@ -1,0 +1,60 @@
+.bookmarkBtn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  height: 44px;
+  min-width: 44px;
+  padding: 0 0.85rem;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  .icon {
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+  }
+
+  &:hover {
+    background: var(--bg-muted);
+    color: var(--primary);
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+
+  &.saved {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+
+    .icon {
+      color: var(--primary);
+    }
+
+    &:hover {
+      background: var(--primary);
+      color: #ffffff;
+
+      .icon {
+        color: #ffffff;
+      }
+    }
+  }
+
+  &.loading {
+    animation: pulse 1.5s infinite;
+    cursor: default;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
