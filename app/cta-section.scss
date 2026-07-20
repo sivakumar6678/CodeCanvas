@@ -1,28 +1,30 @@
 // CTASection Component Styles
 
 .cta-section {
-  padding: 5rem 0;
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  padding: 4rem 0;
+  background: var(--bg-surface-elevated);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   text-align: center;
 
   .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--space-lg);
   }
 
   h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 1rem;
-    font-family: 'Outfit', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
   }
 
   p {
-    font-size: 1.2rem;
-    color: #9ca3af;
-    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
     line-height: 1.6;
   }
 
@@ -30,28 +32,29 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem 2.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    padding: 0.75rem 2rem;
+    background: var(--primary);
+    color: var(--text-inverse);
     text-decoration: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-md);
 
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
 
       span {
-        transform: translateX(6px);
+        transform: translateX(4px);
       }
     }
 
     span {
-      transition: transform 0.3s ease;
-      font-size: 1.2rem;
+      transition: transform 0.2s ease;
+      font-size: 1.1rem;
     }
   }
 }

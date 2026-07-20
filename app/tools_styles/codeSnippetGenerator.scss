@@ -1,12 +1,12 @@
 .code-snippet-generator {
   padding: 2.5rem;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(102, 126, 234, 0.15);
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-subtle);
   max-width: 800px;
   margin: 0 auto;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-primary);
 
   .input-section {
     margin-bottom: 2rem;
@@ -30,37 +30,37 @@
       .input-icon {
         position: absolute;
         left: 12px;
-        color: #6b7280;
+        color: var(--text-muted);
       }
 
       .description-input {
         width: 100%;
-        padding: 1rem 1rem 1rem 2.5rem;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-        background: #f9fafb;
-        color: #1f2937;
-        font-size: 1rem;
+        padding: 0.875rem 1rem 0.875rem 2.5rem;
+        border: 1px solid var(--border-medium);
+        border-radius: var(--radius-md);
+        background: var(--bg-muted);
+        color: var(--text-main);
+        font-size: 0.95rem;
         transition: all 0.2s ease;
 
         &:focus {
           outline: none;
-          border-color: #667eea;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-          background: #ffffff;
+          border-color: var(--border-focus);
+          box-shadow: 0 0 0 3px var(--primary-light);
+          background: var(--bg-surface);
         }
 
         &::placeholder {
-          color: #9ca3af;
+          color: var(--text-muted);
         }
       }
     }
 
     .generate-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #ffffff;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
+      background: var(--primary);
+      color: var(--text-inverse);
+      padding: 0.875rem 1.5rem;
+      border-radius: var(--radius-md);
       font-weight: 600;
       border: none;
       cursor: pointer;
@@ -71,8 +71,9 @@
       white-space: nowrap;
 
       &:hover:not(:disabled) {
+        background: var(--primary-hover);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        box-shadow: var(--shadow-md);
       }
 
       &:disabled {
@@ -96,25 +97,25 @@
     background: #fef2f2;
     border: 1px solid #fecaca;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     margin-bottom: 2rem;
     text-align: center;
     font-weight: 500;
   }
 
   .code-section {
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
 
     .code-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 1.5rem;
-      background: #f9fafb;
-      border-bottom: 1px solid #e5e7eb;
+      background: var(--bg-muted);
+      border-bottom: 1px solid var(--border-subtle);
 
       @media (max-width: 600px) {
         flex-direction: column;
@@ -127,7 +128,7 @@
         align-items: center;
         gap: 0.5rem;
         font-weight: 600;
-        color: #667eea;
+        color: var(--primary);
         font-size: 0.95rem;
       }
 
@@ -141,18 +142,18 @@
           align-items: center;
           gap: 0.5rem;
           padding: 0.5rem 1rem;
-          background: #ffffff;
-          border: 1px solid #d1d5db;
-          border-radius: 6px;
-          color: #4b5563;
+          background: var(--bg-surface);
+          border: 1px solid var(--border-medium);
+          border-radius: var(--radius-sm);
+          color: var(--text-secondary);
           font-size: 0.85rem;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s ease;
 
           &:hover {
-            background: #f3f4f6;
-            color: #1f2937;
+            background: var(--bg-muted);
+            color: var(--text-main);
           }
 
           &.copied {
@@ -167,14 +168,14 @@
     .code-display {
       margin: 0;
       padding: 1.5rem;
-      background: #1f2937;
+      background: #0f172a;
       overflow-x: auto;
       
       code {
         font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
         font-size: 0.9rem;
         line-height: 1.6;
-        color: #f3f4f6;
+        color: #f8fafc;
       }
     }
   }

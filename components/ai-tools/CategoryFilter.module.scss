@@ -6,27 +6,26 @@
 }
 
 .categoryBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ccc;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
   padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
   font-weight: 500;
   text-decoration: none;
   transition: all 0.2s ease;
-  backdrop-filter: blur(4px);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--bg-muted);
+    color: var(--text-main);
+    border-color: var(--primary);
   }
 
   &.active {
-    background: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
-    color: #fff;
+    background: var(--primary);
+    color: var(--text-inverse);
     border-color: transparent;
-    box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+    box-shadow: var(--shadow-sm);
   }
 }

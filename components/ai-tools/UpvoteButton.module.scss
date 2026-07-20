@@ -3,11 +3,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #aaa;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
   padding: 8px 16px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 54px;
@@ -26,9 +26,9 @@
   }
 
   &:hover {
-    background: rgba(110, 142, 251, 0.12);
-    border-color: rgba(110, 142, 251, 0.3);
-    color: #6e8efb;
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
 
     .icon {
       transform: translateY(-2px);
@@ -36,14 +36,13 @@
   }
 
   &.active {
-    background: linear-gradient(135deg, rgba(110, 142, 251, 0.25), rgba(167, 119, 227, 0.25));
-    border-color: #6e8efb;
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(110, 142, 251, 0.2);
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-inverse);
+    box-shadow: var(--shadow-sm);
 
     .icon {
-      color: #6e8efb;
-      stroke-width: 3;
+      color: var(--text-inverse);
     }
   }
 
@@ -51,7 +50,7 @@
     flex-direction: row;
     gap: 4px;
     padding: 6px 10px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     min-width: auto;
 
     .icon {

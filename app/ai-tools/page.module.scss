@@ -1,33 +1,32 @@
 .container {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 40px 20px 80px;
-  color: #fff;
+  color: var(--text-main);
   min-height: 100vh;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 60px;
-  padding: 40px 0;
-  background: radial-gradient(circle at top center, rgba(110, 142, 251, 0.15), transparent 70%);
-  border-radius: 24px;
+  margin-bottom: 40px;
+  padding: 40px 20px;
+  background: var(--bg-header-gradient);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
 }
 
 .title {
-  font-size: 3rem;
+  font-family: var(--font-display);
+  font-size: 2.75rem;
   font-weight: 800;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #fff, #a777e3);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-main);
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  color: #aaa;
-  margin-bottom: 40px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -40,8 +39,10 @@
 }
 
 .sectionTitle {
-  font-size: 1.8rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   font-weight: 700;
+  color: var(--text-main);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -50,10 +51,10 @@
   &::before {
     content: '';
     display: block;
-    width: 6px;
-    height: 24px;
-    background: linear-gradient(to bottom, #6e8efb, #a777e3);
-    border-radius: 4px;
+    width: 4px;
+    height: 22px;
+    background: var(--primary);
+    border-radius: var(--radius-full);
   }
 }
 
@@ -70,17 +71,17 @@
 .emptyState {
   text-align: center;
   padding: 80px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-medium);
+  border-radius: var(--radius-lg);
   
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     margin-bottom: 10px;
-    color: #fff;
+    color: var(--text-main);
   }
   
   p {
-    color: #888;
+    color: var(--text-muted);
   }
 }

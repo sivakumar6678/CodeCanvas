@@ -1,7 +1,7 @@
 .container {
   margin-top: 60px;
   padding-top: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .header {
@@ -12,9 +12,10 @@
 }
 
 .title {
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-main);
   margin: 0;
   display: flex;
   align-items: center;
@@ -22,32 +23,34 @@
 }
 
 .count {
-  color: #888;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
 .postForm {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   padding: 20px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-bottom: 32px;
 
   textarea {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-muted);
+    border: 1px solid var(--border-medium);
     padding: 14px;
-    border-radius: 12px;
-    color: #fff;
+    border-radius: var(--radius-md);
+    color: var(--text-main);
     font-family: inherit;
     resize: vertical;
 
     &:focus {
       outline: none;
-      border-color: #6e8efb;
+      border-color: var(--border-focus);
+      background: var(--bg-surface);
     }
   }
 
@@ -56,21 +59,23 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    background: var(--primary);
     border: none;
-    color: #fff;
+    color: var(--text-inverse);
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
 
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
 
-    &:hover { opacity: 0.9; }
+    &:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
   }
 }
 
@@ -87,10 +92,11 @@
 }
 
 .commentCard {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   padding: 20px;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .commentHeader {
@@ -117,8 +123,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(110, 142, 251, 0.2);
-  color: #6e8efb;
+  background: var(--primary-light);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,17 +132,17 @@
 
 .username {
   font-weight: 600;
-  color: #fff;
+  color: var(--text-main);
   font-size: 0.95rem;
 }
 
 .date {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .content {
-  color: #ccc;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin: 0 0 12px 0;
   font-size: 0.95rem;
@@ -145,7 +151,7 @@
 .replyBtn {
   background: transparent;
   border: none;
-  color: #6e8efb;
+  color: var(--primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -162,7 +168,7 @@
 }
 
 .replyIcon {
-  color: #555;
+  color: var(--text-muted);
   font-size: 1.2rem;
   margin-top: 20px;
 }
@@ -174,16 +180,17 @@
   gap: 8px;
 
   input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-muted);
+    border: 1px solid var(--border-medium);
     padding: 10px 14px;
-    border-radius: 8px;
-    color: #fff;
+    border-radius: var(--radius-md);
+    color: var(--text-main);
     font-size: 0.9rem;
 
     &:focus {
       outline: none;
-      border-color: #6e8efb;
+      border-color: var(--border-focus);
+      background: var(--bg-surface);
     }
   }
 }
@@ -196,27 +203,28 @@
   .cancelBtn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--text-muted);
     padding: 6px 12px;
     font-size: 0.85rem;
     cursor: pointer;
-    &:hover { color: #fff; }
+    &:hover { color: var(--text-main); }
   }
 
   .submitBtn {
-    background: #6e8efb;
+    background: var(--primary);
     border: none;
-    color: #fff;
+    color: var(--text-inverse);
     padding: 6px 14px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
+    &:hover { background: var(--primary-hover); }
   }
 }
 
 .loading, .empty {
-  color: #888;
+  color: var(--text-muted);
   text-align: center;
   padding: 32px;
 }

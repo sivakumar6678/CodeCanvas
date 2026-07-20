@@ -4,38 +4,38 @@
 .tool-header {
   background: transparent;
   padding: 0.75rem 0 1rem;
-  margin-top: 0.25rem; // Small gap after back button — navbar clearance is via .tool-page-wrapper
+  margin-top: 0.25rem;
   margin-bottom: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--border-subtle);
 
   // Breadcrumb nav
   .breadcrumb {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.875rem;
     font-size: 0.82rem;
-    color: #9ca3af;
+    color: var(--text-muted);
 
     a {
-      color: #667eea;
+      color: var(--primary);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s ease;
 
       &:hover {
-        color: #4f46e5;
+        color: var(--primary-hover);
         text-decoration: underline;
       }
     }
 
     .separator {
-      color: #d1d5db;
+      color: var(--text-muted);
       font-size: 0.8rem;
     }
 
     .current {
-      color: #374151;
+      color: var(--text-main);
       font-weight: 600;
     }
   }
@@ -63,25 +63,25 @@
         gap: 0.3rem;
 
         .tool-info-name {
-          font-family: 'Outfit', sans-serif;
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #1f2937;
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: var(--text-main);
           margin: 0;
           line-height: 1.2;
         }
 
         .tool-info-badge {
           display: inline-block;
-          background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
-          color: #5b21b6;
+          background: var(--primary-light);
+          color: var(--primary);
           padding: 0.2rem 0.7rem;
-          border-radius: 20px;
+          border-radius: var(--radius-full);
           font-size: 0.72rem;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.06em;
-          border: 1px solid rgba(102, 126, 234, 0.2);
+          border: 1px solid rgba(99, 102, 241, 0.2);
           width: fit-content;
         }
       }
@@ -89,7 +89,7 @@
 
     .tool-info-description {
       font-size: 0.95rem;
-      color: #6b7280;
+      color: var(--text-secondary);
       margin: 0;
       max-width: 680px;
       line-height: 1.6;

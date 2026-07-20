@@ -59,13 +59,14 @@ $transition:     all 0.22s ease;
 // ══════════════════════════════════════════════════
 .tools-header-section {
   width: 100%;
-  @include primary-gradient;
-  padding: 110px 2rem 3.5rem;
+  background: var(--bg-header-gradient);
+  padding: 3rem 2rem 3rem;
   position: relative;
   z-index: 1;
+  border-bottom: 1px solid var(--border-subtle);
 
-  @media (max-width: 768px) { padding: 95px 1.5rem 2.5rem; }
-  @media (max-width: 480px) { padding: 85px 1rem 2rem; }
+  @media (max-width: 768px) { padding: 2.5rem 1.5rem 2.5rem; }
+  @media (max-width: 480px) { padding: 2rem 1rem 2rem; }
 }
 
 // Inner wrapper — aligns with body padding
@@ -77,65 +78,65 @@ $transition:     all 0.22s ease;
 
 .tools-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    color: $white;
-    font-family: 'Outfit', sans-serif;
-    margin: 0 0 0.75rem;
+    color: var(--text-main);
+    font-family: var(--font-display);
+    margin: 0 0 0.5rem;
 
-    @media (max-width: 768px) { font-size: 2.25rem; }
-    @media (max-width: 480px) { font-size: 1.875rem; }
+    @media (max-width: 768px) { font-size: 2rem; }
+    @media (max-width: 480px) { font-size: 1.75rem; }
   }
 }
 
 .tools-subtitle {
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 400;
 
-  @media (max-width: 768px) { font-size: 1rem; }
+  @media (max-width: 768px) { font-size: 0.95rem; }
 }
 
 .type-tabs {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .type-tab {
-  padding: 0.875rem 2rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: $radius-lg;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  color: $white;
-  font-size: 1rem;
+  padding: 0.625rem 1.5rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
-  transition: $transition;
-  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  font-family: var(--font-primary);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.22);
-    border-color: rgba(255, 255, 255, 0.55);
-    transform: translateY(-2px);
+    background: var(--bg-muted);
+    border-color: var(--border-focus);
+    color: var(--text-main);
+    transform: translateY(-1px);
   }
 
   &.active {
-    background: $white;
-    color: $primary;
-    border-color: $white;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    background: var(--primary);
+    color: var(--text-inverse);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
   }
 
   @media (max-width: 480px) {
-    padding: 0.625rem 1.125rem;
-    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
 }
 

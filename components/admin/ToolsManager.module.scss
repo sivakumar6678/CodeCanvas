@@ -10,8 +10,10 @@
   align-items: center;
 
   h2 {
+    font-family: var(--font-display);
     font-size: 1.8rem;
-    color: #fff;
+    font-weight: 800;
+    color: var(--text-main);
     margin: 0;
   }
 }
@@ -20,39 +22,40 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: #fff;
+  background: var(--primary);
+  color: var(--text-inverse);
   border: none;
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.2s ease;
 
   &:hover {
-    opacity: 0.9;
+    background: var(--primary-hover);
   }
 }
 
 .secondaryBtn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border: none;
+  background: var(--bg-muted);
+  color: var(--text-main);
+  border: 1px solid var(--border-medium);
   padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 500;
+  border-radius: var(--radius-md);
+  font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--border-subtle);
   }
 }
 
 .tableWrapper {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   overflow-x: auto;
+  box-shadow: var(--shadow-sm);
 }
 
 .table {
@@ -62,19 +65,20 @@
   th, td {
     padding: 16px 20px;
     text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   th {
-    color: #888;
-    font-weight: 500;
-    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    background: var(--bg-muted);
   }
 
   td {
-    color: #ccc;
+    color: var(--text-main);
     font-size: 0.95rem;
   }
 
@@ -87,32 +91,38 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #fff;
-  font-weight: 500;
+  color: var(--text-main);
+  font-weight: 600;
 }
 
 .tinyLogo {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
 }
 
 .tinyLogoPlaceholder {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
 }
 
 .badge {
   display: inline-block;
   font-size: 0.75rem;
   padding: 4px 8px;
-  border-radius: 12px;
-  background: rgba(110, 142, 251, 0.2);
-  color: #a777e3;
+  border-radius: var(--radius-full);
+  background: var(--primary-light);
+  color: var(--primary);
   margin-right: 8px;
+  font-weight: 600;
 }
 
 .actions {
@@ -121,12 +131,12 @@
 }
 
 .iconBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  color: #aaa;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,13 +144,15 @@
   transition: all 0.2s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
   }
 
   &.danger:hover {
-    background: rgba(255, 75, 75, 0.1);
-    color: #ff6b6b;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: #ef4444;
   }
 }
 
@@ -151,7 +163,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -161,9 +173,10 @@
 }
 
 .modal {
-  background: #1a1c23;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
@@ -173,25 +186,27 @@
 
 .modalHeader {
   padding: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   h3 {
     margin: 0;
-    color: #fff;
+    font-family: var(--font-display);
+    color: var(--text-main);
+    font-size: 1.25rem;
   }
 
   .closeBtn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--text-muted);
     font-size: 1.2rem;
     cursor: pointer;
 
     &:hover {
-      color: #fff;
+      color: var(--text-main);
     }
   }
 }
@@ -216,20 +231,22 @@
 
   label {
     font-size: 0.9rem;
-    color: #aaa;
+    color: var(--text-main);
+    font-weight: 600;
   }
 
   input, select, textarea {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-muted);
+    border: 1px solid var(--border-medium);
     padding: 10px;
-    border-radius: 8px;
-    color: #fff;
+    border-radius: var(--radius-md);
+    color: var(--text-main);
     font-family: inherit;
 
     &:focus {
       outline: none;
-      border-color: #6e8efb;
+      border-color: var(--border-focus);
+      background: var(--bg-surface);
     }
   }
 }
@@ -244,14 +261,14 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #ddd;
+    color: var(--text-main);
     cursor: pointer;
   }
 }
 
 .modalFooter {
   padding: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-subtle);
   display: flex;
   justify-content: flex-end;
   gap: 12px;

@@ -14,12 +14,13 @@
   --primary-start: #6366f1;
   --primary-end: #8b5cf6;
 
-  // Background & Surface Tokens
+  // Background & Surface Tokens (Default Light Theme)
   --bg-app: #f8fafc;
   --bg-surface: #ffffff;
   --bg-surface-elevated: #ffffff;
   --bg-muted: #f1f5f9;
   --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-header-gradient: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(139, 92, 246, 0.06) 100%);
 
   // Border Tokens
   --border-subtle: #e2e8f0;
@@ -40,6 +41,10 @@
   --warning-light: rgba(245, 158, 11, 0.1);
   --error: #ef4444;
   --error-light: rgba(239, 68, 68, 0.1);
+
+  // Layout & Navigation Dimensions
+  --navbar-height: 64px;
+  --container-max-width: 1200px;
 
   // Spacing Tokens (8px Grid)
   --space-xs: 0.25rem;   // 4px
@@ -69,6 +74,32 @@
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+// Dark Mode Class / Media Support
+[data-theme='dark'],
+.dark {
+  --bg-app: #090d16;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1f2937;
+  --bg-muted: #1e293b;
+  --bg-glass: rgba(17, 24, 39, 0.85);
+  --bg-header-gradient: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
+
+  --border-subtle: #1f2937;
+  --border-medium: #374151;
+  --border-focus: #818cf8;
+
+  --text-main: #f8fafc;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #0f172a;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 32px rgba(0, 0, 0, 0.6);
+}
+
 // Reset & Base Styles
 *, *::before, *::after {
   box-sizing: border-box;
@@ -88,7 +119,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--text-main);
 }
@@ -108,7 +139,7 @@ button {
 // Container Utility
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 0 var(--space-lg);
 }
@@ -119,7 +150,7 @@ button {
   }
 }
 
-// Layout Wrappers
+// Main Page & Content Layout Clearance
 .main-page {
   width: 100%;
   min-height: 100vh;
@@ -131,6 +162,7 @@ button {
 
 .main-content {
   flex: 1;
+  padding-top: var(--navbar-height);
 }
 
 // Global Premium Utility Classes
@@ -157,11 +189,12 @@ button {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-subtle);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+    border-color: var(--border-medium);
   }
 }
 
@@ -171,17 +204,18 @@ button {
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  padding: 0.75rem 1.5rem;
+  padding: 0.625rem 1.25rem;
   background: var(--primary);
   color: var(--text-inverse);
   font-weight: 600;
+  font-size: 0.9375rem;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     background: var(--primary-hover);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
 
@@ -195,13 +229,14 @@ button {
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  padding: 0.75rem 1.5rem;
+  padding: 0.625rem 1.25rem;
   background: var(--bg-surface);
   color: var(--text-main);
   border: 1px solid var(--border-medium);
   font-weight: 600;
+  font-size: 0.9375rem;
   border-radius: var(--radius-md);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     background: var(--bg-muted);
@@ -210,11 +245,65 @@ button {
   }
 }
 
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--bg-muted);
+    color: var(--primary);
+  }
+}
+
+// Standardized Badges & Tags
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.badge-primary {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  &.badge-secondary {
+    background: var(--bg-muted);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  &.badge-success {
+    background: var(--success-light);
+    color: var(--success);
+  }
+
+  &.badge-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: #ffffff;
+  }
+}
+
 // Standardized Input Fields
 .form-input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.9375rem;
   font-family: var(--font-primary);
   color: var(--text-main);
   background: var(--bg-surface);
@@ -231,4 +320,17 @@ button {
   &::placeholder {
     color: var(--text-muted);
   }
+}
+
+// Skeleton Loader Utility
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-muted) 25%, var(--border-subtle) 50%, var(--bg-muted) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

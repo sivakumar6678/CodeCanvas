@@ -1,8 +1,8 @@
 // FeaturesSection Component Styles
 
 .features-section {
-  padding: 6rem 0;
-  background: #ffffff;
+  padding: 4rem 0;
+  background: var(--bg-surface);
   position: relative;
   overflow: hidden;
 
@@ -13,47 +13,47 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
   }
 
   .container {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--space-lg);
     position: relative;
     z-index: 1;
   }
 
   .section-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 
     .section-badge {
       display: inline-block;
-      padding: 0.5rem 1.25rem;
-      background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-      color: #667eea;
-      border-radius: 50px;
-      font-size: 0.875rem;
+      padding: 0.4rem 1rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 1rem;
-      border: 1px solid #667eea30;
+      border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
     h2 {
-      font-size: 2.75rem;
+      font-size: 2.25rem;
       font-weight: 800;
-      color: #1f2937;
-      margin-bottom: 1rem;
-      font-family: 'Outfit', sans-serif;
-      line-height: 1.2;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      font-family: var(--font-display);
+      line-height: 1.25;
     }
 
     p {
-      font-size: 1.2rem;
-      color: #6b7280;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
       margin: 0;
       max-width: 600px;
       margin-left: auto;
@@ -64,15 +64,16 @@
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .feature-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 16px;
-    border: 1px solid #f3f4f6;
-    transition: all 0.3s ease;
+    background: var(--bg-surface);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 
@@ -83,51 +84,54 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.3s ease;
     }
 
     &:hover {
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-      border-color: transparent;
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-medium);
+      transform: translateY(-4px);
 
       &::before {
         transform: scaleX(1);
       }
 
       .feature-icon-wrapper {
-        transform: scale(1.1) rotate(5deg);
+        transform: scale(1.08);
       }
     }
 
     .feature-icon-wrapper {
-      width: 60px;
-      height: 60px;
+      width: 52px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.25rem;
       transition: transform 0.3s ease;
+      background: var(--primary-light);
+      color: var(--primary);
     }
 
     .feature-icon {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
     }
 
     h3 {
-      font-size: 1.35rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 0.75rem;
-      font-family: 'Outfit', sans-serif;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      font-family: var(--font-display);
     }
 
     p {
-      font-size: 1rem;
-      color: #6b7280;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
       line-height: 1.6;
       margin: 0;
     }

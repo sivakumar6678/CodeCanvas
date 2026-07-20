@@ -1,10 +1,10 @@
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--navbar-height));
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #f5f3ff 70%, #f8fafc 100%);
-  padding: 140px 0 100px;
+  background: var(--bg-header-gradient);
+  padding: 3rem 0 4rem;
   position: relative;
   overflow: hidden;
   isolation: isolate;

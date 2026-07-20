@@ -4,27 +4,23 @@
   width: 100%;
 
   .description-card {
-    background: #ffffff;
-    border-radius: 14px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
     padding: 1.5rem;
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.06),
-      0 4px 16px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(102, 126, 234, 0.13);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
     transition: box-shadow 0.2s ease;
 
     &:hover {
-      box-shadow:
-        0 2px 6px rgba(0, 0, 0, 0.07),
-        0 8px 24px rgba(0, 0, 0, 0.06);
+      box-shadow: var(--shadow-md);
     }
 
     // ── Title row ──────────────────────────────────────────
     h2 {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--font-display);
       font-size: 1rem;
       font-weight: 700;
-      color: #1f2937;
+      color: var(--text-main);
       margin: 0 0 0.875rem 0;
       display: flex;
       align-items: center;
@@ -36,8 +32,8 @@
         display: inline-block;
         width: 3px;
         height: 16px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 4px;
+        background: var(--primary);
+        border-radius: var(--radius-full);
         flex-shrink: 0;
       }
     }
@@ -45,7 +41,7 @@
     // ── Body text ──────────────────────────────────────────
     p {
       font-size: 0.88rem;
-      color: #4b5563;
+      color: var(--text-secondary);
       line-height: 1.7;
       margin: 0;
     }
@@ -53,7 +49,7 @@
     // ── Subtle divider ─────────────────────────────────────
     .description-divider {
       height: 1px;
-      background: linear-gradient(to right, rgba(102, 126, 234, 0.2), transparent);
+      background: var(--border-subtle);
       margin: 1rem 0;
     }
   }

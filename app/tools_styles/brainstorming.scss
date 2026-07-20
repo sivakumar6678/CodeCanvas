@@ -15,19 +15,18 @@
   
     h1 {
       text-align: center;
-      font-size: 2.4rem;
-      margin-bottom: 1.5rem;
-      color: #2d3436;
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
       font-weight: 800;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
       flex-shrink: 0;
     }
   
     .chat-container {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(102, 126, 234, 0.15);
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-subtle);
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -255,8 +254,8 @@
       display: flex;
       gap: 1rem;
       padding: 1.2rem;
-      background: white;
-      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
       box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
   
       input {

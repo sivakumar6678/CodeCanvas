@@ -1,8 +1,9 @@
 .form {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   padding: 24px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -10,8 +11,10 @@
 
 .formTitle {
   margin: 0;
-  color: #fff;
+  color: var(--text-main);
+  font-family: var(--font-display);
   font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .ratingInput {
@@ -20,13 +23,13 @@
   
   .star {
     font-size: 1.8rem;
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--border-medium);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &.filled {
-      color: #f1c40f;
-      fill: #f1c40f;
+      color: #f59e0b;
+      fill: #f59e0b;
     }
 
     &:hover {
@@ -37,36 +40,37 @@
 
 .textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-muted);
+  border: 1px solid var(--border-medium);
   padding: 16px;
-  border-radius: 12px;
-  color: #fff;
+  border-radius: var(--radius-md);
+  color: var(--text-main);
   font-family: inherit;
   resize: vertical;
 
   &:focus {
     outline: none;
-    border-color: #6e8efb;
+    border-color: var(--border-focus);
+    background: var(--bg-surface);
   }
 }
 
 .error {
-  color: #ff6b6b;
+  color: #ef4444;
   font-size: 0.9rem;
   margin: 0;
 }
 
 .submitBtn {
   align-self: flex-start;
-  background: linear-gradient(135deg, #6e8efb, #a777e3);
-  color: #fff;
+  background: var(--primary);
+  color: var(--text-inverse);
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.2s ease;
 
   &:disabled {
     opacity: 0.5;
@@ -74,6 +78,6 @@
   }
 
   &:not(:disabled):hover {
-    opacity: 0.9;
+    background: var(--primary-hover);
   }
 }

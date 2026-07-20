@@ -1,7 +1,7 @@
 .container {
   margin-top: 60px;
   padding-top: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .header {
@@ -9,9 +9,10 @@
 }
 
 .title {
-  font-size: 1.8rem;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-main);
   margin: 0 0 16px 0;
 }
 
@@ -24,7 +25,7 @@
 .avgRating {
   font-size: 2rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-main);
 }
 
 .stars {
@@ -32,11 +33,11 @@
   gap: 4px;
 }
 
-.starFilled { color: #f1c40f; }
-.starEmpty { color: rgba(255, 255, 255, 0.2); }
+.starFilled { color: #f59e0b; }
+.starEmpty { color: var(--border-medium); }
 
 .count {
-  color: #888;
+  color: var(--text-muted);
   font-size: 1.1rem;
 }
 
@@ -48,10 +49,11 @@
 }
 
 .reviewCard {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
   padding: 24px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .reviewHeader {
@@ -78,8 +80,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(110, 142, 251, 0.2);
-  color: #6e8efb;
+  background: var(--primary-light);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,27 +90,27 @@
 
 .username {
   font-weight: 600;
-  color: #fff;
+  color: var(--text-main);
 }
 
 .reviewText {
-  color: #ccc;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin: 0 0 16px 0;
 }
 
 .date {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .emptyState {
   text-align: center;
   padding: 40px;
-  color: #888;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 16px;
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-medium);
 }
 
 .loader {
@@ -116,7 +118,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  color: #888;
+  color: var(--text-muted);
   padding: 40px;
 }
 

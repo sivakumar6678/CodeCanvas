@@ -1,46 +1,46 @@
 // BuiltInToolsPreview Component Styles
 
 .builtin-tools-preview {
-  padding: 6rem 0;
-  background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+  padding: 4rem 0;
+  background: var(--bg-app);
   position: relative;
 
   .container {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--space-lg);
   }
 
   .section-header {
     text-align: center;
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
 
     .section-badge {
       display: inline-block;
-      padding: 0.5rem 1.25rem;
-      background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-      color: #667eea;
-      border-radius: 50px;
-      font-size: 0.875rem;
+      padding: 0.4rem 1rem;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 1rem;
-      border: 1px solid #667eea30;
+      border: 1px solid rgba(99, 102, 241, 0.2);
     }
 
     h2 {
-      font-size: 2.75rem;
+      font-size: 2.25rem;
       font-weight: 800;
-      color: #1f2937;
-      margin-bottom: 1rem;
-      font-family: 'Outfit', sans-serif;
-      line-height: 1.2;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      font-family: var(--font-display);
+      line-height: 1.25;
     }
 
     p {
-      font-size: 1.2rem;
-      color: #6b7280;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
       margin: 0;
       max-width: 600px;
       margin-left: auto;
@@ -51,8 +51,8 @@
   .tools-preview-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3.5rem;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
   }
 
   .view-all-container {
@@ -61,53 +61,37 @@
     .view-all-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 1rem 2.5rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      gap: 0.5rem;
+      padding: 0.75rem 2rem;
+      background: var(--primary);
+      color: var(--text-inverse);
       text-decoration: none;
-      border-radius: 12px;
-      font-size: 1.1rem;
+      border-radius: var(--radius-md);
+      font-size: 1rem;
       font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-      position: relative;
-      overflow: hidden;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s ease;
-      }
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-md);
 
       &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-
-        &::before {
-          left: 100%;
-        }
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
 
         .arrow {
-          transform: translateX(6px);
+          transform: translateX(4px);
         }
       }
 
       .arrow {
-        transition: transform 0.3s ease;
-        font-size: 1.3rem;
+        transition: transform 0.2s ease;
+        font-size: 1.1rem;
       }
     }
 
     .tools-count {
-      margin-top: 1rem;
-      font-size: 0.95rem;
-      color: #6b7280;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
       font-weight: 500;
     }
   }
