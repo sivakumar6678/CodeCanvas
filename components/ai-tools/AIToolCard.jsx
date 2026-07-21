@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { FiExternalLink, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import TrackClickLink from './TrackClickLink';
 import UpvoteButton from './UpvoteButton';
@@ -12,7 +11,7 @@ export default function AIToolCard({ tool }) {
       <div className={styles.cardHeader}>
         <div className={styles.logoContainer}>
           {tool.logo ? (
-            <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} />
+            <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
           ) : (
             <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
           )}

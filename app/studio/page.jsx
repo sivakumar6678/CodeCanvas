@@ -1,12 +1,11 @@
 import { createClient } from '../../lib/supabase/server';
-import styles from './page.module.scss';
 import { getAllTools } from '../../lib/data-fetchers';
+import styles from './page.module.scss';
 
-export default async function AdminDashboardPage() {
+export default async function StudioDashboardPage() {
   const supabase = createClient();
   const allTools = await getAllTools();
 
-  // Fetch quick metrics from Supabase
   const { count: viewCount } = await supabase
     .from('analytics_tool_views')
     .select('*', { count: 'exact', head: true });
@@ -18,8 +17,8 @@ export default async function AdminDashboardPage() {
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
-        <h1>Dashboard Overview</h1>
-        <p>Welcome back! Here's what's happening on your platform.</p>
+        <h1>Studio Overview</h1>
+        <p>Monitor platform activity and manage the AI tools catalog from one private workspace.</p>
       </header>
 
       <div className={styles.statsGrid}>

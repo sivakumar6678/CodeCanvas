@@ -11,7 +11,7 @@ export default function ToolHero({ tool }) {
       <div className={styles.leftPanel}>
         <div className={styles.logoWrapper}>
           {tool.logo ? (
-            <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} />
+            <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} loading="eager" decoding="async" referrerPolicy="no-referrer" />
           ) : (
             <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
           )}
@@ -60,7 +60,7 @@ export default function ToolHero({ tool }) {
       <div className={styles.rightPanel}>
         {tool.banner ? (
           <div className={styles.bannerWrapper}>
-            <img src={tool.banner} alt={`${tool.name} preview`} className={styles.banner} />
+            <img src={tool.banner} alt={`${tool.name} preview`} className={styles.banner} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
             <div className={styles.bannerOverlay}></div>
           </div>
         ) : (

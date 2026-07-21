@@ -2,6 +2,7 @@
 
 import { createClient } from '../../lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { isAdminIdentity, isSafeRedirectPath } from '../../lib/auth/access';
 
 export async function login(formData) {
   const supabase = createClient();
@@ -17,7 +18,33 @@ export async function login(formData) {
     return { error: error.message };
   }
 
-  redirect('/admin');
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let profile = null;
+  if (user) {
+    const { data } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    profile = data;
+  }
+
+  const nextPath = formData.get('next');
+  const isAdmin = isAdminIdentity({ user, profile });
+
+  if (isSafeRedirectPath(nextPath) && !nextPath.startsWith('/studio')) {
+    redirect(nextPath);
+  }
+
+  if (isSafeRedirectPath(nextPath) && nextPath.startsWith('/studio')) {
+    redirect(isAdmin ? nextPath : '/forbidden');
+  }
+
+  redirect(isAdmin ? '/studio' : '/profile');
 }
 
 export async function logout() {

@@ -12,6 +12,7 @@ export default function CommandPalette() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const inputRef = useRef(null);
+  const abortRef = useRef(null);
 
   // Global keydown shortcut (Cmd+K or Ctrl+K)
   useEffect(() => {
@@ -33,23 +34,44 @@ export default function CommandPalette() {
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 50);
-      fetchResults('');
     } else {
       setQuery('');
+      setResults([]);
       setSelectedIndex(0);
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      fetchResults(query);
+    }, 160);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isOpen, query]);
+
   const fetchResults = async (q) => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
     setLoading(true);
+
     try {
-      const res = await fetch(`/api/tools/search?q=${encodeURIComponent(q)}`);
+      const res = await fetch(`/api/tools/search?q=${encodeURIComponent(q)}`, {
+        signal: controller.signal,
+      });
       if (res.ok) {
         const data = await res.json();
         setResults(data);
         setSelectedIndex(0);
       }
     } catch (err) {
+      if (err.name === 'AbortError') {
+        return;
+      }
       console.error('CommandPalette error:', err);
     } finally {
       setLoading(false);
@@ -57,9 +79,7 @@ export default function CommandPalette() {
   };
 
   const handleQueryChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-    fetchResults(value);
+    setQuery(e.target.value);
   };
 
   const handleKeyDownInInput = (e) => {
@@ -129,7 +149,7 @@ export default function CommandPalette() {
                   >
                     <div className={styles.logoWrapper}>
                       {tool.logo ? (
-                        <img src={tool.logo} alt="logo" className={styles.logo} />
+                        <img src={tool.logo} alt="logo" className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                       ) : (
                         <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
                       )}

@@ -46,7 +46,7 @@ export default function ProfileDashboard({ initialData }) {
         <div className={styles.header}>
           <div className={styles.avatarSection}>
             {user.avatar_url ? (
-              <img src={user.avatar_url} alt="Avatar" className={styles.avatar} />
+              <img src={user.avatar_url} alt="Avatar" className={styles.avatar} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
             ) : (
               <div className={styles.avatarPlaceholder}><FiUser /></div>
             )}

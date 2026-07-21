@@ -9,7 +9,7 @@ export async function GET(request) {
     const tools = await getAllTools();
 
     if (!query) {
-      return NextResponse.json(tools.slice(0, 8)); // Return top 8 tools as default recommendations
+      return NextResponse.json(tools.slice(0, 8));
     }
 
     const filtered = tools.filter(tool =>

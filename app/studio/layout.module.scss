@@ -1,0 +1,110 @@
+.adminLayout {
+  display: flex;
+  min-height: calc(100vh - var(--navbar-height));
+  background: var(--bg-app);
+  color: var(--text-main);
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: var(--navbar-height);
+  height: calc(100vh - var(--navbar-height));
+}
+
+.sidebarHeader {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--primary);
+  }
+}
+
+.nav {
+  flex: 1;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+}
+
+.sidebarFooter {
+  padding: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.userInfo {
+  margin-bottom: 16px;
+}
+
+.userEmail {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+.logoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.15);
+  }
+}
+
+.mainContent {
+  flex: 1;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  min-width: 0;
+}
+
+@media (max-width: 960px) {
+  .adminLayout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+}

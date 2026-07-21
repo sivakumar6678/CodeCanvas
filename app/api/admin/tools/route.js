@@ -1,13 +1,22 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { getAllTools, getCategories } from '../../../../lib/data-fetchers';
+import { getAllTools } from '../../../../lib/data-fetchers';
+import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
 
 export async function GET() {
   try {
+    const { user, isAdmin } = await getCurrentUserWithProfile();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const allTools = await getAllTools();
     return NextResponse.json(allTools);
   } catch (error) {
@@ -17,6 +26,14 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    const { user, isAdmin } = await getCurrentUserWithProfile();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const newTool = await request.json();
     
     // Auto-generate some fields if missing
@@ -50,6 +67,14 @@ export async function POST(request) {
 
 export async function PUT(request) {
   try {
+    const { user, isAdmin } = await getCurrentUserWithProfile();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const updatedTool = await request.json();
     const oldSlug = request.nextUrl.searchParams.get('oldSlug');
     const oldCategory = request.nextUrl.searchParams.get('oldCategory');
@@ -94,6 +119,14 @@ export async function PUT(request) {
 
 export async function DELETE(request) {
   try {
+    const { user, isAdmin } = await getCurrentUserWithProfile();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const slug = request.nextUrl.searchParams.get('slug');
     const category = request.nextUrl.searchParams.get('category');
 

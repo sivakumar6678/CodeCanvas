@@ -111,7 +111,7 @@ export default function ToolsManager({ initialTools, categories }) {
               <tr key={tool.id}>
                 <td>
                   <div className={styles.toolNameCell}>
-                    {tool.logo ? <img src={tool.logo} alt="" className={styles.tinyLogo} /> : <div className={styles.tinyLogoPlaceholder} />}
+                    {tool.logo ? <img src={tool.logo} alt="" className={styles.tinyLogo} loading="lazy" decoding="async" referrerPolicy="no-referrer" /> : <div className={styles.tinyLogoPlaceholder} />}
                     <span>{tool.name}</span>
                   </div>
                 </td>

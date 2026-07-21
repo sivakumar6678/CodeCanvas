@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { 
   FaBars, 
@@ -8,23 +9,24 @@ import {
   FaHome, 
   FaTools, 
   FaSlidersH, 
-  FaUsers, 
   FaInfoCircle, 
   FaUser, 
-  FaLock, 
   FaSignOutAlt, 
   FaSignInAlt 
 } from 'react-icons/fa';
 import { createClient } from '../lib/supabase/client';
-import CommandPalette from './ai-tools/CommandPalette';
 import '../app/navbar.scss';
+
+const CommandPalette = dynamic(() => import('./ai-tools/CommandPalette'), {
+  ssr: false,
+});
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState(null);
+  const [supabase] = useState(() => createClient());
   const pathname = usePathname();
-  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,8 +41,8 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
+    handleScroll();
 
-    // Check auth status
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
@@ -56,6 +58,10 @@ const Navbar = () => {
       window.removeEventListener('resize', handleResize);
       subscription.unsubscribe();
     };
+  }, [supabase]);
+
+  useEffect(() => {
+    setIsOpen(false);
   }, [pathname]);
 
   const handleLogout = async () => {
@@ -69,10 +75,9 @@ const Navbar = () => {
     { name: 'Tools', path: '/tools', icon: <FaTools /> },
     { name: 'AI Tools', path: '/ai-tools', icon: <FaSlidersH /> },
     { name: 'About', path: '/about', icon: <FaInfoCircle /> },
-    ...(user ? [
-      { name: 'Profile', path: '/profile', icon: <FaUser /> }
-    ] : []),
-    { name: 'Admin', path: '/admin', icon: <FaLock /> }
+    ...(user
+      ? [{ name: 'Profile', path: '/profile', icon: <FaUser />, authVariant: 'profile' }]
+      : [{ name: 'Login', path: '/login', icon: <FaSignInAlt />, authVariant: 'login' }]),
   ];
 
   const isLinkActive = (path) => {
@@ -106,7 +111,7 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 href={link.path}
-                className={`nav-link ${active ? 'active' : ''}`}
+                className={`nav-link ${active ? 'active' : ''} ${link.authVariant ? `nav-auth-link ${link.authVariant}` : ''}`}
                 onClick={() => setIsOpen(false)}
               >
                 <span className="nav-icon">{link.icon}</span>
@@ -120,12 +125,7 @@ const Navbar = () => {
               <span className="nav-icon"><FaSignOutAlt /></span>
               <span className="nav-text">Logout</span>
             </button>
-          ) : (
-            <Link href="/login" className="nav-link nav-auth-btn login" onClick={() => setIsOpen(false)}>
-              <span className="nav-icon"><FaSignInAlt /></span>
-              <span className="nav-text">Login</span>
-            </Link>
-          )}
+          ) : null}
         </div>
       </div>
     </nav>

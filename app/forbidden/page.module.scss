@@ -1,0 +1,47 @@
+.container {
+  min-height: calc(100vh - var(--navbar-height));
+  display: grid;
+  place-items: center;
+  padding: var(--space-3xl) var(--space-lg);
+}
+
+.card {
+  width: min(100%, 640px);
+  padding: clamp(2rem, 4vw, 3rem);
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+
+  h1 {
+    margin-bottom: var(--space-sm);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 48ch;
+    margin: 0 auto;
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  margin-bottom: var(--space-md);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: var(--warning-light);
+  color: var(--warning);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  flex-wrap: wrap;
+}

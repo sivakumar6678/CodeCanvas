@@ -1,0 +1,78 @@
+.wrapper {
+  width: 100%;
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+.card {
+  width: min(100%, 720px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-muted) 100%);
+  box-shadow: var(--shadow-md);
+  padding: clamp(1.5rem, 3vw, 2rem);
+
+  p {
+    margin-top: var(--space-sm);
+    color: var(--text-secondary);
+  }
+}
+
+.pulseRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.skeletonGrid {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.skeletonBlock {
+  display: block;
+  height: 5rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.12) 0%, rgba(148, 163, 184, 0.26) 50%, rgba(148, 163, 184, 0.12) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

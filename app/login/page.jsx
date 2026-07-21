@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { login } from './actions';
 import { FiLock, FiMail } from 'react-icons/fi';
 import styles from './page.module.scss';
@@ -8,6 +9,8 @@ import styles from './page.module.scss';
 export default function LoginPage() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const nextPath = searchParams.get('next') || '';
 
   async function handleSubmit(formData) {
     setLoading(true);
@@ -23,18 +26,19 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.loginBox}>
         <div className={styles.header}>
-          <h2>Admin Login</h2>
-          <p>Sign in to manage the Developer Productivity Platform.</p>
+          <h2>Welcome Back</h2>
+          <p>Sign in to access your profile, saved tools, and any permitted workspace areas.</p>
         </div>
 
         {error && <div className={styles.errorAlert}>{error}</div>}
 
         <form action={handleSubmit} className={styles.form}>
+          <input type="hidden" name="next" value={nextPath} />
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email</label>
             <div className={styles.inputWrapper}>
               <FiMail className={styles.icon} />
-              <input id="email" name="email" type="email" required placeholder="admin@example.com" />
+              <input id="email" name="email" type="email" required placeholder="you@example.com" />
             </div>
           </div>
 

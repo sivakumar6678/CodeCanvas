@@ -1,14 +1,18 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 import { getAllTools } from '../../../../lib/data-fetchers';
+import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 
 export async function GET(request) {
   const supabase = createClient();
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { user, isAdmin } = await getCurrentUserWithProfile();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     // Fetch raw metrics from Supabase

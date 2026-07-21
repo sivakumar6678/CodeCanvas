@@ -164,6 +164,35 @@
     }
   }
 
+  .nav-auth-link {
+    margin-left: var(--space-xs);
+
+    &.login,
+    &.profile {
+      background: var(--primary);
+      color: #ffffff !important;
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.875rem;
+      box-shadow: var(--shadow-sm);
+
+      &:hover,
+      &.active {
+        background: var(--primary-hover);
+        color: #ffffff !important;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+    }
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
   .nav-auth-btn {
     border: none;
     cursor: pointer;
