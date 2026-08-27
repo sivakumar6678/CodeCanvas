@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 
+const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 export async function GET(request, { params }) {
   const supabase = createClient();
   const slug = params.slug;
+  if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
     const { data: reviews, error } = await supabase
@@ -30,6 +33,7 @@ export async function GET(request, { params }) {
 export async function POST(request, { params }) {
   const supabase = createClient();
   const slug = params.slug;
+  if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -39,8 +43,14 @@ export async function POST(request, { params }) {
 
     const { rating, review_text } = await request.json();
 
-    if (!rating || rating < 1 || rating > 5) {
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       return NextResponse.json({ error: 'Invalid rating' }, { status: 400 });
+    }
+    if (review_text !== undefined && review_text !== null && typeof review_text !== 'string') {
+      return NextResponse.json({ error: 'Review text must be a string' }, { status: 400 });
+    }
+    if (typeof review_text === 'string' && review_text.trim().length > 2000) {
+      return NextResponse.json({ error: 'Review must be 2,000 characters or fewer' }, { status: 400 });
     }
 
     const { data, error } = await supabase

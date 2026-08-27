@@ -11,6 +11,7 @@ export default function CommentsSection({ slug }) {
   const [replyTo, setReplyTo] = useState(null);
   const [replyText, setReplyText] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const fetchComments = async () => {
@@ -37,6 +38,7 @@ export default function CommentsSection({ slug }) {
     if (!content.trim()) return;
 
     setSubmitting(true);
+    setError('');
 
     try {
       const res = await fetch(`/api/tools/${slug}/comments`, {
@@ -58,9 +60,13 @@ export default function CommentsSection({ slug }) {
           setNewComment('');
         }
         fetchComments();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || 'Failed to post comment.');
       }
     } catch (err) {
       console.error(err);
+      setError('Unable to reach the comments service.');
     } finally {
       setSubmitting(false);
     }
@@ -89,6 +95,7 @@ export default function CommentsSection({ slug }) {
           <FiSend /> {submitting ? 'Posting...' : 'Comment'}
         </button>
       </form>
+      {error && <p role="alert" className={styles.error}>{error}</p>}
 
       <div className={styles.commentsList}>
         {loading ? (

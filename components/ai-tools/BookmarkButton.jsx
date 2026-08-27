@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 export default function BookmarkButton({ slug, showLabel = false, className = '' }) {
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
   }, [slug]);
 
   const toggleBookmark = async () => {
+    setError('');
     try {
       const action = isSaved ? 'remove' : 'save';
       // Optimistic UI update
@@ -47,10 +49,14 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
         return;
       }
 
-      if (!res.ok) throw new Error('Failed to toggle bookmark');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to toggle bookmark');
+      }
     } catch (error) {
       console.error(error);
       setIsSaved(!isSaved); // Revert on error
+      setError(error.message);
     }
   };
 
@@ -61,6 +67,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
       onClick={toggleBookmark}
       className={`${styles.bookmarkBtn} ${isSaved ? styles.saved : ''} ${showLabel ? styles.withLabel : ''} ${className}`}
       title={isSaved ? "Remove from Saved Tools" : "Save Tool"}
+      aria-label={error || (isSaved ? 'Remove from Saved Tools' : 'Save Tool')}
     >
       {isSaved ? <FaBookmark className={styles.icon} /> : <FiBookmark className={styles.icon} />}
       {showLabel && <span>{isSaved ? 'Saved' : 'Save Tool'}</span>}

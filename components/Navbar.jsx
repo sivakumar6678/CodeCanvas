@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { 
   FaBars, 
   FaTimes, 
@@ -25,8 +26,12 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
   const [supabase] = useState(() => createClient());
   const pathname = usePathname();
+  const router = useRouter();
+
+  const isStudio = pathname.startsWith('/studio');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,11 +53,13 @@ const Navbar = () => {
       // navigation bar on a round-trip to Supabase.
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user || null);
+      setAuthReady(true);
     };
     getCachedSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null);
+      setAuthReady(true);
     });
 
     return () => {
@@ -66,10 +73,17 @@ const Navbar = () => {
     setIsOpen(false);
   }, [pathname]);
 
+  if (isStudio) return null;
+
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('[auth] navbar-logout:failed', { code: error.code, message: error.message });
+      return;
+    }
     setUser(null);
-    window.location.href = '/';
+    router.replace('/');
+    router.refresh();
   };
 
   const navLinks = [
@@ -77,9 +91,9 @@ const Navbar = () => {
     { name: 'Tools', path: '/tools', icon: <FaTools /> },
     { name: 'AI Tools', path: '/ai-tools', icon: <FaSlidersH /> },
     { name: 'About', path: '/about', icon: <FaInfoCircle /> },
-    ...(user
+    ...(authReady && user
       ? [{ name: 'Profile', path: '/profile', icon: <FaUser />, authVariant: 'profile' }]
-      : [{ name: 'Login', path: '/login', icon: <FaSignInAlt />, authVariant: 'login' }]),
+      : authReady ? [{ name: 'Login', path: '/login', icon: <FaSignInAlt />, authVariant: 'login' }] : []),
   ];
 
   const isLinkActive = (path) => {

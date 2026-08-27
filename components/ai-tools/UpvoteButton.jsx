@@ -8,6 +8,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
   const [count, setCount] = useState(0);
   const [hasUpvoted, setHasUpvoted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
 
     const prevCount = count;
     const prevHasUpvoted = hasUpvoted;
+    setError('');
 
     // Optimistic UI update
     setHasUpvoted(!prevHasUpvoted);
@@ -56,9 +58,13 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
         return;
       }
 
-      if (!res.ok) throw new Error('Upvote failed');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Upvote failed');
+      }
     } catch (err) {
       console.error(err);
+      setError(err.message);
       setHasUpvoted(prevHasUpvoted);
       setCount(prevCount);
     }
@@ -70,6 +76,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
       disabled={loading}
       className={`${styles.upvoteBtn} ${hasUpvoted ? styles.active : ''} ${compact ? styles.compact : ''} ${className}`}
       title={hasUpvoted ? "Remove Upvote" : "Upvote this tool"}
+      aria-label={error || (hasUpvoted ? 'Remove Upvote' : 'Upvote this tool')}
     >
       <FiChevronUp className={styles.icon} />
       <span className={styles.count}>{count}</span>

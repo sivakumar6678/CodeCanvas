@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 
+const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export async function GET(request, { params }) {
   const supabase = createClient();
   const slug = params.slug;
+  if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
     const { data: comments, error } = await supabase
@@ -27,6 +31,7 @@ export async function GET(request, { params }) {
 export async function POST(request, { params }) {
   const supabase = createClient();
   const slug = params.slug;
+  if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -38,6 +43,12 @@ export async function POST(request, { params }) {
 
     if (!content || !content.trim()) {
       return NextResponse.json({ error: 'Comment content is required' }, { status: 400 });
+    }
+    if (content.trim().length > 2000) {
+      return NextResponse.json({ error: 'Comment must be 2,000 characters or fewer' }, { status: 400 });
+    }
+    if (parent_id !== null && !UUID.test(parent_id)) {
+      return NextResponse.json({ error: 'Invalid parent comment' }, { status: 400 });
     }
 
     const { data, error } = await supabase

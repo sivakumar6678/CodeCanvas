@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { login, resendConfirmation, signup } from './actions';
+import { resendConfirmation } from './actions';
+import { createClient } from '../../lib/supabase/client';
 import { FiLock, FiMail } from 'react-icons/fi';
 import styles from './page.module.scss';
 
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const [resending, setResending] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [supabase] = useState(() => createClient());
   const nextPath = searchParams.get('next') || '';
 
   useEffect(() => {
@@ -35,7 +37,33 @@ export default function LoginPage() {
     let result;
     const submittedEmail = formData.get('email')?.toString().trim() || '';
     try {
-      result = await (isSignup ? signup(formData) : login(formData));
+      const email = formData.get('email')?.toString().trim();
+      const password = formData.get('password')?.toString();
+      if (isSignup) {
+        const username = formData.get('username')?.toString().trim();
+        if (!username || password.length < 8) {
+          setError(!username ? 'Username is required.' : 'Password must be at least 8 characters.');
+          setLoading(false);
+          return;
+        }
+        const { data, error: signupError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { username },
+            ...(process.env.NEXT_PUBLIC_SITE_URL ? { emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')}/auth/callback` } : {}),
+          },
+        });
+        if (signupError) result = { error: signupError.message };
+        else if (!data.session) result = { success: 'Account created. Check your email to confirm your account, then sign in.' };
+        else {
+          await fetch('/api/user/profile', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, avatar_url: '', bio: '' }) });
+          result = { success: 'Account created successfully.', redirectTo: '/profile' };
+        }
+      } else {
+        const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+        result = loginError ? { error: loginError.message } : { success: 'Signed in successfully.', redirectTo: nextPath || '/profile' };
+      }
     } catch (submitError) {
       console.error('Authentication form failed:', submitError);
       setError('Something went wrong. Please try again.');
@@ -48,10 +76,8 @@ export default function LoginPage() {
     } else if (result?.success) {
       setMessage(result.success);
       if (result.redirectTo) {
-        setTimeout(() => {
-          setIsRedirecting(true);
-          router.replace(result.redirectTo);
-        }, 1000);
+        setIsRedirecting(true);
+        router.replace(result.redirectTo);
       } else {
         setConfirmationEmail(submittedEmail);
         setLoading(false);
@@ -62,10 +88,14 @@ export default function LoginPage() {
 
   async function handleResendConfirmation() {
     setResending(true);
-    const formData = new FormData();
-    formData.set('email', confirmationEmail);
-    const result = await resendConfirmation(formData);
-    setMessage(result?.error || result?.success || null);
+    try {
+      const formData = new FormData();
+      formData.set('email', confirmationEmail);
+      const result = await resendConfirmation(formData);
+      setMessage(result?.error || result?.success || null);
+    } catch (resendError) {
+      setMessage(resendError.message || 'Unable to resend the confirmation email.');
+    }
     setResending(false);
   }
 

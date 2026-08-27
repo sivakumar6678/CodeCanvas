@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 
+const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 export async function GET(request, { params }) {
   const supabase = createClient();
   const slug = params.slug;
+  if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
     // Get total upvotes count
@@ -41,6 +44,7 @@ export async function GET(request, { params }) {
 export async function POST(request, { params }) {
   const supabase = createClient();
   const slug = params.slug;
+  if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
     const { data: { user } } = await supabase.auth.getUser();

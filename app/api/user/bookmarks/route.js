@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 
+const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 export async function GET(request) {
   const supabase = createClient();
 
@@ -43,7 +45,7 @@ export async function POST(request) {
 
     const { tool_slug, action } = await request.json();
 
-    if (!tool_slug) {
+    if (!tool_slug || !SAFE_SLUG.test(tool_slug)) {
       return NextResponse.json({ error: 'Tool slug is required' }, { status: 400 });
     }
 
@@ -61,6 +63,8 @@ export async function POST(request) {
         .eq('user_id', user.id);
         
       if (error) throw error;
+    } else {
+      return NextResponse.json({ error: 'Action must be save or remove' }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
