@@ -98,6 +98,11 @@
   gap: var(--space-md);
 }
 
+.error {
+  margin: 0 0 1rem;
+  color: var(--danger, #b91c1c);
+}
+
 .inputGroup {
   display: flex;
   flex-direction: column;

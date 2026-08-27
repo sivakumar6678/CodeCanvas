@@ -17,11 +17,11 @@ export async function GET(request) {
 
     // Fetch raw metrics from Supabase
     const { count: totalViews } = await supabase
-      .from('tool_views')
+      .from('analytics_tool_views')
       .select('*', { count: 'exact', head: true });
 
     const { count: totalClicks } = await supabase
-      .from('tool_clicks')
+      .from('analytics_tool_clicks')
       .select('*', { count: 'exact', head: true });
 
     const { count: totalReviews } = await supabase
@@ -38,11 +38,11 @@ export async function GET(request) {
 
     // Fetch tool-specific views and clicks for traffic breakdown
     const { data: viewsData } = await supabase
-      .from('tool_views')
+      .from('analytics_tool_views')
       .select('tool_slug');
 
     const { data: clicksData } = await supabase
-      .from('tool_clicks')
+      .from('analytics_tool_clicks')
       .select('tool_slug');
 
     const { data: upvotesData } = await supabase

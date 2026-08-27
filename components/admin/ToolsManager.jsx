@@ -8,6 +8,7 @@ export default function ToolsManager({ initialTools, categories }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTool, setCurrentTool] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState(null);
 
   const emptyTool = {
     name: '', slug: '', logo: '', banner: '', description: '', overview: '', website: '',
@@ -22,43 +23,60 @@ export default function ToolsManager({ initialTools, categories }) {
   };
 
   const openEditModal = (tool) => {
-    setCurrentTool({ ...tool, platform: tool.platform || [], tags: tool.tags || [] });
+    setCurrentTool({
+      ...tool,
+      originalSlug: tool.slug,
+      originalCategory: tool.category,
+      platform: tool.platform || [],
+      tags: tool.tags || [],
+    });
     setIsModalOpen(true);
   };
 
   const handleDelete = async (slug, category) => {
     if (!confirm('Are you sure you want to delete this tool?')) return;
-    
+    setFeedback(null);
     try {
-      const res = await fetch(`/api/admin/tools?slug=${slug}&category=${category}`, {
+      const res = await fetch(`/api/admin/tools?slug=${encodeURIComponent(slug)}&category=${encodeURIComponent(category)}`, {
         method: 'DELETE'
       });
       if (res.ok) {
         setTools(tools.filter(t => t.slug !== slug));
+        setFeedback({ type: 'success', message: 'Tool deleted successfully.' });
+      } else {
+        const payload = await res.json().catch(() => ({}));
+        setFeedback({ type: 'error', message: payload.error || 'Failed to delete tool.' });
       }
     } catch (e) {
       console.error(e);
-      alert('Failed to delete');
+      setFeedback({ type: 'error', message: 'Unable to reach the admin API.' });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setFeedback(null);
 
     const isEdit = !!currentTool.id;
     const url = isEdit 
-      ? `/api/admin/tools?oldSlug=${currentTool.slug}&oldCategory=${currentTool.category}` 
+      ? `/api/admin/tools?oldSlug=${encodeURIComponent(currentTool.originalSlug || currentTool.slug)}&oldCategory=${encodeURIComponent(currentTool.originalCategory || currentTool.category)}`
       : '/api/admin/tools';
     
     // Formatting arrays
+    const {
+      originalSlug,
+      originalCategory,
+      ...toolData
+    } = currentTool;
+
     const payload = {
-      ...currentTool,
-      platform: typeof currentTool.platform === 'string' ? currentTool.platform.split(',').map(s => s.trim()) : currentTool.platform,
-      tags: typeof currentTool.tags === 'string' ? currentTool.tags.split(',').map(s => s.trim()) : currentTool.tags,
-      features: typeof currentTool.features === 'string' ? currentTool.features.split('\\n').map(s => s.trim()).filter(Boolean) : currentTool.features,
-      pros: typeof currentTool.pros === 'string' ? currentTool.pros.split('\\n').map(s => s.trim()).filter(Boolean) : currentTool.pros,
-      cons: typeof currentTool.cons === 'string' ? currentTool.cons.split('\\n').map(s => s.trim()).filter(Boolean) : currentTool.cons,
+      ...toolData,
+      platform: typeof toolData.platform === 'string' ? toolData.platform.split(',').map(s => s.trim()) : toolData.platform,
+      tags: typeof toolData.tags === 'string' ? toolData.tags.split(',').map(s => s.trim()) : toolData.tags,
+      features: typeof toolData.features === 'string' ? toolData.features.split('\\n').map(s => s.trim()).filter(Boolean) : toolData.features,
+      pros: typeof toolData.pros === 'string' ? toolData.pros.split('\\n').map(s => s.trim()).filter(Boolean) : toolData.pros,
+      cons: typeof toolData.cons === 'string' ? toolData.cons.split('\\n').map(s => s.trim()).filter(Boolean) : toolData.cons,
     };
 
     try {
@@ -71,16 +89,20 @@ export default function ToolsManager({ initialTools, categories }) {
       if (res.ok) {
         const { tool } = await res.json();
         if (isEdit) {
-          setTools(tools.map(t => t.slug === currentTool.slug ? tool : t));
+          const previousSlug = currentTool.originalSlug || currentTool.slug;
+          setTools(tools.map(t => t.slug === previousSlug ? tool : t));
         } else {
           setTools([...tools, tool]);
         }
         setIsModalOpen(false);
+        setFeedback({ type: 'success', message: isEdit ? 'Tool updated successfully.' : 'Tool added successfully.' });
       } else {
-        alert('Failed to save tool');
+        const payload = await res.json().catch(() => ({}));
+        setFeedback({ type: 'error', message: payload.error || 'Failed to save tool.' });
       }
     } catch (error) {
       console.error(error);
+      setFeedback({ type: 'error', message: 'Unable to reach the admin API.' });
     } finally {
       setLoading(false);
     }
@@ -94,6 +116,7 @@ export default function ToolsManager({ initialTools, categories }) {
           <FiPlus /> Add Tool
         </button>
       </div>
+      {feedback && <div role="status" className={feedback.type === 'error' ? styles.errorMessage : styles.successMessage}>{feedback.message}</div>}
 
       <div className={styles.tableWrapper}>
         <table className={styles.table}>

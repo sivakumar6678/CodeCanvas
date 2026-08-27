@@ -11,11 +11,11 @@ export default async function StudioAnalyticsPage() {
   const supabase = createClient();
 
   const { count: totalViews } = await supabase
-    .from('tool_views')
+    .from('analytics_tool_views')
     .select('*', { count: 'exact', head: true });
 
   const { count: totalClicks } = await supabase
-    .from('tool_clicks')
+    .from('analytics_tool_clicks')
     .select('*', { count: 'exact', head: true });
 
   const { count: totalReviews } = await supabase
@@ -31,8 +31,8 @@ export default async function StudioAnalyticsPage() {
     .select('*', { count: 'exact', head: true });
 
   const [{ data: viewsData }, { data: clicksData }, { data: upvotesData }, allTools] = await Promise.all([
-    supabase.from('tool_views').select('tool_slug'),
-    supabase.from('tool_clicks').select('tool_slug'),
+    supabase.from('analytics_tool_views').select('tool_slug'),
+    supabase.from('analytics_tool_clicks').select('tool_slug'),
     supabase.from('tool_upvotes').select('tool_slug'),
     getAllTools(),
   ]);

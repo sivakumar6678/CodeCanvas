@@ -43,11 +43,13 @@ const Navbar = () => {
     window.addEventListener('resize', handleResize);
     handleScroll();
 
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+    const getCachedSession = async () => {
+      // getSession reads the browser's persisted session and avoids blocking the
+      // navigation bar on a round-trip to Supabase.
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
     };
-    getUser();
+    getCachedSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null);

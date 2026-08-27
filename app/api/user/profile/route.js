@@ -70,19 +70,44 @@ export async function PUT(request) {
     }
 
     const { username, avatar_url, bio } = await request.json();
+    const normalizedUsername = typeof username === 'string' ? username.trim() : '';
+    const normalizedAvatar = typeof avatar_url === 'string' ? avatar_url.trim() : '';
+    const normalizedBio = typeof bio === 'string' ? bio.trim() : '';
+
+    if (!/^[a-zA-Z0-9_\- ]{2,40}$/.test(normalizedUsername)) {
+      return NextResponse.json({ error: 'Username must be 2–40 characters and use letters, numbers, spaces, _ or -.' }, { status: 400 });
+    }
+
+    if (normalizedAvatar) {
+      try {
+        const avatarUrl = new URL(normalizedAvatar);
+        if (!['http:', 'https:'].includes(avatarUrl.protocol)) throw new Error('Invalid protocol');
+      } catch {
+        return NextResponse.json({ error: 'Avatar URL must be a valid HTTP or HTTPS URL.' }, { status: 400 });
+      }
+    }
+
+    if (normalizedBio.length > 500) {
+      return NextResponse.json({ error: 'Bio must be 500 characters or fewer.' }, { status: 400 });
+    }
 
     const { data, error } = await supabase
       .from('user_profiles')
       .upsert({
         id: user.id,
-        username: username || user.email?.split('@')[0],
-        avatar_url: avatar_url || '',
-        bio: bio || ''
+        username: normalizedUsername,
+        avatar_url: normalizedAvatar,
+        bio: normalizedBio
       })
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === '23505') {
+        return NextResponse.json({ error: 'That username is already in use.' }, { status: 409 });
+      }
+      throw error;
+    }
 
     return NextResponse.json({ success: true, profile: data });
   } catch (error) {

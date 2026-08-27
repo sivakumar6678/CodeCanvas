@@ -6,6 +6,50 @@ import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
+const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+function validateTool(tool) {
+  if (!tool || typeof tool !== 'object' || Array.isArray(tool)) return 'Tool payload must be an object';
+  if (typeof tool.name !== 'string' || !tool.name.trim()) return 'Tool name is required';
+  if (typeof tool.slug !== 'string' || !SAFE_SLUG.test(tool.slug)) return 'Slug must use lowercase letters, numbers, and hyphens';
+  if (typeof tool.category !== 'string' || !SAFE_SLUG.test(tool.category)) return 'A valid category is required';
+  if (typeof tool.description !== 'string' || !tool.description.trim()) return 'Description is required';
+  try {
+    const website = new URL(tool.website);
+    if (!['http:', 'https:'].includes(website.protocol)) throw new Error('Invalid protocol');
+  } catch {
+    return 'Website must be a valid HTTP or HTTPS URL';
+  }
+  for (const field of ['features', 'pros', 'cons', 'platform', 'tags']) {
+    if (tool[field] !== undefined && !Array.isArray(tool[field])) return `${field} must be an array`;
+  }
+  return null;
+}
+
+function categoryPath(category) {
+  if (typeof category !== 'string' || !SAFE_SLUG.test(category)) return null;
+  return path.join(AI_TOOLS_DIR, `${category}.json`);
+}
+
+async function readToolsFile(filePath) {
+  try {
+    const fileContents = await fs.readFile(filePath, 'utf8');
+    const parsed = JSON.parse(fileContents);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      console.error(`Failed to read tools file ${filePath}:`, error);
+    }
+
+    return [];
+  }
+}
+
+async function writeToolsFile(filePath, tools) {
+  const temporaryPath = `${filePath}.tmp-${process.pid}-${Date.now()}`;
+  await fs.writeFile(temporaryPath, JSON.stringify(tools, null, 2), 'utf8');
+  await fs.rename(temporaryPath, filePath);
+}
 
 export async function GET() {
   try {
@@ -35,6 +79,8 @@ export async function POST(request) {
     }
 
     const newTool = await request.json();
+    const validationError = validateTool(newTool);
+    if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
     
     // Auto-generate some fields if missing
     newTool.id = newTool.id || `tool-${Date.now()}`;
@@ -45,18 +91,13 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Category is required' }, { status: 400 });
     }
 
-    const categoryFilePath = path.join(AI_TOOLS_DIR, `${categorySlug}.json`);
+    const categoryFilePath = categoryPath(categorySlug);
     
     let categoryTools = [];
-    try {
-      const fileContents = await fs.readFile(categoryFilePath, 'utf8');
-      categoryTools = JSON.parse(fileContents);
-    } catch (e) {
-      // File doesn't exist yet, we'll create it
-    }
+    categoryTools = await readToolsFile(categoryFilePath);
 
     categoryTools.push(newTool);
-    await fs.writeFile(categoryFilePath, JSON.stringify(categoryTools, null, 2), 'utf8');
+    await writeToolsFile(categoryFilePath, categoryTools);
 
     return NextResponse.json({ success: true, tool: newTool });
   } catch (error) {
@@ -79,35 +120,53 @@ export async function PUT(request) {
     const oldSlug = request.nextUrl.searchParams.get('oldSlug');
     const oldCategory = request.nextUrl.searchParams.get('oldCategory');
 
-    if (!oldSlug || !oldCategory || !updatedTool.category) {
+    const validationError = validateTool(updatedTool);
+    if (validationError || !oldSlug || !oldCategory) {
+      return NextResponse.json({ error: validationError || 'Missing required parameters' }, { status: 400 });
+    }
+    if (!SAFE_SLUG.test(oldSlug) || !SAFE_SLUG.test(oldCategory)) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
     }
 
     // If category changed, we need to remove from old file and add to new file
     if (oldCategory !== updatedTool.category) {
       // Remove from old
-      const oldFilePath = path.join(AI_TOOLS_DIR, `${oldCategory}.json`);
-      let oldTools = JSON.parse(await fs.readFile(oldFilePath, 'utf8'));
-      oldTools = oldTools.filter(t => t.slug !== oldSlug);
-      await fs.writeFile(oldFilePath, JSON.stringify(oldTools, null, 2), 'utf8');
+      const oldFilePath = categoryPath(oldCategory);
+      let oldTools = await readToolsFile(oldFilePath);
+      const oldToolIndex = oldTools.findIndex((tool) => tool.slug === oldSlug);
+
+      if (oldToolIndex === -1) {
+        return NextResponse.json({ error: 'Tool not found in source category' }, { status: 404 });
+      }
+
+      oldTools = oldTools.filter((tool) => tool.slug !== oldSlug);
+      await writeToolsFile(oldFilePath, oldTools);
 
       // Add to new
-      const newFilePath = path.join(AI_TOOLS_DIR, `${updatedTool.category}.json`);
-      let newTools = [];
-      try {
-        newTools = JSON.parse(await fs.readFile(newFilePath, 'utf8'));
-      } catch(e) {}
+      const newFilePath = categoryPath(updatedTool.category);
+      let newTools = await readToolsFile(newFilePath);
+      if (newTools.some((tool) => tool.slug === updatedTool.slug)) {
+        return NextResponse.json({ error: 'A tool with this slug already exists in the destination category' }, { status: 409 });
+      }
       newTools.push(updatedTool);
-      await fs.writeFile(newFilePath, JSON.stringify(newTools, null, 2), 'utf8');
+      await writeToolsFile(newFilePath, newTools);
     } else {
       // Just update in existing file
-      const filePath = path.join(AI_TOOLS_DIR, `${updatedTool.category}.json`);
-      let tools = JSON.parse(await fs.readFile(filePath, 'utf8'));
-      const index = tools.findIndex(t => t.slug === oldSlug);
+      const filePath = categoryPath(updatedTool.category);
+      let tools = await readToolsFile(filePath);
+      const index = tools.findIndex((tool) => tool.slug === oldSlug);
+
+      if (index === -1) {
+        return NextResponse.json({ error: 'Tool not found in category' }, { status: 404 });
+      }
+
+      if (index !== -1 && tools.some((tool, toolIndex) => toolIndex !== index && tool.slug === updatedTool.slug)) {
+        return NextResponse.json({ error: 'A tool with this slug already exists in this category' }, { status: 409 });
+      }
       if (index !== -1) {
         tools[index] = updatedTool;
       }
-      await fs.writeFile(filePath, JSON.stringify(tools, null, 2), 'utf8');
+      await writeToolsFile(filePath, tools);
     }
 
     return NextResponse.json({ success: true, tool: updatedTool });
@@ -134,10 +193,18 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'Missing slug or category' }, { status: 400 });
     }
 
-    const filePath = path.join(AI_TOOLS_DIR, `${category}.json`);
-    let tools = JSON.parse(await fs.readFile(filePath, 'utf8'));
-    tools = tools.filter(t => t.slug !== slug);
-    await fs.writeFile(filePath, JSON.stringify(tools, null, 2), 'utf8');
+    const filePath = categoryPath(category);
+    if (!filePath || !SAFE_SLUG.test(slug)) {
+      return NextResponse.json({ error: 'Invalid slug or category' }, { status: 400 });
+    }
+    let tools = await readToolsFile(filePath);
+    const nextTools = tools.filter((tool) => tool.slug !== slug);
+
+    if (nextTools.length === tools.length) {
+      return NextResponse.json({ error: 'Tool not found in category' }, { status: 404 });
+    }
+
+    await writeToolsFile(filePath, nextTools);
 
     return NextResponse.json({ success: true });
   } catch (error) {

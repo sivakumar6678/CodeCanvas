@@ -1,3 +1,21 @@
+.successMessage,
+.errorMessage {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md, 0.5rem);
+  font-weight: 600;
+}
+
+.successMessage {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.errorMessage {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
 .container {
   display: flex;
   flex-direction: column;

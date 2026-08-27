@@ -36,3 +36,7 @@ dist-ssr
 
 # Qoder agent files
 .qoder
+
+# Private project documentation and AI-agent instructions
+.project-docs/
+RULES.md

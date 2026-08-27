@@ -15,10 +15,12 @@ export default function ProfileDashboard({ initialData }) {
     bio: user.bio
   });
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setSaveError(null);
 
     try {
       const res = await fetch('/api/user/profile', {
@@ -31,9 +33,13 @@ export default function ProfileDashboard({ initialData }) {
         const { profile } = await res.json();
         setUser({ ...user, ...profile });
         setIsEditing(false);
+      } else {
+        const payload = await res.json().catch(() => ({}));
+        setSaveError(payload.error || 'Unable to save your profile.');
       }
     } catch (err) {
       console.error(err);
+      setSaveError('Unable to save your profile. Check your connection and try again.');
     } finally {
       setSaving(false);
     }
@@ -65,6 +71,7 @@ export default function ProfileDashboard({ initialData }) {
 
         {isEditing && (
           <form onSubmit={handleSaveProfile} className={styles.editForm}>
+            {saveError && <p role="alert" className={styles.error}>{saveError}</p>}
             <div className={styles.inputGroup}>
               <label>Username</label>
               <input
