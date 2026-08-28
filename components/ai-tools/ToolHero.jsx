@@ -30,6 +30,10 @@ export default function ToolHero({ tool }) {
 
         <p className={styles.description}>{tool.description}</p>
 
+        {tool.suggestedBy && (
+          <p className={styles.contributor}>Suggested by {tool.suggestedBy}</p>
+        )}
+
         <div className={styles.metaInfo}>
           <div className={styles.metaItem}>
             <strong>Category:</strong> 

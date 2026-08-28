@@ -1,0 +1,208 @@
+[
+  {
+    "id": "tool-009",
+    "name": "openrouter",
+    "slug": "openrouter",
+    "description": "Unified platform and API for accessing and routing requests across multiple AI models and providers.",
+    "category": "developer-utilities",
+    "subCategory": "api-development",
+    "tags": [
+      "ai-api",
+      "llm-api",
+      "model-routing",
+      "multi-model",
+      "developer-tools"
+    ],
+    "useCases": [
+      "ai-application-development",
+      "model-testing",
+      "api-integration",
+      "multi-model-applications"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "api"
+    ],
+    "website": "https://openrouter.ai/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-010",
+    "name": "omniroute",
+    "slug": "omniroute",
+    "description": "Open-source AI gateway for routing requests across multiple AI providers.",
+    "category": "developer-utilities",
+    "subCategory": "api-development",
+    "tags": [
+      "ai-gateway",
+      "llm-routing",
+      "open-source",
+      "multi-provider",
+      "api"
+    ],
+    "useCases": [
+      "ai-model-routing",
+      "api-management",
+      "provider-fallback",
+      "ai-infrastructure"
+    ],
+    "pricing": "Free",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "website": "https://omniroute.online/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-017",
+    "name": "ollama",
+    "slug": "ollama",
+    "description": "Platform for running and working with AI models locally on personal computers.",
+    "category": "developer-utilities",
+    "subCategory": "local-ai",
+    "tags": [
+      "local-ai",
+      "llm",
+      "open-models",
+      "self-hosted",
+      "developer-tools"
+    ],
+    "useCases": [
+      "local-ai",
+      "model-experimentation",
+      "coding-assistance",
+      "private-ai-workflows"
+    ],
+    "pricing": "Free",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "website": "https://ollama.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-018",
+    "name": "herms",
+    "slug": "herms",
+    "description": "Open-source AI agent with memory, automation, web access, delegation, and sandboxed execution.",
+    "category": "developer-utilities",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-agent",
+      "open-source",
+      "automation",
+      "memory",
+      "multi-agent"
+    ],
+    "useCases": [
+      "automation",
+      "research",
+      "coding",
+      "scheduled-tasks",
+      "agent-workflows"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux",
+      "cli"
+    ],
+    "website": "https://hermes-agent.nousresearch.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-019",
+    "name": "openclaw",
+    "slug": "openclaw",
+    "description": "Open-source agent platform providing tools, memory, sessions, routing, and communication integrations.",
+    "category": "developer-utilities",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-agent",
+      "open-source",
+      "automation",
+      "multi-agent",
+      "self-hosted"
+    ],
+    "useCases": [
+      "ai-automation",
+      "agent-development",
+      "multi-agent-workflows",
+      "ai-assistants"
+    ],
+    "pricing": "Free",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "macos",
+      "ios",
+      "android",
+      "cli"
+    ],
+    "website": "https://docs.openclaw.ai/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-034",
+    "name": "nvidia apis",
+    "slug": "nvidia-apis",
+    "description": "NVIDIA APIs and services for integrating AI models and AI capabilities into applications.",
+    "category": "developer-utilities",
+    "subCategory": "api-development",
+    "tags": [
+      "ai-api",
+      "nvidia",
+      "nim",
+      "cuda-x",
+      "developer-tools"
+    ],
+    "useCases": [
+      "ai-application-development",
+      "model-integration",
+      "ai-prototyping",
+      "multimodal-applications"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "api",
+      "cloud"
+    ],
+    "website": "https://docs.api.nvidia.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  }
+]

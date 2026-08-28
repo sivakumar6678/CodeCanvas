@@ -38,6 +38,31 @@
   padding: 0 20px;
 }
 
+.toolkitCallout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 680px;
+  margin: 0 auto 24px;
+  padding: 14px 18px;
+  text-align: left;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+
+  div { display: grid; gap: 2px; }
+  strong { color: var(--text-main); }
+  span { color: var(--text-muted); font-size: .85rem; }
+  a { color: var(--primary); font-weight: 700; white-space: nowrap; }
+
+  @media (max-width: 560px) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 .sectionTitle {
   font-family: var(--font-display);
   font-size: 1.5rem;

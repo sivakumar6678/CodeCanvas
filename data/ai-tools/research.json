@@ -1,0 +1,70 @@
+[
+  {
+    "id": "tool-005",
+    "name": "perpelxity",
+    "slug": "perpelxity",
+    "description": "AI-powered search and research platform that provides conversational answers using web sources.",
+    "category": "research",
+    "subCategory": "ai-search",
+    "tags": [
+      "ai-search",
+      "research",
+      "web-search",
+      "citations",
+      "search-engine"
+    ],
+    "useCases": [
+      "web-research",
+      "fact-finding",
+      "information-discovery",
+      "research-summaries"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "ios",
+      "android"
+    ],
+    "website": "https://www.perplexity.ai/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-024",
+    "name": "notebook lm",
+    "slug": "notebook-lm",
+    "description": "AI research and learning assistant that works with user-provided documents and other sources.",
+    "category": "research",
+    "subCategory": "research-assistant",
+    "tags": [
+      "ai-research",
+      "source-analysis",
+      "study",
+      "document-analysis",
+      "google-ai"
+    ],
+    "useCases": [
+      "research",
+      "study",
+      "document-analysis",
+      "source-summarization",
+      "knowledge-organization"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "mobile"
+    ],
+    "website": "https://notebooklm.google.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  }
+]

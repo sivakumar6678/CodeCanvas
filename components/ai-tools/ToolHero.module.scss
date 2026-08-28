@@ -119,6 +119,12 @@
   max-width: 90%;
 }
 
+.contributor {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin: -20px 0 24px;
+}
+
 .metaInfo {
   display: flex;
   flex-direction: column;

@@ -1,26 +1,110 @@
 [
   {
     "id": "cat-1",
-    "name": "AI Coding",
-    "slug": "coding",
-    "description": "Tools for generating, completing, and reviewing code."
+    "name": "Development",
+    "slug": "development",
+    "description": "AI tools for coding, IDE workflows, testing, debugging, and software development."
   },
   {
     "id": "cat-2",
-    "name": "AI Design",
+    "name": "Design",
     "slug": "design",
     "description": "Tools for UI/UX, graphics, and visual design."
   },
   {
     "id": "cat-3",
-    "name": "AI Writing",
+    "name": "Writing",
     "slug": "writing",
     "description": "Tools for copywriting, blogs, and content creation."
   },
   {
     "id": "cat-4",
-    "name": "AI Productivity",
+    "name": "Productivity",
     "slug": "productivity",
-    "description": "Tools for scheduling, note-taking, and organization."
+    "description": "Tools for scheduling, note-taking, organization, and personal workflow."
+  },
+  {
+    "id": "cat-5",
+    "name": "Image",
+    "slug": "image",
+    "description": "Image generation, editing, enhancement, and visual asset tools."
+  },
+  {
+    "id": "cat-6",
+    "name": "Video",
+    "slug": "video",
+    "description": "AI tools for video generation, editing, avatars, and production."
+  },
+  {
+    "id": "cat-7",
+    "name": "Audio & Voice",
+    "slug": "audio-voice",
+    "description": "Voice, speech, music, sound, and audio production tools."
+  },
+  {
+    "id": "cat-8",
+    "name": "Research",
+    "slug": "research",
+    "description": "Tools for investigation, analysis, synthesis, and knowledge discovery."
+  },
+  {
+    "id": "cat-9",
+    "name": "Education",
+    "slug": "education",
+    "description": "Learning, tutoring, practice, and education-focused AI tools."
+  },
+  {
+    "id": "cat-10",
+    "name": "Business",
+    "slug": "business",
+    "description": "AI tools for operations, planning, sales, finance, and business workflows."
+  },
+  {
+    "id": "cat-11",
+    "name": "AI Assistants",
+    "slug": "ai-assistants",
+    "description": "General-purpose AI assistants, agents, and conversational tools."
+  },
+  {
+    "id": "cat-12",
+    "name": "Developer Utilities",
+    "slug": "developer-utilities",
+    "description": "Specialized utilities for APIs, databases, testing, deployment, and developer workflows."
+  },
+  {
+    "id": "cat-13",
+    "name": "No-Code & Automation",
+    "slug": "no-code-automation",
+    "description": "Workflow automation, integrations, and no-code application tools."
+  },
+  {
+    "id": "cat-14",
+    "name": "Website & App Builders",
+    "slug": "website-app-builders",
+    "description": "AI-assisted website, web app, and mobile app building platforms."
+  },
+  {
+    "id": "cat-15",
+    "name": "Marketing & SEO",
+    "slug": "marketing-seo",
+    "description": "Tools for marketing strategy, content distribution, search, and SEO."
+  },
+  {
+    "id": "cat-16",
+    "name": "Documents",
+    "slug": "documents",
+    "description": "Document creation, extraction, summarization, and management tools."
+  },
+  {
+    "id": "cat-17",
+    "name": "Presentations",
+    "slug": "presentations",
+    "description": "Tools for creating, designing, and delivering presentations."
+  },
+  {
+    "id": "cat-18",
+    "name": "Security",
+    "slug": "security",
+    "description": "AI tools for security analysis, privacy, compliance, and threat detection."
   }
 ]

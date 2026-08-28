@@ -1,0 +1,217 @@
+[
+  {
+    "id": "tool-001",
+    "name": "chatgpt",
+    "slug": "chatgpt",
+    "description": "General-purpose AI assistant for conversation, writing, research, coding, analysis, and multimodal tasks.",
+    "category": "ai-assistants",
+    "subCategory": "ai-assistant",
+    "tags": [
+      "ai-assistant",
+      "chatbot",
+      "coding",
+      "research",
+      "writing"
+    ],
+    "useCases": [
+      "question-answering",
+      "research",
+      "writing",
+      "coding",
+      "data-analysis"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "windows",
+      "macos",
+      "ios",
+      "android"
+    ],
+    "website": "https://chatgpt.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-002",
+    "name": "gemini",
+    "slug": "gemini",
+    "description": "Google AI assistant for conversation, research, coding, content creation, and multimodal tasks.",
+    "category": "ai-assistants",
+    "subCategory": "ai-assistant",
+    "tags": [
+      "ai-assistant",
+      "google-ai",
+      "multimodal",
+      "coding",
+      "research"
+    ],
+    "useCases": [
+      "research",
+      "writing",
+      "coding",
+      "content-creation",
+      "question-answering"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "android",
+      "ios"
+    ],
+    "website": "https://gemini.google.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-003",
+    "name": "grok",
+    "slug": "grok",
+    "description": "xAI conversational assistant for questions, research, reasoning, coding, and multimodal tasks.",
+    "category": "ai-assistants",
+    "subCategory": "ai-assistant",
+    "tags": [
+      "ai-assistant",
+      "xai",
+      "research",
+      "coding",
+      "multimodal"
+    ],
+    "useCases": [
+      "question-answering",
+      "research",
+      "coding",
+      "content-creation",
+      "image-generation"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "ios",
+      "android"
+    ],
+    "website": "https://grok.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-006",
+    "name": "claude",
+    "slug": "claude",
+    "description": "Anthropic AI assistant for writing, research, analysis, coding, and complex reasoning.",
+    "category": "ai-assistants",
+    "subCategory": "ai-assistant",
+    "tags": [
+      "ai-assistant",
+      "anthropic",
+      "reasoning",
+      "coding",
+      "research"
+    ],
+    "useCases": [
+      "writing",
+      "research",
+      "coding",
+      "analysis",
+      "question-answering"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "windows",
+      "macos",
+      "ios",
+      "android"
+    ],
+    "website": "https://claude.ai/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-007",
+    "name": "kimi",
+    "slug": "kimi",
+    "description": "AI assistant providing conversational, research, coding, and agentic workflows.",
+    "category": "ai-assistants",
+    "subCategory": "ai-assistant",
+    "tags": [
+      "ai-assistant",
+      "ai-agent",
+      "coding",
+      "research",
+      "automation"
+    ],
+    "useCases": [
+      "question-answering",
+      "research",
+      "coding",
+      "automation",
+      "file-tasks"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "windows",
+      "macos",
+      "linux",
+      "mobile"
+    ],
+    "website": "https://www.kimi.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-008",
+    "name": "deepseek",
+    "slug": "deepseek",
+    "description": "AI platform providing conversational, reasoning, coding, and developer-focused AI models.",
+    "category": "ai-assistants",
+    "subCategory": "ai-assistant",
+    "tags": [
+      "ai-assistant",
+      "reasoning",
+      "coding",
+      "llm",
+      "api"
+    ],
+    "useCases": [
+      "question-answering",
+      "coding",
+      "reasoning",
+      "ai-development"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "mobile",
+      "api"
+    ],
+    "website": "https://www.deepseek.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  }
+]

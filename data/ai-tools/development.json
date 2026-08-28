@@ -1,0 +1,499 @@
+[
+  {
+    "id": "tool-1",
+    "name": "GitHub Copilot",
+    "slug": "github-copilot",
+    "logo": "https://github.githubassets.com/images/modules/site/copilot/copilot.png",
+    "banner": "https://github.blog/wp-content/uploads/2022/06/Copilot-GA-Blog-Hero.png",
+    "description": "Your AI pair programmer that helps you write code faster.",
+    "overview": "GitHub Copilot is an AI pair programmer that offers autocomplete-style suggestions as you code. You can receive suggestions from GitHub Copilot either by starting to write the code you want to use, or by writing a natural language comment describing what you want the code to do.",
+    "features": [
+      "Real-time code suggestions",
+      "Multi-language support",
+      "Chat interface in IDE",
+      "Inline code explanations"
+    ],
+    "pros": [
+      "Trained on billions of lines of code",
+      "Seamless IDE integration",
+      "Massive time saver for boilerplate"
+    ],
+    "cons": [
+      "Requires active subscription",
+      "Can sometimes suggest incorrect code"
+    ],
+    "website": "https://github.com/features/copilot",
+    "category": "development",
+    "subCategory": "code-completion",
+    "pricing": "Paid",
+    "freeTrial": true,
+    "platform": [
+      "Web",
+      "VS Code",
+      "JetBrains"
+    ],
+    "tags": [
+      "AI",
+      "Pair Programming",
+      "Autocomplete"
+    ],
+    "useCases": [
+      "Inline code completion",
+      "Boilerplate generation",
+      "Fast implementation of common patterns"
+    ],
+    "bestFor": [
+      "Beginners who want guided coding support",
+      "Developers looking to move faster on repetitive tasks"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "createdDate": "2026-07-19T00:00:00.000Z"
+  },
+  {
+    "name": "Antigravity",
+    "slug": "google-antigravity",
+    "logo": "https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png",
+    "banner": "https://hackernoon.imgix.net/images/9SBj6OzMvXOEhDxTjjuu75pLYnp1-vn83emp.jpeg",
+    "description": "AI agentic IDE developed by Google for building software with autonomous AI agents.",
+    "overview": "Google Antigravity is an AI-powered, agent-first development environment designed to help developers plan, build, test, and iterate on software using AI agents. It combines an IDE experience with autonomous coding workflows, allowing agents to work across the editor, terminal, and browser.",
+    "website": "https://antigravity.google/",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "pricing": "Free / Freemium",
+    "freeTrial": true,
+    "platform": [
+      "Windows",
+      "macOS",
+      "Linux"
+    ],
+    "tags": [
+      "AI IDE",
+      "AI Coding",
+      "Agentic AI",
+      "Coding Agent",
+      "Developer Tools",
+      "Google",
+      "Software Development"
+    ],
+    "useCases": [
+      "Planning multi-step engineering tasks",
+      "Agentic coding workflows",
+      "Debugging and testing with AI assistance"
+    ],
+    "bestFor": [
+      "Advanced developers",
+      "Builders who want an AI agent to handle complex workflows"
+    ],
+    "features": [
+      "AI coding agents",
+      "Agent-driven software development",
+      "Code generation and editing",
+      "Terminal integration",
+      "Browser-based task execution",
+      "Multi-step coding workflows",
+      "AI-assisted debugging and testing"
+    ],
+    "pros": [
+      "Developed by Google",
+      "Agentic approach to software development",
+      "Can automate multi-step development tasks",
+      "Integrates coding with terminal and browser workflows"
+    ],
+    "cons": [
+      "May have a learning curve for agent-based workflows",
+      "AI-generated code still requires developer review",
+      "Availability and features may vary by account or region"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "id": "tool-1787896995826",
+    "createdDate": "2026-08-28T06:03:15.826Z"
+  },
+  {
+    "id": "tool-004",
+    "name": "blackbox",
+    "slug": "blackbox",
+    "description": "AI-powered development platform providing coding assistance, code generation, and developer tools.",
+    "category": "development",
+    "subCategory": "code-completion",
+    "tags": [
+      "ai-coding",
+      "code-generation",
+      "coding-assistant",
+      "developer-tools"
+    ],
+    "useCases": [
+      "code-generation",
+      "code-completion",
+      "software-development",
+      "code-assistance"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "ide",
+      "cli"
+    ],
+    "website": "https://www.blackbox.ai/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-011",
+    "name": "cline",
+    "slug": "cline",
+    "description": "Open-source AI coding agent for software development through IDE and terminal workflows.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "coding-agent",
+      "open-source",
+      "mcp",
+      "developer-tools"
+    ],
+    "useCases": [
+      "code-generation",
+      "refactoring",
+      "debugging",
+      "codebase-analysis",
+      "automation"
+    ],
+    "pricing": "Free",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux",
+      "vs-code",
+      "terminal"
+    ],
+    "website": "https://cline.bot/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-012",
+    "name": "continue",
+    "slug": "continue",
+    "description": "Open-source AI coding platform providing coding assistance through CLI and IDE integrations.",
+    "category": "development",
+    "subCategory": "code-completion",
+    "tags": [
+      "ai-coding",
+      "open-source",
+      "coding-assistant",
+      "cli",
+      "ide"
+    ],
+    "useCases": [
+      "code-assistance",
+      "code-generation",
+      "ide-development",
+      "developer-tooling"
+    ],
+    "pricing": "Free",
+    "freeTrial": false,
+    "platforms": [
+      "vs-code",
+      "jetbrains",
+      "cli"
+    ],
+    "website": "https://continue.dev/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-013",
+    "name": "codex",
+    "slug": "codex",
+    "description": "OpenAI coding agent for software engineering tasks including implementation, testing, refactoring, and code review.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "coding-agent",
+      "openai",
+      "software-engineering",
+      "code-review"
+    ],
+    "useCases": [
+      "feature-development",
+      "refactoring",
+      "testing",
+      "code-review",
+      "debugging"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "cli",
+      "ide"
+    ],
+    "website": "https://openai.com/codex/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-014",
+    "name": "zencoder ai agent",
+    "slug": "zencoder-ai-agent",
+    "description": "AI coding agent platform focused on codebase understanding, code generation, testing, debugging, and refactoring.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "coding-agent",
+      "codebase",
+      "debugging",
+      "refactoring"
+    ],
+    "useCases": [
+      "code-generation",
+      "testing",
+      "debugging",
+      "refactoring",
+      "codebase-analysis"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux",
+      "vs-code",
+      "jetbrains",
+      "cli"
+    ],
+    "website": "https://zencoder.ai/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-015",
+    "name": "augment ai",
+    "slug": "augment-ai",
+    "description": "AI-native software development platform focused on codebase intelligence and coding agents.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "coding-agent",
+      "codebase-intelligence",
+      "developer-tools"
+    ],
+    "useCases": [
+      "software-development",
+      "codebase-analysis",
+      "code-review",
+      "development-automation"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "vs-code",
+      "jetbrains",
+      "cli"
+    ],
+    "website": "https://www.augmentcode.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-016",
+    "name": "claude code",
+    "slug": "claude-code",
+    "description": "Anthropic coding agent for repository-level software engineering and terminal-based development.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "coding-agent",
+      "anthropic",
+      "terminal",
+      "software-engineering"
+    ],
+    "useCases": [
+      "code-generation",
+      "codebase-analysis",
+      "debugging",
+      "refactoring",
+      "software-development"
+    ],
+    "pricing": "Paid",
+    "freeTrial": false,
+    "platforms": [
+      "terminal",
+      "desktop",
+      "ide"
+    ],
+    "website": "https://www.anthropic.com/claude-code",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-030",
+    "name": "replit",
+    "slug": "replit",
+    "description": "Cloud development platform with AI agents for building, testing, deploying, and managing applications.",
+    "category": "development",
+    "subCategory": "ide",
+    "tags": [
+      "ai-coding",
+      "ai-agent",
+      "cloud-ide",
+      "app-development",
+      "deployment"
+    ],
+    "useCases": [
+      "web-development",
+      "full-stack-development",
+      "prototyping",
+      "application-deployment"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "mobile"
+    ],
+    "website": "https://replit.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-031",
+    "name": "cursor",
+    "slug": "cursor",
+    "description": "AI-powered code editor with codebase understanding, natural-language editing, and coding agents.",
+    "category": "development",
+    "subCategory": "ide",
+    "tags": [
+      "ai-coding",
+      "code-editor",
+      "coding-agent",
+      "codebase",
+      "developer-tools"
+    ],
+    "useCases": [
+      "code-generation",
+      "code-editing",
+      "refactoring",
+      "codebase-analysis",
+      "software-development"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "website": "https://www.cursor.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-032",
+    "name": "antigravity",
+    "slug": "antigravity",
+    "description": "Google agentic development platform for software development, browser interaction, and verification workflows.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "ai-agents",
+      "google-ai",
+      "browser-automation",
+      "developer-tools"
+    ],
+    "useCases": [
+      "software-development",
+      "web-development",
+      "browser-automation",
+      "application-testing"
+    ],
+    "pricing": "Free",
+    "freeTrial": false,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "website": "https://antigravity.google/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  },
+  {
+    "id": "tool-033",
+    "name": "quoder",
+    "slug": "quoder",
+    "description": "Agentic coding platform for software development with codebase context and autonomous coding tasks.",
+    "category": "development",
+    "subCategory": "agentic-development",
+    "tags": [
+      "ai-coding",
+      "coding-agent",
+      "codebase",
+      "autonomous-development",
+      "developer-tools"
+    ],
+    "useCases": [
+      "code-generation",
+      "software-development",
+      "codebase-analysis",
+      "autonomous-coding",
+      "documentation"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": true,
+    "platforms": [
+      "windows",
+      "macos",
+      "linux",
+      "jetbrains",
+      "cli"
+    ],
+    "website": "https://qoder.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  }
+]

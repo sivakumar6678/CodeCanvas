@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { FiEdit2, FiTrash2, FiPlus, FiX } from 'react-icons/fi';
 import styles from './ToolsManager.module.scss';
+import ToolJsonImport from './BulkToolJsonImport';
 
 export default function ToolsManager({ initialTools, categories }) {
   const [tools, setTools] = useState(initialTools);
@@ -120,6 +121,7 @@ export default function ToolsManager({ initialTools, categories }) {
           <FiPlus /> Add tool
         </button>
       </div>
+      <ToolJsonImport categories={categories} />
       {feedback && <div role="status" className={feedback.type === 'error' ? styles.errorMessage : styles.successMessage}>{feedback.message}</div>}
 
       <div className={styles.tableWrapper}>

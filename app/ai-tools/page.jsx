@@ -29,6 +29,13 @@ export default async function AIToolsPage({ searchParams }) {
       <header className={styles.header}>
         <h1 className={styles.title}>AI Tools Directory</h1>
         <p className={styles.subtitle}>Curated collection of the best AI tools to supercharge your productivity.</p>
+        <div className={styles.toolkitCallout}>
+          <div>
+            <strong>Based on your work</strong>
+            <span>Build a focused toolkit for your next project.</span>
+          </div>
+          <a href="/build-toolkit">Build your toolkit <span aria-hidden="true">-&gt;</span></a>
+        </div>
         <div className={styles.searchWrapper}>
           <SearchBar />
         </div>

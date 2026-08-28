@@ -1,0 +1,6 @@
+.page { max-width: 1080px; margin: 0 auto; padding: 120px 24px 80px; }
+.intro { max-width: 680px; margin-bottom: 36px; }
+.kicker { color: var(--primary); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.intro h1 { font-size: clamp(2.2rem, 5vw, 4rem); margin: 10px 0 14px; }
+.intro p { color: var(--text-secondary); font-size: 1.08rem; }
+@media (max-width: 640px) { .page { padding: 96px 16px 48px; } }

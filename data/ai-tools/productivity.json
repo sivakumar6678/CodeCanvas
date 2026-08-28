@@ -1,0 +1,39 @@
+[
+  {
+    "id": "tool-020",
+    "name": "notion",
+    "slug": "notion",
+    "description": "Productivity workspace combining documents, databases, project management, knowledge management, and AI.",
+    "category": "productivity",
+    "subCategory": "ai-workspace",
+    "tags": [
+      "productivity",
+      "ai-workspace",
+      "knowledge-management",
+      "documentation",
+      "project-management"
+    ],
+    "useCases": [
+      "documentation",
+      "project-management",
+      "knowledge-management",
+      "task-management",
+      "team-collaboration"
+    ],
+    "pricing": "Freemium",
+    "freeTrial": false,
+    "platforms": [
+      "web",
+      "windows",
+      "macos",
+      "ios",
+      "android"
+    ],
+    "website": "https://www.notion.com/",
+    "featured": false,
+    "verified": true,
+    "new": true,
+    "createdDate": "",
+    "status": "active"
+  }
+]
