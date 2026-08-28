@@ -26,8 +26,8 @@ export default async function StudioAnalyticsPage() {
     .from('tool_upvotes')
     .select('*', { count: 'exact', head: true });
 
-  const { count: totalCollections } = await supabase
-    .from('collections')
+  const { count: totalSavedTools } = await supabase
+    .from('saved_tools')
     .select('*', { count: 'exact', head: true });
 
   const [{ data: viewsData }, { data: clicksData }, { data: upvotesData }, allTools] = await Promise.all([
@@ -86,7 +86,7 @@ export default async function StudioAnalyticsPage() {
             ctr: overallCtr,
             totalReviews: totalReviews || 0,
             totalUpvotes: totalUpvotes || 0,
-            totalCollections: totalCollections || 0,
+            totalSavedTools: totalSavedTools || 0,
           },
           toolsTraffic,
         }}

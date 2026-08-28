@@ -27,8 +27,16 @@
     "subCategory": "code-completion",
     "pricing": "Paid",
     "freeTrial": true,
-    "platform": ["Web", "VS Code", "JetBrains"],
-    "tags": ["AI", "Pair Programming", "Autocomplete"],
+    "platform": [
+      "Web",
+      "VS Code",
+      "JetBrains"
+    ],
+    "tags": [
+      "AI",
+      "Pair Programming",
+      "Autocomplete"
+    ],
     "featured": true,
     "new": false,
     "verified": true,
@@ -62,11 +70,71 @@
     "subCategory": "ide",
     "pricing": "Freemium",
     "freeTrial": false,
-    "platform": ["Windows", "macOS", "Linux"],
-    "tags": ["AI", "Editor", "Copilot Alternative"],
+    "platform": [
+      "Windows",
+      "macOS",
+      "Linux"
+    ],
+    "tags": [
+      "AI",
+      "Editor",
+      "Copilot Alternative"
+    ],
     "featured": true,
     "new": true,
     "verified": true,
     "createdDate": "2026-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Antigravity",
+    "slug": "google-antigravity",
+    "logo": "https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png",
+    "banner": "https://hackernoon.imgix.net/images/9SBj6OzMvXOEhDxTjjuu75pLYnp1-vn83emp.jpeg",
+    "description": "AI agentic IDE developed by Google for building software with autonomous AI agents.",
+    "overview": "Google Antigravity is an AI-powered, agent-first development environment designed to help developers plan, build, test, and iterate on software using AI agents. It combines an IDE experience with autonomous coding workflows, allowing agents to work across the editor, terminal, and browser.",
+    "website": "https://antigravity.google/",
+    "category": "coding",
+    "subCategory": "AI IDE / Agentic Development",
+    "pricing": "Free / Freemium",
+    "freeTrial": true,
+    "platform": [
+      "Windows",
+      "macOS",
+      "Linux"
+    ],
+    "tags": [
+      "AI IDE",
+      "AI Coding",
+      "Agentic AI",
+      "Coding Agent",
+      "Developer Tools",
+      "Google",
+      "Software Development"
+    ],
+    "features": [
+      "AI coding agents",
+      "Agent-driven software development",
+      "Code generation and editing",
+      "Terminal integration",
+      "Browser-based task execution",
+      "Multi-step coding workflows",
+      "AI-assisted debugging and testing"
+    ],
+    "pros": [
+      "Developed by Google",
+      "Agentic approach to software development",
+      "Can automate multi-step development tasks",
+      "Integrates coding with terminal and browser workflows"
+    ],
+    "cons": [
+      "May have a learning curve for agent-based workflows",
+      "AI-generated code still requires developer review",
+      "Availability and features may vary by account or region"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "id": "tool-1787896995826",
+    "createdDate": "2026-08-28T06:03:15.826Z"
   }
 ]

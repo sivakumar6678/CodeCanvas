@@ -1,9 +1,13 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import '../app/footer.scss';
 
 const Footer = () => {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
@@ -26,6 +30,8 @@ const Footer = () => {
       color: '#1DA1F2'
     }
   ];
+
+  if (pathname.startsWith('/studio')) return null;
 
   return (
     <footer className="footer">
@@ -76,4 +82,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

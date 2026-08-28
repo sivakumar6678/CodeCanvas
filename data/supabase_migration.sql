@@ -78,6 +78,7 @@ create table if not exists public.analytics_tool_clicks (
 create index if not exists tool_reviews_slug_idx on public.tool_reviews(tool_slug);
 create index if not exists comments_slug_idx on public.comments(tool_slug);
 create index if not exists saved_tools_user_idx on public.saved_tools(user_id);
+create index if not exists saved_tools_user_saved_at_idx on public.saved_tools(user_id, saved_at desc);
 create index if not exists tool_upvotes_slug_idx on public.tool_upvotes(tool_slug);
 create index if not exists analytics_views_slug_idx on public.analytics_tool_views(tool_slug);
 create index if not exists analytics_clicks_slug_idx on public.analytics_tool_clicks(tool_slug);
@@ -133,12 +134,15 @@ create policy "CodeCraft users delete own comments" on public.comments
     for delete to authenticated using (auth.uid() = user_id);
 
 drop policy if exists "CodeCraft users view own saved tools" on public.saved_tools;
+drop policy if exists "Users can view own saved tools" on public.saved_tools;
 create policy "CodeCraft users view own saved tools" on public.saved_tools
     for select to authenticated using (auth.uid() = user_id);
 drop policy if exists "CodeCraft users save own tools" on public.saved_tools;
+drop policy if exists "Users can insert own saved tools" on public.saved_tools;
 create policy "CodeCraft users save own tools" on public.saved_tools
     for insert to authenticated with check (auth.uid() = user_id);
 drop policy if exists "CodeCraft users remove own saved tools" on public.saved_tools;
+drop policy if exists "Users can delete own saved tools" on public.saved_tools;
 create policy "CodeCraft users remove own saved tools" on public.saved_tools
     for delete to authenticated using (auth.uid() = user_id);
 

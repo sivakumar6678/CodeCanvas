@@ -1,6 +1,7 @@
 import { createClient } from '../../lib/supabase/server';
 import { redirect } from 'next/navigation';
 import ProfileDashboard from '../../components/user/ProfileDashboard';
+import { getAllTools } from '../../lib/data-fetchers';
 import styles from './page.module.scss';
 
 export const metadata = {
@@ -22,10 +23,14 @@ export default async function ProfilePage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  const { count: bookmarksCount } = await supabase
-    .from('saved_tools')
-    .select('*', { count: 'exact', head: true })
-    .eq('user_id', user.id);
+  const [{ count: bookmarksCount }, { data: savedRows }] = await Promise.all([
+    supabase.from('saved_tools').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+    supabase.from('saved_tools').select('tool_slug').eq('user_id', user.id).order('saved_at', { ascending: false }),
+  ]);
+
+  const allTools = await getAllTools();
+  const savedToolsBySlug = new Map(allTools.map((tool) => [tool.slug, tool]));
+  const savedTools = (savedRows || []).map(({ tool_slug }) => savedToolsBySlug.get(tool_slug)).filter(Boolean);
 
   const { count: reviewsCount } = await supabase
     .from('tool_reviews')
@@ -50,7 +55,8 @@ export default async function ProfilePage() {
       bookmarksCount: bookmarksCount || 0,
       reviewsCount: reviewsCount || 0,
       upvotesCount: upvotesCount || 0
-    }
+    },
+    savedTools,
   };
 
   return (

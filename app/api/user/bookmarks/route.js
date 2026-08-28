@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
+import { getToolBySlug } from '../../../../lib/data-fetchers';
 
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -50,6 +51,10 @@ export async function POST(request) {
     }
 
     if (action === 'save') {
+      const tool = await getToolBySlug(tool_slug);
+      if (!tool) {
+        return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
+      }
       const { error } = await supabase
         .from('saved_tools')
         .insert({ tool_slug, user_id: user.id });
@@ -67,7 +72,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Action must be save or remove' }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, saved: action === 'save' });
   } catch (error) {
     console.error('Error toggling bookmark:', error);
     return NextResponse.json({ error: 'Failed to toggle bookmark' }, { status: 500 });

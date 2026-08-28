@@ -1,8 +1,7 @@
 import { createClient } from '../../../lib/supabase/server';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { getAllTools } from '../../../lib/data-fetchers';
-import AIToolCard from '../../../components/ai-tools/AIToolCard';
+import SavedToolsSection from '../../../components/user/SavedToolsSection';
 import styles from './page.module.scss';
 
 export const metadata = {
@@ -43,20 +42,7 @@ export default async function BookmarksPage() {
         <p>Your personalized stack of saved AI developer tools ({savedToolsData.length})</p>
       </div>
 
-      {savedToolsData.length === 0 ? (
-        <div className={styles.emptyState}>
-          <p>You haven't saved any AI tools yet.</p>
-          <Link href="/ai-tools" className={styles.exploreBtn}>
-            Explore AI Tools Directory
-          </Link>
-        </div>
-      ) : (
-        <div className={styles.grid}>
-          {savedToolsData.map(tool => (
-            <AIToolCard key={tool.id || tool.slug} tool={tool} />
-          ))}
-        </div>
-      )}
+      <SavedToolsSection initialTools={savedToolsData} />
     </div>
   );
 }

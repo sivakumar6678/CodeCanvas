@@ -111,9 +111,13 @@ export default function ToolsManager({ initialTools, categories }) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2>Manage AI Tools</h2>
+        <div>
+          <p className={styles.eyebrow}>Catalog management</p>
+          <h1>AI Tools</h1>
+          <p className={styles.description}>Maintain the tools available in the public CodeCraft directory.</p>
+        </div>
         <button onClick={openNewModal} className={styles.primaryBtn}>
-          <FiPlus /> Add Tool
+          <FiPlus /> Add tool
         </button>
       </div>
       {feedback && <div role="status" className={feedback.type === 'error' ? styles.errorMessage : styles.successMessage}>{feedback.message}</div>}

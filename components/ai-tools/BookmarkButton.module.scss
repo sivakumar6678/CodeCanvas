@@ -51,6 +51,15 @@
     animation: pulse 1.5s infinite;
     cursor: default;
   }
+
+  &.updating {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    transform: none;
+  }
 }
 
 @keyframes pulse {

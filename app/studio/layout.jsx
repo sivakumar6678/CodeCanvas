@@ -1,6 +1,5 @@
 import { requireAdminAccess } from '../../lib/auth/server';
-import styles from './layout.module.scss';
-import StudioHeader from '../../components/admin/StudioHeader';
+import StudioShell from '../../components/admin/StudioShell';
 
 export const metadata = {
   title: 'Studio | CodeCraft',
@@ -10,11 +9,5 @@ export const metadata = {
 export default async function StudioLayout({ children }) {
   const { user } = await requireAdminAccess();
 
-  return (
-    <div className={styles.adminLayout}>
-      <StudioHeader email={user.email} />
-
-      <main className={styles.mainContent}>{children}</main>
-    </div>
-  );
+  return <StudioShell email={user.email}>{children}</StudioShell>;
 }

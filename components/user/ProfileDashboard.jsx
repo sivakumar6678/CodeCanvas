@@ -1,12 +1,13 @@
 'use client';
 import { useState } from 'react';
-import { FiUser, FiBookmark, FiClock, FiSettings, FiEdit2, FiX, FiCheck, FiThumbsUp, FiStar, FiArrowRight } from 'react-icons/fi';
+import { FiUser, FiBookmark, FiClock, FiSettings, FiEdit2, FiX, FiThumbsUp, FiStar } from 'react-icons/fi';
 import styles from './ProfileDashboard.module.scss';
 import Link from 'next/link';
+import SavedToolsSection from './SavedToolsSection';
 
 export default function ProfileDashboard({ initialData }) {
   const [user, setUser] = useState(initialData.user);
-  const [stats] = useState(initialData.stats);
+  const [stats, setStats] = useState(initialData.stats);
   const [activeTab, setActiveTab] = useState('saved');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,6 +44,10 @@ export default function ProfileDashboard({ initialData }) {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleSavedToolsCountChange = (change) => {
+    setStats((current) => ({ ...current, bookmarksCount: Math.max(0, current.bookmarksCount + change) }));
   };
 
   return (
@@ -162,14 +167,7 @@ export default function ProfileDashboard({ initialData }) {
         {/* Tab Contents */}
         <div className={styles.tabContent}>
           {activeTab === 'saved' && (
-            <div className={styles.savedTabContent}>
-              <p className={styles.tabDescription}>
-                Manage your saved tools or view them in full grid layout.
-              </p>
-              <Link href="/profile/bookmarks" className={styles.primaryActionBtn}>
-                View All Saved Tools <FiArrowRight />
-              </Link>
-            </div>
+            <SavedToolsSection initialTools={initialData.savedTools} onCountChange={handleSavedToolsCountChange} />
           )}
 
           {activeTab === 'recent' && (

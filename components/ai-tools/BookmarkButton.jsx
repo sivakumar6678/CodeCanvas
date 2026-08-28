@@ -3,17 +3,20 @@ import { useState, useEffect } from 'react';
 import { FiBookmark } from 'react-icons/fi';
 import { FaBookmark } from 'react-icons/fa';
 import styles from './BookmarkButton.module.scss';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function BookmarkButton({ slug, showLabel = false, className = '' }) {
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Check if user is logged in and has saved this tool
     const checkStatus = async () => {
+      setLoading(true);
       try {
         const res = await fetch('/api/user/bookmarks');
         if (res.ok) {
@@ -30,11 +33,14 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
   }, [slug]);
 
   const toggleBookmark = async () => {
+    if (isUpdating) return;
     setError('');
+    setIsUpdating(true);
+    const previousSavedState = isSaved;
+    const action = previousSavedState ? 'remove' : 'save';
     try {
-      const action = isSaved ? 'remove' : 'save';
       // Optimistic UI update
-      setIsSaved(!isSaved);
+      setIsSaved(!previousSavedState);
 
       const res = await fetch('/api/user/bookmarks', {
         method: 'POST',
@@ -44,33 +50,39 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
 
       if (res.status === 401) {
         // Revert UI if not logged in and redirect to login
-        setIsSaved(isSaved);
-        router.push('/login');
+        setIsSaved(previousSavedState);
+        router.push(`/login?next=${encodeURIComponent(pathname)}`);
         return;
       }
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Failed to toggle bookmark');
+      } else {
+        const data = await res.json();
+        setIsSaved(Boolean(data.saved));
       }
     } catch (error) {
       console.error(error);
-      setIsSaved(!isSaved); // Revert on error
+      setIsSaved(previousSavedState);
       setError(error.message);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
-  if (loading) return <div className={`${styles.bookmarkBtn} ${styles.loading} ${showLabel ? styles.withLabel : ''} ${className}`} />;
+  if (loading) return <div aria-label="Checking saved status" className={`${styles.bookmarkBtn} ${styles.loading} ${showLabel ? styles.withLabel : ''} ${className}`} />;
 
   return (
     <button 
       onClick={toggleBookmark}
-      className={`${styles.bookmarkBtn} ${isSaved ? styles.saved : ''} ${showLabel ? styles.withLabel : ''} ${className}`}
+      disabled={isUpdating}
+      className={`${styles.bookmarkBtn} ${isSaved ? styles.saved : ''} ${isUpdating ? styles.updating : ''} ${showLabel ? styles.withLabel : ''} ${className}`}
       title={isSaved ? "Remove from Saved Tools" : "Save Tool"}
       aria-label={error || (isSaved ? 'Remove from Saved Tools' : 'Save Tool')}
     >
       {isSaved ? <FaBookmark className={styles.icon} /> : <FiBookmark className={styles.icon} />}
-      {showLabel && <span>{isSaved ? 'Saved' : 'Save Tool'}</span>}
+      {showLabel && <span>{isUpdating ? (isSaved ? 'Saving...' : 'Removing...') : (isSaved ? 'Saved' : 'Save Tool')}</span>}
     </button>
   );
 }
