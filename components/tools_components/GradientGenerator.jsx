@@ -90,8 +90,10 @@ const Gradient = () => {
                     </select>
 
                     <button 
+                        type="button"
                         onClick={handleGenerateGradient} 
                         disabled={isLoading}
+                        suppressHydrationWarning
                         className="primary-btn flex items-center justify-center mt-6 w-full disabled:opacity-70"
                     >
                         {isLoading ? <><FaSync className="animate-spin mr-2" /> Generating...</> : 'Generate Gradients 🎨'}
@@ -120,7 +122,9 @@ const Gradient = () => {
                             >
                                 <span className="font-mono text-white text-sm mb-2 sm:mb-0 text-shadow-sm drop-shadow-md">{gradient}</span>
                                 <button 
+                                    type="button"
                                     onClick={(e) => copyToClipboard(gradient, e)} 
+                                    suppressHydrationWarning
                                     className="secondary-btn text-sm whitespace-nowrap bg-white/90 text-gray-800 hover:bg-white"
                                 >
                                     Copy CSS

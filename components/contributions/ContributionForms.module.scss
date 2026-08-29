@@ -1,6 +1,213 @@
-.workspace { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-md); overflow: hidden; }
-.tabs { display: flex; gap: 4px; padding: 8px; background: var(--bg-muted); border-bottom: 1px solid var(--border-subtle); }
-.tabs button { padding: 12px 18px; color: var(--text-secondary); font-weight: 700; border-radius: var(--radius-sm); }
-.tabs button.activeTab { background: var(--bg-surface); color: var(--primary); box-shadow: var(--shadow-sm); }
-.form { padding: 28px; }.formGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }.field { display: flex; flex-direction: column; gap: 7px; color: var(--text-secondary); font-size: .85rem; font-weight: 700; }.field.wide { grid-column: 1 / -1; }.field input,.field textarea,.field select { width: 100%; border: 1px solid var(--border-medium); border-radius: var(--radius-sm); padding: 12px; color: var(--text-main); background: var(--bg-surface); font: inherit; font-weight: 400; }.field textarea { resize: vertical; }.field input:focus,.field textarea:focus,.field select:focus { outline: 2px solid var(--border-focus); outline-offset: 1px; }.contributor { display: flex; align-items: flex-end; gap: 24px; margin-top: 22px; }.contributor .field { flex: 1; }.checkbox { display: flex; gap: 8px; align-items: center; padding-bottom: 12px; color: var(--text-secondary); font-size: .9rem; }.error,.success { display: flex; gap: 8px; align-items: center; margin-top: 20px; padding: 12px; border-radius: var(--radius-sm); }.error { color: var(--error); background: var(--error-light); }.success { color: #047857; background: var(--success-light); }.submit { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 13px 18px; border-radius: var(--radius-sm); background: var(--primary); color: white; font-weight: 800; }.submit:disabled { opacity: .6; cursor: wait; }
-@media (max-width: 640px) { .form { padding: 18px; }.formGrid { grid-template-columns: 1fr; }.field.wide { grid-column: auto; }.contributor { display: block; }.checkbox { margin-top: 16px; }.tabs button { flex: 1; padding-inline: 8px; } }
+.workspace {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  background: var(--bg-muted);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tabs button {
+  padding: 10px 20px;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--text-main);
+  }
+
+  &.activeTab {
+    background: var(--bg-surface);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.form {
+  padding: 32px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-main);
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &.wide {
+    grid-column: 1 / -1;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    color: var(--text-main);
+    background: var(--bg-surface);
+    font: inherit;
+    font-size: 0.925rem;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:hover:not(:focus) {
+      border-color: var(--primary);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px var(--primary-light, rgba(99, 102, 241, 0.18));
+    }
+  }
+
+  select {
+    min-height: 44px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px 16px;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+}
+
+.contributor {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  margin-top: 24px;
+
+  .field {
+    flex: 1;
+  }
+}
+
+.checkbox {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding-bottom: 12px;
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+}
+
+.error,
+.success {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.error {
+  color: var(--error);
+  background: var(--error-light);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.success {
+  color: #047857;
+  background: var(--success-light);
+  border: 1px solid rgba(4, 120, 87, 0.25);
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 640px) {
+  .form {
+    padding: 20px 16px;
+  }
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  .field.wide {
+    grid-column: auto;
+  }
+  .contributor {
+    display: block;
+  }
+  .checkbox {
+    margin-top: 16px;
+  }
+  .tabs button {
+    flex: 1;
+    padding-inline: 8px;
+  }
+}

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FiChevronRight, FiHome } from 'react-icons/fi';
 import styles from './Breadcrumb.module.scss';
 
-export default function Breadcrumb({ items }) {
+export default function Breadcrumb({ items = [] }) {
   return (
     <nav className={styles.breadcrumb}>
       <Link href="/" className={styles.item}>

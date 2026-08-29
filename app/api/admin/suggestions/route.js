@@ -87,10 +87,21 @@ async function requireAdmin() {
 export async function GET(request) {
   const access = await requireAdmin();
   if (access.response) return access.response;
+  const categories = await getCategories();
   const supabase = createAdminClient();
+
+  if (!supabase) {
+    return NextResponse.json({
+      toolSuggestions: [],
+      promptSubmissions: [],
+      categories: categories || [],
+      missingConfig: true,
+      warning: 'SUPABASE_SERVICE_ROLE_KEY is not configured in .env.local.'
+    });
+  }
+
   const type = request.nextUrl.searchParams.get('type');
   const status = request.nextUrl.searchParams.get('status');
-  const categories = await getCategories();
   const tables = type === 'prompt' ? ['prompt_submissions'] : type === 'tool' ? ['tool_suggestions'] : ['tool_suggestions', 'prompt_submissions'];
   
   const results = await Promise.all(tables.map(async (table) => {
@@ -122,6 +133,10 @@ export async function PATCH(request) {
   }
 
   const supabase = createAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: 'SUPABASE_SERVICE_ROLE_KEY is required to moderate suggestions.' }, { status: 503 });
+  }
+
   const table = type === 'tool' ? 'tool_suggestions' : 'prompt_submissions';
   const { data: existing, error: findError } = await supabase.from(table).select('*').eq('id', id).single();
   if (findError || !existing) return NextResponse.json({ error: 'Submission not found' }, { status: 404 });

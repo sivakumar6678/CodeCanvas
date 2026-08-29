@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaUsers, FaComments, FaLayerGroup, FaRocket, FaHeart, FaCodeBranch } from 'react-icons/fa';
+import CommunityPageClient from '../../components/community/CommunityPageClient';
 import styles from './page.module.scss';
 
 export const metadata = {
@@ -56,14 +57,7 @@ export default function CommunityPage() {
           Connect with thousands of developers, UI/UX architects, and tech creators. Explore community insights, upvote tools, and level up your software engineering workflow.
         </p>
 
-        <div className={styles.heroActions}>
-          <Link href="/ai-tools" className={styles.primaryBtn}>
-            Explore AI Directory <FaRocket />
-          </Link>
-          <Link href="/tools" className={styles.secondaryBtn}>
-            Try Internal AI Tools
-          </Link>
-        </div>
+        <CommunityPageClient styles={styles} />
       </header>
 
       {/* Community Stats */}

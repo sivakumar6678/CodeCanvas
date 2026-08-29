@@ -1,0 +1,63 @@
+[
+  {
+    "id": "nextjs-16-scaffold",
+    "title": "Next.js 16 App Router Component Scaffold",
+    "type": "prompt",
+    "prompt_content": "Generate a production-ready Next.js 16 Client Component named `{{ComponentName}}` in TypeScript. It must include async server action handlers, accessible ARIA attributes, Tailwind CSS layout, and a loading skeleton.",
+    "ai_model": "Claude 3.5 Sonnet",
+    "category": "Development",
+    "use_case": "Full-stack Web Development",
+    "use_cases": ["Frontend", "React", "Next.js"],
+    "tags": ["nextjs", "react", "typescript", "tailwind"],
+    "description": "Scaffolds a robust Next.js 16 component with server actions and TypeScript types.",
+    "display_name": "CodeCraft Team",
+    "is_anonymous": false,
+    "created_date": "2026-08-28"
+  },
+  {
+    "id": "jwt-auth-edge-middleware",
+    "title": "Edge JWT Authentication Guard",
+    "type": "trick",
+    "prompt_content": "Write a lightweight Next.js Edge Middleware for route `{{RoutePath}}` that extracts the Bearer token, validates the JWT with `jose`, handles expired claims with redirect to `{{LoginPath}}`, and injects custom header `x-user-id`.",
+    "ai_model": "Claude 3.5 Sonnet",
+    "category": "Development",
+    "use_case": "Authentication & Security",
+    "use_cases": ["Security", "Edge Middleware", "Auth"],
+    "tags": ["jwt", "edge", "auth", "security"],
+    "description": "Zero-dependency Edge middleware pattern for JWT verification.",
+    "display_name": "alex_dev",
+    "is_anonymous": false,
+    "created_date": "2026-08-28"
+  },
+  {
+    "id": "sql-query-performance-analyzer",
+    "title": "PostgreSQL Query Plan Optimizer",
+    "type": "technique",
+    "prompt_content": "Analyze the following PostgreSQL query and its EXPLAIN ANALYZE output: `{{QueryText}}`. Identify index scans, sequential scans, buffer hits, and recommend missing indexes or CTE optimizations.",
+    "ai_model": "GPT-4o",
+    "category": "Data & Analytics",
+    "use_case": "Database Optimization",
+    "use_cases": ["PostgreSQL", "Database", "Performance"],
+    "tags": ["sql", "postgres", "performance", "indexing"],
+    "description": "Identifies slow database scans and suggests index & CTE refinements.",
+    "display_name": "db_master",
+    "is_anonymous": false,
+    "created_date": "2026-08-27"
+  },
+  {
+    "id": "tailwind-wcag-palette-designer",
+    "title": "WCAG Compliant Color Palette Generator",
+    "type": "slash-command",
+    "prompt_content": "/palette Generate a 5-color dark-mode palette around primary hex `{{PrimaryHex}}`. Ensure contrast ratios >= 4.5:1 against #0f172a. Return Tailwind `theme.extend.colors` config.",
+    "ai_model": "GPT-4o",
+    "category": "Design & UI",
+    "use_case": "UI/UX Accessibility",
+    "use_cases": ["Design", "Colors", "Accessibility"],
+    "tags": ["design", "colors", "wcag", "tailwind"],
+    "description": "Generates WCAG AA/AAA compliant color scales for dark and light themes.",
+    "display_name": "sarah_design",
+    "is_anonymous": false,
+    "created_date": "2026-08-27"
+  }
+]
+

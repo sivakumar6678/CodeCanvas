@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../app/tools_styles/colorpalettegenerator.scss';
 import { generateColorPalette } from '../../lib/apiService';
+import { getContrastRatio, getWcagRating, generateTailwindConfig } from '../../lib/color-contrast';
 import Draggable from 'react-draggable';
 import html2canvas from 'html2canvas';
 import { FaSync } from 'react-icons/fa';
@@ -51,13 +52,22 @@ const ColorPaletteGenerator = () => {
     }
   };
 
+  const [toast, setToast] = useState('');
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 2500);
+  };
+
   const handleCopyToClipboard = (color) => {
-    navigator.clipboard.writeText(color).then(() => alert(`Copied ${color} to clipboard!`));
+    navigator.clipboard.writeText(color).then(() => {
+      showToast(`Copied ${color} to clipboard!`);
+    });
   };
 
   const handleSavePalette = () => {
     savePalette(palette);
-    alert('Palette saved locally!');
+    showToast('Palette saved locally!');
   };
 
   const handleExportJSON = () => {
@@ -68,6 +78,14 @@ const ColorPaletteGenerator = () => {
     document.body.appendChild(a);
     a.click();
     a.remove();
+    showToast('Exported palette.json');
+  };
+
+  const handleExportTailwind = () => {
+    const configStr = generateTailwindConfig(palette);
+    navigator.clipboard.writeText(configStr).then(() => {
+      showToast('Copied Tailwind CSS config to clipboard!');
+    });
   };
 
   const handleExportPNG = () => {
@@ -78,6 +96,7 @@ const ColorPaletteGenerator = () => {
       link.download = 'palette.png';
       link.href = canvas.toDataURL();
       link.click();
+      showToast('Exported palette.png');
     });
   };
 
@@ -118,17 +137,24 @@ const ColorPaletteGenerator = () => {
         </div>
 
         <div className="button-group">
-          <button className="primary-btn" onClick={handleGeneratePalette} disabled={isLoading}>
+          <button type="button" className="primary-btn" onClick={handleGeneratePalette} disabled={isLoading} suppressHydrationWarning>
             {isLoading ? <><FaSync className="animate-spin mr-2" /> Generating...</> : 'Generate Palette 🎨'}
           </button>
-          <button className="secondary-btn" onClick={handleSavePalette} disabled={palette.length === 0}>Save 💾</button>
-          <button className="secondary-btn" onClick={handleExportJSON} disabled={palette.length === 0}>JSON 📄</button>
-          <button className="secondary-btn" onClick={handleExportPNG} disabled={palette.length === 0}>PNG 📸</button>
+          <button type="button" className="secondary-btn" onClick={handleSavePalette} disabled={palette.length === 0} suppressHydrationWarning>Save 💾</button>
+          <button type="button" className="secondary-btn" onClick={handleExportTailwind} disabled={palette.length === 0} suppressHydrationWarning>Tailwind 💅</button>
+          <button type="button" className="secondary-btn" onClick={handleExportJSON} disabled={palette.length === 0} suppressHydrationWarning>JSON 📄</button>
+          <button type="button" className="secondary-btn" onClick={handleExportPNG} disabled={palette.length === 0} suppressHydrationWarning>PNG 📸</button>
         </div>
       </div>
 
       {/* ── RIGHT: Palette Output ─────────────────────────── */}
       <div className="tool-outputs-pane">
+        {toast && (
+          <div style={{ padding: '8px 14px', background: '#ecfdf5', color: '#047857', borderRadius: '6px', marginBottom: '12px', fontSize: '0.88rem', fontWeight: 600, border: '1px solid rgba(4, 120, 87, 0.2)' }}>
+            ✓ {toast}
+          </div>
+        )}
+
         {error && (
           <div className="error">⚠️ {error}</div>
         )}
@@ -144,17 +170,30 @@ const ColorPaletteGenerator = () => {
           <div className="palette">
             <h3>Generated Palette</h3>
             <div className="colors">
-              {palette.map((color, index) => (
-                <Draggable key={index}>
-                  <div className="color-box" style={{ backgroundColor: color }}>
-                    <span style={{ textShadow: "0px 1px 4px rgba(0,0,0,0.8)" }} className="color-hex">{color}</span>
-                    <button onClick={() => handleCopyToClipboard(color)}>Copy</button>
-                    <button onClick={() => handleToggleFavorite(color)}>
-                      {favorites.includes(color) ? '★' : '☆'}
-                    </button>
-                  </div>
-                </Draggable>
-              ))}
+              {palette.map((color, index) => {
+                const whiteRatio = getContrastRatio(color, '#ffffff').toFixed(1);
+                const blackRatio = getContrastRatio(color, '#000000').toFixed(1);
+                const whiteRating = getWcagRating(Number(whiteRatio));
+                const blackRating = getWcagRating(Number(blackRatio));
+
+                return (
+                  <Draggable key={index}>
+                    <div className="color-box" style={{ backgroundColor: color }}>
+                      <span style={{ textShadow: "0px 1px 4px rgba(0,0,0,0.8)" }} className="color-hex">{color}</span>
+                      
+                      <div style={{ fontSize: '0.72rem', background: 'rgba(0,0,0,0.6)', color: '#fff', borderRadius: '4px', padding: '2px 6px', margin: '4px 0' }}>
+                        <span>vs ☀️: {blackRatio}:1 ({blackRating})</span><br />
+                        <span>vs 🌙: {whiteRatio}:1 ({whiteRating})</span>
+                      </div>
+
+                      <button type="button" onClick={() => handleCopyToClipboard(color)} suppressHydrationWarning>Copy</button>
+                      <button type="button" onClick={() => handleToggleFavorite(color)} suppressHydrationWarning>
+                        {favorites.includes(color) ? '★' : '☆'}
+                      </button>
+                    </div>
+                  </Draggable>
+                );
+              })}
             </div>
           </div>
         )}

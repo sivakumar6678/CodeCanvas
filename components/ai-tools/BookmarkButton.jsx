@@ -1,9 +1,38 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { FiBookmark } from 'react-icons/fi';
 import { FaBookmark } from 'react-icons/fa';
 import styles from './BookmarkButton.module.scss';
 import { usePathname, useRouter } from 'next/navigation';
+
+let bookmarksCachePromise = null;
+let cachedBookmarks = null;
+
+export function invalidateBookmarksCache() {
+  bookmarksCachePromise = null;
+  cachedBookmarks = null;
+}
+
+async function fetchUserBookmarks() {
+  if (cachedBookmarks !== null) {
+    return cachedBookmarks;
+  }
+  if (!bookmarksCachePromise) {
+    bookmarksCachePromise = fetch('/api/user/bookmarks')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        cachedBookmarks = Array.isArray(data) ? data : [];
+        return cachedBookmarks;
+      })
+      .catch((err) => {
+        console.error('Error fetching bookmark status', err);
+        bookmarksCachePromise = null;
+        return [];
+      });
+  }
+  return bookmarksCachePromise;
+}
 
 export default function BookmarkButton({ slug, showLabel = false, className = '' }) {
   const [isSaved, setIsSaved] = useState(false);
@@ -14,22 +43,17 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
   const pathname = usePathname();
 
   useEffect(() => {
-    // Check if user is logged in and has saved this tool
-    const checkStatus = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch('/api/user/bookmarks');
-        if (res.ok) {
-          const bookmarks = await res.json();
-          setIsSaved(bookmarks.some(b => b.tool_slug === slug));
-        }
-      } catch (error) {
-        console.error('Error fetching bookmark status', error);
-      } finally {
+    let isMounted = true;
+    fetchUserBookmarks().then((bookmarks) => {
+      if (isMounted) {
+        setIsSaved(bookmarks.some((b) => b.tool_slug === slug));
         setLoading(false);
       }
+    });
+
+    return () => {
+      isMounted = false;
     };
-    checkStatus();
   }, [slug]);
 
   const toggleBookmark = async () => {
@@ -61,6 +85,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
       } else {
         const data = await res.json();
         setIsSaved(Boolean(data.saved));
+        invalidateBookmarksCache();
       }
     } catch (error) {
       console.error(error);
@@ -75,8 +100,10 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
 
   return (
     <button 
+      type="button"
       onClick={toggleBookmark}
-      disabled={isUpdating}
+      disabled={Boolean(isUpdating)}
+      suppressHydrationWarning
       className={`${styles.bookmarkBtn} ${isSaved ? styles.saved : ''} ${isUpdating ? styles.updating : ''} ${showLabel ? styles.withLabel : ''} ${className}`}
       title={isSaved ? "Remove from Saved Tools" : "Save Tool"}
       aria-label={error || (isSaved ? 'Remove from Saved Tools' : 'Save Tool')}

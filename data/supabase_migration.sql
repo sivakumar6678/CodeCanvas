@@ -8,8 +8,25 @@ create table if not exists public.user_profiles (
     username text unique not null,
     avatar_url text,
     bio text,
+    role text,
+    experience_level text,
+    interests text[] default '{}'::text[],
+    technologies text[] default '{}'::text[],
+    goals text[] default '{}'::text[],
+    preferred_pricing text,
+    preferred_platforms text[] default '{}'::text[],
+    onboarding_completed boolean default false,
     created_at timestamptz default timezone('utc'::text, now()) not null
 );
+
+alter table public.user_profiles add column if not exists role text;
+alter table public.user_profiles add column if not exists experience_level text;
+alter table public.user_profiles add column if not exists interests text[] default '{}'::text[];
+alter table public.user_profiles add column if not exists technologies text[] default '{}'::text[];
+alter table public.user_profiles add column if not exists goals text[] default '{}'::text[];
+alter table public.user_profiles add column if not exists preferred_pricing text;
+alter table public.user_profiles add column if not exists preferred_platforms text[] default '{}'::text[];
+alter table public.user_profiles add column if not exists onboarding_completed boolean default false;
 
 create table if not exists public.tool_reviews (
     id uuid default gen_random_uuid() primary key,

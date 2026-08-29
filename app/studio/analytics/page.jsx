@@ -8,48 +8,93 @@ export const metadata = {
 };
 
 export default async function StudioAnalyticsPage() {
-  const supabase = await createClient();
+  let allTools = [];
+  try {
+    allTools = await getAllTools();
+  } catch (err) {
+    console.error('Error fetching tools for analytics:', err);
+  }
 
-  const { count: totalViews } = await supabase
-    .from('analytics_tool_views')
-    .select('*', { count: 'exact', head: true });
+  let totalViews = 0;
+  let totalClicks = 0;
+  let totalReviews = 0;
+  let totalUpvotes = 0;
+  let totalSavedTools = 0;
+  let viewsData = [];
+  let clicksData = [];
+  let upvotesData = [];
 
-  const { count: totalClicks } = await supabase
-    .from('analytics_tool_clicks')
-    .select('*', { count: 'exact', head: true });
+  try {
+    const supabase = await createClient();
 
-  const { count: totalReviews } = await supabase
-    .from('tool_reviews')
-    .select('*', { count: 'exact', head: true });
+    const [
+      viewsCountRes,
+      clicksCountRes,
+      reviewsCountRes,
+      upvotesCountRes,
+      savesCountRes,
+      viewsListRes,
+      clicksListRes,
+      upvotesListRes
+    ] = await Promise.allSettled([
+      supabase.from('analytics_tool_views').select('*', { count: 'exact', head: true }),
+      supabase.from('analytics_tool_clicks').select('*', { count: 'exact', head: true }),
+      supabase.from('tool_reviews').select('*', { count: 'exact', head: true }),
+      supabase.from('tool_upvotes').select('*', { count: 'exact', head: true }),
+      supabase.from('saved_tools').select('*', { count: 'exact', head: true }),
+      supabase.from('analytics_tool_views').select('tool_slug'),
+      supabase.from('analytics_tool_clicks').select('tool_slug'),
+      supabase.from('tool_upvotes').select('tool_slug'),
+    ]);
 
-  const { count: totalUpvotes } = await supabase
-    .from('tool_upvotes')
-    .select('*', { count: 'exact', head: true });
+    if (viewsCountRes.status === 'fulfilled' && viewsCountRes.value.count !== null) {
+      totalViews = viewsCountRes.value.count || 0;
+    }
+    if (clicksCountRes.status === 'fulfilled' && clicksCountRes.value.count !== null) {
+      totalClicks = clicksCountRes.value.count || 0;
+    }
+    if (reviewsCountRes.status === 'fulfilled' && reviewsCountRes.value.count !== null) {
+      totalReviews = reviewsCountRes.value.count || 0;
+    }
+    if (upvotesCountRes.status === 'fulfilled' && upvotesCountRes.value.count !== null) {
+      totalUpvotes = upvotesCountRes.value.count || 0;
+    }
+    if (savesCountRes.status === 'fulfilled' && savesCountRes.value.count !== null) {
+      totalSavedTools = savesCountRes.value.count || 0;
+    }
 
-  const { count: totalSavedTools } = await supabase
-    .from('saved_tools')
-    .select('*', { count: 'exact', head: true });
-
-  const [{ data: viewsData }, { data: clicksData }, { data: upvotesData }, allTools] = await Promise.all([
-    supabase.from('analytics_tool_views').select('tool_slug'),
-    supabase.from('analytics_tool_clicks').select('tool_slug'),
-    supabase.from('tool_upvotes').select('tool_slug'),
-    getAllTools(),
-  ]);
+    if (viewsListRes.status === 'fulfilled' && Array.isArray(viewsListRes.value.data)) {
+      viewsData = viewsListRes.value.data;
+    }
+    if (clicksListRes.status === 'fulfilled' && Array.isArray(clicksListRes.value.data)) {
+      clicksData = clicksListRes.value.data;
+    }
+    if (upvotesListRes.status === 'fulfilled' && Array.isArray(upvotesListRes.value.data)) {
+      upvotesData = upvotesListRes.value.data;
+    }
+  } catch (err) {
+    console.error('Supabase analytics fetch error:', err);
+  }
 
   const viewsBySlug = {};
-  (viewsData || []).forEach((item) => {
-    viewsBySlug[item.tool_slug] = (viewsBySlug[item.tool_slug] || 0) + 1;
+  viewsData.forEach((item) => {
+    if (item.tool_slug) {
+      viewsBySlug[item.tool_slug] = (viewsBySlug[item.tool_slug] || 0) + 1;
+    }
   });
 
   const clicksBySlug = {};
-  (clicksData || []).forEach((item) => {
-    clicksBySlug[item.tool_slug] = (clicksBySlug[item.tool_slug] || 0) + 1;
+  clicksData.forEach((item) => {
+    if (item.tool_slug) {
+      clicksBySlug[item.tool_slug] = (clicksBySlug[item.tool_slug] || 0) + 1;
+    }
   });
 
   const upvotesBySlug = {};
-  (upvotesData || []).forEach((item) => {
-    upvotesBySlug[item.tool_slug] = (upvotesBySlug[item.tool_slug] || 0) + 1;
+  upvotesData.forEach((item) => {
+    if (item.tool_slug) {
+      upvotesBySlug[item.tool_slug] = (upvotesBySlug[item.tool_slug] || 0) + 1;
+    }
   });
 
   const toolsTraffic = allTools
@@ -67,6 +112,7 @@ export default async function StudioAnalyticsPage() {
         views,
         clicks,
         ctr,
+        ctrNum: views > 0 ? (clicks / views) * 100 : 0,
         upvotes,
       };
     })

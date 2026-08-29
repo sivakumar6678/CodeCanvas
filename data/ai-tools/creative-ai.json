@@ -3,7 +3,7 @@
     "id": "adobe-express",
     "name": "Adobe Express",
     "slug": "adobe-express",
-    "category": "design",
+    "category": "creative-ai",
     "subCategory": "graphic-design",
     "description": "AI-powered design tool with Firefly integration for content creation and video editing.",
     "fullOverview": "Adobe Express is a design tool with integrated Firefly AI for content generation. Features 250 monthly generative AI credits on Premium ($9.99/mo) and 1,200 credits on business plans. Includes video background removal, templates, and Adobe Stock access.",
@@ -59,7 +59,7 @@
     "id": "canva",
     "name": "Canva",
     "slug": "canva",
-    "category": "design",
+    "category": "creative-ai",
     "subCategory": "graphic-design",
     "description": "AI-powered design platform with Magic Studio, AI Pass, and extensive template library.",
     "fullOverview": "Canva is a design platform with Magic Studio AI features. Free tier offers 200 standard AI uses/month. Pro ($10-15/mo) unlocks full Magic tools. AI Pass ($100/mo) provides 40x more AI usage. Team plans available.",
@@ -117,7 +117,7 @@
     "id": "google-vids",
     "name": "Google Vids",
     "slug": "google-vids",
-    "category": "design",
+    "category": "creative-ai",
     "subCategory": "video-creation",
     "description": "AI-powered video creation tool with Veo 3.1 model, AI avatars, and custom music generation.",
     "fullOverview": "Google Vids is an AI video creation tool with Veo 3.1 for video generation. Free accounts get 10 video generations/month. AI Pro subscribers get 50 videos, and AI Ultra subscribers get up to 1,000 videos/month with custom music and avatars.",
@@ -166,5 +166,71 @@
     "verified": true,
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "tool-3",
+    "name": "Midjourney",
+    "slug": "midjourney",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
+    "banner": "https://images.unsplash.com/photo-1678483788775-81cc3f721ea7?w=1200&q=80",
+    "description": "An independent research lab exploring new mediums of thought and expanding the imaginative powers of the human species.",
+    "overview": "Midjourney is a generative AI program and service created and hosted by a San Francisco-based independent research lab. Midjourney generates images from natural language descriptions, called prompts, similar to OpenAI's DALL-E and Stable Diffusion.",
+    "features": [
+      "High-fidelity image generation",
+      "Varying styles and artist emulation",
+      "Upscaling and variations",
+      "Discord integration"
+    ],
+    "pros": [
+      "Incredible artistic quality",
+      "Very active community",
+      "Constant model updates"
+    ],
+    "cons": [
+      "Requires Discord to use easily",
+      "No free tier available anymore",
+      "Steep learning curve for advanced prompting"
+    ],
+    "website": "https://midjourney.com",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
+    "pricing": "Paid",
+    "freeTrial": false,
+    "platform": [
+      "Discord",
+      "Web"
+    ],
+    "tags": [
+      "AI",
+      "Image Generation",
+      "Art"
+    ],
+    "useCases": [
+      "UI mood boards",
+      "Visual concept exploration",
+      "Marketing and landing page imagery"
+    ],
+    "bestFor": [
+      "Designers who need high-quality visual inspiration",
+      "Teams that want rapid concept visuals before production design"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "createdDate": "2026-07-10T00:00:00.000Z",
+    "platforms": [
+      "Discord",
+      "Web"
+    ],
+    "pricingModel": "Paid",
+    "keyFeatures": [
+      "High-fidelity image generation",
+      "Varying styles and artist emulation",
+      "Upscaling and variations",
+      "Discord integration"
+    ],
+    "fullOverview": "Midjourney is a generative AI program and service created and hosted by a San Francisco-based independent research lab. Midjourney generates images from natural language descriptions, called prompts, similar to OpenAI's DALL-E and Stable Diffusion.",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1678483788775-81cc3f721ea7?w=1200&q=80"
   }
 ]

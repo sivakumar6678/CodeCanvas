@@ -1,0 +1,272 @@
+[
+  {
+    "id": "replit",
+    "name": "Replit",
+    "slug": "replit",
+    "category": "ai-app-building",
+    "subCategory": "vibe-coding",
+    "description": "AI-powered collaborative coding platform with Agent, Free Mode, and cloud deployment.",
+    "fullOverview": "Replit is a collaborative coding platform with AI Agent for full-stack app development. Free tier with basic AI, Core ($20/mo) with $20 in credits and 30 hours chat/month, Pro ($100/mo) with Turbo mode and 15 collaborators.",
+    "website": "https://replit.com",
+    "logoImageUrl": "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/replit/default.svg",
+    "bannerImageUrl": "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/replit/default.svg",
+    "keyFeatures": [
+      "AI Agent",
+      "Free Mode",
+      "Cloud deployment",
+      "Turbo mode",
+      "Parallel agents"
+    ],
+    "pros": [
+      "Free tier available",
+      "Collaborative features",
+      "Cloud deployment"
+    ],
+    "cons": [
+      "Pro is expensive",
+      "Credit-based system"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Mobile"
+    ],
+    "tags": [
+      "coding",
+      "collaborative",
+      "cloud",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Web development",
+      "Collaborative coding",
+      "Deployment",
+      "Learning"
+    ],
+    "bestFor": [
+      "Developers",
+      "Teams",
+      "Students"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "lovable",
+    "name": "Lovable",
+    "slug": "lovable",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "AI app builder that creates full-stack applications from natural language prompts.",
+    "fullOverview": "Lovable is an AI app builder that creates full-stack applications from natural language. Features unlimited public projects on Free plan with 5 daily credits. Pro ($25/mo) and Business ($50/mo) plans unlock private projects, custom domains, and credit rollover.",
+    "website": "https://lovable.dev",
+    "logoImageUrl": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.91.0/icons/lovable-color.svg",
+    "bannerImageUrl": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.91.0/icons/lovable-color.svg",
+    "keyFeatures": [
+      "Full-stack app generation",
+      "5 daily free credits",
+      "Unlimited public projects",
+      "Custom domains",
+      "Credit rollover"
+    ],
+    "pros": [
+      "Free tier with daily credits",
+      "Affordable paid plans",
+      "Per-workspace pricing"
+    ],
+    "cons": [
+      "Credit-based system",
+      "Limited daily credits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "app-builder",
+      "ai",
+      "development",
+      "vibe-coding"
+    ],
+    "useCases": [
+      "Web app development",
+      "Prototyping",
+      "Full-stack projects"
+    ],
+    "bestFor": [
+      "Developers",
+      "Entrepreneurs",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "bolt",
+    "name": "Bolt (Bolt.new)",
+    "slug": "bolt",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "AI app builder with generous token-based free tier and full-stack deployment capabilities.",
+    "fullOverview": "Bolt.new is an AI app builder with a generous free tier (300K daily tokens, 1M monthly). Pro ($25/mo) offers 10M+ tokens, custom domains, and no branding. Team plans available at $30/user/mo with hosting and deployment included.",
+    "website": "https://bolt.new",
+    "logoImageUrl": "https://cdn-1.webcatalog.io/catalog/bolt-new/bolt-new-icon-filled-256.png?v=1730692903154",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShelr2UVPm7kdnONab_uP01oIbnk5xlJZTJmchmgKqD6p2M7_jj1NkPoA&s=10",
+    "keyFeatures": [
+      "300K daily tokens free",
+      "Full app generation",
+      "Hosting included",
+      "Custom domains",
+      "Unlimited databases"
+    ],
+    "pros": [
+      "Very generous free tier",
+      "Affordable Pro",
+      "Hosting included"
+    ],
+    "cons": [
+      "Token-based limits",
+      "Bolt branding on free"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "app-builder",
+      "ai",
+      "development",
+      "vibe-coding"
+    ],
+    "useCases": [
+      "Web app development",
+      "Prototyping",
+      "Full-stack projects"
+    ],
+    "bestFor": [
+      "Developers",
+      "Entrepreneurs",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "v0-dev",
+    "name": "v0 by Vercel",
+    "slug": "v0-dev",
+    "category": "ai-app-building",
+    "subCategory": "ui-to-code",
+    "description": "Vercel's AI tool for generating production-ready React components and full-page layouts.",
+    "fullOverview": "v0 by Vercel generates production-ready React components and full-page layouts from natural language or screenshots. Features $5 monthly credits on Free plan, Premium ($20/mo) with API access, Team ($30/user/mo), and Business ($100/user/mo).",
+    "website": "https://v0.dev",
+    "logoImageUrl": "https://www.aiuidesigner.com/icons/v0.svg",
+    "bannerImageUrl": "https://www.aiuidesigner.com/icons/v0.svg",
+    "keyFeatures": [
+      "React component generation",
+      "shadcn/ui + Tailwind",
+      "Next.js integration",
+      "GitHub sync",
+      "API access"
+    ],
+    "pros": [
+      "Production-ready code",
+      "Vercel ecosystem",
+      "Clean UI components"
+    ],
+    "cons": [
+      "Expensive for teams",
+      "Credit-based system"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "app-builder",
+      "ai",
+      "react",
+      "vercel"
+    ],
+    "useCases": [
+      "Frontend development",
+      "UI prototyping",
+      "React component generation"
+    ],
+    "bestFor": [
+      "Frontend developers",
+      "Designers",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "a0-dev",
+    "name": "a0.dev",
+    "slug": "a0-dev",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "AI-powered mobile app builder that creates native iOS and Android apps from text descriptions.",
+    "fullOverview": "a0.dev is an AI-powered mobile app builder that generates native iOS and Android apps from text descriptions. Free tier for prototyping with limited builds, Pro plans from ~$20/mo for publishing and scaling. Built on React Native and Expo.",
+    "website": "https://a0.dev",
+    "logoImageUrl": "https://a0.dev/favicon.ico",
+    "bannerImageUrl": "https://a0.dev/favicon.ico",
+    "keyFeatures": [
+      "Native iOS/Android apps",
+      "Text-based generation",
+      "React Native + Expo",
+      "Store publishing",
+      "Monetization features"
+    ],
+    "pros": [
+      "Free prototyping",
+      "Native mobile apps",
+      "Store publishing"
+    ],
+    "cons": [
+      "Pricing not fully public",
+      "Limited free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "mobile",
+      "app-builder",
+      "ai",
+      "react-native"
+    ],
+    "useCases": [
+      "Mobile app development",
+      "Prototyping",
+      "Startup MVPs"
+    ],
+    "bestFor": [
+      "Mobile developers",
+      "Entrepreneurs",
+      "Startups"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  }
+]

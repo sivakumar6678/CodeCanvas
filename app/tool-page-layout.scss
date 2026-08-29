@@ -1,98 +1,91 @@
 // ============================================================
-// Tool Page — Unified Layout System
-// Named grid areas: inputs (left) | outputs + about (right)
+// Tool Page — Unified Responsive Layout System
+// Named grid areas: inputs (left) | outputs (top right) | about (bottom right)
 // ============================================================
 
 // ── Page wrapper: clears fixed navbar globally ───────────────
 .tool-page-wrapper {
   width: 100%;
-  min-height: calc(100vh - 64px);
-  background: #f5f7fa;
-  padding-top: 4.5rem; // Clears fixed navbar (~64px). Back button + header sit naturally below.
+  min-height: calc(100vh - var(--navbar-height, 64px));
+  background: var(--bg-app);
+  padding-top: 2rem;
+  padding-bottom: 4rem;
 }
 
 // ── Main container ────────────────────────────────────────────
 .tool-page-container {
-  max-width: 1500px;
+  max-width: var(--container-max-width, 1440px);
   margin: 0 auto;
-  padding: 0 2rem 4rem;
+  padding: 0 var(--space-lg, 24px);
 
   @media (max-width: 1024px) {
-    padding: 0 1.5rem 3rem;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 1rem 2.5rem;
+    padding: 0 var(--space-md, 16px);
   }
 }
 
 // ── Two-column grid: inputs LEFT | outputs+about RIGHT ───────
 .tool-content-main {
   display: grid;
-  grid-template-columns: 58fr 42fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   grid-template-areas:
-    "inputs about"
-    "inputs outputs";
+    "inputs outputs"
+    "inputs about";
   gap: 1.5rem;
   align-items: start;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 
-  @media (max-width: 1100px) {
-    grid-template-columns: 55fr 45fr;
-  }
-
-  // Stack vertically on tablet/mobile
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     grid-template-areas:
-      "about"
+      "inputs"
       "outputs"
-      "inputs";
-    gap: 1.25rem;
+      "about";
+    gap: 1.5rem;
   }
 }
 
-// ── Full-width layout for Brainstorming only ─────────────────
+// ── Full-width layout for Brainstorming & Chat Tools ─────────
 .tool-content-full {
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 
   .tool-description-panel {
-    margin-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 1.75rem;
   }
 }
 
 // ── Tool component wrapper: transparent to grid ──────────────
-// display: contents makes the wrapper "invisible" so its children
-// (.tool-inputs-pane and .tool-outputs-pane) become direct grid participants.
 .tool-component-wrapper {
   display: contents;
 
-  // Also make each tool's root element transparent so the panes
-  // participate directly in the page grid.
   > * {
     display: contents;
   }
 }
 
-// ── INPUT PANE — Left column, spans all rows ─────────────────
+// ── INPUT PANE — Left column ─────────────────────────────────
 .tool-inputs-pane {
   grid-area: inputs;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 2rem;
-  max-width: 800px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
   width: 100%;
-  margin: 0 auto;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(102, 126, 234, 0.12);
-  min-width: 0; // Prevent grid blowout
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-subtle);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color 0.2s ease;
 
-  // Remove any internal section card styling that was previously
-  // applied at the root level — pane is now the single card.
+  @media (max-width: 640px) {
+    padding: 1.25rem;
+  }
+
   .input-section {
-    // Reset any old double-card Tailwind that may exist inline
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
@@ -101,64 +94,33 @@
   }
 }
 
-// ── OUTPUT PANE — Right column, row 1 ────────────────────────
+// ── OUTPUT PANE — Right column (Top) ─────────────────────────
 .tool-outputs-pane {
   grid-area: outputs;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(102, 126, 234, 0.12);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-subtle);
   min-width: 0;
-  min-height: 220px; // Holds space even before output is generated
-  max-height: 400px;
-  overflow-y: auto;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color 0.2s ease;
 
-  // Custom sleek scrollbar for outputs
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #e5e7eb;
-    border-radius: 10px;
-    &:hover {
-      background: #d1d5db;
-    }
-  }
-
-  // Header label for outputs pane
-  &::before {
-    content: 'Output';
-    display: block;
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #f3f4f6;
+  @media (max-width: 640px) {
+    padding: 1.25rem;
   }
 }
 
-// ── ABOUT PANEL — Right column, row 2 ────────────────────────
+// ── ABOUT PANEL — Right column (Bottom) ──────────────────────
 .tool-description-panel {
   grid-area: about;
   min-width: 0;
 
-  // On mobile: separator from stacked output pane
   @media (max-width: 1024px) {
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--border-subtle);
     padding-top: 1.5rem;
   }
-}
-
-// ── Utility: strip nested margin-top interference ────────────
-// Prevents double spacing when outputs pane has its own mt-8 classes
-.tool-outputs-pane > *:first-child {
-  margin-top: 0 !important;
 }

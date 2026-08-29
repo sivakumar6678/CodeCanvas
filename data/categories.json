@@ -1,110 +1,200 @@
 [
   {
-    "id": "cat-1",
-    "name": "Development",
-    "slug": "development",
-    "description": "AI tools for coding, IDE workflows, testing, debugging, and software development."
-  },
-  {
-    "id": "cat-2",
-    "name": "Design",
-    "slug": "design",
-    "description": "Tools for UI/UX, graphics, and visual design."
-  },
-  {
-    "id": "cat-3",
-    "name": "Writing",
-    "slug": "writing",
-    "description": "Tools for copywriting, blogs, and content creation."
-  },
-  {
-    "id": "cat-4",
-    "name": "Productivity",
-    "slug": "productivity",
-    "description": "Tools for scheduling, note-taking, organization, and personal workflow."
-  },
-  {
-    "id": "cat-5",
-    "name": "Image",
-    "slug": "image",
-    "description": "Image generation, editing, enhancement, and visual asset tools."
-  },
-  {
-    "id": "cat-6",
-    "name": "Video",
-    "slug": "video",
-    "description": "AI tools for video generation, editing, avatars, and production."
-  },
-  {
-    "id": "cat-7",
-    "name": "Audio & Voice",
-    "slug": "audio-voice",
-    "description": "Voice, speech, music, sound, and audio production tools."
-  },
-  {
-    "id": "cat-8",
-    "name": "Research",
-    "slug": "research",
-    "description": "Tools for investigation, analysis, synthesis, and knowledge discovery."
-  },
-  {
-    "id": "cat-9",
-    "name": "Education",
-    "slug": "education",
-    "description": "Learning, tutoring, practice, and education-focused AI tools."
-  },
-  {
-    "id": "cat-10",
-    "name": "Business",
-    "slug": "business",
-    "description": "AI tools for operations, planning, sales, finance, and business workflows."
-  },
-  {
-    "id": "cat-11",
+    "id": "cat-ai-assistants",
     "name": "AI Assistants",
     "slug": "ai-assistants",
-    "description": "General-purpose AI assistants, agents, and conversational tools."
+    "description": "Conversational agents, general-purpose models, and specialized research or writing companions.",
+    "subcategories": [
+      {
+        "id": "general-ai-assistants",
+        "name": "General AI Assistants",
+        "slug": "general-ai-assistants",
+        "description": "Multi-modal conversational AI models for general problem solving, reasoning, and tasks."
+      },
+      {
+        "id": "research-assistants",
+        "name": "Research Assistants",
+        "slug": "research-assistants",
+        "description": "AI assistants for deep web search, literature synthesis, and citation-backed discovery."
+      },
+      {
+        "id": "writing-assistants",
+        "name": "Writing Assistants",
+        "slug": "writing-assistants",
+        "description": "Companions for drafting, copy generation, content expansion, and editing."
+      }
+    ]
   },
   {
-    "id": "cat-12",
-    "name": "Developer Utilities",
-    "slug": "developer-utilities",
-    "description": "Specialized utilities for APIs, databases, testing, deployment, and developer workflows."
+    "id": "cat-ai-development",
+    "name": "AI Development",
+    "slug": "ai-development",
+    "description": "Intelligent coding assistants, autonomous agents, AI IDEs, CLI tools, and testing utilities.",
+    "subcategories": [
+      {
+        "id": "coding-assistants",
+        "name": "Coding Assistants",
+        "slug": "coding-assistants",
+        "description": "Inline autocomplete, multi-line code generation, and pair programming tools."
+      },
+      {
+        "id": "coding-agents",
+        "name": "Coding Agents",
+        "slug": "coding-agents",
+        "description": "Autonomous multi-file repository agents that plan, write, and execute code."
+      },
+      {
+        "id": "ai-ides",
+        "name": "AI IDEs",
+        "slug": "ai-ides",
+        "description": "Full-fledged code editors built ground-up with native AI workflows and composer features."
+      },
+      {
+        "id": "terminal-cli-agents",
+        "name": "Terminal/CLI Agents",
+        "slug": "terminal-cli-agents",
+        "description": "Shell-native and command-line AI agents for hands-on developer terminal workflows."
+      },
+      {
+        "id": "code-review-testing",
+        "name": "Code Review & Testing",
+        "slug": "code-review-testing",
+        "description": "Automated code review, unit test generation, CI checks, and bug detection."
+      },
+      {
+        "id": "developer-utilities",
+        "name": "Developer Utilities",
+        "slug": "developer-utilities",
+        "description": "Inference APIs, model routers, gateways, local runners, and developer infrastructure."
+      }
+    ]
   },
   {
-    "id": "cat-13",
-    "name": "No-Code & Automation",
-    "slug": "no-code-automation",
-    "description": "Workflow automation, integrations, and no-code application tools."
+    "id": "cat-ai-app-building",
+    "name": "AI App Building",
+    "slug": "ai-app-building",
+    "description": "Next-generation platforms for creating full-stack web applications, landing pages, and prototypes.",
+    "subcategories": [
+      {
+        "id": "ai-website-builders",
+        "name": "AI Website Builders",
+        "slug": "ai-website-builders",
+        "description": "Instant generation and hosting of responsive websites and landing pages."
+      },
+      {
+        "id": "ai-app-builders",
+        "name": "AI App Builders",
+        "slug": "ai-app-builders",
+        "description": "Full-stack web and mobile application generation with integrated backend and database."
+      },
+      {
+        "id": "ui-to-code",
+        "name": "UI-to-Code",
+        "slug": "ui-to-code",
+        "description": "Generate clean frontend component code (React, Vue, Tailwind) from text or visual designs."
+      },
+      {
+        "id": "vibe-coding",
+        "name": "Vibe Coding",
+        "slug": "vibe-coding",
+        "description": "Rapid interactive prototyping and conversational full-stack app iteration environments."
+      }
+    ]
   },
   {
-    "id": "cat-14",
-    "name": "Website & App Builders",
-    "slug": "website-app-builders",
-    "description": "AI-assisted website, web app, and mobile app building platforms."
+    "id": "cat-creative-ai",
+    "name": "Creative AI",
+    "slug": "creative-ai",
+    "description": "Generative tools for visual concept design, image generation, video creation, and sound production.",
+    "subcategories": [
+      {
+        "id": "image-generation",
+        "name": "Image Generation",
+        "slug": "image-generation",
+        "description": "Photorealistic images, illustrations, mood boards, and concept art from text prompts."
+      },
+      {
+        "id": "video-creation",
+        "name": "Video Creation",
+        "slug": "video-creation",
+        "description": "AI video generation, AI avatars, automated video editing, and motion clips."
+      },
+      {
+        "id": "graphic-design",
+        "name": "Graphic Design",
+        "slug": "graphic-design",
+        "description": "Layouts, social media assets, marketing visuals, branding, and template editing."
+      },
+      {
+        "id": "audio-music",
+        "name": "Audio & Music",
+        "slug": "audio-music",
+        "description": "Voice cloning, speech synthesis, sound effects, and generative background music."
+      }
+    ]
   },
   {
-    "id": "cat-15",
-    "name": "Marketing & SEO",
-    "slug": "marketing-seo",
-    "description": "Tools for marketing strategy, content distribution, search, and SEO."
+    "id": "cat-productivity-ai",
+    "name": "Productivity AI",
+    "slug": "productivity-ai",
+    "description": "Workspace software, intelligent notes, document summarization, and workflow automation.",
+    "subcategories": [
+      {
+        "id": "note-taking-docs",
+        "name": "Note Taking & Docs",
+        "slug": "note-taking-docs",
+        "description": "Intelligent document workspaces, automated formatting, translation, and structured notes."
+      },
+      {
+        "id": "workflow-automation",
+        "name": "Workflow Automation",
+        "slug": "workflow-automation",
+        "description": "Automate recurring digital tasks, database auto-fill, and multi-app connections."
+      },
+      {
+        "id": "task-management",
+        "name": "Task Management",
+        "slug": "task-management",
+        "description": "Project coordination, sprint tracking, meeting action items, and planning."
+      },
+      {
+        "id": "knowledge-base",
+        "name": "Knowledge Base",
+        "slug": "knowledge-base",
+        "description": "Centralized company and personal knowledge repositories with semantic search."
+      }
+    ]
   },
   {
-    "id": "cat-16",
-    "name": "Documents",
-    "slug": "documents",
-    "description": "Document creation, extraction, summarization, and management tools."
-  },
-  {
-    "id": "cat-17",
-    "name": "Presentations",
-    "slug": "presentations",
-    "description": "Tools for creating, designing, and delivering presentations."
-  },
-  {
-    "id": "cat-18",
-    "name": "Security",
-    "slug": "security",
-    "description": "AI tools for security analysis, privacy, compliance, and threat detection."
+    "id": "cat-business-ai",
+    "name": "Business AI",
+    "slug": "business-ai",
+    "description": "Strategic intelligence, market analysis, automated marketing, and customer operations.",
+    "subcategories": [
+      {
+        "id": "business-intelligence",
+        "name": "Business Intelligence",
+        "slug": "business-intelligence",
+        "description": "Automated data analysis, McKinsey-grade consulting reports, and executive summaries."
+      },
+      {
+        "id": "marketing-seo",
+        "name": "Marketing & SEO",
+        "slug": "marketing-seo",
+        "description": "Content strategy, search engine optimization, ad copywriting, and campaign planning."
+      },
+      {
+        "id": "strategy-research",
+        "name": "Strategy & Research",
+        "slug": "strategy-research",
+        "description": "Competitive intelligence, pricing research, product-market fit exploration."
+      },
+      {
+        "id": "sales-support",
+        "name": "Sales & Support",
+        "slug": "sales-support",
+        "description": "Automated customer support, CRM enrichment, outbound drafting, and lead qualification."
+      }
+    ]
   }
 ]

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "rocket",
+    "name": "Rocket AI",
+    "slug": "rocket-ai",
+    "category": "business-ai",
+    "subCategory": "business-intelligence",
+    "description": "AI platform generating McKinsey-grade strategy reports, product research, and competitive intelligence.",
+    "fullOverview": "Rocket AI is a strategy and research platform that generates McKinsey-grade reports. Subscription plans range from $25/mo for app building to $250/mo for strategy and research, and $350/mo for full platform including competitive intelligence.",
+    "website": "https://rocket.ai",
+    "logoImageUrl": "https://zdpdvwhvukelzzbzbjvh.supabase.co/storage/v1/object/public/imported-images/1775554316316-cpeho.webp",
+    "bannerImageUrl": "https://zdpdvwhvukelzzbzbjvh.supabase.co/storage/v1/object/public/imported-images/1775554316316-cpeho.webp",
+    "keyFeatures": [
+      "McKinsey-grade reports",
+      "Competitive intelligence",
+      "Product strategy",
+      "Market research",
+      "Pricing strategy"
+    ],
+    "pros": [
+      "Low-cost consulting-grade insights",
+      "Comprehensive reports",
+      "Multiple tiers"
+    ],
+    "cons": [
+      "Expensive for full platform",
+      "Niche use case"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "strategy",
+      "research",
+      "ai",
+      "business"
+    ],
+    "useCases": [
+      "Strategy development",
+      "Market research",
+      "Competitive analysis",
+      "Product planning"
+    ],
+    "bestFor": [
+      "Startups",
+      "SMBs",
+      "Product managers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  }
+]

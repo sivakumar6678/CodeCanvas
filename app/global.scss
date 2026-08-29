@@ -1,14 +1,15 @@
 // Global Styles & Design Token System
+@use 'forms' as *;
 
 :root {
   // Brand & Accent Colors
   --primary: #6366f1;
   --primary-hover: #4f46e5;
-  --primary-light: rgba(99, 102, 241, 0.1);
+  --primary-light: rgba(99, 102, 241, 0.12);
   --secondary: #ec4899;
   --secondary-hover: #db2777;
   --accent: #8b5cf6;
-  --accent-light: rgba(139, 92, 246, 0.1);
+  --accent-light: rgba(139, 92, 246, 0.12);
 
   // Legacy fallback compatibility
   --primary-start: #6366f1;
@@ -26,6 +27,15 @@
   --border-subtle: #e2e8f0;
   --border-medium: #cbd5e1;
   --border-focus: #6366f1;
+
+  // Form Control Tokens
+  --input-bg: var(--bg-surface);
+  --input-border: var(--border-medium);
+  --input-border-hover: var(--primary);
+  --input-border-focus: var(--primary);
+  --input-focus-ring: 0 0 0 3px var(--primary-light);
+  --input-radius: var(--radius-md);
+  --input-radius-sm: var(--radius-sm);
 
   // Text Tokens
   --text-main: #0f172a;

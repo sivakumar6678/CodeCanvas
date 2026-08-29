@@ -1,35 +1,87 @@
+'use client';
+
 import React, { useState } from 'react';
-import { 
-  FaCopy, 
-  FaDownload, 
-  FaMagic, 
-  FaFileCode, 
-  FaKeyboard 
+import {
+  FaCopy,
+  FaDownload,
+  FaMagic,
+  FaFileCode,
+  FaKeyboard,
 } from 'react-icons/fa';
-import "prismjs";
-import "prismjs/components/prism-jsx";
-import "prismjs/components/prism-css";
-import "prismjs/components/prism-python";
+import 'prismjs';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-rust';
+import 'prismjs/components/prism-go';
+import 'prismjs/components/prism-sql';
 import { generateCodeSnippet } from '../../lib/apiService';
 import '../../app/tools_styles/codeSnippetGenerator.scss';
 
+const LANGUAGES = [
+  'All / Auto',
+  'TypeScript',
+  'JavaScript',
+  'Python',
+  'Rust',
+  'Go',
+  'SQL',
+  'HTML & CSS',
+  'React',
+];
+
+const PRESETS = [
+  { label: 'Debounce Hook', query: 'Custom React useDebounce hook with TypeScript types' },
+  { label: 'JWT Auth Middleware', query: 'Next.js API route JWT authentication middleware' },
+  { label: 'PostgreSQL Pool', query: 'PostgreSQL connection pool setup with error handling' },
+  { label: 'Binary Search Tree', query: 'TypeScript Binary Search Tree with insert and search' },
+  { label: 'Tailwind Modal', query: 'Accessible Tailwind CSS animated dialog modal component' },
+];
+
+const EXT_MAP = {
+  typescript: 'ts',
+  javascript: 'js',
+  python: 'py',
+  rust: 'rs',
+  go: 'go',
+  sql: 'sql',
+  html: 'html',
+  css: 'css',
+  jsx: 'jsx',
+  tsx: 'tsx',
+  react: 'tsx',
+};
+
 const CodeSnippetGenerator = () => {
   const [description, setDescription] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
   const [snippets, setSnippets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [toast, setToast] = useState('');
   const [error, setError] = useState('');
 
-  const generateCode = async () => {
-    if (!description.trim()) {
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 2500);
+  };
+
+  const generateCode = async (customDesc) => {
+    const queryToUse = customDesc || description;
+    if (!queryToUse.trim()) {
       setError('Please describe the code you want to generate.');
       return;
     }
     setIsLoading(true);
     setError('');
 
+    const promptText = selectedLanguage !== 'All / Auto'
+      ? `${queryToUse} in ${selectedLanguage}`
+      : queryToUse;
+
     try {
-      const data = await generateCodeSnippet(description);
+      const data = await generateCodeSnippet(promptText);
       if (data.candidates && data.candidates[0].content.parts[0].text) {
         const responseText = data.candidates[0].content.parts[0].text;
         const regex = /LANGUAGE:\s*(\w+)\s*CODE:\s*([\s\S]*?)(?=LANGUAGE:|$)/g;
@@ -46,13 +98,29 @@ const CodeSnippetGenerator = () => {
         if (newSnippets.length > 0) {
           setSnippets(newSnippets);
         } else {
-          setError('Failed to parse the AI response. Please try again.');
+          // Fallback parsing for raw markdown block
+          const codeMatch = responseText.match(/```(\w+)?\s*([\s\S]*?)```/);
+          if (codeMatch) {
+            setSnippets([
+              {
+                language: (codeMatch[1] || selectedLanguage || 'typescript').toLowerCase(),
+                code: codeMatch[2].trim(),
+              },
+            ]);
+          } else {
+            setSnippets([
+              {
+                language: (selectedLanguage !== 'All / Auto' ? selectedLanguage : 'typescript').toLowerCase(),
+                code: responseText.trim(),
+              },
+            ]);
+          }
         }
       } else {
         setError('No code was generated. Please try a different description.');
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Failed to generate code snippet.');
     } finally {
       setIsLoading(false);
     }
@@ -62,6 +130,7 @@ const CodeSnippetGenerator = () => {
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
+      showToast('Code copied to clipboard!');
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       setError('Failed to copy to clipboard.');
@@ -69,7 +138,7 @@ const CodeSnippetGenerator = () => {
   };
 
   const downloadCode = (code, language) => {
-    const extension = language === 'javascript' ? 'js' : language === 'css' ? 'css' : 'html';
+    const extension = EXT_MAP[language.toLowerCase()] || 'txt';
     const blob = new Blob([code], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -79,28 +148,51 @@ const CodeSnippetGenerator = () => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    showToast(`Downloaded snippet.${extension}`);
+  };
+
+  const handleApplyPreset = (preset) => {
+    setDescription(preset.query);
+    generateCode(preset.query);
   };
 
   return (
     <div className="code-snippet-generator">
       {/* ── LEFT: Input controls ─────────────────────────── */}
       <div className="tool-inputs-pane">
-        <div className="input-container flex flex-col md:flex-row gap-4">
-          <div className="input-wrapper flex-grow flex items-center bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
-            <FaKeyboard className="text-gray-400 mr-3 flex-shrink-0" />
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe the code you want (e.g., 'CSS card hover effect')"
-              className="description-input w-full bg-transparent border-none outline-none text-gray-700 py-2"
-              onKeyDown={(e) => { if (e.key === 'Enter') generateCode(); }}
-            />
+        <div className="input-panel">
+          <div className="lang-select-wrapper">
+            <label>Target Language</label>
+            <select
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+            >
+              {LANGUAGES.map((lang) => (
+                <option key={lang} value={lang}>{lang}</option>
+              ))}
+            </select>
           </div>
+
+          <div className="prompt-wrapper">
+            <label>Code Description</label>
+            <div className="input-row">
+              <FaKeyboard className="input-icon" />
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="e.g., 'React debounce hook with TypeScript'"
+                onKeyDown={(e) => { if (e.key === 'Enter') generateCode(); }}
+              />
+            </div>
+          </div>
+
           <button
-            onClick={generateCode}
+            type="button"
+            onClick={() => generateCode()}
             disabled={isLoading}
-            className="generate-btn w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="generate-btn"
+            suppressHydrationWarning
           >
             {isLoading ? (
               <>
@@ -108,36 +200,51 @@ const CodeSnippetGenerator = () => {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Generating...
+                Generating Code...
               </>
             ) : (
-              <><FaMagic /> Generate Code</>
+              <><FaMagic /> Generate Snippet</>
             )}
           </button>
-        </div>
 
-        {/* Tips */}
-        <div className="mt-4 text-sm text-gray-500">
-          <p className="font-medium text-gray-600 mb-1">💡 Tips:</p>
-          <ul className="list-disc list-inside space-y-0.5 text-gray-400">
-            <li>Be specific — "React useState hook example" works better than "React code"</li>
-            <li>Mention the language if needed — "Python FastAPI endpoint"</li>
-          </ul>
+          {/* Starter Presets */}
+          <div className="starters-section">
+            <span className="starters-label">Quick Starters:</span>
+            <div className="starters-grid">
+              {PRESETS.map((p) => (
+                <button
+                  key={p.label}
+                  type="button"
+                  onClick={() => handleApplyPreset(p)}
+                  className="starter-chip"
+                  suppressHydrationWarning
+                >
+                  + {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* ── RIGHT: Outputs ───────────────────────────────── */}
       <div className="tool-outputs-pane">
+        {toast && (
+          <div className="toast-alert">
+            ✓ {toast}
+          </div>
+        )}
+
         {error && (
-          <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-lg border border-red-100 text-sm font-medium">
+          <div className="alert-error">
             ⚠️ {error}
           </div>
         )}
 
         {/* Loading skeleton */}
         {isLoading && (
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full">
-            {[1, 2].map(i => (
+          <div className="snippets-stack">
+            {[1, 2].map((i) => (
               <div key={i} className="animate-pulse bg-gray-50 border border-gray-100 rounded-xl p-4">
                 <div className="flex justify-between items-center mb-4">
                   <div className="h-5 bg-gray-200 rounded w-20" />
@@ -154,36 +261,33 @@ const CodeSnippetGenerator = () => {
 
         {/* Generated snippets */}
         {!isLoading && snippets.length > 0 && (
-          <div className="code-section grid grid-cols-1 xl:grid-cols-2 gap-5 w-full">
+          <div className="snippets-stack">
             {snippets.map((snippet, index) => (
-              <div key={index} className="snippet bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition-shadow">
-                <div className="code-header bg-gray-50 border-b border-gray-200 p-3 flex justify-between items-center">
-                  <div className="language-badge flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <FaFileCode className="text-indigo-500" /> {snippet.language.toUpperCase()}
-                  </div>
-                  <div className="code-actions flex items-center gap-2">
+              <div key={index} className="snippet-card">
+                <div className="snippet-header">
+                  <span className="lang-tag">
+                    <FaFileCode /> {snippet.language}
+                  </span>
+                  <div className="snippet-actions">
                     <button
+                      type="button"
                       onClick={() => copyToClipboard(snippet.code)}
-                      className={`action-btn text-sm px-3 py-1.5 rounded transition-colors flex items-center gap-1 ${copied ? 'bg-green-100 text-green-700' : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-100'}`}
+                      suppressHydrationWarning
                     >
-                      <FaCopy /> {copied ? 'Copied!' : 'Copy'}
+                      <FaCopy /> {copied ? 'Copied' : 'Copy'}
                     </button>
                     <button
+                      type="button"
                       onClick={() => downloadCode(snippet.code, snippet.language)}
-                      className="action-btn text-sm px-3 py-1.5 rounded bg-white border border-gray-300 text-gray-600 hover:bg-gray-100 transition-colors flex items-center gap-1"
+                      suppressHydrationWarning
                     >
-                      <FaDownload className="hidden sm:block" />
-                      <span className="hidden sm:block">Download</span>
+                      <FaDownload /> Download
                     </button>
                   </div>
                 </div>
-                <div className="relative flex-grow">
-                  <pre className="code-display p-4 m-0 overflow-x-auto text-sm w-full h-full bg-[#1e1e1e]">
-                    <code className={`language-${snippet.language} text-gray-100 font-mono`}>
-                      {snippet.code}
-                    </code>
-                  </pre>
-                </div>
+                <pre className="code-body">
+                  <code>{snippet.code}</code>
+                </pre>
               </div>
             ))}
           </div>
@@ -191,10 +295,10 @@ const CodeSnippetGenerator = () => {
 
         {/* Empty placeholder */}
         {!isLoading && snippets.length === 0 && !error && (
-          <div className="flex flex-col items-center justify-center h-full min-h-[140px] text-center text-gray-400">
-            <span className="text-3xl mb-3">🖥️</span>
-            <p className="text-sm font-medium">Generated code will appear here</p>
-            <p className="text-xs text-gray-300 mt-1">Describe what you need and click Generate</p>
+          <div className="empty-output">
+            <span className="empty-icon">🖥️</span>
+            <p>Generated code will appear here</p>
+            <small>Select a language or starter preset on the left</small>
           </div>
         )}
       </div>

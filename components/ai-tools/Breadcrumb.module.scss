@@ -28,7 +28,8 @@
   }
 
   &:hover {
-    color: #fff;
+    color: var(--primary);
+    font-weight: 900;
   }
 
   &.active {

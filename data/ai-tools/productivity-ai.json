@@ -1,0 +1,59 @@
+[
+  {
+    "id": "notion",
+    "name": "Notion",
+    "slug": "notion",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "All-in-one workspace with integrated AI for document translation, flowchart generation, and database automation.",
+    "fullOverview": "Notion is an all-in-one workspace platform with integrated AI features. AI capabilities are bundled in Business ($20/seat/mo) and Enterprise plans, with Custom Agents available. Features document translation, flowchart generation, and database auto-fill.",
+    "website": "https://www.notion.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRYvz4UJjTs3nz8AUU8HQ6JtwTDgnlCmUV8IK5S7iZXQ&s=10",
+    "bannerImageUrl": "https://static0.xdaimages.com/wordpress/wp-content/uploads/2025/06/unique-ways-to-use-notion.jpg?w=1600&h=900&fit=crop",
+    "keyFeatures": [
+      "Document translation",
+      "Flowchart generation",
+      "Database auto-fill",
+      "Custom Agents",
+      "Notion Agent"
+    ],
+    "pros": [
+      "All-in-one workspace",
+      "Integrated AI",
+      "Deep customization"
+    ],
+    "cons": [
+      "AI requires Business tier",
+      "Can be expensive"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Desktop",
+      "Mobile"
+    ],
+    "tags": [
+      "productivity",
+      "workspace",
+      "ai",
+      "writing"
+    ],
+    "useCases": [
+      "Project management",
+      "Documentation",
+      "Knowledge base",
+      "Team collaboration"
+    ],
+    "bestFor": [
+      "Teams",
+      "Businesses",
+      "Knowledge workers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  }
+]

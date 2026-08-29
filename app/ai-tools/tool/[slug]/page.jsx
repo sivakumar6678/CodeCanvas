@@ -1,5 +1,6 @@
 import { getToolBySlug, getRelatedTools, getCategories } from '../../../../lib/data-fetchers';
 import { notFound } from 'next/navigation';
+import { generateToolSchema, generateBreadcrumbSchema } from '../../../../lib/seo-schema';
 import TrackView from '../../../../components/ai-tools/TrackView';
 import Breadcrumb from '../../../../components/ai-tools/Breadcrumb';
 import ToolHero from '../../../../components/ai-tools/ToolHero';
@@ -51,11 +52,31 @@ export default async function ToolDetailPage({ params }) {
   const breadcrumbItems = [
     { label: 'AI Tools', href: '/ai-tools' },
     { label: categoryData?.name || tool.category, href: `/ai-tools/${tool.category}` },
-    { label: tool.name }
+    { label: tool.name },
   ];
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://codecraft.dev';
+  const toolJsonLd = generateToolSchema(tool, siteUrl);
+  const breadcrumbJsonLd = generateBreadcrumbSchema(
+    [
+      { name: 'Home', url: '/' },
+      { name: 'AI Tools', url: '/ai-tools' },
+      { name: categoryData?.name || tool.category, url: `/ai-tools/${tool.category}` },
+      { name: tool.name, url: `/ai-tools/tool/${tool.slug}` },
+    ],
+    siteUrl
+  );
 
   return (
     <div className={styles.container}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(toolJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <TrackView slug={tool.slug} />
       
       <Breadcrumb items={breadcrumbItems} />
@@ -72,3 +93,4 @@ export default async function ToolDetailPage({ params }) {
     </div>
   );
 }
+

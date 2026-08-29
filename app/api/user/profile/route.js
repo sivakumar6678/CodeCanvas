@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 
+function toStringArray(val) {
+  if (Array.isArray(val)) return val.map((x) => String(x).trim()).filter(Boolean);
+  if (typeof val === 'string' && val.trim()) return val.split(',').map((x) => x.trim()).filter(Boolean);
+  return [];
+}
+
 export async function GET(request) {
   const supabase = await createClient();
 
@@ -45,6 +51,14 @@ export async function GET(request) {
         username: profile?.username || user.email?.split('@')[0] || 'User',
         avatar_url: profile?.avatar_url || '',
         bio: profile?.bio || '',
+        role: profile?.role || '',
+        experience_level: profile?.experience_level || '',
+        interests: Array.isArray(profile?.interests) ? profile.interests : [],
+        technologies: Array.isArray(profile?.technologies) ? profile.technologies : [],
+        goals: Array.isArray(profile?.goals) ? profile.goals : [],
+        preferred_pricing: profile?.preferred_pricing || '',
+        preferred_platforms: Array.isArray(profile?.preferred_platforms) ? profile.preferred_platforms : [],
+        onboarding_completed: Boolean(profile?.onboarding_completed),
         created_at: profile?.created_at || user.created_at
       },
       stats: {
@@ -69,10 +83,32 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { username, avatar_url, bio } = await request.json();
-    const normalizedUsername = typeof username === 'string' ? username.trim() : '';
-    const normalizedAvatar = typeof avatar_url === 'string' ? avatar_url.trim() : '';
-    const normalizedBio = typeof bio === 'string' ? bio.trim() : '';
+    // Fetch existing profile for safe merging of partial updates
+    const { data: existingProfile } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    const body = await request.json().catch(() => ({}));
+    const {
+      username,
+      avatar_url,
+      bio,
+      role,
+      experience_level,
+      interests,
+      technologies,
+      goals,
+      preferred_pricing,
+      preferred_platforms,
+      onboarding_completed,
+    } = body;
+
+    const rawUsername = username !== undefined ? username : (existingProfile?.username || user.email?.split('@')[0] || 'User');
+    const normalizedUsername = typeof rawUsername === 'string' ? rawUsername.trim() : 'User';
+    const normalizedAvatar = avatar_url !== undefined ? (typeof avatar_url === 'string' ? avatar_url.trim() : '') : (existingProfile?.avatar_url || '');
+    const normalizedBio = bio !== undefined ? (typeof bio === 'string' ? bio.trim() : '') : (existingProfile?.bio || '');
 
     if (!/^[a-zA-Z0-9_\- ]{2,40}$/.test(normalizedUsername)) {
       return NextResponse.json({ error: 'Username must be 2–40 characters and use letters, numbers, spaces, _ or -.' }, { status: 400 });
@@ -91,13 +127,30 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Bio must be 500 characters or fewer.' }, { status: 400 });
     }
 
+    const roleVal = role !== undefined ? String(role || '').trim() : (existingProfile?.role || '');
+    const experienceVal = experience_level !== undefined ? String(experience_level || '').trim() : (existingProfile?.experience_level || '');
+    const interestsVal = interests !== undefined ? toStringArray(interests) : (existingProfile?.interests || []);
+    const technologiesVal = technologies !== undefined ? toStringArray(technologies) : (existingProfile?.technologies || []);
+    const goalsVal = goals !== undefined ? toStringArray(goals) : (existingProfile?.goals || []);
+    const pricingVal = preferred_pricing !== undefined ? String(preferred_pricing || '').trim() : (existingProfile?.preferred_pricing || '');
+    const platformsVal = preferred_platforms !== undefined ? toStringArray(preferred_platforms) : (existingProfile?.preferred_platforms || []);
+    const onboardingCompletedVal = onboarding_completed !== undefined ? Boolean(onboarding_completed) : Boolean(existingProfile?.onboarding_completed);
+
     const { data, error } = await supabase
       .from('user_profiles')
       .upsert({
         id: user.id,
         username: normalizedUsername,
         avatar_url: normalizedAvatar,
-        bio: normalizedBio
+        bio: normalizedBio,
+        role: roleVal,
+        experience_level: experienceVal,
+        interests: interestsVal,
+        technologies: technologiesVal,
+        goals: goalsVal,
+        preferred_pricing: pricingVal,
+        preferred_platforms: platformsVal,
+        onboarding_completed: onboardingCompletedVal,
       })
       .select()
       .single();
@@ -115,3 +168,4 @@ export async function PUT(request) {
     return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
   }
 }
+

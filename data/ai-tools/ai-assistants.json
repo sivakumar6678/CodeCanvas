@@ -1,1 +1,446 @@
-[]
+[
+  {
+    "id": "chatgpt",
+    "name": "ChatGPT",
+    "slug": "chatgpt",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "OpenAI's flagship AI chatbot and coding assistant with integrated Codex agent for software development.",
+    "fullOverview": "ChatGPT is OpenAI's conversational AI platform that includes the Codex coding agent for software development. Available across Free, Go, Plus, Pro, Business, and Enterprise tiers with varying model access and usage limits.",
+    "website": "https://chatgpt.com",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "keyFeatures": [
+      "Codex coding agent",
+      "GPT-5.6 Sol Pro",
+      "Deep research",
+      "Custom GPTs",
+      "Projects & scheduled tasks"
+    ],
+    "pros": [
+      "Industry-leading models",
+      "Integrated coding agent",
+      "Multiple subscription tiers"
+    ],
+    "cons": [
+      "Higher-tier plans are expensive",
+      "Usage limits on free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai",
+      "chatbot",
+      "coding",
+      "openai"
+    ],
+    "useCases": [
+      "Software development",
+      "Content creation",
+      "Research",
+      "Data analysis"
+    ],
+    "bestFor": [
+      "Developers",
+      "Researchers",
+      "Businesses"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "gemini",
+    "name": "Gemini",
+    "slug": "gemini",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Google's AI assistant with deep Google ecosystem integration and multi-modal capabilities.",
+    "fullOverview": "Gemini is Google's AI assistant and coding platform, integrating with Google's ecosystem including Docs, Gmail, and the Antigravity development environment. Available in Free, Plus, Pro, and Ultra tiers.",
+    "website": "https://gemini.google.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqGrqBPffjc--HscZ5gQAsD7XaVdVbrxL5IvRJwgdqRUqRvW9YxcNtCc&s=10",
+    "bannerImageUrl": "https://upload.wikimediahttps://nubetia.com/wp-content/uploads/2025/07/gemini-nubetia.webp.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/500px-Google_Gemini_logo.svg.png",
+    "keyFeatures": [
+      "Deep research",
+      "Image generation (Nano Banana 2)",
+      "Antigravity IDE integration",
+      "1M+ context window"
+    ],
+    "pros": [
+      "Deep Google ecosystem integration",
+      "Competitive pricing",
+      "Strong multi-modal capabilities"
+    ],
+    "cons": [
+      "Some features locked to higher tiers",
+      "Compute-based usage limits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "google",
+      "multi-modal"
+    ],
+    "useCases": [
+      "Research",
+      "Content creation",
+      "Coding",
+      "Data analysis"
+    ],
+    "bestFor": [
+      "Google ecosystem users",
+      "Researchers",
+      "Developers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "grok",
+    "name": "Grok",
+    "slug": "grok",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "xAI's conversational AI with strong reasoning capabilities and voice cloning features.",
+    "fullOverview": "Grok is xAI's AI assistant featuring advanced reasoning models, voice cloning, and agent capabilities. Available through free tier, SuperGrok Lite ($10/mo), SuperGrok ($30/mo), and SuperGrok Heavy ($300/mo).",
+    "website": "https://x.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1b7EoQ15drRpVR1nwsGusENf5FEN33Vn4UVm28eRf5bqVS0TVCkMnttg&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYTabfKXMs-_oJCSKVkQkXLVXYmCYHhvVHOqEwcNfgV1E6p7F2OfgKMr0&s=10",
+    "keyFeatures": [
+      "Grok 4.3 model",
+      "Voice cloning",
+      "Video generation",
+      "Agent capabilities",
+      "256K context window"
+    ],
+    "pros": [
+      "Aggressive pricing",
+      "Strong reasoning",
+      "Voice and video capabilities"
+    ],
+    "cons": [
+      "Higher tiers are expensive",
+      "Newer platform with evolving features"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "ai",
+      "chatbot",
+      "xai",
+      "reasoning"
+    ],
+    "useCases": [
+      "Conversational AI",
+      "Content creation",
+      "Voice applications"
+    ],
+    "bestFor": [
+      "AI enthusiasts",
+      "Developers",
+      "Content creators"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "claude",
+    "name": "Claude",
+    "slug": "claude",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Anthropic's AI assistant with strong reasoning, coding capabilities, and the Claude Code agent.",
+    "fullOverview": "Claude is Anthropic's AI assistant featuring advanced reasoning models, the Claude Code coding agent, and deep integrations with Microsoft 365. Available in Free, Pro ($20/mo), Max 5x ($100/mo), Max 20x ($200/mo), Team, and Enterprise plans.",
+    "website": "https://claude.ai",
+    "logoImageUrl": "https://images.seeklogo.com/logo-png/55/2/claude-logo-png_seeklogo-554534.png",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/960px-Claude_AI_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "keyFeatures": [
+      "Claude Code coding agent",
+      "Research mode",
+      "Projects & Memory",
+      "File uploads",
+      "Web search",
+      "Microsoft 365 integration"
+    ],
+    "pros": [
+      "Strong reasoning",
+      "Integrated coding agent",
+      "Deep Microsoft integration"
+    ],
+    "cons": [
+      "Higher tiers are expensive",
+      "Usage limits on free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "coding",
+      "anthropic"
+    ],
+    "useCases": [
+      "Software development",
+      "Research",
+      "Content creation",
+      "Business workflows"
+    ],
+    "bestFor": [
+      "Developers",
+      "Researchers",
+      "Businesses"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "kimi",
+    "name": "Kimi",
+    "slug": "kimi",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Moonshot AI's assistant with a massive 262K context window and multi-agent parallel processing.",
+    "fullOverview": "Kimi is Moonshot AI's AI assistant with an industry-leading 262,144-token context window. Features multi-agent parallel processing with four membership tiers: Andante, Moderato, Allegretto, and Allegro.",
+    "website": "https://www.kimi.ai",
+    "logoImageUrl": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kimi-ai.webp",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO5qq1tdPsucFhjVskaqHLAdwWQhzy3A5hPTnexdrx6us-pTvdTMKp_0N8&s=10",
+    "keyFeatures": [
+      "262K context window",
+      "Multi-agent parallel",
+      "Kimi K3 model",
+      "Agent concurrency"
+    ],
+    "pros": [
+      "Massive context window",
+      "Multi-agent parallelism",
+      "Competitive pricing"
+    ],
+    "cons": [
+      "Some plans sold out",
+      "Chinese-focused platform"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "Mobile"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "context",
+      "moonshot"
+    ],
+    "useCases": [
+      "Long-form analysis",
+      "Research",
+      "Complex reasoning"
+    ],
+    "bestFor": [
+      "Researchers",
+      "Power users",
+      "Chinese market"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "deepseek",
+    "name": "DeepSeek",
+    "slug": "deepseek",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Cost-efficient AI with 1M context window and peak/off-peak pricing.",
+    "fullOverview": "DeepSeek offers affordable AI models with a 1M context window and 384K output. Features peak/off-peak pricing for cost optimization, with V4-Pro offering competitive performance at a fraction of the cost of competitors.",
+    "website": "https://deepseek.com",
+    "logoImageUrl": "https://crystalpng.com/wp-content/uploads/2025/01/deepseek-logo-01.png",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/960px-DeepSeek_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "keyFeatures": [
+      "1M context window",
+      "384K max output",
+      "Peak/off-peak pricing",
+      "V4-Pro model",
+      "Agent capabilities"
+    ],
+    "pros": [
+      "Extremely cost-effective",
+      "Large context window",
+      "Peak/off-peak savings"
+    ],
+    "cons": [
+      "Chinese-focused platform",
+      "Complex pricing structure"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "ai",
+      "cost-effective",
+      "context",
+      "deepseek"
+    ],
+    "useCases": [
+      "Long-form analysis",
+      "Cost-sensitive applications",
+      "Research"
+    ],
+    "bestFor": [
+      "Budget-conscious developers",
+      "Researchers",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "tool-005",
+    "name": "perpelxity",
+    "slug": "perpelxity",
+    "category": "ai-assistants",
+    "subCategory": "research-assistants",
+    "description": "AI-powered search and research platform that provides conversational answers using web sources.",
+    "fullOverview": "Perplexity AI is a research and search assistant that combines multiple AI models for comprehensive answers. Features Pro Search with advanced AI models, file uploads, and the autonomous Computer agent for complex workflows.",
+    "website": "https://www.perplexity.ai/",
+    "logoImageUrl": "https://static.vecteezy.com/system/resources/previews/067/941/679/non_2x/perplexity-ai-logo-rounded-hd-free-png.png",
+    "bannerImageUrl": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2024/06/pplx-default-preview.png?w=1600&h=900&fit=crop",
+    "keyFeatures": [
+      "Pro Search",
+      "Computer autonomous agent",
+      "19+ AI models",
+      "File uploads",
+      "App creation"
+    ],
+    "pros": [
+      "Powerful research capabilities",
+      "Autonomous agent",
+      "Multi-model approach"
+    ],
+    "cons": [
+      "Pro plan is expensive",
+      "Usage limits on free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "web",
+      "ios",
+      "android"
+    ],
+    "tags": [
+      "ai-search",
+      "research",
+      "web-search",
+      "citations",
+      "search-engine"
+    ],
+    "useCases": [
+      "web-research",
+      "fact-finding",
+      "information-discovery",
+      "research-summaries"
+    ],
+    "bestFor": [
+      "\"Researchers\", \"Analysts\", \"Power users\""
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T13:52:54.811Z",
+    "status": "active"
+  },
+  {
+    "id": "notebook-lm",
+    "name": "Notebook LM",
+    "slug": "notebook-lm",
+    "category": "ai-assistants",
+    "subCategory": "research-assistants",
+    "description": "Google's research assistant that turns documents into podcasts, mind maps, and summaries.",
+    "fullOverview": "Notebook LM is Google's AI research assistant that transforms documents into podcasts, mind maps, and summaries. Free tier includes 100 notebooks with 50 sources each. Paid tiers from $7.99/mo via Google AI subscriptions offer 500 notebooks and 300 sources.",
+    "website": "https://notebooklm.google.com",
+    "logoImageUrl": "https://www.gstatic.com/images/branding/productlogos/notebooklm/v1/192px.svg",
+    "bannerImageUrl": "https://www.gstatic.com/images/branding/productlogos/notebooklm/v1/192px.svg",
+    "keyFeatures": [
+      "Document to podcast",
+      "Mind maps",
+      "Summaries",
+      "Citation-backed answers",
+      "Audio overviews"
+    ],
+    "pros": [
+      "Generous free tier",
+      "Unique audio features",
+      "Google integration"
+    ],
+    "cons": [
+      "Paid tiers through Google AI",
+      "Limited source count"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "research",
+      "ai",
+      "google",
+      "writing"
+    ],
+    "useCases": [
+      "Research",
+      "Note-taking",
+      "Content creation",
+      "Learning"
+    ],
+    "bestFor": [
+      "Researchers",
+      "Students",
+      "Knowledge workers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  }
+]

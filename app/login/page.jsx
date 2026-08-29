@@ -58,7 +58,7 @@ export default function LoginPage() {
         else if (!data.session) result = { success: 'Account created. Check your email to confirm your account, then sign in.' };
         else {
           await fetch('/api/user/profile', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, avatar_url: '', bio: '' }) });
-          result = { success: 'Account created successfully.', redirectTo: '/profile' };
+          result = { success: 'Account created successfully. Let’s personalize your experience.', redirectTo: '/onboarding' };
         }
       } else {
         const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });

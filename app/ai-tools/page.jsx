@@ -1,7 +1,9 @@
 import { getAllTools, getCategories, getFeaturedTools } from '../../lib/data-fetchers';
+import { filterTools, getAvailableFilterOptions } from '../../lib/catalog-filtering';
 import AIToolCard from '../../components/ai-tools/AIToolCard';
 import CategoryFilter from '../../components/ai-tools/CategoryFilter';
 import SearchBar from '../../components/ai-tools/SearchBar';
+import ToolFilterBar from '../../components/ai-tools/ToolFilterBar';
 import styles from './page.module.scss';
 
 export const metadata = {
@@ -15,17 +17,25 @@ export default async function AIToolsPage({ searchParams }) {
   const featuredTools = await getFeaturedTools();
   
   const searchParamsObj = await searchParams;
-  const query = searchParamsObj?.q?.toLowerCase();
-  console.log('searchParamsObj:', searchParamsObj);
-  console.log('query:', query);
+  const query = searchParamsObj?.q?.toLowerCase()?.trim() || '';
+  const subCategory = searchParamsObj?.subCategory?.toLowerCase()?.trim() || '';
+  const pricing = searchParamsObj?.pricing?.toLowerCase()?.trim() || '';
+  const platform = searchParamsObj?.platform?.toLowerCase()?.trim() || '';
+  const useCase = searchParamsObj?.useCase?.toLowerCase()?.trim() || '';
+  const tag = searchParamsObj?.tag?.toLowerCase()?.trim() || '';
+  const sort = searchParamsObj?.sort?.toLowerCase()?.trim() || 'featured';
   
-  const displayTools = query 
-    ? allTools.filter(tool => 
-        tool.name.toLowerCase().includes(query) || 
-        tool.description.toLowerCase().includes(query) ||
-        tool.tags?.some(tag => tag.toLowerCase().includes(query))
-      )
-    : allTools;
+  const availableFilters = getAvailableFilterOptions(allTools);
+
+  const displayTools = filterTools(allTools, {
+    query,
+    subCategory,
+    pricing,
+    platform,
+    useCase,
+    tag,
+    sort,
+  });
 
   return (
     <div className={styles.container}>
@@ -44,7 +54,7 @@ export default async function AIToolsPage({ searchParams }) {
         </div>
       </header>
 
-      {!query && featuredTools.length > 0 && (
+      {!query && featuredTools.length > 0 && !subCategory && !pricing && !platform && !useCase && !tag && (
         <section className={styles.featuredSection}>
           <h2 className={styles.sectionTitle}>Featured Tools</h2>
           <div className={styles.grid}>
@@ -64,6 +74,12 @@ export default async function AIToolsPage({ searchParams }) {
         
         {!query && <CategoryFilter categories={categories} />}
 
+        <ToolFilterBar
+          totalCount={displayTools.length}
+          categories={categories}
+          availableFilters={availableFilters}
+        />
+
         {displayTools.length > 0 ? (
           <div className={styles.grid}>
             {displayTools.map(tool => (
@@ -73,10 +89,11 @@ export default async function AIToolsPage({ searchParams }) {
         ) : (
           <div className={styles.emptyState}>
             <h3>No tools found</h3>
-            <p>Try adjusting your search query.</p>
+            <p>Try adjusting your search query or filter options.</p>
           </div>
         )}
       </section>
     </div>
   );
 }
+

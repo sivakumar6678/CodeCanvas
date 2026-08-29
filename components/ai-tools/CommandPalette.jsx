@@ -87,48 +87,60 @@ export default function CommandPalette() {
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex(prev => (prev + 1) % results.length);
+      setSelectedIndex((prev) => (prev + 1) % results.length);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
+      setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (results[selectedIndex]) {
-        navigateToTool(results[selectedIndex].slug);
+        navigateToItem(results[selectedIndex]);
       }
     }
   };
 
-  const navigateToTool = (slug) => {
+  const navigateToItem = (item) => {
     setIsOpen(false);
-    router.push(`/ai-tools/tool/${slug}`);
+    const destination = item.href || (item.slug ? `/ai-tools/tool/${item.slug}` : '/ai-tools');
+    router.push(destination);
   };
 
   return (
     <>
       {/* Optional Trigger Button for Navbar / Mobile */}
-      <button onClick={() => setIsOpen(true)} className={styles.triggerBtn} title="Global Search (Cmd + K)">
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={styles.triggerBtn}
+        title="Global Search (Cmd + K or Ctrl + K)"
+        suppressHydrationWarning
+      >
         <FiSearch className={styles.searchIcon} />
-        <span className={styles.triggerText}>Search tools...</span>
+        <span className={styles.triggerText}>Search platform...</span>
         <kbd className={styles.shortcut}><FiCommand /> K</kbd>
       </button>
 
       {isOpen && (
         <div className={styles.overlay} onClick={() => setIsOpen(false)}>
-          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.inputWrapper}>
               <FiSearch className={styles.inputIcon} />
               <input
                 ref={inputRef}
                 type="text"
                 className={styles.input}
-                placeholder="Search AI tools by name, category, or tag..."
+                placeholder="Search tools, categories, prompts, or generators..."
                 value={query}
                 onChange={handleQueryChange}
                 onKeyDown={handleKeyDownInInput}
               />
               {query && (
-                <button onClick={() => { setQuery(''); fetchResults(''); }} className={styles.clearBtn}>
+                <button
+                  type="button"
+                  onClick={() => { setQuery(''); fetchResults(''); }}
+                  className={styles.clearBtn}
+                  suppressHydrationWarning
+                >
                   <FiX />
                 </button>
               )}
@@ -136,31 +148,40 @@ export default function CommandPalette() {
 
             <div className={styles.resultsList}>
               {loading ? (
-                <div className={styles.statusMsg}>Searching tools...</div>
+                <div className={styles.statusMsg}>Searching platform...</div>
               ) : results.length === 0 ? (
-                <div className={styles.statusMsg}>No tools matching "{query}"</div>
+                <div className={styles.statusMsg}>No results matching "{query}"</div>
               ) : (
-                results.map((tool, idx) => (
+                results.map((item, idx) => (
                   <div
-                    key={tool.id}
+                    key={item.id || idx}
                     className={`${styles.resultItem} ${idx === selectedIndex ? styles.selected : ''}`}
-                    onClick={() => navigateToTool(tool.slug)}
+                    onClick={() => navigateToItem(item)}
                     onMouseEnter={() => setSelectedIndex(idx)}
                   >
                     <div className={styles.logoWrapper}>
-                      {(tool.logoImageUrl || tool.logo) ? (
-                        <img src={tool.logoImageUrl || tool.logo} alt="logo" className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                      {item.logoImageUrl || item.logo ? (
+                        <img
+                          src={item.logoImageUrl || item.logo}
+                          alt="logo"
+                          className={styles.logo}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                        />
                       ) : (
-                        <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
+                        <div className={styles.placeholderLogo}>
+                          {item.name ? item.name.charAt(0).toUpperCase() : '✦'}
+                        </div>
                       )}
                     </div>
 
                     <div className={styles.itemInfo}>
                       <div className={styles.itemHeader}>
-                        <span className={styles.name}>{tool.name}</span>
-                        <span className={styles.categoryBadge}>{tool.category}</span>
+                        <span className={styles.name}>{item.name}</span>
+                        <span className={styles.categoryBadge}>{item.category}</span>
                       </div>
-                      <p className={styles.description}>{tool.description}</p>
+                      <p className={styles.description}>{item.description}</p>
                     </div>
 
                     <div className={styles.enterIcon}>
@@ -182,3 +203,4 @@ export default function CommandPalette() {
     </>
   );
 }
+

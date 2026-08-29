@@ -871,13 +871,20 @@ const Brainstorming = () => {
           </div>
         </div>
 
-        <div className="action-buttons">
-          <button className="export-btn" onClick={exportSession}>
+          <div className="action-buttons">
+          <button
+            type="button"
+            className="export-btn"
+            onClick={exportSession}
+            suppressHydrationWarning
+          >
             <FaDownload /> Export Session
           </button>
-          <button 
+          <button
+            type="button"
             className={`mindmap-btn ${showMindMap ? 'active' : ''}`}
             onClick={() => setShowMindMap(!showMindMap)}
+            suppressHydrationWarning
           >
             <FaLightbulb /> {showMindMap ? 'Hide Mind Map' : 'Show Mind Map'}
           </button>
@@ -909,7 +916,17 @@ const Brainstorming = () => {
           options={exportOptions}
           onClose={() => setShowExportModal(false)}
           onExport={(option) => {
-            // Handle export
+            if (!option) return;
+            const blob = new Blob([option.content], { type: option.type || 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = option.filename || 'brainstorming-session.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setShowExportModal(false);
           }}
         />
       )}

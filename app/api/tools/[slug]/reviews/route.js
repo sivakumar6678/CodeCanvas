@@ -21,12 +21,15 @@ export async function GET(request, { params }) {
       .eq('tool_slug', slug)
       .order('created_at', { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+      console.warn('Reviews fetch warning:', error.message);
+      return NextResponse.json([]);
+    }
 
-    return NextResponse.json(reviews);
+    return NextResponse.json(reviews || []);
   } catch (error) {
-    console.error('Error fetching reviews:', error);
-    return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
+    console.warn('Error fetching reviews:', error.message);
+    return NextResponse.json([]);
   }
 }
 

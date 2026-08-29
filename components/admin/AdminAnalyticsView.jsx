@@ -1,10 +1,38 @@
 'use client';
-import { FiEye, FiExternalLink, FiPercent, FiThumbsUp, FiMessageSquare, FiFolder, FiArrowUpRight } from 'react-icons/fi';
+
+import { useState, useMemo } from 'react';
+import { FiEye, FiExternalLink, FiPercent, FiThumbsUp, FiMessageSquare, FiFolder, FiArrowUpRight, FiSearch } from 'react-icons/fi';
 import styles from './AdminAnalyticsView.module.scss';
 import Link from 'next/link';
 
 export default function AdminAnalyticsView({ analyticsData }) {
-  const { kpis, toolsTraffic } = analyticsData;
+  const { kpis, toolsTraffic = [] } = analyticsData;
+  const [search, setSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('views');
+
+  const categories = useMemo(() => {
+    return ['all', ...new Set(toolsTraffic.map((t) => t.category).filter(Boolean))];
+  }, [toolsTraffic]);
+
+  const filteredAndSortedTools = useMemo(() => {
+    return toolsTraffic
+      .filter((tool) => {
+        const matchesSearch =
+          !search ||
+          tool.name.toLowerCase().includes(search.toLowerCase()) ||
+          tool.slug.toLowerCase().includes(search.toLowerCase());
+        const matchesCat = categoryFilter === 'all' || tool.category === categoryFilter;
+        return matchesSearch && matchesCat;
+      })
+      .sort((a, b) => {
+        if (sortBy === 'clicks') return b.clicks - a.clicks;
+        if (sortBy === 'upvotes') return b.upvotes - a.upvotes;
+        if (sortBy === 'ctr') return (b.ctrNum || 0) - (a.ctrNum || 0);
+        if (sortBy === 'name') return a.name.localeCompare(b.name);
+        return b.views - a.views;
+      });
+  }, [toolsTraffic, search, categoryFilter, sortBy]);
 
   return (
     <div className={styles.container}>
@@ -78,11 +106,52 @@ export default function AdminAnalyticsView({ analyticsData }) {
         </div>
       </div>
 
-      {/* Tools Traffic Table */}
+      {/* Tools Traffic Table Section */}
       <div className={styles.tableSection}>
         <div className={styles.sectionHeader}>
-          <h2>Tool Performance Breakdown</h2>
-          <span className={styles.badge}>{toolsTraffic.length} Tools Tracked</span>
+          <div>
+            <h2>Tool Performance Breakdown</h2>
+            <span className={styles.badge}>{filteredAndSortedTools.length} Tools</span>
+          </div>
+
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc', padding: '6px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <FiSearch style={{ color: '#64748b' }} />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Filter tools..."
+                style={{ border: 'none', background: 'transparent', outline: 'none', fontSize: '0.85rem' }}
+                aria-label="Filter tools"
+              />
+            </div>
+
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              style={{ padding: '6px 10px', borderRadius: '8px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.85rem' }}
+              aria-label="Filter by category"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat === 'all' ? 'All Categories' : cat}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              style={{ padding: '6px 10px', borderRadius: '8px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.85rem' }}
+              aria-label="Sort tools"
+            >
+              <option value="views">Sort by Views</option>
+              <option value="clicks">Sort by Clicks</option>
+              <option value="ctr">Sort by CTR %</option>
+              <option value="upvotes">Sort by Upvotes</option>
+              <option value="name">Sort by Name</option>
+            </select>
+          </div>
         </div>
 
         <div className={styles.tableWrapper}>
@@ -99,27 +168,35 @@ export default function AdminAnalyticsView({ analyticsData }) {
               </tr>
             </thead>
             <tbody>
-              {toolsTraffic.map(tool => (
-                <tr key={tool.id}>
-                  <td className={styles.toolNameCell}>
-                    <span className={styles.toolName}>{tool.name}</span>
-                  </td>
-                  <td>
-                    <span className={styles.categoryTag}>{tool.category}</span>
-                  </td>
-                  <td className={styles.numCell}>{tool.views}</td>
-                  <td className={styles.numCell}>{tool.clicks}</td>
-                  <td>
-                    <span className={styles.ctrBadge}>{tool.ctr}</span>
-                  </td>
-                  <td className={styles.numCell}>{tool.upvotes}</td>
-                  <td>
-                    <Link href={`/ai-tools/tool/${tool.slug}`} className={styles.viewLink} target="_blank">
-                      View <FiArrowUpRight />
-                    </Link>
+              {filteredAndSortedTools.length > 0 ? (
+                filteredAndSortedTools.map((tool) => (
+                  <tr key={tool.id}>
+                    <td className={styles.toolNameCell}>
+                      <span className={styles.toolName}>{tool.name}</span>
+                    </td>
+                    <td>
+                      <span className={styles.categoryTag}>{tool.category}</span>
+                    </td>
+                    <td className={styles.numCell}>{tool.views}</td>
+                    <td className={styles.numCell}>{tool.clicks}</td>
+                    <td>
+                      <span className={styles.ctrBadge}>{tool.ctr}</span>
+                    </td>
+                    <td className={styles.numCell}>{tool.upvotes}</td>
+                    <td>
+                      <Link href={`/ai-tools/tool/${tool.slug}`} className={styles.viewLink} target="_blank">
+                        View <FiArrowUpRight />
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={7} style={{ textAlign: 'center', padding: '30px', color: '#64748b' }}>
+                    No tools match the selected filters.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

@@ -84,11 +84,11 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 
   label {
     color: var(--text-main);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-weight: 600;
   }
 }
@@ -103,51 +103,75 @@
     left: 14px;
     color: var(--text-muted);
     font-size: 1.1rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
   }
 
   input {
     width: 100%;
-    background: var(--bg-muted);
+    min-height: 46px;
+    background: var(--bg-surface);
     border: 1px solid var(--border-medium);
-    padding: 12px 12px 12px 42px;
+    padding: 10px 14px 10px 42px;
     border-radius: var(--radius-md);
     color: var(--text-main);
     font-size: 0.95rem;
-    transition: all 0.2s ease;
+    font-family: inherit;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
 
     &::placeholder {
       color: var(--text-muted);
+      opacity: 0.8;
+    }
+
+    &:hover:not(:focus) {
+      border-color: var(--primary);
     }
 
     &:focus {
-      border-color: var(--border-focus);
+      border-color: var(--primary);
       background: var(--bg-surface);
-      box-shadow: 0 0 0 3px var(--primary-light);
+      box-shadow: 0 0 0 3px var(--primary-light, rgba(99, 102, 241, 0.18));
+
+      + .icon,
+      & ~ .icon {
+        color: var(--primary);
+      }
     }
+  }
+
+  &:focus-within .icon {
+    color: var(--primary);
   }
 }
 
 .submitBtn {
-  margin-top: 12px;
+  margin-top: 10px;
+  min-height: 48px;
   background: var(--primary);
   color: var(--text-inverse);
   border: none;
-  padding: 14px;
+  padding: 12px 24px;
   border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.975rem;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
     background: var(--primary-hover);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
 
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 }

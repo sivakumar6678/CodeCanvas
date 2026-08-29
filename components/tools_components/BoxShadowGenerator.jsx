@@ -124,7 +124,12 @@ export default function BoxShadowGenerator() {
           </code>
         </div>
 
-        <button onClick={copyToClipboard} className={`primary-btn w-full ${copied ? '!bg-green-600' : ''}`}>
+        <button
+          type="button"
+          onClick={copyToClipboard}
+          suppressHydrationWarning
+          className={`primary-btn w-full ${copied ? '!bg-green-600' : ''}`}
+        >
           {copied ? '✅ Copied!' : 'Copy CSS'}
         </button>
 
@@ -135,8 +140,12 @@ export default function BoxShadowGenerator() {
             <div className="gradient-box" style={{ boxShadow: aiSuggestion, height: '100px', borderRadius: '8px', backgroundColor }}>
               <p className="text-center text-gray-600 text-xs font-mono">{aiSuggestion}</p>
             </div>
-            <button onClick={() => navigator.clipboard.writeText(`box-shadow: ${aiSuggestion};`)}
-              className="primary-btn w-full mt-3">
+            <button
+              type="button"
+              onClick={() => navigator.clipboard.writeText(`box-shadow: ${aiSuggestion};`)}
+              suppressHydrationWarning
+              className="primary-btn w-full mt-3"
+            >
               Copy AI Shadow CSS
             </button>
           </div>
