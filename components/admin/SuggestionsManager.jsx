@@ -12,8 +12,26 @@ export default function SuggestionsManager() {
   const [items, setItems] = useState({ toolSuggestions: [], promptSubmissions: [] });
   const [review, setReview] = useState(null);
   const [feedback, setFeedback] = useState('');
-  useEffect(() => { load(); }, [status, type]);
-  async function load() { const query = new URLSearchParams({ status }); if (type !== 'all') query.set('type', type); const response = await fetch(`/api/admin/suggestions?${query}`); if (response.ok) setItems(await response.json()); }
+  const [loadError, setLoadError] = useState('');
+
+  useEffect(() => {
+    load();
+  }, [status, type]);
+
+  async function load() {
+    try {
+      setLoadError('');
+      const query = new URLSearchParams({ status });
+      if (type !== 'all') query.set('type', type);
+      const response = await fetch(`/api/admin/suggestions?${query}`);
+      if (!response.ok) throw new Error('Failed to load suggestions');
+      setItems(await response.json());
+    } catch (error) {
+      console.error('Error loading suggestions:', error);
+      setLoadError('Failed to load suggestions. Please try again.');
+      setItems({ toolSuggestions: [], promptSubmissions: [] });
+    }
+  }
   function open(item, itemType) { setReview({ ...emptyReview, ...item, type: itemType, typeName: item.type || 'prompt', id: item.id, tags: (item.tags || []).join(', ') }); }
   async function act(action, target = review) { const data = target.type === 'tool' ? { tool_name: target.tool_name, website_url: target.website_url, category: target.category, subcategory: target.subcategory, description: target.description, pricing: target.pricing, tags: target.tags.split(',').map((tag) => tag.trim()).filter(Boolean), recommendation_reason: target.recommendation_reason, display_name: target.display_name, is_anonymous: target.is_anonymous, admin_notes: target.admin_notes } : { title: target.title, type: target.typeName || target.contentType || 'prompt', prompt_content: target.prompt_content, ai_model: target.ai_model, category: target.category, use_case: target.use_case, use_cases: target.use_cases || [], tags: target.tags.split(',').map((tag) => tag.trim()).filter(Boolean), description: target.description, display_name: target.display_name, is_anonymous: target.is_anonymous, admin_notes: target.admin_notes }; const response = await fetch('/api/admin/suggestions', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: target.type, id: target.id, action, data }) }); const payload = await response.json().catch(() => ({})); if (!response.ok) { setFeedback(payload.error || 'Unable to update submission.'); return; } setFeedback(action === 'reject' ? 'Submission rejected.' : action === 'edit' ? 'Submission updated.' : 'Submission approved and published.'); setReview(null); load(); }
   const rows = [...(type === 'prompt' ? [] : items.toolSuggestions.map((item) => ({ item, itemType: 'tool' }))), ...(type === 'tool' ? [] : items.promptSubmissions.map((item) => ({ item, itemType: 'prompt' })))];

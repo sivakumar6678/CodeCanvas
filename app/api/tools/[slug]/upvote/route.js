@@ -4,8 +4,8 @@ import { createClient } from '../../../../../lib/supabase/server';
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET(request, { params }) {
-  const supabase = createClient();
-  const slug = params.slug;
+  const supabase = await createClient();
+  const slug = (await params).slug;
   if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
@@ -42,8 +42,8 @@ export async function GET(request, { params }) {
 }
 
 export async function POST(request, { params }) {
-  const supabase = createClient();
-  const slug = params.slug;
+  const supabase = await createClient();
+  const slug = (await params).slug;
   if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {

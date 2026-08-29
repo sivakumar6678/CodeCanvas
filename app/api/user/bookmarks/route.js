@@ -5,7 +5,7 @@ import { getToolBySlug } from '../../../../lib/data-fetchers';
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -36,7 +36,7 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data: { user } } = await supabase.auth.getUser();

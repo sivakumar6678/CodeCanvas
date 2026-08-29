@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '../../../lib/supabase/server';
 
 export async function GET(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const query = request.nextUrl.searchParams.get('q')?.trim();
   const category = request.nextUrl.searchParams.get('category')?.trim();
   const model = request.nextUrl.searchParams.get('model')?.trim();

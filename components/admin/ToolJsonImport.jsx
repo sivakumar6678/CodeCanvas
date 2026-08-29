@@ -7,16 +7,45 @@ import styles from './ToolJsonImport.module.scss';
 const GENERATOR_PROMPT = `Convert the following list of AI tools into the exact JSON schema used by CodeCraft.
 
 Return only valid JSON: an array of tool objects, with no markdown fences or explanation.
-Each object must use exactly these fields when known: id, name, slug, logo, banner, description, overview, features, pros, cons, website, category, subCategory, pricing, freeTrial, platform, tags, useCases, bestFor, featured, new, verified, createdDate.
+Each object MUST use these EXACT canonical field names: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate.
 
-Rules:
+REQUIRED CANONICAL FIELD NAMES:
+{
+  "id": "unique-tool-id-string",
+  "name": "Tool Name",
+  "slug": "tool-name-lowercase-hyphenated",
+  "category": "category-name-lowercase",
+  "subCategory": "subcategory or empty string",
+  "description": "Short 1-2 sentence description for cards",
+  "fullOverview": "Complete overview and details for the tool detail page",
+  "website": "https://exact-url.com",
+  "logoImageUrl": "https://url-to-logo-image.png (or empty string)",
+  "bannerImageUrl": "https://url-to-banner-image.png (or empty string)",
+  "keyFeatures": ["Feature 1", "Feature 2"],
+  "pros": ["Pro 1", "Pro 2"],
+  "cons": ["Con 1", "Con 2"],
+  "pricingModel": "Free, Freemium, Free / Freemium, Paid, or Contact for pricing",
+  "platforms": ["Web", "Windows", "macOS"],
+  "tags": ["AI", "Design", "Development"],
+  "useCases": ["Code generation", "Design assistance"],
+  "bestFor": ["Developers", "Designers"],
+  "featured": false,
+  "new": false,
+  "verified": false,
+  "hasFree": true,
+  "createdDate": "2024-01-01T00:00:00Z"
+}
+
+CRITICAL RULES:
+- Use ONLY the field names listed above. No aliases like 'logo', 'banner', 'features', 'pricing', 'freeTrial', 'platform', or other variants.
 - Preserve original tool names and website URLs exactly.
-- Generate a unique lowercase hyphenated slug and a unique string id for every tool.
-- Use consistent category and subCategory values from the supplied information; do not invent categories.
-- Generate concise tags and useCases only from information present in the source.
-- Do not invent logos, features, pricing, platforms, claims, or other unknown information. Use empty strings or arrays where information is unavailable.
-- Use pricing values only from: Free, Freemium, Free / Freemium, Paid, Contact for pricing.
-- Return a valid JSON array that matches the schema exactly.
+- Generate unique lowercase hyphenated slugs and unique string IDs.
+- Use category/subCategory values from supported categories only; do not invent new ones.
+- For array fields (keyFeatures, pros, cons, platforms, tags, useCases, bestFor): return [] if information is not available.
+- Do not invent logos, banners, features, pricing details, or URLs. Leave imageUrl fields empty string "" if unknown.
+- Use pricingModel values ONLY from: Free, Freemium, Free / Freemium, Paid, Contact for pricing.
+- Never copy the logoImageUrl value into bannerImageUrl.
+- Return valid JSON with proper escaping and array syntax.
 
 Tools to convert:
 [PASTE TOOL LIST HERE]`;
@@ -34,19 +63,50 @@ export default function ToolJsonImport({ categories }) {
     setMessage('');
     setErrors([]);
     setRecords([]);
+    
+    // Validate JSON format
     let parsed;
-    try { parsed = JSON.parse(text); } catch { setErrors(['Invalid JSON. Check commas, quotes, and brackets.']); return; }
+    try {
+      parsed = JSON.parse(text);
+    } catch (err) {
+      setErrors(['Invalid JSON. Check commas, quotes, and brackets.']);
+      return;
+    }
+
+    // Validate against server
     setLoading(true);
-    const response = await fetch('/api/admin/tools/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'validate', records: parsed }) });
-    const result = await response.json().catch(() => ({}));
-    setLoading(false);
-    if (!response.ok) { setErrors(result.errors || [result.error || 'Validation failed.']); return; }
-    setRecords(result.records || []);
-    setMessage(result.message || 'Ready to import.');
+    try {
+      const response = await fetch('/api/admin/tools/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'validate', records: parsed })
+      });
+
+      const result = await response.json().catch(() => ({}));
+      
+      if (!response.ok) {
+        setErrors(result.errors || [result.error || 'Validation failed.']);
+        return;
+      }
+
+      setRecords(result.records || []);
+      setMessage(result.message || 'Ready to import.');
+    } catch (error) {
+      console.error('Validation error:', error);
+      setErrors(['Failed to validate JSON. Please try again.']);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function validateFile(file) {
-    await validateText(await file.text());
+    try {
+      const text = await file.text();
+      await validateText(text);
+    } catch (error) {
+      console.error('File read error:', error);
+      setErrors(['Failed to read file. Please try again.']);
+    }
   }
 
   async function importRecords() {

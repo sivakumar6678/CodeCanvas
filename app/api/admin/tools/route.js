@@ -3,6 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getAllTools } from '../../../../lib/data-fetchers';
 import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
+import { normalizeToolToCanonical, toCanonicalNames, ALLOWED_PRICING } from '../../../../lib/canonical-tool-schema';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
@@ -20,7 +21,14 @@ function validateTool(tool) {
   } catch {
     return 'Website must be a valid HTTP or HTTPS URL';
   }
-  for (const field of ['features', 'pros', 'cons', 'platform', 'tags']) {
+  
+  // Accept both canonical and legacy field names
+  const pricingModel = tool.pricingModel || tool.pricing;
+  if (pricingModel && !ALLOWED_PRICING.includes(pricingModel)) {
+    return `Pricing model must be one of: ${ALLOWED_PRICING.join(', ')}`;
+  }
+  
+  for (const field of ['keyFeatures', 'features', 'pros', 'cons', 'platforms', 'platform', 'tags', 'useCases']) {
     if (tool[field] !== undefined && !Array.isArray(tool[field])) return `${field} must be an array`;
   }
   return null;
@@ -78,7 +86,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const newTool = await request.json();
+    let newTool = await request.json();
+    
+    // Normalize to canonical schema
+    newTool = normalizeToolToCanonical(newTool);
+    newTool = toCanonicalNames(newTool);
+    
     const validationError = validateTool(newTool);
     if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
     
@@ -116,7 +129,12 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const updatedTool = await request.json();
+    let updatedTool = await request.json();
+    
+    // Normalize to canonical schema
+    updatedTool = normalizeToolToCanonical(updatedTool);
+    updatedTool = toCanonicalNames(updatedTool);
+    
     const oldSlug = request.nextUrl.searchParams.get('oldSlug');
     const oldCategory = request.nextUrl.searchParams.get('oldCategory');
 

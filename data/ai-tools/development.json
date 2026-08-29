@@ -52,448 +52,1492 @@
     "createdDate": "2026-07-19T00:00:00.000Z"
   },
   {
-    "name": "Antigravity",
+    "id": "antigravity",
+    "name": "Google Antigravity",
     "slug": "google-antigravity",
-    "logo": "https://antigravity.google/assets/image/brand/antigravity-icon__full-color.png",
-    "banner": "https://hackernoon.imgix.net/images/9SBj6OzMvXOEhDxTjjuu75pLYnp1-vn83emp.jpeg",
-    "description": "AI agentic IDE developed by Google for building software with autonomous AI agents.",
-    "overview": "Google Antigravity is an AI-powered, agent-first development environment designed to help developers plan, build, test, and iterate on software using AI agents. It combines an IDE experience with autonomous coding workflows, allowing agents to work across the editor, terminal, and browser.",
-    "website": "https://antigravity.google/",
     "category": "development",
-    "subCategory": "agentic-development",
-    "pricing": "Free / Freemium",
-    "freeTrial": true,
-    "platform": [
-      "Windows",
-      "macOS",
-      "Linux"
-    ],
-    "tags": [
-      "AI IDE",
-      "AI Coding",
-      "Agentic AI",
-      "Coding Agent",
-      "Developer Tools",
-      "Google",
-      "Software Development"
-    ],
-    "useCases": [
-      "Planning multi-step engineering tasks",
-      "Agentic coding workflows",
-      "Debugging and testing with AI assistance"
-    ],
-    "bestFor": [
-      "Advanced developers",
-      "Builders who want an AI agent to handle complex workflows"
-    ],
-    "features": [
-      "AI coding agents",
-      "Agent-driven software development",
-      "Code generation and editing",
-      "Terminal integration",
-      "Browser-based task execution",
-      "Multi-step coding workflows",
-      "AI-assisted debugging and testing"
+    "subCategory": "code-completion",
+    "description": "Google's agent-first development platform with Gemini 3.5 Flash and parallel subagents.",
+    "fullOverview": "Google Antigravity is an agent-first development platform with Gemini 3.5 Flash and parallel subagents. Free tier available, Google AI Pro at $19.99/mo with higher limits, AI Ultra at $100/mo with 5x limits, and Ultra Premium at $200/mo with 20x limits.",
+    "website": "https://antigravity.google",
+    "logoImageUrl": "https://unpkg.com/@lobehub/icons-static-svg@latest/icons/antigravity-color.svg",
+    "bannerImageUrl": "https://antigravity.google/favicon.ico",
+    "keyFeatures": [
+      "Gemini 3.5 Flash",
+      "Parallel subagents",
+      "CLI + SDK",
+      "Multi-agent workflows",
+      "Agent-first platform"
     ],
     "pros": [
-      "Developed by Google",
-      "Agentic approach to software development",
-      "Can automate multi-step development tasks",
-      "Integrates coding with terminal and browser workflows"
+      "Free tier",
+      "Google ecosystem",
+      "Parallel agents"
     ],
     "cons": [
-      "May have a learning curve for agent-based workflows",
-      "AI-generated code still requires developer review",
-      "Availability and features may vary by account or region"
+      "Pro/Ultra required for higher limits",
+      "Relatively new"
     ],
-    "featured": true,
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Desktop",
+      "CLI"
+    ],
+    "tags": [
+      "coding",
+      "google",
+      "agent",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Software development",
+      "Agentic workflows",
+      "Multi-agent collaboration"
+    ],
+    "bestFor": [
+      "Developers",
+      "Google ecosystem users",
+      "Teams"
+    ],
+    "featured": false,
     "new": true,
     "verified": true,
-    "id": "tool-1787896995826",
+    "hasFree": false,
     "createdDate": "2026-08-28T06:03:15.826Z"
   },
   {
-    "id": "tool-004",
-    "name": "blackbox",
-    "slug": "blackbox",
-    "description": "AI-powered development platform providing coding assistance, code generation, and developer tools.",
+    "id": "cline",
+    "name": "Cline",
+    "slug": "cline",
     "category": "development",
     "subCategory": "code-completion",
+    "description": "Open-source autonomous coding agent for VS Code with 5M+ installs.",
+    "fullOverview": "Cline is an open-source autonomous coding agent for VS Code with 5M+ installs. Works with any LLM including GPT, Gemini, and local models via Ollama. Free extension with optional ClinePass ($9.99/mo) for open-weight models and Teams plan ($20/user/mo).",
+    "website": "https://cline.bot",
+    "logoImageUrl": "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/cline-ai-icon.png",
+    "bannerImageUrl": "https://cline.bot/assets/branding/logos/cline-wordmark-black.svg",
+    "keyFeatures": [
+      "5M+ installs",
+      "Any LLM support",
+      "Local model support",
+      "IDE integration",
+      "Explicit action approval"
+    ],
+    "pros": [
+      "Completely free extension",
+      "Vendor independence",
+      "Local model support"
+    ],
+    "cons": [
+      "API costs apply",
+      "VS Code focused"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "Cursor",
+      "Zed"
+    ],
     "tags": [
-      "ai-coding",
-      "code-generation",
-      "coding-assistant",
-      "developer-tools"
+      "coding",
+      "open-source",
+      "vs-code",
+      "agent"
     ],
     "useCases": [
-      "code-generation",
-      "code-completion",
-      "software-development",
-      "code-assistance"
+      "Autonomous coding",
+      "Code generation",
+      "Debugging",
+      "Learning"
     ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "web",
-      "ide",
-      "cli"
+    "bestFor": [
+      "Developers",
+      "Open-source enthusiasts",
+      "Teams"
     ],
-    "website": "https://www.blackbox.ai/",
     "featured": false,
+    "new": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
   },
   {
-    "id": "tool-011",
-    "name": "cline",
-    "slug": "cline",
-    "description": "Open-source AI coding agent for software development through IDE and terminal workflows.",
+    "id": "continue",
+    "name": "Continue",
+    "slug": "continue",
     "category": "development",
-    "subCategory": "agentic-development",
+    "subCategory": "code-completion",
+    "description": "Open-source AI code assistant for VS Code and JetBrains with autocomplete and Hub features.",
+    "fullOverview": "Continue is an open-source AI code assistant for VS Code and JetBrains with autocomplete, prompt library, and CI checks. Free extension under Apache 2.0 with paid Hub plans from $10/mo and Teams at $20/seat/mo.",
+    "website": "https://continue.dev",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi3rfG8yf0l45e_CBIWtPeWe163dEsnSXVnpXZHQaQ4A&s=10",
+    "bannerImageUrl": "https://www.finsmes.com/wp-content/uploads/2022/10/continue-ai.jpeg",
+    "keyFeatures": [
+      "Autocomplete",
+      "Prompt Hub",
+      "CI checks",
+      "Local model support",
+      "Multiple IDE support"
+    ],
+    "pros": [
+      "Free and open-source",
+      "Local model support",
+      "No usage limits"
+    ],
+    "cons": [
+      "API costs apply",
+      "Hub features are paid"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "CLI"
+    ],
     "tags": [
-      "ai-coding",
-      "coding-agent",
+      "coding",
       "open-source",
-      "mcp",
+      "ide",
+      "autocomplete"
+    ],
+    "useCases": [
+      "Code completion",
+      "Prompt management",
+      "CI integration"
+    ],
+    "bestFor": [
+      "Developers",
+      "Open-source enthusiasts",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "augment",
+    "name": "Augment AI",
+    "slug": "augment-ai",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "AI code editor with flat-rate pricing for teams, dramatically undercutting per-seat competitors.",
+    "fullOverview": "Augment AI is an AI code editor with a flat-rate pricing model ($100/mo for up to 50 seats). Features token-based usage, Cosmos compute, and supports GPT-5.6 Terra. Has faced pricing changes but remains competitive.",
+    "website": "https://www.augmentcode.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgU8LgTUfdoXu92xq0pLobM-mzIywCC69ON5sP6vGgZ8-XUSxdcZi-mE&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR44VC3h1er3pSItNWYIxQ84PRQ_UfcL28jeNdbGL9dqzbwGc2SXxjFKwk&s=10",
+    "keyFeatures": [
+      "Flat-rate team pricing",
+      "Token-based usage",
+      "Cosmos compute",
+      "GPT-5.6 Terra"
+    ],
+    "pros": [
+      "Flat-rate for teams",
+      "Cost-effective for larger teams",
+      "Strong AI models"
+    ],
+    "cons": [
+      "Complex pricing",
+      "Higher cost for individuals"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "IDE"
+    ],
+    "tags": [
+      "coding",
+      "ai",
+      "editor",
       "developer-tools"
     ],
     "useCases": [
-      "code-generation",
-      "refactoring",
-      "debugging",
-      "codebase-analysis",
-      "automation"
+      "Team development",
+      "Code generation",
+      "Debugging"
     ],
-    "pricing": "Free",
-    "freeTrial": false,
+    "bestFor": [
+      "Teams",
+      "Enterprises",
+      "Startups"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "claude-code",
+    "name": "Claude Code",
+    "slug": "claude-code",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "Anthropic's AI coding agent, included with Claude subscriptions for terminal-based development.",
+    "fullOverview": "Claude Code is Anthropic's terminal-based AI coding agent, included with Claude Pro ($20/mo), Max 5x ($100/mo), and Max 20x ($200/mo) subscriptions. Features agentic workflows, multi-session parallelism, and team capabilities.",
+    "website": "https://claude.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqbvbRghexC3HjKB-d3J73bbMR4tUVJTdRbrtHK4aD_zJOaqEQmN5JbQk&s=10",
+    "bannerImageUrl": "https://www.searchyour.ai/archivos/claude-code-ai-logo.jpg",
+    "keyFeatures": [
+      "Terminal-based agent",
+      "Agentic workflows",
+      "Multi-session parallelism",
+      "Team capabilities"
+    ],
+    "pros": [
+      "Included with Claude subscription",
+      "Terminal-native",
+      "Strong reasoning"
+    ],
+    "cons": [
+      "Requires Claude subscription",
+      "Terminal-only"
+    ],
+    "pricingModel": "Freemium",
     "platforms": [
-      "windows",
-      "macos",
-      "linux",
-      "vs-code",
+      "Terminal",
+      "CLI"
+    ],
+    "tags": [
+      "coding",
+      "claude",
+      "agent",
       "terminal"
     ],
-    "website": "https://cline.bot/",
+    "useCases": [
+      "Terminal-based development",
+      "Automated coding",
+      "Agentic workflows"
+    ],
+    "bestFor": [
+      "Developers",
+      "Power users",
+      "Teams"
+    ],
     "featured": false,
+    "new": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
   },
   {
-    "id": "tool-012",
-    "name": "continue",
-    "slug": "continue",
-    "description": "Open-source AI coding platform providing coding assistance through CLI and IDE integrations.",
+    "id": "replit",
+    "name": "Replit",
+    "slug": "replit",
     "category": "development",
     "subCategory": "code-completion",
-    "tags": [
-      "ai-coding",
-      "open-source",
-      "coding-assistant",
-      "cli",
-      "ide"
+    "description": "AI-powered collaborative coding platform with Agent, Free Mode, and cloud deployment.",
+    "fullOverview": "Replit is a collaborative coding platform with AI Agent for full-stack app development. Free tier with basic AI, Core ($20/mo) with $20 in credits and 30 hours chat/month, Pro ($100/mo) with Turbo mode and 15 collaborators.",
+    "website": "https://replit.com",
+    "logoImageUrl": "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/replit/default.svg",
+    "bannerImageUrl": "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/replit/default.svg",
+    "keyFeatures": [
+      "AI Agent",
+      "Free Mode",
+      "Cloud deployment",
+      "Turbo mode",
+      "Parallel agents"
     ],
-    "useCases": [
-      "code-assistance",
-      "code-generation",
-      "ide-development",
-      "developer-tooling"
+    "pros": [
+      "Free tier available",
+      "Collaborative features",
+      "Cloud deployment"
     ],
-    "pricing": "Free",
-    "freeTrial": false,
+    "cons": [
+      "Pro is expensive",
+      "Credit-based system"
+    ],
+    "pricingModel": "Freemium",
     "platforms": [
-      "vs-code",
-      "jetbrains",
-      "cli"
+      "Web",
+      "Mobile"
     ],
-    "website": "https://continue.dev/",
-    "featured": false,
-    "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-013",
-    "name": "codex",
-    "slug": "codex",
-    "description": "OpenAI coding agent for software engineering tasks including implementation, testing, refactoring, and code review.",
-    "category": "development",
-    "subCategory": "agentic-development",
     "tags": [
-      "ai-coding",
-      "coding-agent",
-      "openai",
-      "software-engineering",
-      "code-review"
-    ],
-    "useCases": [
-      "feature-development",
-      "refactoring",
-      "testing",
-      "code-review",
-      "debugging"
-    ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "web",
-      "cli",
-      "ide"
-    ],
-    "website": "https://openai.com/codex/",
-    "featured": false,
-    "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-014",
-    "name": "zencoder ai agent",
-    "slug": "zencoder-ai-agent",
-    "description": "AI coding agent platform focused on codebase understanding, code generation, testing, debugging, and refactoring.",
-    "category": "development",
-    "subCategory": "agentic-development",
-    "tags": [
-      "ai-coding",
-      "coding-agent",
-      "codebase",
-      "debugging",
-      "refactoring"
-    ],
-    "useCases": [
-      "code-generation",
-      "testing",
-      "debugging",
-      "refactoring",
-      "codebase-analysis"
-    ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "windows",
-      "macos",
-      "linux",
-      "vs-code",
-      "jetbrains",
-      "cli"
-    ],
-    "website": "https://zencoder.ai/",
-    "featured": false,
-    "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-015",
-    "name": "augment ai",
-    "slug": "augment-ai",
-    "description": "AI-native software development platform focused on codebase intelligence and coding agents.",
-    "category": "development",
-    "subCategory": "agentic-development",
-    "tags": [
-      "ai-coding",
-      "coding-agent",
-      "codebase-intelligence",
+      "coding",
+      "collaborative",
+      "cloud",
       "developer-tools"
     ],
     "useCases": [
-      "software-development",
-      "codebase-analysis",
-      "code-review",
-      "development-automation"
+      "Web development",
+      "Collaborative coding",
+      "Deployment",
+      "Learning"
     ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "vs-code",
-      "jetbrains",
-      "cli"
+    "bestFor": [
+      "Developers",
+      "Teams",
+      "Students"
     ],
-    "website": "https://www.augmentcode.com/",
     "featured": false,
+    "new": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
   },
   {
-    "id": "tool-016",
-    "name": "claude code",
-    "slug": "claude-code",
-    "description": "Anthropic coding agent for repository-level software engineering and terminal-based development.",
-    "category": "development",
-    "subCategory": "agentic-development",
-    "tags": [
-      "ai-coding",
-      "coding-agent",
-      "anthropic",
-      "terminal",
-      "software-engineering"
-    ],
-    "useCases": [
-      "code-generation",
-      "codebase-analysis",
-      "debugging",
-      "refactoring",
-      "software-development"
-    ],
-    "pricing": "Paid",
-    "freeTrial": false,
-    "platforms": [
-      "terminal",
-      "desktop",
-      "ide"
-    ],
-    "website": "https://www.anthropic.com/claude-code",
-    "featured": false,
-    "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-030",
-    "name": "replit",
-    "slug": "replit",
-    "description": "Cloud development platform with AI agents for building, testing, deploying, and managing applications.",
-    "category": "development",
-    "subCategory": "ide",
-    "tags": [
-      "ai-coding",
-      "ai-agent",
-      "cloud-ide",
-      "app-development",
-      "deployment"
-    ],
-    "useCases": [
-      "web-development",
-      "full-stack-development",
-      "prototyping",
-      "application-deployment"
-    ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "web",
-      "mobile"
-    ],
-    "website": "https://replit.com/",
-    "featured": false,
-    "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-031",
-    "name": "cursor",
+    "id": "cursor",
+    "name": "Cursor",
     "slug": "cursor",
-    "description": "AI-powered code editor with codebase understanding, natural-language editing, and coding agents.",
     "category": "development",
-    "subCategory": "ide",
+    "subCategory": "code-completion",
+    "description": "AI-powered IDE with Composer 2.5 model, Grok integration, and localized pricing for India.",
+    "fullOverview": "Cursor is an AI-powered IDE with Composer 2.5 model and Grok 4.5 integration. Free Hobby tier, Pro at ~$20/mo with unlimited Tab and extended Agent limits, Teams at $40/user/mo. Launched Cursor Start at ₹649/mo (~$7) for India.",
+    "website": "https://cursor.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfxKUQvxEqx_C82N_jZ9FD97-0FCzRQT0xHdHsbz4IQ4fUjKsF_9xOSfY&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOSNYEznDyAjz94U7FZ8zdmPrRxMA9XQynA5KitfcCXQEGsB2_ga4TuP1k&s=10",
+    "keyFeatures": [
+      "Composer 2.5",
+      "Grok 4.5",
+      "Cloud agents",
+      "MCP support",
+      "iOS app",
+      "India pricing"
+    ],
+    "pros": [
+      "Strong AI integration",
+      "Localized pricing",
+      "Multiple models"
+    ],
+    "cons": [
+      "Pro is expensive",
+      "Limited free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Desktop",
+      "iOS"
+    ],
     "tags": [
-      "ai-coding",
-      "code-editor",
-      "coding-agent",
-      "codebase",
+      "coding",
+      "ide",
+      "ai",
       "developer-tools"
     ],
     "useCases": [
-      "code-generation",
-      "code-editing",
-      "refactoring",
-      "codebase-analysis",
-      "software-development"
+      "Software development",
+      "Code generation",
+      "Debugging",
+      "Learning"
     ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "windows",
-      "macos",
-      "linux"
+    "bestFor": [
+      "Developers",
+      "Teams",
+      "Students"
     ],
-    "website": "https://www.cursor.com/",
     "featured": false,
+    "new": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
   },
   {
-    "id": "tool-032",
-    "name": "antigravity",
-    "slug": "antigravity",
-    "description": "Google agentic development platform for software development, browser interaction, and verification workflows.",
-    "category": "development",
-    "subCategory": "agentic-development",
-    "tags": [
-      "ai-coding",
-      "ai-agents",
-      "google-ai",
-      "browser-automation",
-      "developer-tools"
-    ],
-    "useCases": [
-      "software-development",
-      "web-development",
-      "browser-automation",
-      "application-testing"
-    ],
-    "pricing": "Free",
-    "freeTrial": false,
-    "platforms": [
-      "windows",
-      "macos",
-      "linux"
-    ],
-    "website": "https://antigravity.google/",
-    "featured": false,
-    "verified": true,
-    "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-033",
-    "name": "quoder",
+    "id": "quoder",
+    "name": "Qoder",
     "slug": "quoder",
-    "description": "Agentic coding platform for software development with codebase context and autonomous coding tasks.",
     "category": "development",
-    "subCategory": "agentic-development",
+    "subCategory": "code-completion",
+    "description": "Alibaba's AI coding platform with credit-based pricing and 10K file search capability.",
+    "fullOverview": "Qoder is Alibaba's AI coding platform with credit-based pricing. Free tier with 300 credits, Pro at 59元/mo (2000 credits), Pro+ at 169元/mo (6000 credits), and Enterprise plans. Features 10K file search and complex task handling.",
+    "website": "https://qoder.com",
+    "logoImageUrl": "https://qoder.com/favIcon.svg",
+    "bannerImageUrl": "https://i.ibb.co/LD0WjPcS/qoder-2918.webp",
+    "keyFeatures": [
+      "Credit-based pricing",
+      "10K file search",
+      "Complex task handling",
+      "Multiple tiers"
+    ],
+    "pros": [
+      "Free tier",
+      "Affordable Chinese pricing",
+      "Strong search"
+    ],
+    "cons": [
+      "Chinese-focused",
+      "Credit-based system"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "IDE"
+    ],
     "tags": [
-      "ai-coding",
-      "coding-agent",
-      "codebase",
-      "autonomous-development",
+      "coding",
+      "alibaba",
+      "ai",
       "developer-tools"
     ],
     "useCases": [
-      "code-generation",
-      "software-development",
-      "codebase-analysis",
-      "autonomous-coding",
-      "documentation"
+      "Software development",
+      "Code search",
+      "Complex tasks"
     ],
-    "pricing": "Freemium",
-    "freeTrial": true,
-    "platforms": [
-      "windows",
-      "macos",
-      "linux",
-      "jetbrains",
-      "cli"
+    "bestFor": [
+      "Chinese developers",
+      "Alibaba ecosystem users",
+      "Teams"
     ],
-    "website": "https://qoder.com/",
     "featured": false,
+    "new": false,
     "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "chatgpt",
+    "name": "ChatGPT",
+    "slug": "chatgpt",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "OpenAI's flagship AI chatbot and coding assistant with integrated Codex agent for software development.",
+    "fullOverview": "ChatGPT is OpenAI's conversational AI platform that includes the Codex coding agent for software development. Available across Free, Go, Plus, Pro, Business, and Enterprise tiers with varying model access and usage limits.",
+    "website": "https://chatgpt.com",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "keyFeatures": [
+      "Codex coding agent",
+      "GPT-5.6 Sol Pro",
+      "Deep research",
+      "Custom GPTs",
+      "Projects & scheduled tasks"
+    ],
+    "pros": [
+      "Industry-leading models",
+      "Integrated coding agent",
+      "Multiple subscription tiers"
+    ],
+    "cons": [
+      "Higher-tier plans are expensive",
+      "Usage limits on free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai",
+      "chatbot",
+      "coding",
+      "openai"
+    ],
+    "useCases": [
+      "Software development",
+      "Content creation",
+      "Research",
+      "Data analysis"
+    ],
+    "bestFor": [
+      "Developers",
+      "Researchers",
+      "Businesses"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "gemini",
+    "name": "Gemini",
+    "slug": "gemini",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Google's AI assistant with deep Google ecosystem integration and multi-modal capabilities.",
+    "fullOverview": "Gemini is Google's AI assistant and coding platform, integrating with Google's ecosystem including Docs, Gmail, and the Antigravity development environment. Available in Free, Plus, Pro, and Ultra tiers.",
+    "website": "https://gemini.google.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqGrqBPffjc--HscZ5gQAsD7XaVdVbrxL5IvRJwgdqRUqRvW9YxcNtCc&s=10",
+    "bannerImageUrl": "https://upload.wikimediahttps://nubetia.com/wp-content/uploads/2025/07/gemini-nubetia.webp.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/500px-Google_Gemini_logo.svg.png",
+    "keyFeatures": [
+      "Deep research",
+      "Image generation (Nano Banana 2)",
+      "Antigravity IDE integration",
+      "1M+ context window"
+    ],
+    "pros": [
+      "Deep Google ecosystem integration",
+      "Competitive pricing",
+      "Strong multi-modal capabilities"
+    ],
+    "cons": [
+      "Some features locked to higher tiers",
+      "Compute-based usage limits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "google",
+      "multi-modal"
+    ],
+    "useCases": [
+      "Research",
+      "Content creation",
+      "Coding",
+      "Data analysis"
+    ],
+    "bestFor": [
+      "Google ecosystem users",
+      "Researchers",
+      "Developers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "grok",
+    "name": "Grok",
+    "slug": "grok",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "xAI's conversational AI with strong reasoning capabilities and voice cloning features.",
+    "fullOverview": "Grok is xAI's AI assistant featuring advanced reasoning models, voice cloning, and agent capabilities. Available through free tier, SuperGrok Lite ($10/mo), SuperGrok ($30/mo), and SuperGrok Heavy ($300/mo).",
+    "website": "https://x.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1b7EoQ15drRpVR1nwsGusENf5FEN33Vn4UVm28eRf5bqVS0TVCkMnttg&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYTabfKXMs-_oJCSKVkQkXLVXYmCYHhvVHOqEwcNfgV1E6p7F2OfgKMr0&s=10",
+    "keyFeatures": [
+      "Grok 4.3 model",
+      "Voice cloning",
+      "Video generation",
+      "Agent capabilities",
+      "256K context window"
+    ],
+    "pros": [
+      "Aggressive pricing",
+      "Strong reasoning",
+      "Voice and video capabilities"
+    ],
+    "cons": [
+      "Higher tiers are expensive",
+      "Newer platform with evolving features"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "ai",
+      "chatbot",
+      "xai",
+      "reasoning"
+    ],
+    "useCases": [
+      "Conversational AI",
+      "Content creation",
+      "Voice applications"
+    ],
+    "bestFor": [
+      "AI enthusiasts",
+      "Developers",
+      "Content creators"
+    ],
+    "featured": false,
     "new": true,
-    "createdDate": "",
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "blackbox",
+    "name": "Blackbox AI",
+    "slug": "blackbox-ai",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "AI coding assistant with multi-surface coverage across 35+ IDEs, CLI, cloud, and mobile.",
+    "fullOverview": "Blackbox AI is a coding assistant that works across multiple surfaces including IDEs, CLI, cloud, API, desktop, and mobile. Features encrypted code processing and supports multiple AI models including GPT and DeepSeek.",
+    "website": "https://www.blackbox.ai",
+    "logoImageUrl": "https://cdn.aptoide.com/imgs/5/f/a/5fa38f9d23add8263fda9f35d54ac1c2_icon.png",
+    "bannerImageUrl": "https://lintas.net.id/wp-content/uploads/2024/12/Ilustrasi-fitur-Blackbox-AI.png",
+    "keyFeatures": [
+      "35+ IDE support",
+      "Six-surface coverage",
+      "Encrypted code processing",
+      "Multiple model support"
+    ],
+    "pros": [
+      "Permanently free tier",
+      "Multi-surface coverage",
+      "Affordable pro plans"
+    ],
+    "cons": [
+      "Usage costs depend on model selection",
+      "Harder to forecast costs"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "VS Code",
+      "JetBrains",
+      "CLI",
+      "Mobile",
+      "Desktop"
+    ],
+    "tags": [
+      "coding",
+      "ai",
+      "ide",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Code completion",
+      "Debugging",
+      "Code generation",
+      "Learning"
+    ],
+    "bestFor": [
+      "Developers",
+      "Students",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "claude",
+    "name": "Claude",
+    "slug": "claude",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Anthropic's AI assistant with strong reasoning, coding capabilities, and the Claude Code agent.",
+    "fullOverview": "Claude is Anthropic's AI assistant featuring advanced reasoning models, the Claude Code coding agent, and deep integrations with Microsoft 365. Available in Free, Pro ($20/mo), Max 5x ($100/mo), Max 20x ($200/mo), Team, and Enterprise plans.",
+    "website": "https://claude.ai",
+    "logoImageUrl": "https://images.seeklogo.com/logo-png/55/2/claude-logo-png_seeklogo-554534.png",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_AI_logo.svg/960px-Claude_AI_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "keyFeatures": [
+      "Claude Code coding agent",
+      "Research mode",
+      "Projects & Memory",
+      "File uploads",
+      "Web search",
+      "Microsoft 365 integration"
+    ],
+    "pros": [
+      "Strong reasoning",
+      "Integrated coding agent",
+      "Deep Microsoft integration"
+    ],
+    "cons": [
+      "Higher tiers are expensive",
+      "Usage limits on free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "coding",
+      "anthropic"
+    ],
+    "useCases": [
+      "Software development",
+      "Research",
+      "Content creation",
+      "Business workflows"
+    ],
+    "bestFor": [
+      "Developers",
+      "Researchers",
+      "Businesses"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "kimi",
+    "name": "Kimi",
+    "slug": "kimi",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Moonshot AI's assistant with a massive 262K context window and multi-agent parallel processing.",
+    "fullOverview": "Kimi is Moonshot AI's AI assistant with an industry-leading 262,144-token context window. Features multi-agent parallel processing with four membership tiers: Andante, Moderato, Allegretto, and Allegro.",
+    "website": "https://www.kimi.ai",
+    "logoImageUrl": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/kimi-ai.webp",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO5qq1tdPsucFhjVskaqHLAdwWQhzy3A5hPTnexdrx6us-pTvdTMKp_0N8&s=10",
+    "keyFeatures": [
+      "262K context window",
+      "Multi-agent parallel",
+      "Kimi K3 model",
+      "Agent concurrency"
+    ],
+    "pros": [
+      "Massive context window",
+      "Multi-agent parallelism",
+      "Competitive pricing"
+    ],
+    "cons": [
+      "Some plans sold out",
+      "Chinese-focused platform"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "Mobile"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "context",
+      "moonshot"
+    ],
+    "useCases": [
+      "Long-form analysis",
+      "Research",
+      "Complex reasoning"
+    ],
+    "bestFor": [
+      "Researchers",
+      "Power users",
+      "Chinese market"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "deepseek",
+    "name": "DeepSeek",
+    "slug": "deepseek",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Cost-efficient AI with 1M context window and peak/off-peak pricing.",
+    "fullOverview": "DeepSeek offers affordable AI models with a 1M context window and 384K output. Features peak/off-peak pricing for cost optimization, with V4-Pro offering competitive performance at a fraction of the cost of competitors.",
+    "website": "https://deepseek.com",
+    "logoImageUrl": "https://crystalpng.com/wp-content/uploads/2025/01/deepseek-logo-01.png",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/DeepSeek_logo.svg/960px-DeepSeek_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+    "keyFeatures": [
+      "1M context window",
+      "384K max output",
+      "Peak/off-peak pricing",
+      "V4-Pro model",
+      "Agent capabilities"
+    ],
+    "pros": [
+      "Extremely cost-effective",
+      "Large context window",
+      "Peak/off-peak savings"
+    ],
+    "cons": [
+      "Chinese-focused platform",
+      "Complex pricing structure"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "ai",
+      "cost-effective",
+      "context",
+      "deepseek"
+    ],
+    "useCases": [
+      "Long-form analysis",
+      "Cost-sensitive applications",
+      "Research"
+    ],
+    "bestFor": [
+      "Budget-conscious developers",
+      "Researchers",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "openrouter",
+    "name": "OpenRouter",
+    "slug": "openrouter",
+    "category": "development",
+    "subCategory": "api-gateway",
+    "description": "Unified LLM gateway providing API access to 300+ models across 60+ providers.",
+    "fullOverview": "OpenRouter is a unified API gateway for 300+ LLMs across 60+ providers. Features pass-through pricing with no markup on model rates, plus a 5.5% platform fee on credit purchases. Free tier includes 25+ models with 50 requests/day cap.",
+    "website": "https://openrouter.ai",
+    "logoImageUrl": "https://models.dev/logos/openrouter.svg",
+    "bannerImageUrl": "https://models.dev/logos/openrouter.svg",
+    "keyFeatures": [
+      "300+ models",
+      "60+ providers",
+      "Pass-through pricing",
+      "BYOK support",
+      "Unified API"
+    ],
+    "pros": [
+      "One API for hundreds of models",
+      "No per-call markup",
+      "BYOK option"
+    ],
+    "cons": [
+      "5.5% platform fee",
+      "Complex pricing"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "API",
+      "Web"
+    ],
+    "tags": [
+      "api",
+      "gateway",
+      "llm",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Multi-model applications",
+      "A/B testing",
+      "Model switching",
+      "Cost optimization"
+    ],
+    "bestFor": [
+      "Developers",
+      "AI startups",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "omniroute",
+    "name": "OmniRoute",
+    "slug": "omniroute",
+    "category": "development",
+    "subCategory": "api-gateway",
+    "description": "Open-source local AI gateway unifying 230+ model providers behind a single endpoint.",
+    "fullOverview": "OmniRoute is a free, open-source local AI gateway that provides a single OpenAI-compatible endpoint for 230+ AI providers. Features smart routing to free and affordable models with automatic fallback, pooling 50+ free providers for approximately 1.6B free tokens per month.",
+    "website": "https://github.com/diegosouzapw/OmniRoute",
+    "logoImageUrl": "https://omniroute.jsjxh.eu.org/favicon.ico",
+    "bannerImageUrl": "https://omniroute.jsjxh.eu.org/favicon.ico",
+    "keyFeatures": [
+      "231+ providers",
+      "1.6B free tokens/month",
+      "OpenAI-compatible endpoint",
+      "Smart routing",
+      "Automatic fallback"
+    ],
+    "pros": [
+      "Completely free",
+      "Massive provider coverage",
+      "Self-hosted"
+    ],
+    "cons": [
+      "Requires self-hosting",
+      "Community-driven"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Self-hosted",
+      "VPS"
+    ],
+    "tags": [
+      "api",
+      "gateway",
+      "open-source",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Cost-effective AI routing",
+      "Multi-provider access",
+      "Self-hosted AI infrastructure"
+    ],
+    "bestFor": [
+      "Developers",
+      "Open-source enthusiasts",
+      "Cost-conscious teams"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "codex",
+    "name": "OpenAI Codex",
+    "slug": "openai-codex",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "OpenAI's coding agent integrated into ChatGPT, available across all subscription tiers.",
+    "fullOverview": "Codex is OpenAI's AI coding agent, integrated into ChatGPT across Free, Go, Plus, Pro, Business, and Enterprise plans. Features CLI access, file uploads, and supports GPT-5.4 Pro with usage-based pricing.",
+    "website": "https://chatgpt.com",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "keyFeatures": [
+      "Integrated in ChatGPT",
+      "CLI access",
+      "File uploads",
+      "GPT-5.4 Pro",
+      "Usage-based pricing"
+    ],
+    "pros": [
+      "Seamless ChatGPT integration",
+      "Multiple pricing tiers",
+      "CLI access"
+    ],
+    "cons": [
+      "Requires ChatGPT subscription",
+      "Higher tiers expensive"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "CLI",
+      "API"
+    ],
+    "tags": [
+      "coding",
+      "openai",
+      "agent",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Software development",
+      "Code generation",
+      "Debugging",
+      "Learning"
+    ],
+    "bestFor": [
+      "Developers",
+      "ChatGPT users",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "zencoder",
+    "name": "Zencoder",
+    "slug": "zencoder",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "AI coding agent with autonomous multi-agent workflows, repo indexing, and Zenflow orchestration.",
+    "fullOverview": "Zencoder is an AI coding agent featuring autonomous multi-agent workflows, Repo Grokking for deep codebase context, and Zenflow orchestration for parallel agent execution. Credit-based pricing from Free to $45+/user/mo.",
+    "website": "https://zencoder.ai",
+    "logoImageUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQHeLswpPnL2Tw/company-logo_200_200/company-logo_200_200/0/1721730824663/zencoderai_logo?e=2147483647&v=beta&t=Lv5mhfwOmNuMo8KYaIfLzDRw_Riky83-ik5UT0QXQdk",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLfVnlWS_FpXVqgpJLr5zf8Sikfgni-i9topG2oRx7uviDcWVbmyxO2q0&s=10",
+    "keyFeatures": [
+      "Repo Grokking",
+      "Zenflow orchestration",
+      "Multi-agent workflows",
+      "MCP support",
+      "BYOK calls"
+    ],
+    "pros": [
+      "Autonomous multi-agent",
+      "Deep codebase context",
+      "BYOK option"
+    ],
+    "cons": [
+      "Credit-based pricing",
+      "Can be expensive"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "IDE"
+    ],
+    "tags": [
+      "coding",
+      "agent",
+      "autonomous",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Autonomous coding",
+      "Multi-repo projects",
+      "Complex workflows"
+    ],
+    "bestFor": [
+      "Developers",
+      "Teams",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "ollama",
+    "name": "Ollama",
+    "slug": "ollama",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "Open-source tool for running LLMs locally, with optional cloud inference for larger models.",
+    "fullOverview": "Ollama is an open-source tool for running LLMs locally on personal hardware. Features a desktop app that remains free, with optional cloud inference for larger models billed by GPU computation time from Free to $100/mo.",
+    "website": "https://ollama.com",
+    "logoImageUrl": "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/ollama-icon.png",
+    "bannerImageUrl": "https://media.licdn.com/dms/image/v2/D5612AQEGf-_6HHqxmQ/article-cover_image-shrink_720_1280/B56ZhqLjqUG4AM-/0/1754128072027?e=2147483647&v=beta&t=tnICIFVudJLg78GJMH8uVoD8Jx1JQOub5NsfggpPn9E",
+    "keyFeatures": [
+      "Local LLM execution",
+      "Cloud inference",
+      "GPU time billing",
+      "Open-source"
+    ],
+    "pros": [
+      "Free desktop app",
+      "Local execution",
+      "Privacy-focused"
+    ],
+    "cons": [
+      "Cloud service costs",
+      "Hardware requirements"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Desktop",
+      "CLI",
+      "Cloud"
+    ],
+    "tags": [
+      "open-source",
+      "local",
+      "llm",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Local LLM execution",
+      "Privacy-sensitive applications",
+      "Development"
+    ],
+    "bestFor": [
+      "Developers",
+      "Privacy-conscious users",
+      "Open-source enthusiasts"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "herms",
+    "name": "Herms (Hermes Agent)",
+    "slug": "herms",
+    "category": "development",
+    "subCategory": "ai-agent",
+    "description": "Open-source AI agent for GTM and business automation with self-hosted or managed options.",
+    "fullOverview": "Hermes Agent is an open-source AI agent for go-to-market and business automation. Features MIT license with free self-hosted option, or managed plans starting at $5.99/mo. Integrates with Telegram, Discord, Slack, and Chinese platforms.",
+    "website": "https://github.com/explorium-ai/hermes-agent",
+    "logoImageUrl": "https://raw.githubusercontent.com/OpenRouterTeam/spawn/main/assets/agents/hermes.png",
+    "bannerImageUrl": "https://raw.githubusercontent.com/OpenRouterTeam/spawn/main/assets/agents/hermes.png",
+    "keyFeatures": [
+      "Open-source MIT license",
+      "GTM automation",
+      "Multi-platform integration",
+      "Self-hosted option"
+    ],
+    "pros": [
+      "Free and open-source",
+      "Low-cost managed plans",
+      "Multiple platform support"
+    ],
+    "cons": [
+      "Infrastructure costs",
+      "LLM usage costs"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Self-hosted",
+      "VPS",
+      "Cloud"
+    ],
+    "tags": [
+      "agent",
+      "automation",
+      "open-source",
+      "business"
+    ],
+    "useCases": [
+      "GTM automation",
+      "Business intelligence",
+      "Lead generation"
+    ],
+    "bestFor": [
+      "Businesses",
+      "Marketers",
+      "Open-source enthusiasts"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "openclaw",
+    "name": "OpenClaw",
+    "slug": "openclaw",
+    "category": "development",
+    "subCategory": "ai-agent",
+    "description": "High-performance autonomous AI agent with self-hosting options and API-based pricing.",
+    "fullOverview": "OpenClaw is a high-performance autonomous AI agent with self-hosting on VPS (starting at $5/mo) and API-based pricing. Features multi-platform integration, agent workflows, and tiered usage plans. Can cost $300-$1000/day at scale.",
+    "website": "https://github.com/openclaw",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHStqa3IKuzB2kWLgcTLSXHi3MuSvV5NsG33AmCSYA3tqrUMiyZXUxPnHh&s=10",
+    "bannerImageUrl": "https://raw.githubusercontent.com/openclaw/openclaw/main/docs/assets/openclaw-banner-dark.png",
+    "keyFeatures": [
+      "Autonomous agent",
+      "VPS self-hosting",
+      "API-based pricing",
+      "Multi-platform"
+    ],
+    "pros": [
+      "Low-cost self-hosting",
+      "Flexible pricing",
+      "High-performance"
+    ],
+    "cons": [
+      "Can be expensive at scale",
+      "Complex pricing"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Self-hosted",
+      "VPS",
+      "Cloud"
+    ],
+    "tags": [
+      "agent",
+      "autonomous",
+      "api",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Autonomous workflows",
+      "Complex automation",
+      "Enterprise AI"
+    ],
+    "bestFor": [
+      "Developers",
+      "Enterprises",
+      "Power users"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "lovable",
+    "name": "Lovable",
+    "slug": "lovable",
+    "category": "development",
+    "subCategory": "app-builder",
+    "description": "AI app builder that creates full-stack applications from natural language prompts.",
+    "fullOverview": "Lovable is an AI app builder that creates full-stack applications from natural language. Features unlimited public projects on Free plan with 5 daily credits. Pro ($25/mo) and Business ($50/mo) plans unlock private projects, custom domains, and credit rollover.",
+    "website": "https://lovable.dev",
+    "logoImageUrl": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.91.0/icons/lovable-color.svg",
+    "bannerImageUrl": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.91.0/icons/lovable-color.svg",
+    "keyFeatures": [
+      "Full-stack app generation",
+      "5 daily free credits",
+      "Unlimited public projects",
+      "Custom domains",
+      "Credit rollover"
+    ],
+    "pros": [
+      "Free tier with daily credits",
+      "Affordable paid plans",
+      "Per-workspace pricing"
+    ],
+    "cons": [
+      "Credit-based system",
+      "Limited daily credits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "app-builder",
+      "ai",
+      "development",
+      "vibe-coding"
+    ],
+    "useCases": [
+      "Web app development",
+      "Prototyping",
+      "Full-stack projects"
+    ],
+    "bestFor": [
+      "Developers",
+      "Entrepreneurs",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "bolt",
+    "name": "Bolt (Bolt.new)",
+    "slug": "bolt",
+    "category": "development",
+    "subCategory": "app-builder",
+    "description": "AI app builder with generous token-based free tier and full-stack deployment capabilities.",
+    "fullOverview": "Bolt.new is an AI app builder with a generous free tier (300K daily tokens, 1M monthly). Pro ($25/mo) offers 10M+ tokens, custom domains, and no branding. Team plans available at $30/user/mo with hosting and deployment included.",
+    "website": "https://bolt.new",
+    "logoImageUrl": "https://cdn-1.webcatalog.io/catalog/bolt-new/bolt-new-icon-filled-256.png?v=1730692903154",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShelr2UVPm7kdnONab_uP01oIbnk5xlJZTJmchmgKqD6p2M7_jj1NkPoA&s=10",
+    "keyFeatures": [
+      "300K daily tokens free",
+      "Full app generation",
+      "Hosting included",
+      "Custom domains",
+      "Unlimited databases"
+    ],
+    "pros": [
+      "Very generous free tier",
+      "Affordable Pro",
+      "Hosting included"
+    ],
+    "cons": [
+      "Token-based limits",
+      "Bolt branding on free"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "app-builder",
+      "ai",
+      "development",
+      "vibe-coding"
+    ],
+    "useCases": [
+      "Web app development",
+      "Prototyping",
+      "Full-stack projects"
+    ],
+    "bestFor": [
+      "Developers",
+      "Entrepreneurs",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "v0-dev",
+    "name": "v0 by Vercel",
+    "slug": "v0-dev",
+    "category": "development",
+    "subCategory": "app-builder",
+    "description": "Vercel's AI tool for generating production-ready React components and full-page layouts.",
+    "fullOverview": "v0 by Vercel generates production-ready React components and full-page layouts from natural language or screenshots. Features $5 monthly credits on Free plan, Premium ($20/mo) with API access, Team ($30/user/mo), and Business ($100/user/mo).",
+    "website": "https://v0.dev",
+    "logoImageUrl": "https://www.aiuidesigner.com/icons/v0.svg",
+    "bannerImageUrl": "https://www.aiuidesigner.com/icons/v0.svg",
+    "keyFeatures": [
+      "React component generation",
+      "shadcn/ui + Tailwind",
+      "Next.js integration",
+      "GitHub sync",
+      "API access"
+    ],
+    "pros": [
+      "Production-ready code",
+      "Vercel ecosystem",
+      "Clean UI components"
+    ],
+    "cons": [
+      "Expensive for teams",
+      "Credit-based system"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "app-builder",
+      "ai",
+      "react",
+      "vercel"
+    ],
+    "useCases": [
+      "Frontend development",
+      "UI prototyping",
+      "React component generation"
+    ],
+    "bestFor": [
+      "Frontend developers",
+      "Designers",
+      "Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "a0-dev",
+    "name": "a0.dev",
+    "slug": "a0-dev",
+    "category": "development",
+    "subCategory": "app-builder",
+    "description": "AI-powered mobile app builder that creates native iOS and Android apps from text descriptions.",
+    "fullOverview": "a0.dev is an AI-powered mobile app builder that generates native iOS and Android apps from text descriptions. Free tier for prototyping with limited builds, Pro plans from ~$20/mo for publishing and scaling. Built on React Native and Expo.",
+    "website": "https://a0.dev",
+    "logoImageUrl": "https://a0.dev/favicon.ico",
+    "bannerImageUrl": "https://a0.dev/favicon.ico",
+    "keyFeatures": [
+      "Native iOS/Android apps",
+      "Text-based generation",
+      "React Native + Expo",
+      "Store publishing",
+      "Monetization features"
+    ],
+    "pros": [
+      "Free prototyping",
+      "Native mobile apps",
+      "Store publishing"
+    ],
+    "cons": [
+      "Pricing not fully public",
+      "Limited free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "mobile",
+      "app-builder",
+      "ai",
+      "react-native"
+    ],
+    "useCases": [
+      "Mobile app development",
+      "Prototyping",
+      "Startup MVPs"
+    ],
+    "bestFor": [
+      "Mobile developers",
+      "Entrepreneurs",
+      "Startups"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "nvidia-apis",
+    "name": "NVIDIA APIs",
+    "slug": "nvidia-apis",
+    "category": "development",
+    "subCategory": "api",
+    "description": "NVIDIA's inference microservices (NIM) and Nemotron models with pay-per-token pricing.",
+    "fullOverview": "NVIDIA offers inference microservices (NIM) and Nemotron models with usage-based pricing. Free prototyping with rate limits (40 RPM) and $5 credits every 30 days. Pay-per-token pricing ranges from $0.08-$1.20 per million tokens depending on model.",
+    "website": "https://build.nvidia.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0Kp91eJCahfspSMKJH0s-WwZ6nDI8SzIfjliw8arGSg&s=10",
+    "bannerImageUrl": "https://www.nvidia.com/content/dam/en-zz/Solutions/about-nvidia/logo-and-brand/nvidia-og-image-white-bg-1200x630.jpg",
+    "keyFeatures": [
+      "NIM microservices",
+      "Nemotron models",
+      "Free prototyping",
+      "Pay-per-token",
+      "Rate-limited free tier"
+    ],
+    "pros": [
+      "Free prototyping",
+      "Competitive pricing",
+      "NVIDIA hardware"
+    ],
+    "cons": [
+      "Rate-limited free tier",
+      "Complex pricing"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "API",
+      "Cloud"
+    ],
+    "tags": [
+      "api",
+      "nvidia",
+      "inference",
+      "developer-tools"
+    ],
+    "useCases": [
+      "LLM inference",
+      "AI applications",
+      "Model deployment"
+    ],
+    "bestFor": [
+      "Developers",
+      "AI startups",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
   }
 ]

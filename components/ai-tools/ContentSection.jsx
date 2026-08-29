@@ -2,25 +2,31 @@ import { FiCheck, FiX, FiInfo } from 'react-icons/fi';
 import styles from './ContentSection.module.scss';
 
 export default function ContentSection({ tool }) {
+  // Support both canonical and legacy field names
+  const overviewText = tool.fullOverview || tool.overview;
+  const features = tool.keyFeatures || tool.features || [];
+  const pricingModel = tool.pricingModel || tool.pricing;
+  const hasFreeOption = tool.hasFree !== undefined ? tool.hasFree : tool.freeTrial;
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
         
-        {tool.overview && (
+        {overviewText && (
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Overview</h2>
             <div className={styles.prose}>
               {/* If it was markdown we'd use react-markdown, but we'll assume basic text/HTML for now */}
-              <p>{tool.overview}</p>
+              <p>{overviewText}</p>
             </div>
           </section>
         )}
 
-        {tool.features && tool.features.length > 0 && (
+        {features && features.length > 0 && (
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Key Features</h2>
             <ul className={styles.featureList}>
-              {tool.features.map((feature, i) => (
+              {features.map((feature, i) => (
                 <li key={i}>
                   <FiCheck className={styles.checkIcon} />
                   <span>{feature}</span>
@@ -69,12 +75,12 @@ export default function ContentSection({ tool }) {
           
           <div className={styles.infoRow}>
             <span className={styles.label}>Pricing</span>
-            <span className={styles.value}>{tool.pricing}</span>
+            <span className={styles.value}>{pricingModel}</span>
           </div>
           
           <div className={styles.infoRow}>
-            <span className={styles.label}>Free Trial</span>
-            <span className={styles.value}>{tool.freeTrial ? 'Yes' : 'No'}</span>
+            <span className={styles.label}>Free Option</span>
+            <span className={styles.value}>{hasFreeOption ? 'Yes' : 'No'}</span>
           </div>
 
           <div className={styles.infoRow}>

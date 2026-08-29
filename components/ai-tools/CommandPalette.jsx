@@ -148,8 +148,8 @@ export default function CommandPalette() {
                     onMouseEnter={() => setSelectedIndex(idx)}
                   >
                     <div className={styles.logoWrapper}>
-                      {tool.logo ? (
-                        <img src={tool.logo} alt="logo" className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                      {(tool.logoImageUrl || tool.logo) ? (
+                        <img src={tool.logoImageUrl || tool.logo} alt="logo" className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                       ) : (
                         <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
                       )}

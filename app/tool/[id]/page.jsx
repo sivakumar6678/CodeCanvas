@@ -21,7 +21,7 @@ const toolsMap = {
 };
 
 export default function ToolPage({ params }) {
-  const { id } = params;
+  const { id } = React.use(params);
   const ToolComponent = toolsMap[id];
 
   if (!ToolComponent) {

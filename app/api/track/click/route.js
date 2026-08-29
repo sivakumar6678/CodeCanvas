@@ -3,7 +3,7 @@ import { createClient } from '../../../../lib/supabase/server';
 
 export async function POST(request) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { slug } = await request.json();
     const userAgent = request.headers.get('user-agent') || 'unknown';
 

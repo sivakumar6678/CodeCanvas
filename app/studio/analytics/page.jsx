@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function StudioAnalyticsPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { count: totalViews } = await supabase
     .from('analytics_tool_views')

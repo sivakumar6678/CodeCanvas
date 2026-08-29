@@ -3,7 +3,7 @@ import { createClient } from '../../../../lib/supabase/server';
 import { serializeToolSuggestion, validateToolSuggestion } from '../../../../lib/contribution-validation';
 
 export async function GET() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -13,7 +13,7 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Sign in to suggest a tool' }, { status: 401 });
 
@@ -27,7 +27,7 @@ export async function POST(request) {
 }
 
 export async function PUT(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id, ...payload } = await request.json().catch(() => ({}));

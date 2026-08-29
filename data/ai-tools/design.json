@@ -1,73 +1,170 @@
 [
   {
-    "id": "tool-021",
-    "name": "adobe express",
+    "id": "adobe-express",
+    "name": "Adobe Express",
     "slug": "adobe-express",
-    "description": "Design and content creation platform for graphics, images, videos, documents, and social content.",
     "category": "design",
-    "subCategory": "design-tools",
+    "subCategory": "graphic-design",
+    "description": "AI-powered design tool with Firefly integration for content creation and video editing.",
+    "fullOverview": "Adobe Express is a design tool with integrated Firefly AI for content generation. Features 250 monthly generative AI credits on Premium ($9.99/mo) and 1,200 credits on business plans. Includes video background removal, templates, and Adobe Stock access.",
+    "website": "https://www.adobe.com/express",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Adobe_Express_logo_RGB_1024px.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "bannerImageUrl": "https://logos-world.net/wp-content/uploads/2025/02/Adobe-Express-Logo.png",
+    "keyFeatures": [
+      "Firefly AI integration",
+      "250 monthly AI credits",
+      "Video background removal",
+      "Premium templates",
+      "Adobe Stock access"
+    ],
+    "pros": [
+      "Affordable premium plan",
+      "Adobe ecosystem integration",
+      "Strong AI features"
+    ],
+    "cons": [
+      "Free tier is limited",
+      "Credit-based system"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Mobile"
+    ],
     "tags": [
       "design",
-      "ai-design",
-      "photo-editing",
-      "video-editing",
-      "content-creation"
+      "ai",
+      "creative",
+      "adobe"
     ],
     "useCases": [
-      "graphic-design",
-      "social-media-content",
-      "image-editing",
-      "video-creation",
-      "marketing-content"
+      "Graphic design",
+      "Video editing",
+      "Social media content",
+      "Marketing"
     ],
-    "pricing": "Freemium",
-    "freeTrial": true,
-    "platforms": [
-      "web",
-      "mobile"
+    "bestFor": [
+      "Designers",
+      "Content creators",
+      "Marketers"
     ],
-    "website": "https://www.adobe.com/express/",
     "featured": false,
+    "new": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
   },
   {
-    "id": "tool-022",
-    "name": "canva",
+    "id": "canva",
+    "name": "Canva",
     "slug": "canva",
-    "description": "Visual communication and design platform with AI-powered tools for graphics, presentations, videos, and documents.",
     "category": "design",
-    "subCategory": "design-tools",
+    "subCategory": "graphic-design",
+    "description": "AI-powered design platform with Magic Studio, AI Pass, and extensive template library.",
+    "fullOverview": "Canva is a design platform with Magic Studio AI features. Free tier offers 200 standard AI uses/month. Pro ($10-15/mo) unlocks full Magic tools. AI Pass ($100/mo) provides 40x more AI usage. Team plans available.",
+    "website": "https://www.canva.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgI8zbd_XaUfdEiApJXwMkQFTnHbbPzcRInkT_BHbiCw&s=10",
+    "bannerImageUrl": "https://1000logos.net/wp-content/uploads/2023/02/Canva-logo.png",
+    "keyFeatures": [
+      "Magic Studio",
+      "AI Pass",
+      "200+ standard AI uses free",
+      "1.6M+ templates",
+      "4.7M+ assets"
+    ],
+    "pros": [
+      "Generous free tier",
+      "Affordable Pro",
+      "Massive template library"
+    ],
+    "cons": [
+      "AI Pass is expensive",
+      "Some features require Pro"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Desktop",
+      "Mobile"
+    ],
     "tags": [
       "design",
-      "ai-design",
-      "presentations",
-      "video",
-      "content-creation"
+      "ai",
+      "creative",
+      "canva"
     ],
     "useCases": [
-      "graphic-design",
-      "presentations",
-      "social-media-content",
-      "video-creation",
-      "marketing"
+      "Graphic design",
+      "Social media",
+      "Presentations",
+      "Marketing"
     ],
-    "pricing": "Freemium",
-    "freeTrial": true,
-    "platforms": [
-      "web",
-      "windows",
-      "macos",
-      "ios",
-      "android"
+    "bestFor": [
+      "Designers",
+      "Content creators",
+      "Marketers",
+      "Teams"
     ],
-    "website": "https://www.canva.com/",
     "featured": false,
+    "new": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
+  },
+  {
+    "id": "google-vids",
+    "name": "Google Vids",
+    "slug": "google-vids",
+    "category": "design",
+    "subCategory": "video-creation",
+    "description": "AI-powered video creation tool with Veo 3.1 model, AI avatars, and custom music generation.",
+    "fullOverview": "Google Vids is an AI video creation tool with Veo 3.1 for video generation. Free accounts get 10 video generations/month. AI Pro subscribers get 50 videos, and AI Ultra subscribers get up to 1,000 videos/month with custom music and avatars.",
+    "website": "https://vids.google.com",
+    "logoImageUrl": "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-vids-2026/default.svg",
+    "bannerImageUrl": "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/google-vids-2026/default.svg",
+    "keyFeatures": [
+      "Veo 3.1 video model",
+      "AI avatars",
+      "Custom music generation",
+      "Lyria 3",
+      "Tiered limits"
+    ],
+    "pros": [
+      "Free tier with 10 videos",
+      "Strong video AI",
+      "Google integration"
+    ],
+    "cons": [
+      "Limited free tier",
+      "Pro/Ultra required for more"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "video",
+      "ai",
+      "google",
+      "creative"
+    ],
+    "useCases": [
+      "Video creation",
+      "Marketing",
+      "Content creation",
+      "Education"
+    ],
+    "bestFor": [
+      "Content creators",
+      "Marketers",
+      "Educators"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
   }
 ]

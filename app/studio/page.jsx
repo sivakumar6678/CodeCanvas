@@ -5,7 +5,7 @@ import { getAllTools } from '../../lib/data-fetchers';
 import styles from './page.module.scss';
 
 export default async function StudioDashboardPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const [allTools, viewsResult, clicksResult] = await Promise.all([getAllTools(), supabase.from('analytics_tool_views').select('*', { count: 'exact', head: true }), supabase.from('analytics_tool_clicks').select('*', { count: 'exact', head: true })]);
   const views = viewsResult.count || 0;
   const clicks = clicksResult.count || 0;

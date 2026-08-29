@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation';
 export default function UpvoteButton({ slug, compact = false, className = '' }) {
   const [count, setCount] = useState(0);
   const [hasUpvoted, setHasUpvoted] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [countLoading, setCountLoading] = useState(true);
+  const [upvoteLoading, setUpvoteLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -26,7 +27,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
       } catch (err) {
         console.error('Error loading upvotes:', err);
       } finally {
-        if (isMounted) setLoading(false);
+        if (isMounted) setCountLoading(false);
       }
     };
     fetchUpvotes();
@@ -40,10 +41,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
     const prevCount = count;
     const prevHasUpvoted = hasUpvoted;
     setError('');
-
-    // Optimistic UI update
-    setHasUpvoted(!prevHasUpvoted);
-    setCount(prevHasUpvoted ? prevCount - 1 : prevCount + 1);
+    setUpvoteLoading(true);
 
     try {
       const res = await fetch(`/api/tools/${slug}/upvote`, {
@@ -67,13 +65,15 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
       setError(err.message);
       setHasUpvoted(prevHasUpvoted);
       setCount(prevCount);
+    } finally {
+      setUpvoteLoading(false);
     }
   };
 
   return (
     <button
       onClick={handleUpvote}
-      disabled={loading}
+      disabled={countLoading || upvoteLoading}
       className={`${styles.upvoteBtn} ${hasUpvoted ? styles.active : ''} ${compact ? styles.compact : ''} ${className}`}
       title={hasUpvoted ? "Remove Upvote" : "Upvote this tool"}
       aria-label={error || (hasUpvoted ? 'Remove Upvote' : 'Upvote this tool')}

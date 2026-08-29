@@ -1,3 +1,6 @@
 import { redirect } from 'next/navigation';
 
-export default function LegacyPromptDetailPage({ params }) { redirect(`/ai-prompts-tricks/${params.id}`); }
+export default async function LegacyPromptDetailPage({ params }) {
+  const { id } = await params;
+  redirect(`/ai-prompts-tricks/${id}`);
+}

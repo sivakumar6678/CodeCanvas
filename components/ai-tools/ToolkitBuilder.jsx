@@ -39,7 +39,7 @@ function RecommendationCard({ tool }) {
   return (
     <article className={styles.toolCard}>
       <div className={styles.toolIdentity}>
-        {tool.logo ? <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" /> : <span className={styles.logoFallback}>{tool.name.charAt(0)}</span>}
+        {(tool.logoImageUrl || tool.logo) ? <img src={tool.logoImageUrl || tool.logo} alt={`${tool.name} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" /> : <span className={styles.logoFallback}>{tool.name.charAt(0)}</span>}
         <div><h3>{tool.name}</h3><span className={styles.fit}>{tool.fitLabel}</span></div>
       </div>
       <p className={styles.reason}>{tool.fitReason}</p>

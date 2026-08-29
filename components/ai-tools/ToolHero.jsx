@@ -6,12 +6,17 @@ import UpvoteButton from './UpvoteButton';
 import styles from './ToolHero.module.scss';
 
 export default function ToolHero({ tool }) {
+  // Support both canonical and legacy field names
+  const logoUrl = tool.logoImageUrl || tool.logo;
+  const bannerUrl = tool.bannerImageUrl || tool.banner;
+  const pricingModel = tool.pricingModel || tool.pricing;
+
   return (
     <div className={styles.hero}>
       <div className={styles.leftPanel}>
         <div className={styles.logoWrapper}>
-          {tool.logo ? (
-            <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} loading="eager" decoding="async" referrerPolicy="no-referrer" />
+          {logoUrl ? (
+            <img src={logoUrl} alt={`${tool.name} logo`} className={styles.logo} loading="eager" decoding="async" referrerPolicy="no-referrer" />
           ) : (
             <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
           )}
@@ -20,7 +25,7 @@ export default function ToolHero({ tool }) {
         <div className={styles.badges}>
           {tool.featured && <span className={styles.badgeFeatured}>Featured</span>}
           {tool.new && <span className={styles.badgeNew}>New</span>}
-          <span className={styles.badgePricing}>{tool.pricing}</span>
+          <span className={styles.badgePricing}>{pricingModel}</span>
         </div>
 
         <h1 className={styles.title}>
@@ -41,10 +46,10 @@ export default function ToolHero({ tool }) {
             {tool.subCategory && <span> ({tool.subCategory})</span>}
           </div>
           
-          {tool.platform && tool.platform.length > 0 && (
+          {((Array.isArray(tool.platforms) && tool.platforms.length > 0) || (Array.isArray(tool.platform) && tool.platform.length > 0)) && (
             <div className={styles.metaItem}>
               <FiMonitor className={styles.icon} />
-              <span>{tool.platform.join(', ')}</span>
+              <span>{(tool.platforms || tool.platform || []).join(', ')}</span>
             </div>
           )}
         </div>
@@ -62,9 +67,9 @@ export default function ToolHero({ tool }) {
       </div>
 
       <div className={styles.rightPanel}>
-        {tool.banner ? (
+        {bannerUrl ? (
           <div className={styles.bannerWrapper}>
-            <img src={tool.banner} alt={`${tool.name} preview`} className={styles.banner} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+            <img src={bannerUrl} alt={`${tool.name} preview`} className={styles.banner} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
             <div className={styles.bannerOverlay}></div>
           </div>
         ) : (

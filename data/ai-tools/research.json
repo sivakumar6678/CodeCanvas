@@ -3,9 +3,35 @@
     "id": "tool-005",
     "name": "perpelxity",
     "slug": "perpelxity",
-    "description": "AI-powered search and research platform that provides conversational answers using web sources.",
     "category": "research",
     "subCategory": "ai-search",
+    "description": "AI-powered search and research platform that provides conversational answers using web sources.",
+    "fullOverview": "Perplexity AI is a research and search assistant that combines multiple AI models for comprehensive answers. Features Pro Search with advanced AI models, file uploads, and the autonomous Computer agent for complex workflows.",
+    "website": "https://www.perplexity.ai/",
+    "logoImageUrl": "https://static.vecteezy.com/system/resources/previews/067/941/679/non_2x/perplexity-ai-logo-rounded-hd-free-png.png",
+    "bannerImageUrl": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2024/06/pplx-default-preview.png?w=1600&h=900&fit=crop",
+    "keyFeatures": [
+      "Pro Search",
+      "Computer autonomous agent",
+      "19+ AI models",
+      "File uploads",
+      "App creation"
+    ],
+    "pros": [
+      "Powerful research capabilities",
+      "Autonomous agent",
+      "Multi-model approach"
+    ],
+    "cons": [
+      "Pro plan is expensive",
+      "Usage limits on free tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "web",
+      "ios",
+      "android"
+    ],
     "tags": [
       "ai-search",
       "research",
@@ -19,52 +45,14 @@
       "information-discovery",
       "research-summaries"
     ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "web",
-      "ios",
-      "android"
+    "bestFor": [
+      "\"Researchers\", \"Analysts\", \"Power users\""
     ],
-    "website": "https://www.perplexity.ai/",
     "featured": false,
-    "verified": true,
     "new": true,
-    "createdDate": "",
-    "status": "active"
-  },
-  {
-    "id": "tool-024",
-    "name": "notebook lm",
-    "slug": "notebook-lm",
-    "description": "AI research and learning assistant that works with user-provided documents and other sources.",
-    "category": "research",
-    "subCategory": "research-assistant",
-    "tags": [
-      "ai-research",
-      "source-analysis",
-      "study",
-      "document-analysis",
-      "google-ai"
-    ],
-    "useCases": [
-      "research",
-      "study",
-      "document-analysis",
-      "source-summarization",
-      "knowledge-organization"
-    ],
-    "pricing": "Freemium",
-    "freeTrial": false,
-    "platforms": [
-      "web",
-      "mobile"
-    ],
-    "website": "https://notebooklm.google.com/",
-    "featured": false,
     "verified": true,
-    "new": true,
-    "createdDate": "",
+    "hasFree": false,
+    "createdDate": "2026-08-29T13:52:54.811Z",
     "status": "active"
   }
 ]

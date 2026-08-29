@@ -10,6 +10,8 @@ const ContactSection = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,12 +20,32 @@ const ContactSection = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement form submission
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! I will get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      setSubmitStatus({ type: 'success', message: 'Thank you! Your message has been sent successfully.' });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
@@ -103,11 +125,11 @@ const ContactSection = () => {
             <div className="social-links-section">
               <h3>Follow Me</h3>
               <div className="social-links">
-                {socialLinks.map((link, index) => {
+                {socialLinks.map((link) => {
                   const IconComponent = link.icon;
                   return (
                     <a
-                      key={index}
+                      key={link.name}
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -142,6 +164,7 @@ const ContactSection = () => {
                   onChange={handleChange}
                   placeholder="Your Name"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -155,6 +178,7 @@ const ContactSection = () => {
                   onChange={handleChange}
                   placeholder="your.email@example.com"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -168,11 +192,18 @@ const ContactSection = () => {
                   placeholder="Tell me about your project or question..."
                   rows="6"
                   required
+                  disabled={isSubmitting}
                 />
               </div>
 
-              <button type="submit" className="submit-btn">
-                Send Message
+              {submitStatus && (
+                <div className={`submit-status submit-status--${submitStatus.type}`}>
+                  {submitStatus.message}
+                </div>
+              )}
+
+              <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
                 <span>→</span>
               </button>
             </form>

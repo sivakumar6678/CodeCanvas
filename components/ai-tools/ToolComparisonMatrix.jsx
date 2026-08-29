@@ -73,14 +73,14 @@ export default function ToolComparisonMatrix({ allTools, initialSlugs = ['cursor
 
                   <div className={styles.toolCardHeader}>
                     <div className={styles.logoWrapper}>
-                      {tool.logo ? (
-                        <img src={tool.logo} alt={tool.name} className={styles.logo} />
+                      {(tool.logoImageUrl || tool.logo) ? (
+                        <img src={tool.logoImageUrl || tool.logo} alt={tool.name} className={styles.logo} />
                       ) : (
                         <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
                       )}
                     </div>
                     <h3 className={styles.toolName}>{tool.name}</h3>
-                    <span className={styles.pricingBadge}>{tool.pricing}</span>
+                    <span className={styles.pricingBadge}>{tool.pricingModel || tool.pricing}</span>
 
                     <TrackClickLink href={tool.website} slug={tool.slug} className={styles.visitBtn}>
                       Visit <FiExternalLink />
@@ -112,7 +112,7 @@ export default function ToolComparisonMatrix({ allTools, initialSlugs = ['cursor
               <td className={styles.featureLabel}>Platforms</td>
               {selectedTools.map((t, idx) => (
                 <td key={idx} className={styles.cellText}>
-                  {t.platform ? t.platform.join(', ') : 'Web'}
+                  {(t.platforms || t.platform || []).length > 0 ? (t.platforms || t.platform || []).join(', ') : 'Web'}
                 </td>
               ))}
             </tr>

@@ -14,7 +14,10 @@ export default async function AIToolsPage({ searchParams }) {
   const categories = await getCategories();
   const featuredTools = await getFeaturedTools();
   
-  const query = searchParams?.q?.toLowerCase();
+  const searchParamsObj = await searchParams;
+  const query = searchParamsObj?.q?.toLowerCase();
+  console.log('searchParamsObj:', searchParamsObj);
+  console.log('query:', query);
   
   const displayTools = query 
     ? allTools.filter(tool => 

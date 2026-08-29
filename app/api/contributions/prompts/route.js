@@ -3,7 +3,7 @@ import { createClient } from '../../../../lib/supabase/server';
 import { serializePromptSubmission, validatePromptSubmission } from '../../../../lib/contribution-validation';
 
 export async function GET() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { data, error } = await supabase.from('prompt_submissions').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
@@ -12,7 +12,7 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Sign in to suggest a prompt' }, { status: 401 });
 
@@ -25,7 +25,7 @@ export async function POST(request) {
 }
 
 export async function PUT(request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id, ...payload } = await request.json().catch(() => ({}));

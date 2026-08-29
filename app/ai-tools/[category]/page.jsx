@@ -5,8 +5,9 @@ import { notFound } from 'next/navigation';
 import styles from '../page.module.scss'; // Reuse styles from main page
 
 export async function generateMetadata({ params }) {
+  const { category: categorySlug } = await params;
   const categories = await getCategories();
-  const category = categories.find(c => c.slug === params.category);
+  const category = categories.find(c => c.slug === categorySlug);
   
   if (!category) return { title: 'Category Not Found' };
   
@@ -17,14 +18,15 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CategoryPage({ params }) {
+  const { category: categorySlug } = await params;
   const categories = await getCategories();
-  const category = categories.find(c => c.slug === params.category);
+  const category = categories.find(c => c.slug === categorySlug);
   
   if (!category) {
     notFound();
   }
 
-  const tools = await getToolsByCategory(params.category);
+  const tools = await getToolsByCategory(categorySlug);
 
   return (
     <div className={styles.container}>

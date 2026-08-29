@@ -6,12 +6,16 @@ import BookmarkButton from './BookmarkButton';
 import styles from './AIToolCard.module.scss';
 
 export default function AIToolCard({ tool }) {
+  // Support both canonical and legacy field names
+  const logoUrl = tool.logoImageUrl || tool.logo;
+  const pricingModel = tool.pricingModel || tool.pricing;
+
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
         <div className={styles.logoContainer}>
-          {tool.logo ? (
-            <img src={tool.logo} alt={`${tool.name} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+          {logoUrl ? (
+            <img src={logoUrl} alt={`${tool.name} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
           ) : (
             <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
           )}
@@ -19,7 +23,7 @@ export default function AIToolCard({ tool }) {
         <div className={styles.badges}>
           {tool.featured && <span className={styles.badgeFeatured}>Featured</span>}
           {tool.new && <span className={styles.badgeNew}>New</span>}
-          <span className={styles.badgePricing}>{tool.pricing}</span>
+          <span className={styles.badgePricing}>{pricingModel}</span>
         </div>
       </div>
 

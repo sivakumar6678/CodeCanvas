@@ -9,8 +9,9 @@ export const metadata = {
 
 export default async function ComparePage({ searchParams }) {
   const allTools = await getAllTools();
+  const searchParamsObj = await searchParams;
   
-  const queryTools = searchParams?.tools;
+  const queryTools = searchParamsObj?.tools;
   const initialSlugs = queryTools ? queryTools.split(',') : ['cursor', 'github-copilot'];
 
   return (

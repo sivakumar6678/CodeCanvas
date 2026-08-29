@@ -11,7 +11,7 @@ const redactEmail = (email) => {
 };
 
 export async function login(formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const data = {
     email: formData.get('email'),
@@ -76,7 +76,7 @@ export async function login(formData) {
 }
 
 export async function signup(formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const email = formData.get('email')?.toString().trim();
   const password = formData.get('password')?.toString();
   const username = formData.get('username')?.toString().trim();
@@ -144,7 +144,7 @@ export async function signup(formData) {
 }
 
 export async function resendConfirmation(formData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const email = formData.get('email')?.toString().trim();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
 
@@ -170,7 +170,7 @@ export async function resendConfirmation(formData) {
 }
 
 export async function logout() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
   if (error) console.warn('[auth] logout:failed', { code: error.code, message: error.message });
   else console.info('[auth] logout:success');

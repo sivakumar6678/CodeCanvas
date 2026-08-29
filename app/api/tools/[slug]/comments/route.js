@@ -5,8 +5,8 @@ const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export async function GET(request, { params }) {
-  const supabase = createClient();
-  const slug = params.slug;
+  const supabase = await createClient();
+  const slug = (await params).slug;
   if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {
@@ -29,8 +29,8 @@ export async function GET(request, { params }) {
 }
 
 export async function POST(request, { params }) {
-  const supabase = createClient();
-  const slug = params.slug;
+  const supabase = await createClient();
+  const slug = (await params).slug;
   if (!SAFE_SLUG.test(slug)) return NextResponse.json({ error: 'Invalid tool slug' }, { status: 400 });
 
   try {

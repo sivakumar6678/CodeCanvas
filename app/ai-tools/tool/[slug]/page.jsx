@@ -10,7 +10,8 @@ import CommentsSection from '../../../../components/ai-tools/CommentsSection';
 import styles from './page.module.scss';
 
 export async function generateMetadata({ params }) {
-  const tool = await getToolBySlug(params.slug);
+  const { slug } = await params;
+  const tool = await getToolBySlug(slug);
   if (!tool) return { title: 'Tool Not Found' };
   
   // Dynamic SEO generation based on JSON data
@@ -20,14 +21,14 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `${tool.name} AI Tool Profile`,
       description: tool.description,
-      images: [tool.banner || tool.logo || ''],
+      images: tool.banner ? [tool.banner] : [],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: tool.name,
       description: tool.description,
-      images: [tool.banner || tool.logo || ''],
+      images: tool.banner ? [tool.banner] : [],
     },
     alternates: {
       canonical: `https://yourplatform.com/ai-tools/tool/${tool.slug}`,
@@ -36,7 +37,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ToolDetailPage({ params }) {
-  const tool = await getToolBySlug(params.slug);
+  const { slug } = await params;
+  const tool = await getToolBySlug(slug);
   
   if (!tool) {
     notFound();
