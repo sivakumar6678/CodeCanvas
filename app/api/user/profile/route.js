@@ -8,11 +8,43 @@ function toStringArray(val) {
   return [];
 }
 
+function sanitizeFallbackUsername(rawEmail) {
+  if (!rawEmail || typeof rawEmail !== 'string') return 'User';
+  const prefix = rawEmail.split('@')[0] || 'User';
+  const cleaned = prefix.replace(/[^a-zA-Z0-9_.\- ]/g, '_').trim();
+  if (cleaned.length < 2) return `User_${cleaned || '1'}`;
+  return cleaned.slice(0, 40);
+}
+
+async function resolveAuthenticatedUser(supabase, request) {
+  try {
+    const { data: { user: cookieUser } } = await supabase.auth.getUser();
+    if (cookieUser) return cookieUser;
+  } catch {
+    // ignore and check authorization header fallback
+  }
+
+  const authHeader = request.headers.get('authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1]?.trim();
+    if (token) {
+      try {
+        const { data: { user: tokenUser } } = await supabase.auth.getUser(token);
+        if (tokenUser) return tokenUser;
+      } catch {
+        // token authentication failed
+      }
+    }
+  }
+
+  return null;
+}
+
 export async function GET(request) {
   const supabase = await createClient();
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await resolveAuthenticatedUser(supabase, request);
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -30,8 +62,8 @@ export async function GET(request) {
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id);
 
-    const { count: collectionsCount } = await supabase
-      .from('collections')
+    const { count: savedPromptsCount } = await supabase
+      .from('saved_prompts')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', user.id);
 
@@ -49,7 +81,7 @@ export async function GET(request) {
       user: {
         id: user.id,
         email: user.email,
-        username: profile?.username || user.email?.split('@')[0] || 'User',
+        username: profile?.username || sanitizeFallbackUsername(user.email),
         avatar_url: profile?.avatar_url || '',
         bio: profile?.bio || '',
         role: profile?.role || '',
@@ -57,14 +89,14 @@ export async function GET(request) {
         interests: Array.isArray(profile?.interests) ? profile.interests : [],
         technologies: Array.isArray(profile?.technologies) ? profile.technologies : [],
         goals: Array.isArray(profile?.goals) ? profile.goals : [],
-        preferred_pricing: profile?.preferred_pricing || '',
+        preferred_pricing: profile?.preferred_pricing || 'any',
         preferred_platforms: Array.isArray(profile?.preferred_platforms) ? profile.preferred_platforms : [],
         onboarding_completed: Boolean(profile?.onboarding_completed),
         created_at: profile?.created_at || user.created_at
       },
       stats: {
         bookmarksCount: bookmarksCount || 0,
-        collectionsCount: collectionsCount || 0,
+        savedPromptsCount: savedPromptsCount || 0,
         reviewsCount: reviewsCount || 0,
         upvotesCount: upvotesCount || 0
       }
@@ -79,9 +111,9 @@ export async function PUT(request) {
   const supabase = await createClient();
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await resolveAuthenticatedUser(supabase, request);
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized. Please sign in again.' }, { status: 401 });
     }
 
     // Fetch existing profile for safe merging of partial updates
@@ -106,13 +138,22 @@ export async function PUT(request) {
       onboarding_completed,
     } = body;
 
-    const rawUsername = username !== undefined ? username : (existingProfile?.username || user.email?.split('@')[0] || 'User');
+    const rawUsername = username !== undefined
+      ? username
+      : (existingProfile?.username || sanitizeFallbackUsername(user.email));
     const normalizedUsername = typeof rawUsername === 'string' ? rawUsername.trim() : 'User';
-    const normalizedAvatar = avatar_url !== undefined ? (typeof avatar_url === 'string' ? avatar_url.trim() : '') : (existingProfile?.avatar_url || '');
-    const normalizedBio = bio !== undefined ? (typeof bio === 'string' ? bio.trim() : '') : (existingProfile?.bio || '');
+    const normalizedAvatar = avatar_url !== undefined
+      ? (typeof avatar_url === 'string' ? avatar_url.trim() : '')
+      : (existingProfile?.avatar_url || '');
+    const normalizedBio = bio !== undefined
+      ? (typeof bio === 'string' ? bio.trim() : '')
+      : (existingProfile?.bio || '');
 
-    if (!/^[a-zA-Z0-9_\- ]{2,40}$/.test(normalizedUsername)) {
-      return NextResponse.json({ error: 'Username must be 2–40 characters and use letters, numbers, spaces, _ or -.' }, { status: 400 });
+    // Allow 2-50 chars: letters, numbers, spaces, dots, dashes, underscores
+    if (!/^[a-zA-Z0-9_.\- ]{2,50}$/.test(normalizedUsername)) {
+      return NextResponse.json({
+        error: 'Username must be 2–50 characters and can only contain letters, numbers, spaces, dots, dashes, or underscores.'
+      }, { status: 400 });
     }
 
     if (normalizedAvatar) {
@@ -136,7 +177,7 @@ export async function PUT(request) {
     const interestsVal = interests !== undefined ? toStringArray(interests) : (existingProfile?.interests || []);
     const technologiesVal = technologies !== undefined ? toStringArray(technologies) : (existingProfile?.technologies || []);
     const goalsVal = goals !== undefined ? toStringArray(goals) : (existingProfile?.goals || []);
-    const pricingVal = preferred_pricing !== undefined ? String(preferred_pricing || '').trim() : (existingProfile?.preferred_pricing || '');
+    const pricingVal = preferred_pricing !== undefined ? String(preferred_pricing || '').trim() : (existingProfile?.preferred_pricing || 'any');
     const platformsVal = preferred_platforms !== undefined ? toStringArray(preferred_platforms) : (existingProfile?.preferred_platforms || []);
     const onboardingCompletedVal = onboarding_completed !== undefined ? Boolean(onboarding_completed) : Boolean(existingProfile?.onboarding_completed);
 
@@ -155,13 +196,14 @@ export async function PUT(request) {
         preferred_pricing: pricingVal,
         preferred_platforms: platformsVal,
         onboarding_completed: onboardingCompletedVal,
+        updated_at: new Date().toISOString(),
       })
       .select()
       .single();
 
     if (error) {
       if (error.code === '23505') {
-        return NextResponse.json({ error: 'That username is already in use.' }, { status: 409 });
+        return NextResponse.json({ error: 'That username is already taken by another account. Please choose a different one.' }, { status: 409 });
       }
       throw error;
     }
@@ -169,7 +211,6 @@ export async function PUT(request) {
     return NextResponse.json({ success: true, profile: data });
   } catch (error) {
     console.error('Error updating profile:', error);
-    return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to update profile' }, { status: 500 });
   }
 }
-
