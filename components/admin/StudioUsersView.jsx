@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { FiSearch, FiShield, FiUser, FiCheckCircle } from 'react-icons/fi';
 import styles from './StudioUsersView.module.scss';
+import UserAvatar from '../ui/UserAvatar';
 
 export default function StudioUsersView({ users = [] }) {
   const [query, setQuery] = useState('');
@@ -89,14 +90,12 @@ export default function StudioUsersView({ users = [] }) {
                 filteredUsers.map((user) => (
                   <tr key={user.id}>
                     <td className={styles.userCell}>
-                      <div className={styles.avatar}>
-                        {user.avatar_url ? (
-                          <img src={user.avatar_url} alt={user.username || 'User'} />
-                        ) : (
-                          <span>{(user.username || user.full_name || 'U').charAt(0).toUpperCase()}</span>
-                        )}
-                      </div>
-                      <span className={styles.userName}>{user.full_name || 'Community Member'}</span>
+                      <UserAvatar
+                        avatarUrl={user.avatar_url}
+                        username={user.username || user.full_name || 'User'}
+                        size="sm"
+                      />
+                      <span className={styles.userName}>{user.full_name || user.username || 'Community Member'}</span>
                     </td>
                     <td className={styles.usernameCell}>@{user.username || 'user'}</td>
                     <td>

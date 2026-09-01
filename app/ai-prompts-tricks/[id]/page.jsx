@@ -3,6 +3,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import Link from 'next/link';
 import { createClient } from '../../../lib/supabase/server';
 import PromptCustomizer from '../../../components/prompts/PromptCustomizer';
+import SavePromptButton from '../../../components/prompts/SavePromptButton';
 import { generatePromptSchema } from '../../../lib/seo-schema';
 import styles from '../../prompts/[id]/page.module.scss';
 
@@ -20,12 +21,12 @@ export async function generateMetadata({ params }) {
       .eq('status', 'approved')
       .maybeSingle();
 
-    if (data?.title) title = `${data.title} | AI Prompts & Tricks`;
+    if (data?.title) title = `${data.title} | AI Knowledge`;
   } catch (e) {}
 
   if (title === 'Content Not Found') {
     const fallback = defaultPrompts.find((p) => String(p.id) === String(id));
-    if (fallback?.title) title = `${fallback.title} | AI Prompts & Tricks`;
+    if (fallback?.title) title = `${fallback.title} | AI Knowledge`;
   }
 
   return { title };
@@ -61,9 +62,12 @@ export default async function PromptDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Link href="/ai-prompts-tricks" className={styles.back}>
-        <FiArrowLeft /> AI Prompts &amp; Tricks
-      </Link>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <Link href="/ai-prompts-tricks" className={styles.back}>
+          <FiArrowLeft /> Back to AI Knowledge
+        </Link>
+        <SavePromptButton promptId={prompt.id} showLabel={true} />
+      </div>
       <article className={styles.article}>
         <div className={styles.meta}>
           <span>{prompt.type || 'prompt'}</span>
@@ -77,7 +81,7 @@ export default async function PromptDetailPage({ params }) {
         <PromptCustomizer promptContent={prompt.prompt_content} title={prompt.title} />
 
         <div className={styles.footer} style={{ marginTop: '24px' }}>
-          <span>Contributed by {prompt.is_anonymous ? 'Anonymous contributor' : prompt.display_name}</span>
+          <span>Contributed by {prompt.is_anonymous ? 'Anonymous contributor' : (prompt.display_name || 'Community contributor')}</span>
         </div>
       </article>
     </main>

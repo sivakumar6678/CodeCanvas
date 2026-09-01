@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FiArrowUpRight, FiCheck, FiCopy, FiRotateCcw, FiSearch } from 'react-icons/fi';
 import styles from './PromptLibrary.module.scss';
+import SavePromptButton from './SavePromptButton';
 
 import defaultPrompts from '../../data/default-prompts.json';
 
@@ -13,6 +14,8 @@ export default function PromptLibrary() {
   const [category, setCategory] = useState('');
   const [model, setModel] = useState('');
   const [contentType, setContentType] = useState('');
+  const [useCase, setUseCase] = useState('');
+  const [selectedTag, setSelectedTag] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
@@ -27,6 +30,8 @@ export default function PromptLibrary() {
     if (category) params.set('category', category);
     if (model) params.set('model', model);
     if (contentType) params.set('type', contentType);
+    if (useCase) params.set('useCase', useCase);
+    if (selectedTag) params.set('tag', selectedTag);
 
     fetch(`/api/prompts?${params}`)
       .then((response) => (response.ok ? response.json() : defaultPrompts))
@@ -50,7 +55,7 @@ export default function PromptLibrary() {
     return () => {
       active = false;
     };
-  }, [query, category, model, contentType]);
+  }, [query, category, model, contentType, useCase, selectedTag]);
 
   const handleCopy = async (id, content, e) => {
     e.preventDefault();
@@ -60,6 +65,13 @@ export default function PromptLibrary() {
       await navigator.clipboard.writeText(content);
       setCopiedId(id);
       setTimeout(() => setCopiedId(null), 2000);
+
+      // Non-blocking telemetry tracking
+      fetch(`/api/contributions/prompts/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'copy' }),
+      }).catch(() => {});
     } catch (err) {
       console.error('Failed to copy text:', err);
     }
@@ -70,11 +82,15 @@ export default function PromptLibrary() {
     setCategory('');
     setModel('');
     setContentType('');
+    setUseCase('');
+    setSelectedTag('');
   };
 
-  const categories = [...new Set(prompts.map((prompt) => prompt.category).filter(Boolean))];
-  const models = [...new Set(prompts.map((prompt) => prompt.ai_model).filter(Boolean))];
-  const hasActiveFilters = Boolean(query || category || model || contentType);
+  const categories = [...new Set(defaultPrompts.map((prompt) => prompt.category).filter(Boolean))];
+  const models = [...new Set(defaultPrompts.map((prompt) => prompt.ai_model).filter(Boolean))];
+  const useCases = [...new Set(defaultPrompts.map((prompt) => prompt.use_case).filter(Boolean))];
+  const allTags = [...new Set(defaultPrompts.flatMap((prompt) => prompt.tags || []).filter(Boolean))];
+  const hasActiveFilters = Boolean(query || category || model || contentType || useCase || selectedTag);
 
   return (
     <section>
@@ -98,6 +114,7 @@ export default function PromptLibrary() {
           <option value="trick">Tricks</option>
           <option value="slash-command">Slash commands</option>
           <option value="technique">Techniques</option>
+          <option value="guide">Guides / Tips</option>
         </select>
         <select
           value={model}
@@ -119,6 +136,26 @@ export default function PromptLibrary() {
             <option key={item} value={item}>{item}</option>
           ))}
         </select>
+        <select
+          value={useCase}
+          onChange={(event) => setUseCase(event.target.value)}
+          aria-label="Filter by use case"
+        >
+          <option value="">All use cases</option>
+          {useCases.map((item) => (
+            <option key={item} value={item}>{item}</option>
+          ))}
+        </select>
+        <select
+          value={selectedTag}
+          onChange={(event) => setSelectedTag(event.target.value)}
+          aria-label="Filter by tag"
+        >
+          <option value="">All tags</option>
+          {allTags.map((tag) => (
+            <option key={tag} value={tag}>#{tag}</option>
+          ))}
+        </select>
       </div>
 
       {hasActiveFilters && (
@@ -137,17 +174,20 @@ export default function PromptLibrary() {
         </div>
       )}
 
-      {loading && <p className={styles.empty}>Loading AI prompts and tricks...</p>}
+      {loading && <p className={styles.empty}>Loading AI Knowledge items...</p>}
       {error && <p className={styles.empty} style={{ color: 'var(--error-color)' }}>{error}</p>}
-      
+
       {!loading && !error && prompts.length > 0 && (
         <div className={styles.grid}>
           {prompts.map((prompt) => (
             <article key={prompt.id} className={styles.card}>
               <div className={styles.cardMeta}>
-                <span className={styles.typeBadge}>{prompt.type || 'prompt'}</span>
-                {prompt.ai_model && <span className={styles.modelBadge}>{prompt.ai_model}</span>}
-                {prompt.category && <span className={styles.catBadge}>{prompt.category}</span>}
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  <span className={styles.typeBadge}>{prompt.type || 'prompt'}</span>
+                  {prompt.ai_model && <span className={styles.modelBadge}>{prompt.ai_model}</span>}
+                  {prompt.category && <span className={styles.catBadge}>{prompt.category}</span>}
+                </div>
+                <SavePromptButton promptId={prompt.id} />
               </div>
 
               <h2>{prompt.title}</h2>
@@ -190,7 +230,7 @@ export default function PromptLibrary() {
 
       {!loading && !error && prompts.length === 0 && (
         <div className={styles.empty}>
-          <p>No approved AI prompts or tricks match those filters yet.</p>
+          <p>No approved AI Knowledge items match those filters yet.</p>
           {hasActiveFilters && (
             <button
               type="button"

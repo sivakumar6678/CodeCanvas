@@ -102,7 +102,7 @@ const Navbar = () => {
     if (path === '/') return pathname === '/';
     if (path === '/profile') return pathname.startsWith('/profile');
     if (path === '/ai-tools') return pathname.startsWith('/ai-tools');
-    if (path === '/ai-prompts-tricks') return pathname.startsWith('/ai-prompts-tricks') || pathname.startsWith('/prompts');
+    if (path === '/ai-prompts-tricks') return pathname.startsWith('/ai-prompts-tricks') || pathname.startsWith('/prompts') || pathname.startsWith('/ai-knowledge');
     if (path === '/tools') return pathname.startsWith('/tools') || pathname.startsWith('/tool/');
     return pathname === path || pathname.startsWith(path + '/');
   };

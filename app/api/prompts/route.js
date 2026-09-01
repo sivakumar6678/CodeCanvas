@@ -7,6 +7,8 @@ export async function GET(request) {
   const category = request.nextUrl.searchParams.get('category')?.trim() || '';
   const model = request.nextUrl.searchParams.get('model')?.trim() || '';
   const type = request.nextUrl.searchParams.get('type')?.trim() || '';
+  const useCase = request.nextUrl.searchParams.get('useCase')?.trim().toLowerCase() || '';
+  const tag = request.nextUrl.searchParams.get('tag')?.trim().toLowerCase() || '';
 
   let prompts = [];
 
@@ -23,6 +25,8 @@ export async function GET(request) {
       if (category) queryBuilder = queryBuilder.eq('category', category);
       if (model) queryBuilder = queryBuilder.eq('ai_model', model);
       if (type) queryBuilder = queryBuilder.eq('type', type);
+      if (useCase) queryBuilder = queryBuilder.or(`use_case.ilike.%${useCase}%,use_cases.cs.{${useCase}}`);
+      if (tag) queryBuilder = queryBuilder.contains('tags', [tag]);
 
       const { data, error } = await queryBuilder;
       if (!error && Array.isArray(data)) {
@@ -44,7 +48,13 @@ export async function GET(request) {
       const matchModel = !model || p.ai_model === model;
       const matchType = !type || p.type === type;
 
-      if (matchQuery && matchCategory && matchModel && matchType) {
+      const promptUseCases = [p.use_case, ...(p.use_cases || [])].filter(Boolean).map((u) => String(u).toLowerCase());
+      const matchUseCase = !useCase || promptUseCases.some((u) => u.includes(useCase) || useCase.includes(u));
+
+      const promptTags = (p.tags || []).map((t) => String(t).toLowerCase());
+      const matchTag = !tag || promptTags.some((t) => t === tag || t.includes(tag));
+
+      if (matchQuery && matchCategory && matchModel && matchType && matchUseCase && matchTag) {
         combined.push(p);
       }
     }

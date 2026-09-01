@@ -52,7 +52,8 @@
     "new": false,
     "verified": true,
     "hasFree": false,
-    "createdDate": "2026-08-29T00:00:00.000Z"
+    "createdDate": "2026-08-29T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "lovable",

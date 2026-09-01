@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { FiStar, FiUser, FiLoader } from 'react-icons/fi';
 import styles from './ReviewsSection.module.scss';
 import ReviewForm from './ReviewForm';
+import UserAvatar from '../ui/UserAvatar';
 
 export default function ReviewsSection({ slug }) {
   const [reviews, setReviews] = useState([]);
@@ -65,11 +66,11 @@ export default function ReviewsSection({ slug }) {
             <div key={review.id} className={styles.reviewCard}>
               <div className={styles.reviewHeader}>
                 <div className={styles.user}>
-                  {review.user_profiles?.avatar_url ? (
-                    <img src={review.user_profiles.avatar_url} alt="avatar" className={styles.avatar} />
-                  ) : (
-                    <div className={styles.avatarPlaceholder}><FiUser /></div>
-                  )}
+                  <UserAvatar
+                    avatarUrl={review.user_profiles?.avatar_url}
+                    username={review.user_profiles?.username || 'Anonymous'}
+                    size="sm"
+                  />
                   <span className={styles.username}>{review.user_profiles?.username || 'Anonymous'}</span>
                 </div>
                 <div className={styles.stars}>{renderStars(review.rating)}</div>

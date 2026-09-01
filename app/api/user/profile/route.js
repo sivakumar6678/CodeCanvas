@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
+import { isValidAvatarId } from '../../../../lib/avatars';
 
 function toStringArray(val) {
   if (Array.isArray(val)) return val.map((x) => String(x).trim()).filter(Boolean);
@@ -115,11 +116,14 @@ export async function PUT(request) {
     }
 
     if (normalizedAvatar) {
-      try {
-        const avatarUrl = new URL(normalizedAvatar);
-        if (!['http:', 'https:'].includes(avatarUrl.protocol)) throw new Error('Invalid protocol');
-      } catch {
-        return NextResponse.json({ error: 'Avatar URL must be a valid HTTP or HTTPS URL.' }, { status: 400 });
+      const isPreset = isValidAvatarId(normalizedAvatar) || /^[a-zA-Z0-9_\-:]+$/.test(normalizedAvatar);
+      if (!isPreset) {
+        try {
+          const avatarUrl = new URL(normalizedAvatar);
+          if (!['http:', 'https:', 'data:'].includes(avatarUrl.protocol)) throw new Error('Invalid protocol');
+        } catch {
+          return NextResponse.json({ error: 'Avatar must be a valid preset identifier or valid image URL.' }, { status: 400 });
+        }
       }
     }
 

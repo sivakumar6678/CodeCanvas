@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FiBarChart2, FiBox, FiGrid, FiLogOut, FiMenu, FiMessageSquare, FiSettings, FiUsers, FiX } from 'react-icons/fi';
+import { FiBarChart2, FiBookOpen, FiBox, FiGrid, FiLogOut, FiMenu, FiMessageSquare, FiSettings, FiUsers, FiX } from 'react-icons/fi';
 import { createClient } from '../../lib/supabase/client';
 import styles from '../../app/studio/layout.module.scss';
 
 const navigation = [
   { href: '/studio', label: 'Overview', icon: FiGrid, exact: true },
   { href: '/studio/tools', label: 'AI Tools', icon: FiBox },
+  { href: '/studio/knowledge', label: 'AI Knowledge', icon: FiBookOpen },
   { href: '/studio/suggestions', label: 'Suggestions', icon: FiMessageSquare },
   { href: '/studio/analytics', label: 'Analytics', icon: FiBarChart2 },
   { href: '/studio/users', label: 'Users', icon: FiUsers },

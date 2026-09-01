@@ -3,6 +3,8 @@ import { getAllTools } from '../../../lib/data-fetchers';
 import AdminAnalyticsView from '../../../components/admin/AdminAnalyticsView';
 import styles from './page.module.scss';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Analytics | Studio',
 };

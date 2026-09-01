@@ -1,5 +1,24 @@
 [
   {
+    "id": "test",
+    "title": "test",
+    "type": "trick",
+    "prompt_content": "useing in vscode",
+    "ai_model": "Claude 3.5 Sonnet",
+    "category": "Development",
+    "use_case": "test",
+    "use_cases": [
+      "test"
+    ],
+    "tags": [
+      "next js"
+    ],
+    "description": "testing",
+    "display_name": "CodeCraft Team",
+    "is_anonymous": false,
+    "created_date": "2026-09-01"
+  },
+  {
     "id": "nextjs-16-scaffold",
     "title": "Next.js 16 App Router Component Scaffold",
     "type": "prompt",
@@ -7,8 +26,17 @@
     "ai_model": "Claude 3.5 Sonnet",
     "category": "Development",
     "use_case": "Full-stack Web Development",
-    "use_cases": ["Frontend", "React", "Next.js"],
-    "tags": ["nextjs", "react", "typescript", "tailwind"],
+    "use_cases": [
+      "Frontend",
+      "React",
+      "Next.js"
+    ],
+    "tags": [
+      "nextjs",
+      "react",
+      "typescript",
+      "tailwind"
+    ],
     "description": "Scaffolds a robust Next.js 16 component with server actions and TypeScript types.",
     "display_name": "CodeCraft Team",
     "is_anonymous": false,
@@ -22,8 +50,17 @@
     "ai_model": "Claude 3.5 Sonnet",
     "category": "Development",
     "use_case": "Authentication & Security",
-    "use_cases": ["Security", "Edge Middleware", "Auth"],
-    "tags": ["jwt", "edge", "auth", "security"],
+    "use_cases": [
+      "Security",
+      "Edge Middleware",
+      "Auth"
+    ],
+    "tags": [
+      "jwt",
+      "edge",
+      "auth",
+      "security"
+    ],
     "description": "Zero-dependency Edge middleware pattern for JWT verification.",
     "display_name": "alex_dev",
     "is_anonymous": false,
@@ -37,8 +74,17 @@
     "ai_model": "GPT-4o",
     "category": "Data & Analytics",
     "use_case": "Database Optimization",
-    "use_cases": ["PostgreSQL", "Database", "Performance"],
-    "tags": ["sql", "postgres", "performance", "indexing"],
+    "use_cases": [
+      "PostgreSQL",
+      "Database",
+      "Performance"
+    ],
+    "tags": [
+      "sql",
+      "postgres",
+      "performance",
+      "indexing"
+    ],
     "description": "Identifies slow database scans and suggests index & CTE refinements.",
     "display_name": "db_master",
     "is_anonymous": false,
@@ -52,12 +98,20 @@
     "ai_model": "GPT-4o",
     "category": "Design & UI",
     "use_case": "UI/UX Accessibility",
-    "use_cases": ["Design", "Colors", "Accessibility"],
-    "tags": ["design", "colors", "wcag", "tailwind"],
+    "use_cases": [
+      "Design",
+      "Colors",
+      "Accessibility"
+    ],
+    "tags": [
+      "design",
+      "colors",
+      "wcag",
+      "tailwind"
+    ],
     "description": "Generates WCAG AA/AAA compliant color scales for dark and light themes.",
     "display_name": "sarah_design",
     "is_anonymous": false,
     "created_date": "2026-08-27"
   }
 ]
-

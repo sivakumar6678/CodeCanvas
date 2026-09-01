@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { FiMessageSquare, FiCornerDownRight, FiUser, FiSend } from 'react-icons/fi';
 import styles from './CommentsSection.module.scss';
 import { useRouter } from 'next/navigation';
+import UserAvatar from '../ui/UserAvatar';
 
 export default function CommentsSection({ slug }) {
   const [comments, setComments] = useState([]);
@@ -108,11 +109,11 @@ export default function CommentsSection({ slug }) {
               <div className={styles.commentCard}>
                 <div className={styles.commentHeader}>
                   <div className={styles.user}>
-                    {comment.user_profiles?.avatar_url ? (
-                      <img src={comment.user_profiles.avatar_url} alt="avatar" className={styles.avatar} />
-                    ) : (
-                      <div className={styles.avatarPlaceholder}><FiUser /></div>
-                    )}
+                    <UserAvatar
+                      avatarUrl={comment.user_profiles?.avatar_url}
+                      username={comment.user_profiles?.username || 'Developer'}
+                      size="sm"
+                    />
                     <span className={styles.username}>{comment.user_profiles?.username || 'Developer'}</span>
                   </div>
                   <span className={styles.date}>{new Date(comment.created_at).toLocaleDateString()}</span>
@@ -150,11 +151,11 @@ export default function CommentsSection({ slug }) {
                   <div className={styles.commentCard} style={{ flex: 1 }}>
                     <div className={styles.commentHeader}>
                       <div className={styles.user}>
-                        {reply.user_profiles?.avatar_url ? (
-                          <img src={reply.user_profiles.avatar_url} alt="avatar" className={styles.avatar} />
-                        ) : (
-                          <div className={styles.avatarPlaceholder}><FiUser /></div>
-                        )}
+                        <UserAvatar
+                          avatarUrl={reply.user_profiles?.avatar_url}
+                          username={reply.user_profiles?.username || 'Developer'}
+                          size="sm"
+                        />
                         <span className={styles.username}>{reply.user_profiles?.username || 'Developer'}</span>
                       </div>
                       <span className={styles.date}>{new Date(reply.created_at).toLocaleDateString()}</span>

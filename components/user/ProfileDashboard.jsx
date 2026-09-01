@@ -25,7 +25,10 @@ import {
 import styles from './ProfileDashboard.module.scss';
 import Link from 'next/link';
 import SavedToolsSection from './SavedToolsSection';
+import SavedKnowledgeSection from './SavedKnowledgeSection';
 import AIToolCard from '../ai-tools/AIToolCard';
+import UserAvatar from '../ui/UserAvatar';
+import AvatarPicker from './AvatarPicker';
 
 const ROLES = [
   'Developer',
@@ -96,6 +99,7 @@ export default function ProfileDashboard({ initialData }) {
   const [user, setUser] = useState(initialData.user);
   const [stats, setStats] = useState(initialData.stats);
   const [activeTab, setActiveTab] = useState('saved');
+  const [savedSubTab, setSavedSubTab] = useState('tools');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user.username,
@@ -170,6 +174,13 @@ export default function ProfileDashboard({ initialData }) {
     }));
   };
 
+  const handleSavedPromptsCountChange = (change) => {
+    setStats((current) => ({
+      ...current,
+      savedPromptsCount: Math.max(0, (current.savedPromptsCount || 0) + change),
+    }));
+  };
+
   const handleSavePreferences = async (e) => {
     e.preventDefault();
     setSavingPrefs(true);
@@ -215,20 +226,11 @@ export default function ProfileDashboard({ initialData }) {
       <div className={styles.profileCard}>
         <div className={styles.header}>
           <div className={styles.avatarSection}>
-            {user.avatar_url ? (
-              <img
-                src={user.avatar_url}
-                alt="Avatar"
-                className={styles.avatar}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-              />
-            ) : (
-              <div className={styles.placeholderAvatar}>
-                {user.username.charAt(0).toUpperCase()}
-              </div>
-            )}
+            <UserAvatar
+              avatarUrl={isEditing ? formData.avatar_url : user.avatar_url}
+              username={isEditing ? formData.username : user.username}
+              size="xl"
+            />
           </div>
 
           <div className={styles.infoSection}>
@@ -238,7 +240,15 @@ export default function ProfileDashboard({ initialData }) {
                   <h1 className={styles.username}>{user.username}</h1>
                   <button
                     type="button"
-                    onClick={() => setIsEditing(true)}
+                    onClick={() => {
+                      setFormData({
+                        username: user.username,
+                        avatar_url: user.avatar_url || '',
+                        bio: user.bio || '',
+                      });
+                      setSaveError(null);
+                      setIsEditing(true);
+                    }}
                     className={styles.editBtn}
                     title="Edit Profile"
                     suppressHydrationWarning
@@ -278,18 +288,15 @@ export default function ProfileDashboard({ initialData }) {
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     required
+                    maxLength={40}
                   />
                 </div>
 
-                <div className={styles.formRow}>
-                  <label>Avatar URL</label>
-                  <input
-                    type="url"
-                    placeholder="https://example.com/avatar.png"
-                    value={formData.avatar_url || ''}
-                    onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                  />
-                </div>
+                <AvatarPicker
+                  selectedAvatarId={formData.avatar_url}
+                  onSelect={(avatarId) => setFormData((prev) => ({ ...prev, avatar_url: avatarId }))}
+                  label="Select Profile Avatar"
+                />
 
                 <div className={styles.formRow}>
                   <label>Bio</label>
@@ -298,6 +305,7 @@ export default function ProfileDashboard({ initialData }) {
                     placeholder="Write a brief intro..."
                     value={formData.bio || ''}
                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    maxLength={500}
                   />
                 </div>
 
@@ -314,7 +322,10 @@ export default function ProfileDashboard({ initialData }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setIsEditing(false)}
+                    onClick={() => {
+                      setIsEditing(false);
+                      setSaveError(null);
+                    }}
                     className={styles.cancelBtn}
                     suppressHydrationWarning
                   >
@@ -330,14 +341,26 @@ export default function ProfileDashboard({ initialData }) {
       {/* Activity Stats Quick-Grid */}
       <div className={styles.statsGrid}>
         <div
-          className={`${styles.statCard} ${activeTab === 'saved' ? styles.activeStatCard : ''}`}
-          onClick={() => setActiveTab('saved')}
+          className={`${styles.statCard} ${activeTab === 'saved' && savedSubTab === 'tools' ? styles.activeStatCard : ''}`}
+          onClick={() => { setActiveTab('saved'); setSavedSubTab('tools'); }}
           style={{ cursor: 'pointer' }}
         >
           <div className={styles.iconBox}><FiBookmark /></div>
           <div>
             <span className={styles.statVal}>{stats.bookmarksCount}</span>
             <span className={styles.statLabel}>Saved Tools</span>
+          </div>
+        </div>
+
+        <div
+          className={`${styles.statCard} ${activeTab === 'saved' && savedSubTab === 'knowledge' ? styles.activeStatCard : ''}`}
+          onClick={() => { setActiveTab('saved'); setSavedSubTab('knowledge'); }}
+          style={{ cursor: 'pointer' }}
+        >
+          <div className={styles.iconBox}><FiTarget /></div>
+          <div>
+            <span className={styles.statVal}>{stats.savedPromptsCount || initialData.savedPrompts?.length || 0}</span>
+            <span className={styles.statLabel}>Saved Knowledge</span>
           </div>
         </div>
 
@@ -387,7 +410,7 @@ export default function ProfileDashboard({ initialData }) {
             onClick={() => setActiveTab('saved')}
             suppressHydrationWarning
           >
-            <FiBookmark /> Saved Tools ({stats.bookmarksCount})
+            <FiBookmark /> Saved Items ({stats.bookmarksCount + (stats.savedPromptsCount || initialData.savedPrompts?.length || 0)})
           </button>
           <button
             type="button"
@@ -417,12 +440,38 @@ export default function ProfileDashboard({ initialData }) {
 
         {/* Tab Contents */}
         <div className={styles.tabContent}>
-          {/* Saved Tools */}
+          {/* Saved Items (Tools & Knowledge) */}
           {activeTab === 'saved' && (
-            <SavedToolsSection
-              initialTools={initialData.savedTools}
-              onCountChange={handleSavedToolsCountChange}
-            />
+            <div>
+              <div className={styles.subTabs}>
+                <button
+                  type="button"
+                  className={`${styles.subTabBtn} ${savedSubTab === 'tools' ? styles.active : ''}`}
+                  onClick={() => setSavedSubTab('tools')}
+                >
+                  <FiBookmark /> Saved Tools ({stats.bookmarksCount})
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.subTabBtn} ${savedSubTab === 'knowledge' ? styles.active : ''}`}
+                  onClick={() => setSavedSubTab('knowledge')}
+                >
+                  <FiTarget /> AI Knowledge ({stats.savedPromptsCount || initialData.savedPrompts?.length || 0})
+                </button>
+              </div>
+
+              {savedSubTab === 'tools' ? (
+                <SavedToolsSection
+                  initialTools={initialData.savedTools}
+                  onCountChange={handleSavedToolsCountChange}
+                />
+              ) : (
+                <SavedKnowledgeSection
+                  initialPrompts={initialData.savedPrompts}
+                  onCountChange={handleSavedPromptsCountChange}
+                />
+              )}
+            </div>
           )}
 
           {/* Recommended For You */}
