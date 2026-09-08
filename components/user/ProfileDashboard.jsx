@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '../../lib/supabase/client';
 import {
   FiUser,
   FiBookmark,
@@ -99,6 +101,8 @@ const PLATFORMS = [
 ];
 
 export default function ProfileDashboard({ initialData }) {
+  const router = useRouter();
+  const [supabase] = useState(() => createClient());
   const [user, setUser] = useState(initialData.user);
   const [stats, setStats] = useState(initialData.stats);
   const [activeTab, setActiveTab] = useState('saved');
@@ -108,8 +112,11 @@ export default function ProfileDashboard({ initialData }) {
 
   const [formData, setFormData] = useState({
     username: user.username || '',
-    avatar_url: user.avatar_url || '',
+    avatar_url: user.avatar_url || user.avatar_id || '',
+    avatar_id: user.avatar_id || user.avatar_url || '',
     bio: user.bio || '',
+    role: user.role || '',
+    experience_level: user.experience_level || '',
   });
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState(null);
@@ -148,8 +155,11 @@ export default function ProfileDashboard({ initialData }) {
   const handleOpenEdit = () => {
     setFormData({
       username: user.username || '',
-      avatar_url: user.avatar_url || '',
+      avatar_url: user.avatar_url || user.avatar_id || '',
+      avatar_id: user.avatar_id || user.avatar_url || '',
       bio: user.bio || '',
+      role: user.role || '',
+      experience_level: user.experience_level || '',
     });
     setSaveError(null);
     setSaveSuccess(false);
@@ -175,17 +185,37 @@ export default function ProfileDashboard({ initialData }) {
     setSaveSuccess(false);
 
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+      } catch (authErr) {
+        console.warn('Could not read session token:', authErr);
+      }
+
       const res = await fetch('/api/user/profile', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers,
+        body: JSON.stringify({
+          username: formData.username,
+          avatar_url: formData.avatar_url,
+          avatar_id: formData.avatar_id || formData.avatar_url,
+          bio: formData.bio,
+          role: formData.role,
+          experience_level: formData.experience_level,
+        }),
       });
 
       const data = await res.json().catch(() => ({}));
 
       if (res.ok && data.profile) {
         setUser((prev) => ({ ...prev, ...data.profile }));
+        if (data.profile.role !== undefined) setPrefRole(data.profile.role);
+        if (data.profile.experience_level !== undefined) setPrefExp(data.profile.experience_level);
         setSaveSuccess(true);
+        router.refresh();
         setTimeout(() => {
           setIsEditing(false);
           setSaveSuccess(false);
@@ -222,9 +252,19 @@ export default function ProfileDashboard({ initialData }) {
     setPrefError(null);
 
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+      } catch (authErr) {
+        console.warn('Could not read session token:', authErr);
+      }
+
       const res = await fetch('/api/user/profile', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           role: prefRole,
           experience_level: prefExp,
@@ -242,6 +282,7 @@ export default function ProfileDashboard({ initialData }) {
       if (res.ok && data.profile) {
         setUser((prev) => ({ ...prev, ...data.profile }));
         setPrefFeedback('Personalization preferences updated successfully!');
+        router.refresh();
         setTimeout(() => setPrefFeedback(''), 4000);
       } else {
         setPrefError(data.error || 'Failed to save preferences. Please try again.');
@@ -272,6 +313,7 @@ export default function ProfileDashboard({ initialData }) {
             <div className={styles.avatarWrapper}>
               <UserAvatar
                 avatarUrl={user.avatar_url}
+                avatarId={user.avatar_id}
                 username={user.username}
                 size="xl"
                 className={styles.userAvatarCustom}
@@ -904,6 +946,7 @@ export default function ProfileDashboard({ initialData }) {
                 <div className={styles.modalAvatarDisplay}>
                   <UserAvatar
                     avatarUrl={formData.avatar_url}
+                    avatarId={formData.avatar_id}
                     username={formData.username || 'User'}
                     size="xl"
                   />
@@ -917,8 +960,14 @@ export default function ProfileDashboard({ initialData }) {
               {/* Avatar Picker */}
               <div className={styles.avatarPickerWrapper}>
                 <AvatarPicker
-                  selectedAvatarId={formData.avatar_url}
-                  onSelect={(avatarId) => setFormData((prev) => ({ ...prev, avatar_url: avatarId }))}
+                  selectedAvatarId={formData.avatar_id || formData.avatar_url}
+                  onSelect={(avatarId) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      avatar_url: avatarId,
+                      avatar_id: avatarId,
+                    }))
+                  }
                   label="Select Preset Avatar"
                 />
               </div>
@@ -940,6 +989,38 @@ export default function ProfileDashboard({ initialData }) {
                   maxLength={50}
                   className={styles.textInput}
                 />
+              </div>
+
+              {/* Role & Experience Level fields */}
+              <div className={styles.formRowTwoCol}>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="input-role">Primary Role</label>
+                  <select
+                    id="input-role"
+                    value={formData.role || ''}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    className={styles.selectInput}
+                  >
+                    <option value="">Select your role</option>
+                    {ROLES.map((r) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="input-experience">Experience Level</label>
+                  <select
+                    id="input-experience"
+                    value={formData.experience_level || ''}
+                    onChange={(e) => setFormData({ ...formData, experience_level: e.target.value })}
+                    className={styles.selectInput}
+                  >
+                    <option value="">Select level</option>
+                    {EXPERIENCE_LEVELS.map((lvl) => (
+                      <option key={lvl.id} value={lvl.id}>{lvl.label}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {/* Bio field */}

@@ -39,23 +39,29 @@ export async function login(formData) {
 
   let profile = null;
   if (user) {
-    const { data } = await supabase
-      .from('user_profiles')
-      .select('*')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    profile = data;
-    console.info('[auth] login:authenticated', { userId: user.id, hasProfile: Boolean(profile) });
-    if (!profile) {
-      const username = user.user_metadata?.username || user.email?.split('@')[0] || `user-${user.id.slice(0, 8)}`;
-      const { data: provisionedProfile } = await supabase
+    try {
+      const { data, error: fetchErr } = await supabase
         .from('user_profiles')
-        .upsert({ id: user.id, username, avatar_url: '', bio: '' }, { onConflict: 'id' })
-        .select()
+        .select('*')
+        .eq('id', user.id)
         .maybeSingle();
-      profile = provisionedProfile;
-      console.info('[auth] login:profile-provisioned', { userId: user.id, success: Boolean(profile) });
+
+      if (!fetchErr) {
+        profile = data;
+      }
+      console.info('[auth] login:authenticated', { userId: user.id, hasProfile: Boolean(profile) });
+      if (!profile && (!fetchErr || fetchErr.code !== '42P01')) {
+        const username = user.user_metadata?.username || user.email?.split('@')[0] || `user-${user.id.slice(0, 8)}`;
+        const { data: provisionedProfile } = await supabase
+          .from('user_profiles')
+          .upsert({ id: user.id, username, avatar_url: '', bio: '' }, { onConflict: 'id' })
+          .select()
+          .maybeSingle();
+        profile = provisionedProfile;
+        console.info('[auth] login:profile-provisioned', { userId: user.id, success: Boolean(profile) });
+      }
+    } catch (profileErr) {
+      console.warn('[auth] login:profile-query-failed', profileErr?.message);
     }
   }
 
@@ -119,17 +125,25 @@ export async function signup(formData) {
   console.info('[auth] signup:accepted', { userId: data.user?.id, hasSession: Boolean(data.session) });
 
   if (data.user && data.session) {
-    const { error: profileError } = await supabase
-      .from('user_profiles')
-      .upsert({ id: data.user.id, username, avatar_url: '', bio: '' }, { onConflict: 'id' });
+    try {
+      const { error: profileError } = await supabase
+        .from('user_profiles')
+        .upsert({ id: data.user.id, username, avatar_url: '', bio: '' }, { onConflict: 'id' });
 
-    if (profileError) {
-      console.error('[auth] signup:profile-failed', { userId: data.user.id, code: profileError.code, message: profileError.message });
-      if (profileError.code === '23505') {
-        return { error: 'That username is already in use.' };
+      if (profileError) {
+        console.error('[auth] signup:profile-failed', { userId: data.user.id, code: profileError.code, message: profileError.message });
+        if (profileError.code === '23505') {
+          return { error: 'That username is already in use.' };
+        }
+        if (profileError.code === '42P01' || (profileError.message && profileError.message.includes('user_profiles'))) {
+          console.warn('[auth] signup: user_profiles table is missing. Run data/auth_profiles_schema.sql in Supabase SQL editor.');
+        } else {
+          console.error('Failed to create user profile:', profileError);
+          return { error: 'Account created, but your profile could not be initialized. Please try signing in.' };
+        }
       }
-      console.error('Failed to create user profile:', profileError);
-      return { error: 'Account created, but your profile could not be initialized. Please try signing in.' };
+    } catch (err) {
+      console.warn('[auth] signup:profile-upsert-exception', err?.message);
     }
   }
 

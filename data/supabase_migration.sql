@@ -7,6 +7,7 @@ create table if not exists public.user_profiles (
     id uuid references auth.users(id) on delete cascade primary key,
     username text unique not null,
     avatar_url text,
+    avatar_id text,
     bio text,
     role text,
     experience_level text,
@@ -19,6 +20,7 @@ create table if not exists public.user_profiles (
     created_at timestamptz default timezone('utc'::text, now()) not null
 );
 
+alter table public.user_profiles add column if not exists avatar_id text;
 alter table public.user_profiles add column if not exists role text;
 alter table public.user_profiles add column if not exists experience_level text;
 alter table public.user_profiles add column if not exists interests text[] default '{}'::text[];
@@ -246,6 +248,28 @@ drop policy if exists "CodeCraft users delete own profile" on public.user_profil
 create policy "CodeCraft users delete own profile" on public.user_profiles
     for delete to authenticated using (auth.uid() = id);
 
+-- Automatic Profile Provisioning Trigger for New Auth Users
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.user_profiles (id, username, avatar_url, avatar_id, bio)
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data->>'username', split_part(new.email, '@', 1), 'User_' || substr(new.id::text, 1, 8)),
+    coalesce(new.raw_user_meta_data->>'avatar_id', new.raw_user_meta_data->>'avatar_url', ''),
+    coalesce(new.raw_user_meta_data->>'avatar_id', ''),
+    ''
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$ language plpgsql security definer;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
 drop policy if exists "CodeCraft reviews are publicly readable" on public.tool_reviews;
 create policy "CodeCraft reviews are publicly readable" on public.tool_reviews
     for select using (true);
@@ -334,3 +358,7 @@ create policy "CodeCraft anonymous click inserts" on public.analytics_tool_click
 drop policy if exists "CodeCraft authenticated click reads" on public.analytics_tool_clicks;
 create policy "CodeCraft authenticated click reads" on public.analytics_tool_clicks
     for select to authenticated using (true);
+
+-- Reload PostgREST schema cache
+notify pgrst, 'reload schema';
+

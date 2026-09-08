@@ -950,5 +950,125 @@
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
+  },
+  {
+    "id": "opencode",
+    "name": "OpenCode",
+    "slug": "opencode",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "Open-source AI coding agent for the terminal with 163K+ GitHub stars, designed as a drop-in replacement for Claude Code.",
+    "fullOverview": "OpenCode is an open-source AI coding agent that runs in the terminal, with a desktop app and IDE extension also available.[reference:10][reference:11] It connects AI models to your code repository, terminal, and development tools to fix bugs, edit code, run tests, and more.[reference:12] Completely provider-agnostic — works with Anthropic, OpenAI, Google, or local models.[reference:13][reference:14] MIT licensed and 100% open source.[reference:15][reference:16]",
+    "website": "https://opencode.ai",
+    "logoImageUrl": "https://opencode.ai/favicon.ico",
+    "bannerImageUrl": "https://opencode.ai/favicon.ico",
+    "keyFeatures": [
+      "Terminal-based AI coding agent",
+      "Desktop app & IDE extension",
+      "Provider-agnostic (Claude, OpenAI, Google, local models)",
+      "Built-in planning & general agents",
+      "Client/server architecture",
+      "100% open source (MIT license)"
+    ],
+    "pros": [
+      "Completely free and open source",
+      "No vendor lock-in",
+      "163K+ GitHub stars with active community",
+      "Multiple interface options (terminal, desktop, IDE)"
+    ],
+    "cons": [
+      "Not accepting PRs for core features without design review",
+      "Terminal-focused may not suit all users"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Terminal",
+      "Desktop",
+      "IDE"
+    ],
+    "tags": [
+      "coding",
+      "open-source",
+      "agent",
+      "terminal",
+      "ai"
+    ],
+    "useCases": [
+      "Automated code editing and refactoring",
+      "Bug fixing and testing",
+      "Code exploration and analysis",
+      "Multi-step development tasks"
+    ],
+    "bestFor": [
+      "Developers",
+      "Open-source enthusiasts",
+      "Terminal power users"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "freebuff",
+    "name": "Freebuff",
+    "slug": "freebuff",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "Free AI coding agent with no subscription, credits, or API key required — ad-supported access to leading AI models.",
+    "fullOverview": "Freebuff is a free AI coding agent from YC W24 that provides access to leading AI models without subscriptions or credits.[reference:17][reference:18] Available as CLI, Desktop, Web, Cloud, and Chat products.[reference:19] Uses specialized agents for different tasks and includes models like GLM 5.3 Flash, GPT-5.6 Luna, DeepSeek V4 Flash, and MiMo 2.5.[reference:20] Supported by text ads displayed in the terminal interface.[reference:21][reference:22]",
+    "website": "https://freebuff.com",
+    "logoImageUrl": "https://freebuff.com/favicon.ico",
+    "bannerImageUrl": "https://freebuff.com/favicon.ico",
+    "keyFeatures": [
+      "No subscription, credits, or API key required",
+      "Multiple products: CLI, Desktop, Web, Cloud, Chat",
+      "Access to GLM, GPT-5.6 Luna, DeepSeek V4, MiMo models",
+      "Specialized agents for different tasks",
+      "Parallel agent execution",
+      "Sandboxed environments with previews"
+    ],
+    "pros": [
+      "Completely free — no payments ever",
+      "No API key configuration needed",
+      "Multiple usage options (terminal, desktop, web)",
+      "Access to multiple leading AI models"
+    ],
+    "cons": [
+      "Ad-supported (text ads in terminal)",
+      "Some regions limited to MiMo 2.5 with 3 sessions/day",
+      "Model availability may change"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Terminal",
+      "Desktop",
+      "Web",
+      "Cloud"
+    ],
+    "tags": [
+      "coding",
+      "free",
+      "ai",
+      "agent",
+      "ad-supported"
+    ],
+    "useCases": [
+      "Code editing and generation",
+      "Full-stack app development",
+      "Research and analysis",
+      "GitHub repository automation"
+    ],
+    "bestFor": [
+      "Students",
+      "Hobbyists",
+      "Developers on a budget"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
   }
 ]

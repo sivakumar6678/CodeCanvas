@@ -23,8 +23,11 @@ import {
 import styles from './ToolsManager.module.scss';
 import ToolJsonImport from './BulkToolJsonImport';
 import { toolToFormState, formStateToTool } from '../../lib/canonical-tool-schema';
+import { isValidHttpUrl, evaluateToolHealth, computeCatalogMetrics } from '../../lib/tool-health';
 
-export default function ToolsManager({ initialTools, categories }) {
+export { isValidHttpUrl, evaluateToolHealth, computeCatalogMetrics };
+
+export default function ToolsManager({ initialTools, categories = [] }) {
   const [tools, setTools] = useState(initialTools || []);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
@@ -128,31 +131,51 @@ export default function ToolsManager({ initialTools, categories }) {
       missingImages,
       missingMetadata
     };
+    return computeCatalogMetrics(tools);
   }, [tools]);
 
   // Derived Filtered List
   const filteredTools = useMemo(() => {
     return tools.filter(t => {
       // 1. Search Query
+      // 1. Search Query across name, slug, category, subcategory, tags, use cases, description
       if (searchQuery) {
-        const q = searchQuery.toLowerCase();
+        const q = searchQuery.toLowerCase().trim();
         const matchName = t.name?.toLowerCase().includes(q);
         const matchSlug = t.slug?.toLowerCase().includes(q);
+        const matchCategory = t.category?.toLowerCase().includes(q);
+        const matchSubCategory = t.subCategory?.toLowerCase().includes(q);
         const matchDesc = t.description?.toLowerCase().includes(q);
-        const matchTags = Array.isArray(t.tags) && t.tags.some(tag => tag?.toLowerCase().includes(q));
-        if (!matchName && !matchSlug && !matchDesc && !matchTags) {
+        const matchOverview = (t.fullOverview || t.overview || '').toLowerCase().includes(q);
+
+        const matchTags = Array.isArray(t.tags)
+          ? t.tags.some(tag => String(tag).toLowerCase().includes(q))
+          : typeof t.tags === 'string' && t.tags.toLowerCase().includes(q);
+
+        const rawUseCases = Array.isArray(t.useCases)
+          ? t.useCases
+          : Array.isArray(t.useCase)
+          ? t.useCase
+          : typeof t.useCases === 'string'
+          ? t.useCases.split(',')
+          : typeof t.useCase === 'string'
+          ? t.useCase.split(',')
+          : [];
+        const matchUseCases = rawUseCases.some(uc => String(uc).toLowerCase().includes(q));
+
+        if (!matchName && !matchSlug && !matchCategory && !matchSubCategory && !matchDesc && !matchOverview && !matchTags && !matchUseCases) {
           return false;
         }
       }
 
       // 2. Category
-      if (filters.category !== 'all' && t.category !== filters.category) return false;
 
       // 3. Subcategory
       if (filters.subCategory !== 'all') {
         const toolSub = (t.subCategory || '').toLowerCase().trim();
         if (toolSub !== filters.subCategory.toLowerCase().trim()) return false;
-      }
+      }      if (filters.category !== 'all' && t.category !== filters.category) return false;
+
 
       // 4. Pricing
       if (filters.pricing !== 'all') {
@@ -186,6 +209,13 @@ export default function ToolsManager({ initialTools, categories }) {
       if (filters.status !== 'all') {
         if (filters.status === 'active' && t.status === 'archived') return false;
         if (filters.status === 'archived' && t.status !== 'archived') return false;
+        const isArchived = t.status === 'archived';
+        const isDraft = t.status === 'draft' || t.status === 'pending';
+        const isActive = !isArchived && !isDraft;
+
+        if (filters.status === 'active' && !isActive) return false;
+        if (filters.status === 'draft' && !isDraft) return false;
+        if (filters.status === 'archived' && !isArchived) return false;
         if (filters.status === 'featured' && !t.featured) return false;
         if (filters.status === 'new' && !t.new) return false;
         if (filters.status === 'verified' && !t.verified) return false;
@@ -193,12 +223,14 @@ export default function ToolsManager({ initialTools, categories }) {
 
       // 7. Health
       if (filters.health !== 'all') {
-        const isHealthy = Boolean(t.logoImageUrl && t.bannerImageUrl && t.description && t.website);
-        if (filters.health === 'healthy' && !isHealthy) return false;
-        if (filters.health === 'needs-attention' && isHealthy) return false;
-        if (filters.health === 'missing-logo' && t.logoImageUrl) return false;
-        if (filters.health === 'missing-banner' && t.bannerImageUrl) return false;
-        if (filters.health === 'missing-meta' && t.description && t.website) return false;
+        
+        if (filters.health === 'healthy' && !health.isHealthy) return false;
+        if (filters.health === 'needs-attention' && health.isHealthy) return false;
+        if (filters.health === 'broken-url' && !health.brokenUrl) return false;
+        if (filters.health === 'missing-images' && !health.missingImages) return false;
+        if (filters.health === 'missing-logo' && health.hasLogo) return false;
+        if (filters.health === 'missing-banner' && health.hasBanner) return false;
+        if (filters.health === 'missing-meta' && !health.missingMetadata) return false;
       }
 
       return true;
@@ -361,29 +393,95 @@ export default function ToolsManager({ initialTools, categories }) {
     setDrawerTool(null);
   };
 
+  const selectAllMatching = () => {
+    const newSet = new Set(filteredTools.map(t => t.slug));
+    setSelectedIds(newSet);
+  };
+
+  const exportJson = () => {
+    const toolsToExport = selectedIds.size > 0
+      ? tools.filter(t => selectedIds.has(t.slug))
+      : filteredTools;
+
+    if (toolsToExport.length === 0) {
+      setFeedback({ type: 'error', message: 'No tools available to export.' });
+      return;
+    }
+
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(toolsToExport, null, 2));
+    const link = document.createElement('a');
+    link.setAttribute('href', dataStr);
+    link.setAttribute('download', `codecraft_tools_export_${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const exportCsv = () => {
-    const header = ['Slug', 'Name', 'Category', 'SubCategory', 'Website', 'Pricing', 'Status'];
+    const toolsToExport = selectedIds.size > 0
+      ? tools.filter(t => selectedIds.has(t.slug))
+      : filteredTools;
+
+    if (toolsToExport.length === 0) {
+      setFeedback({ type: 'error', message: 'No tools available to export.' });
+      return;
+    }
+
+    const header = ['Slug', 'Name', 'Category', 'SubCategory', 'Website', 'Pricing', 'Status', 'Featured', 'CreatedDate'];
     const csvContent = [
       header.join(','),
-      ...filteredTools.map(t => [
+      ...toolsToExport.map(t => [
         t.slug,
         `"${(t.name || '').replace(/"/g, '""')}"`,
         t.category || '',
         `"${(t.subCategory || '').replace(/"/g, '""')}"`,
         t.website || '',
         t.pricingModel || t.pricing || '',
-        t.status || 'active'
+        t.status || 'active',
+        t.featured ? 'true' : 'false',
+        t.createdDate || ''
       ].join(','))
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `tools_export_${new Date().toISOString().split('T')[0]}.csv`);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `codecraft_tools_export_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleDeleteTool = async (tool, e) => {
+    if (e) e.stopPropagation();
+    const confirmed = window.confirm(`Are you sure you want to permanently delete "${tool.name}" (${tool.slug})?`);
+    if (!confirmed) return;
+
+    setLoading(true);
+    setFeedback(null);
+    try {
+      const res = await fetch(`/api/admin/tools?slug=${encodeURIComponent(tool.slug)}&category=${encodeURIComponent(tool.category)}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setTools(prev => prev.filter(t => t.slug !== tool.slug));
+        if (drawerTool?.slug === tool.slug) setDrawerTool(null);
+        setSelectedIds(prev => {
+          const next = new Set(prev);
+          next.delete(tool.slug);
+          return next;
+        });
+        setFeedback({ type: 'success', message: `Tool "${tool.name}" deleted successfully.` });
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setFeedback({ type: 'error', message: err.error || 'Failed to delete tool.' });
+      }
+    } catch (err) {
+      setFeedback({ type: 'error', message: 'API error while deleting tool.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -463,7 +561,10 @@ export default function ToolsManager({ initialTools, categories }) {
           <button onClick={() => setShowImport(!showImport)} className={styles.secondaryBtn}>
             <FiUpload /> JSON Import
           </button>
-          <button onClick={exportCsv} className={styles.secondaryBtn}>
+          <button onClick={exportJson} className={styles.secondaryBtn} title="Export filtered or selected tools as JSON">
+            <FiDownload /> Export JSON
+          </button>
+          <button onClick={exportCsv} className={styles.secondaryBtn} title="Export filtered or selected tools as CSV">
             <FiDownload /> Export CSV
           </button>
           <button onClick={openNewModal} className={styles.primaryBtn}>
@@ -490,29 +591,76 @@ export default function ToolsManager({ initialTools, categories }) {
 
       {/* CATALOG HEALTH CARDS */}
       <div className={styles.healthMetrics}>
-        <div className={styles.metricCard} onClick={() => handleFilterChange('status', 'active')}>
+        <div
+          className={`${styles.metricCard} ${styles.scoreCard}`}
+          onClick={() => handleFilterChange('health', filters.health === 'needs-attention' ? 'all' : 'needs-attention')}
+          title="Catalog Health Score - Click to toggle attention filter"
+        >
+          <span className={styles.metricLabel}>Catalog Health</span>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+            <span className={styles.metricValue}>{metrics.healthScore}%</span>
+            <span
+              className={styles.badge}
+              style={{
+                background: metrics.healthScore >= 85 ? '#dcfce7' : metrics.healthScore >= 60 ? '#fef3c7' : '#fee2e2',
+                color: metrics.healthScore >= 85 ? '#166534' : metrics.healthScore >= 60 ? '#92400e' : '#991b1b',
+                fontSize: '0.72rem'
+              }}
+            >
+              {metrics.healthScore >= 85 ? 'Healthy' : metrics.healthScore >= 60 ? 'Fair' : 'Needs Work'}
+            </span>
+          </div>
+        </div>
+
+        <div
+          className={`${styles.metricCard} ${filters.status === 'active' ? styles.activeFilterCard : ''}`}
+          onClick={() => handleFilterChange('status', filters.status === 'active' ? 'all' : 'active')}
+        >
           <span className={styles.metricLabel}>Total Active</span>
           <span className={styles.metricValue}>{metrics.active}</span>
         </div>
+
         <div
-          className={`${styles.metricCard} ${metrics.missingImages > 0 ? styles.attention : ''}`}
-          onClick={() => handleFilterChange('health', 'missing-logo')}
+          className={`${styles.metricCard} ${metrics.draft > 0 ? styles.infoCard : ''} ${filters.status === 'draft' ? styles.activeFilterCard : ''}`}
+          onClick={() => handleFilterChange('status', filters.status === 'draft' ? 'all' : 'draft')}
+        >
+          <span className={styles.metricLabel}>Drafts</span>
+          <span className={styles.metricValue}>{metrics.draft}</span>
+        </div>
+
+        <div
+          className={`${styles.metricCard} ${filters.status === 'archived' ? styles.activeFilterCard : ''}`}
+          onClick={() => handleFilterChange('status', filters.status === 'archived' ? 'all' : 'archived')}
+        >
+          <span className={styles.metricLabel}>Archived</span>
+          <span className={styles.metricValue}>{metrics.archived}</span>
+        </div>
+
+        <div
+          className={`${styles.metricCard} ${metrics.brokenUrls > 0 ? styles.attention : ''} ${filters.health === 'broken-url' ? styles.activeFilterCard : ''}`}
+          onClick={() => handleFilterChange('health', filters.health === 'broken-url' ? 'all' : 'broken-url')}
+          title="Tools with missing, malformed, or invalid website URLs"
+        >
+          <span className={styles.metricLabel}>Broken URLs</span>
+          <span className={styles.metricValue}>{metrics.brokenUrls}</span>
+        </div>
+
+        <div
+          className={`${styles.metricCard} ${metrics.missingImages > 0 ? styles.attention : ''} ${filters.health === 'missing-images' ? styles.activeFilterCard : ''}`}
+          onClick={() => handleFilterChange('health', filters.health === 'missing-images' ? 'all' : 'missing-images')}
         >
           <span className={styles.metricLabel}>Missing Images</span>
           <span className={styles.metricValue}>{metrics.missingImages}</span>
         </div>
+
         <div
-          className={`${styles.metricCard} ${metrics.missingMetadata > 0 ? styles.attention : ''}`}
-          onClick={() => handleFilterChange('health', 'missing-meta')}
+          className={`${styles.metricCard} ${metrics.missingMetadata > 0 ? styles.attention : ''} ${filters.health === 'missing-meta' ? styles.activeFilterCard : ''}`}
+          onClick={() => handleFilterChange('health', filters.health === 'missing-meta' ? 'all' : 'missing-meta')}
         >
           <span className={styles.metricLabel}>Needs Metadata</span>
           <span className={styles.metricValue}>{metrics.missingMetadata}</span>
         </div>
-        <div className={styles.metricCard} onClick={() => handleFilterChange('status', 'archived')}>
-          <span className={styles.metricLabel}>Archived</span>
-          <span className={styles.metricValue}>{metrics.archived}</span>
-        </div>
-      </div>
+              </div>
 
       {/* TOOLBAR & MULTI-ATTRIBUTE FILTERS */}
       <div className={styles.toolbar}>
@@ -521,7 +669,7 @@ export default function ToolsManager({ initialTools, categories }) {
             <FiSearch />
             <input
               type="text"
-              placeholder="Search tools by name, slug, tag, or description..."
+              placeholder="Search tools by name, slug, category, subcategory, tag, use case, description..."
               value={searchQuery}
               onChange={e => {
                 setSearchQuery(e.target.value);
@@ -611,6 +759,7 @@ export default function ToolsManager({ initialTools, categories }) {
               >
                 <option value="all">All Statuses</option>
                 <option value="active">Active</option>
+                <option value="draft">Draft</option>
                 <option value="archived">Archived</option>
                 <option value="featured">Featured Only</option>
                 <option value="new">New Only</option>
@@ -628,9 +777,11 @@ export default function ToolsManager({ initialTools, categories }) {
                 <option value="all">All Tools</option>
                 <option value="healthy">Healthy Only</option>
                 <option value="needs-attention">Needs Attention</option>
+                <option value="broken-url">Broken / Invalid URLs</option>
+                <option value="missing-images">Missing Images (Logo/Banner)</option>
                 <option value="missing-logo">Missing Logo</option>
                 <option value="missing-banner">Missing Banner</option>
-                <option value="missing-meta">Missing Description/URL</option>
+                <option value="missing-meta">Missing Description/Overview/Tags</option>
               </select>
             </div>
           </div>
@@ -640,9 +791,21 @@ export default function ToolsManager({ initialTools, categories }) {
       {/* BULK ACTIONS BAR */}
       {selectedIds.size > 0 && (
         <div className={styles.bulkActionsBar}>
-          <span className={styles.bulkInfo}>
-            <FiCheckSquare /> {selectedIds.size} tool{selectedIds.size > 1 ? 's' : ''} selected
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <span className={styles.bulkInfo}>
+              <FiCheckSquare /> {selectedIds.size} tool{selectedIds.size > 1 ? 's' : ''} selected
+            </span>
+            {filteredTools.length > selectedIds.size && (
+              <button
+                type="button"
+                className={styles.secondaryBtn}
+                style={{ fontSize: '0.8rem', padding: '4px 8px' }}
+                onClick={selectAllMatching}
+              >
+                Select all {filteredTools.length} matching
+              </button>
+            )}
+          </div>
           <div className={styles.bulkButtons}>
             <button
               className={styles.secondaryBtn}
@@ -650,6 +813,13 @@ export default function ToolsManager({ initialTools, categories }) {
               disabled={loading}
             >
               Set Active
+            </button>
+            <button
+              className={styles.secondaryBtn}
+              onClick={() => handleBulkAction('update', { status: 'draft' })}
+              disabled={loading}
+            >
+              Set Draft
             </button>
             <button
               className={styles.secondaryBtn}
@@ -681,14 +851,22 @@ export default function ToolsManager({ initialTools, categories }) {
               <button
                 className={styles.secondaryBtn}
                 onClick={() => {
-                  handleBulkAction('update', { category: bulkCategoryTarget });
+                  handleBulkAction('update', { targetCategory: bulkCategoryTarget });
                   setBulkCategoryTarget('');
                 }}
                 disabled={loading}
               >
-                Apply Category
+                Apply Move
               </button>
             )}
+
+            <button
+              className={styles.secondaryBtn}
+              onClick={exportJson}
+              title="Export selected tools as JSON"
+            >
+              <FiDownload /> Export JSON
+            </button>
 
             <button
               className={`${styles.primaryBtn} ${styles.danger}`}
@@ -728,12 +906,13 @@ export default function ToolsManager({ initialTools, categories }) {
               <th>Pricing</th>
               <th>Status</th>
               <th>Health</th>
+              <th style={{ textAlign: 'right' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentTools.length === 0 ? (
               <tr>
-                <td colSpan="7" style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                <td colSpan="8" style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
                   No tools found matching the current filters.
                 </td>
               </tr>
@@ -742,14 +921,14 @@ export default function ToolsManager({ initialTools, categories }) {
                 const logo = tool.logoImageUrl || tool.logo || tool.logoImage;
                 const pricing = tool.pricingModel || tool.pricing || 'Free';
                 const isSelected = selectedIds.has(tool.slug);
-                const hasHealthIssues = !logo || !tool.bannerImageUrl || !tool.description || !tool.website;
+                const health = evaluateToolHealth(tool);
 
                 return (
                   <tr
                     key={tool.id || tool.slug}
                     className={isSelected ? styles.selected : ''}
                     onClick={(e) => {
-                      if (e.target.tagName.toLowerCase() === 'input') return;
+                      if (e.target.tagName?.toLowerCase() === 'input' || e.target.closest('button') || e.target.closest('a')) return;
                       openDrawer(tool);
                     }}
                   >
@@ -775,34 +954,80 @@ export default function ToolsManager({ initialTools, categories }) {
                         ) : (
                           <div className={styles.tinyLogoPlaceholder}>?</div>
                         )}
-                        <span>{tool.name}</span>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <span style={{ fontWeight: 600 }}>{tool.name}</span>
+                          <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>{tool.slug}</span>
+                        </div>
                       </div>
                     </td>
                     <td style={{ textTransform: 'capitalize' }}>{tool.category}</td>
                     <td style={{ color: 'var(--text-secondary)' }}>{tool.subCategory || '—'}</td>
                     <td>{pricing}</td>
                     <td>
-                      {tool.status === 'archived' && (
+                      {tool.status === 'archived' ? (
                         <span className={styles.badge} style={{ background: '#e2e8f0', color: '#475569' }}>
                           Archived
                         </span>
-                      )}
-                      {tool.featured && <span className={styles.badge}>Featured</span>}
-                      {tool.new && <span className={styles.badge}>New</span>}
-                      {!tool.featured && !tool.new && tool.status !== 'archived' && (
+                    
+                      ) : tool.status === 'draft' || tool.status === 'pending' ? (
+                        <span className={styles.badge} style={{ background: '#fef3c7', color: '#92400e' }}>
+                          Draft
+                        </span>
+                      ) : (
                         <span className={styles.badge} style={{ background: '#f1f5f9', color: '#64748b' }}>
                           Active
                         </span>
                       )}
+                      {tool.featured && <span className={styles.badge}>Featured</span>}
+                      {tool.new && <span className={styles.badge}>New</span>}
+                      {tool.verified && <span className={styles.badge} style={{ background: '#dcfce7', color: '#166534' }}>Verified</span>}
                     </td>
                     <td>
-                      {hasHealthIssues ? (
-                        <span className={`${styles.badge} ${styles.errorBadge}`}>Needs Attention</span>
+                      {health.brokenUrl ? (
+                        <span className={`${styles.badge} ${styles.errorBadge}`} title="Missing or invalid website URL">Broken URL</span>
+                      ) : health.missingImages ? (
+                        <span className={`${styles.badge} ${styles.errorBadge}`} title="Missing logo or banner image">Missing Image</span>
+                      ) : health.missingMetadata ? (
+                        <span className={styles.badge} style={{ background: '#fef3c7', color: '#92400e' }} title="Missing description or tags">Needs Meta</span>
                       ) : (
                         <span className={styles.badge} style={{ background: '#dcfce7', color: '#166534' }}>
                           Healthy
                         </span>
                       )}
+                    </td>
+                    <td style={{ textAlign: 'right' }} onClick={(e) => e.stopPropagation()}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <button
+                          type="button"
+                          className={styles.secondaryBtn}
+                          style={{ padding: '4px 8px', fontSize: '0.8rem' }}
+                          onClick={() => openEditModal(tool)}
+                          title="Edit tool"
+                        >
+                          <FiEdit2 />
+                        </button>
+                        {tool.website && (
+                          <a
+                            href={tool.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.secondaryBtn}
+                            style={{ padding: '4px 8px', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center' }}
+                            title="Visit tool website"
+                          >
+                            <FiExternalLink />
+                          </a>
+                        )}
+                        <button
+                          type="button"
+                          className={`${styles.secondaryBtn} ${styles.danger}`}
+                          style={{ padding: '4px 8px', fontSize: '0.8rem' }}
+                          onClick={(e) => handleDeleteTool(tool, e)}
+                          title="Delete tool"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -896,6 +1121,21 @@ export default function ToolsManager({ initialTools, categories }) {
                   <h2>{drawerTool.name}</h2>
                   <p>{drawerTool.slug}</p>
                 </div>
+              </div>
+
+              <div className={styles.drawerSection}>
+                <h4>Catalog Health</h4>
+                {(() => {
+                  const h = evaluateToolHealth(drawerTool);
+                  return (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.85rem' }}>
+                      <div>Website URL: {h.hasValidUrl ? <span style={{ color: '#166534', fontWeight: 600 }}>Valid</span> : <span style={{ color: '#991b1b', fontWeight: 600 }}>Broken / Invalid</span>}</div>
+                      <div>Logo Image: {h.hasLogo ? <span style={{ color: '#166534', fontWeight: 600 }}>Provided</span> : <span style={{ color: '#991b1b', fontWeight: 600 }}>Missing</span>}</div>
+                      <div>Banner Image: {h.hasBanner ? <span style={{ color: '#166534', fontWeight: 600 }}>Provided</span> : <span style={{ color: '#991b1b', fontWeight: 600 }}>Missing</span>}</div>
+                      <div>Metadata: {!h.missingMetadata ? <span style={{ color: '#166534', fontWeight: 600 }}>Complete</span> : <span style={{ color: '#92400e', fontWeight: 600 }}>Incomplete description or tags</span>}</div>
+                    </div>
+                  );
+                })()}
               </div>
 
               <div className={styles.drawerSection}>
@@ -1110,6 +1350,7 @@ export default function ToolsManager({ initialTools, categories }) {
                     onChange={e => setCurrentTool({ ...currentTool, status: e.target.value })}
                   >
                     <option value="active">Active</option>
+                    <option value="draft">Draft</option>
                     <option value="archived">Archived</option>
                   </select>
                 </div>

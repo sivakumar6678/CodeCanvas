@@ -6,12 +6,14 @@ import styles from './UserAvatar.module.scss';
 
 export default function UserAvatar({
   avatarUrl = '',
+  avatarId = '',
   username = 'User',
   size = 'md', // 'sm' | 'md' | 'lg' | 'xl' or number
   className = '',
   style = {},
 }) {
-  const display = resolveAvatarDisplay(avatarUrl, username);
+  const effectiveAvatar = avatarId || avatarUrl;
+  const display = resolveAvatarDisplay(effectiveAvatar, username);
 
   const sizeClass =
     typeof size === 'string'

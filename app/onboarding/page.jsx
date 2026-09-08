@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '../../lib/supabase/client';
+import AvatarPicker from '../../components/user/AvatarPicker';
 import {
   FiCheck,
   FiArrowRight,
@@ -13,7 +14,8 @@ import {
   FiTarget,
   FiDollarSign,
   FiMonitor,
-  FiZap
+  FiZap,
+  FiSmile
 } from 'react-icons/fi';
 import styles from './page.module.scss';
 
@@ -91,6 +93,7 @@ export default function OnboardingPage() {
   const [error, setError] = useState(null);
 
   // Form State
+  const [avatarId, setAvatarId] = useState('');
   const [role, setRole] = useState('');
   const [experienceLevel, setExperienceLevel] = useState('');
   const [selectedInterests, setSelectedInterests] = useState([]);
@@ -111,6 +114,7 @@ export default function OnboardingPage() {
         const res = await fetch('/api/user/profile');
         if (res.ok) {
           const { user: profile } = await res.json();
+          if (profile.avatar_id || profile.avatar_url) setAvatarId(profile.avatar_id || profile.avatar_url);
           if (profile.role) setRole(profile.role);
           if (profile.experience_level) setExperienceLevel(profile.experience_level);
           if (profile.interests?.length) setSelectedInterests(profile.interests);
@@ -140,9 +144,21 @@ export default function OnboardingPage() {
     setSaving(true);
     setError(null);
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+      } catch (authErr) {
+        console.warn('Could not read session token:', authErr);
+      }
+
       const payload = isSkip
         ? { onboarding_completed: true }
         : {
+            avatar_id: avatarId || undefined,
+            avatar_url: avatarId || undefined,
             role,
             experience_level: experienceLevel,
             interests: selectedInterests,
@@ -155,7 +171,7 @@ export default function OnboardingPage() {
 
       const res = await fetch('/api/user/profile', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(payload),
       });
 
@@ -189,8 +205,8 @@ export default function OnboardingPage() {
         <div className={styles.header}>
           <div className={styles.progressTracker}>
             <div className={styles.stepsIndicator}>
-              <span className={step >= 1 ? styles.activeStep : ''}>1. Role & Level</span>
-              <span className={step >= 2 ? styles.activeStep : ''}>2. Focus & Skills</span>
+              <span className={step >= 1 ? styles.activeStep : ''}>1. Role &amp; Identity</span>
+              <span className={step >= 2 ? styles.activeStep : ''}>2. Focus &amp; Skills</span>
               <span className={step >= 3 ? styles.activeStep : ''}>3. Preferences</span>
             </div>
             <div className={styles.progressBar}>
@@ -208,9 +224,17 @@ export default function OnboardingPage() {
 
         {error && <div className={styles.errorAlert}>{error}</div>}
 
-        {/* Step 1: Role & Experience */}
+        {/* Step 1: Role, Experience & Avatar */}
         {step === 1 && (
           <div className={styles.stepContent}>
+            <div className={styles.section}>
+              <AvatarPicker
+                selectedAvatarId={avatarId}
+                onSelect={(id) => setAvatarId(id)}
+                label="Choose your developer avatar:"
+              />
+            </div>
+
             <div className={styles.section}>
               <label className={styles.sectionLabel}>
                 <FiUser /> What best describes your primary role?

@@ -52,12 +52,11 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
-    // Group items by their source category
     const categoryGroups = {};
     for (const tool of tools) {
       const { category, slug } = tool;
       if (!category || !slug || !SAFE_SLUG.test(category) || !SAFE_SLUG.test(slug)) continue;
-
+      
       if (!categoryGroups[category]) {
         categoryGroups[category] = [];
       }
@@ -65,76 +64,73 @@ export async function POST(request) {
     }
 
     let updatedCount = 0;
+    const destAdditions = {};
 
-    if (action === 'delete') {
-      for (const [category, items] of Object.entries(categoryGroups)) {
-        const filePath = categoryPath(category);
-        if (!filePath) continue;
+    for (const [category, items] of Object.entries(categoryGroups)) {
+      const filePath = categoryPath(category);
+      if (!filePath) continue;
 
-        let fileTools = await readToolsFile(filePath);
-        const slugsToDelete = new Set(items.map((i) => i.slug));
+      let fileTools = await readToolsFile(filePath);
+      let changed = false;
+
+      if (action === 'delete') {
+        const slugsToDelete = new Set(items.map(i => i.slug));
         const initialLength = fileTools.length;
-        fileTools = fileTools.filter((t) => !slugsToDelete.has(t.slug));
+        fileTools = fileTools.filter(t => !slugsToDelete.has(t.slug));
         if (fileTools.length !== initialLength) {
-          await writeToolsFile(filePath, fileTools);
-          updatedCount += initialLength - fileTools.length;
+          changed = true;
+          updatedCount += (initialLength - fileTools.length);
         }
-      }
-      return NextResponse.json({ success: true, updatedCount });
-    }
-
-    if (action === 'update') {
-      // Check if any tool is moving to a new category
-      for (const [sourceCategory, items] of Object.entries(categoryGroups)) {
-        const sourceFilePath = categoryPath(sourceCategory);
-        if (!sourceFilePath) continue;
-
-        let sourceFileTools = await readToolsFile(sourceFilePath);
-        let sourceModified = false;
-
+      } else if (action === 'update') {
         for (const item of items) {
-          const { slug, category, newCategory, targetCategory, ...updates } = item;
-          const destinationCategory = newCategory || targetCategory || (updates.category !== sourceCategory ? updates.category : null);
+          
+          const { slug, category: sourceCategory, newCategory, targetCategory, ...updates } = item;
+          const destCategory = newCategory || targetCategory || (updates.category && updates.category !== category ? updates.category : null);
 
-          if (destinationCategory && destinationCategory !== sourceCategory && SAFE_SLUG.test(destinationCategory)) {
-            // Move across category files
-            const toolIdx = sourceFileTools.findIndex((t) => t.slug === slug);
+          if (destCategory && destCategory !== category && SAFE_SLUG.test(destCategory)) {
+            const toolIdx = fileTools.findIndex(t => t.slug === slug);
             if (toolIdx !== -1) {
-              const movingTool = { ...sourceFileTools[toolIdx], ...updates, category: destinationCategory };
-              sourceFileTools.splice(toolIdx, 1);
-              sourceModified = true;
+              const movingTool = { ...fileTools[toolIdx], ...updates, category: destCategory };
+              fileTools.splice(toolIdx, 1);
+              changed = true;
 
-              const destFilePath = categoryPath(destinationCategory);
-              if (destFilePath) {
-                let destFileTools = await readToolsFile(destFilePath);
-                destFileTools = destFileTools.filter((t) => t.slug !== slug);
-                destFileTools.push(movingTool);
-                await writeToolsFile(destFilePath, destFileTools);
-                updatedCount++;
+              if (!destAdditions[destCategory]) {
+                destAdditions[destCategory] = [];
               }
+              destAdditions[destCategory].push(movingTool);
             }
           } else {
-            // Update in-place in current category file
-            const toolIdx = sourceFileTools.findIndex((t) => t.slug === slug);
-            if (toolIdx !== -1) {
-              sourceFileTools[toolIdx] = { ...sourceFileTools[toolIdx], ...updates };
-              sourceModified = true;
+            const index = fileTools.findIndex(t => t.slug === item.slug);
+            if (index !== -1) {
+              fileTools[index] = { ...fileTools[index], ...updates };
+              changed = true;
               updatedCount++;
             }
           }
         }
-
-        if (sourceModified) {
-          await writeToolsFile(sourceFilePath, sourceFileTools);
-        }
       }
 
-      return NextResponse.json({ success: true, updatedCount });
+      if (changed) {
+        await writeToolsFile(filePath, fileTools);
+      }
     }
 
-    return NextResponse.json({ error: 'Unknown operation' }, { status: 400 });
+    // Apply any cross-category additions
+    for (const [destCategory, toolsToAdd] of Object.entries(destAdditions)) {
+      const destFilePath = categoryPath(destCategory);
+      if (!destFilePath) continue;
+      let destTools = await readToolsFile(destFilePath);
+      const incomingSlugs = new Set(toolsToAdd.map(t => t.slug));
+      destTools = destTools.filter(t => !incomingSlugs.has(t.slug));
+      destTools.push(...toolsToAdd);
+      await writeToolsFile(destFilePath, destTools);
+      updatedCount += toolsToAdd.length;
+    }
+
+    return NextResponse.json({ success: true, updatedCount });
   } catch (error) {
     console.error('Bulk operation failed:', error);
     return NextResponse.json({ error: 'Bulk operation failed' }, { status: 500 });
   }
 }
+

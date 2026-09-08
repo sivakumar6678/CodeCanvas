@@ -53,5 +53,64 @@
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
+  },
+  {
+    "id": "meta-business-agent",
+    "name": "Meta Business Agent",
+    "slug": "meta-business-agent",
+    "category": "business",
+    "subCategory": "ai-agent",
+    "description": "Meta's AI business agent that automates customer service, sales, and lead qualification across WhatsApp, Messenger, and Instagram.",
+    "fullOverview": "Meta Business Agent is an AI agent that helps businesses automate customer interactions 24/7 across WhatsApp, Messenger, and Instagram.[reference:4][reference:5] It can answer business-specific questions, make product recommendations, book appointments, qualify leads, and close sales.[reference:6] The Meta Business Agent Platform allows integration with hundreds of systems like Shopify, Zendesk, and Shopee.[reference:7][reference:8] Currently free to start, with paid subscription offerings coming soon.[reference:9]",
+    "website": "https://about.fb.com/news/2026/06/meta-business-agent",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/500px-Meta_Platforms_Inc._logo.svg.png",
+    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/500px-Meta_Platforms_Inc._logo.svg.png",
+    "keyFeatures": [
+      "24/7 automated customer service",
+      "Multi-platform support (WhatsApp, Messenger, Instagram)",
+      "Product recommendations from business catalog",
+      "Appointment booking & lead qualification",
+      "Integration with Shopify, Zendesk, Shopee",
+      "Multi-language support"
+    ],
+    "pros": [
+      "Free to get started",
+      "Deep integration with Meta ecosystem",
+      "Enterprise-grade controls and guardrails"
+    ],
+    "cons": [
+      "Will transition to paid subscriptions",
+      "Currently waitlist-only for some features"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "WhatsApp",
+      "Messenger",
+      "Instagram"
+    ],
+    "tags": [
+      "ai",
+      "business",
+      "customer-service",
+      "sales",
+      "meta"
+    ],
+    "useCases": [
+      "Automated customer support",
+      "Lead generation & qualification",
+      "Sales automation",
+      "Appointment scheduling"
+    ],
+    "bestFor": [
+      "Small businesses",
+      "E-commerce",
+      "Enterprise customer support"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-08-29T00:00:00.000Z"
   }
 ]

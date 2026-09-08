@@ -166,6 +166,20 @@
     background: #fff5f5;
   }
 
+  &.scoreCard {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, var(--bg-surface) 0%, var(--primary-light) 100%);
+  }
+
+  &.infoCard {
+    border-color: #fde68a;
+  }
+
+  &.activeFilterCard {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-light);
+  }
+
   .metricLabel {
     font-size: 0.78rem;
     color: var(--text-muted);
@@ -449,6 +463,16 @@
 .errorBadge {
   background: #fee2e2;
   color: #991b1b;
+}
+
+.warningBadge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.healthyBadge {
+  background: #dcfce7;
+  color: #166534;
 }
 
 /* Pagination Bar */

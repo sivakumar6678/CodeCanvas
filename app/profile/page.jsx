@@ -10,6 +10,8 @@ export const metadata = {
   title: 'My Profile & Activity Dashboard',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProfilePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -92,15 +94,16 @@ export default async function ProfilePage() {
       id: user.id,
       email: user.email,
       username: profile?.username || user.email?.split('@')[0] || 'User',
-      avatar_url: profile?.avatar_url || '',
+      avatar_url: profile?.avatar_url || profile?.avatar_id || '',
+      avatar_id: profile?.avatar_id || (profile?.avatar_url?.startsWith('avatar-') ? profile.avatar_url : ''),
       bio: profile?.bio || '',
       role: profile?.role || '',
       experience_level: profile?.experience_level || '',
-      interests: profile?.interests || [],
-      technologies: profile?.technologies || [],
-      goals: profile?.goals || [],
-      preferred_pricing: profile?.preferred_pricing || '',
-      preferred_platforms: profile?.preferred_platforms || [],
+      interests: Array.isArray(profile?.interests) ? profile.interests : [],
+      technologies: Array.isArray(profile?.technologies) ? profile.technologies : [],
+      goals: Array.isArray(profile?.goals) ? profile.goals : [],
+      preferred_pricing: profile?.preferred_pricing || 'any',
+      preferred_platforms: Array.isArray(profile?.preferred_platforms) ? profile.preferred_platforms : [],
       onboarding_completed: Boolean(profile?.onboarding_completed),
       created_at: profile?.created_at || user.created_at
     },

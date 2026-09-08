@@ -50,11 +50,18 @@ export async function GET(request) {
     }
 
     // Get user profile
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('user_profiles')
       .select('*')
       .eq('id', user.id)
       .maybeSingle();
+
+    if (profileError && (profileError.code === '42P01' || (profileError.message && profileError.message.includes('user_profiles')))) {
+      return NextResponse.json({
+        error: 'The user_profiles table is missing in Supabase. Please execute data/auth_profiles_schema.sql in the Supabase SQL Editor.',
+        code: 'TABLE_MISSING'
+      }, { status: 503 });
+    }
 
     // Get stats
     const { count: bookmarksCount } = await supabase
@@ -82,7 +89,8 @@ export async function GET(request) {
         id: user.id,
         email: user.email,
         username: profile?.username || sanitizeFallbackUsername(user.email),
-        avatar_url: profile?.avatar_url || '',
+        avatar_url: profile?.avatar_url || profile?.avatar_id || '',
+        avatar_id: profile?.avatar_id || (isValidAvatarId(profile?.avatar_url) ? profile.avatar_url : ''),
         bio: profile?.bio || '',
         role: profile?.role || '',
         experience_level: profile?.experience_level || '',
@@ -127,6 +135,8 @@ export async function PUT(request) {
     const {
       username,
       avatar_url,
+      avatar_id,
+      avatarId,
       bio,
       role,
       experience_level,
@@ -142,9 +152,13 @@ export async function PUT(request) {
       ? username
       : (existingProfile?.username || sanitizeFallbackUsername(user.email));
     const normalizedUsername = typeof rawUsername === 'string' ? rawUsername.trim() : 'User';
-    const normalizedAvatar = avatar_url !== undefined
-      ? (typeof avatar_url === 'string' ? avatar_url.trim() : '')
-      : (existingProfile?.avatar_url || '');
+
+    const inputAvatar = avatar_id !== undefined ? avatar_id : (avatarId !== undefined ? avatarId : avatar_url);
+    const normalizedAvatar = inputAvatar !== undefined
+      ? (typeof inputAvatar === 'string' ? inputAvatar.trim() : '')
+      : (existingProfile?.avatar_url || existingProfile?.avatar_id || '');
+    const normalizedAvatarId = isValidAvatarId(normalizedAvatar) ? normalizedAvatar : (existingProfile?.avatar_id || '');
+
     const normalizedBio = bio !== undefined
       ? (typeof bio === 'string' ? bio.trim() : '')
       : (existingProfile?.bio || '');
@@ -160,8 +174,8 @@ export async function PUT(request) {
       const isPreset = isValidAvatarId(normalizedAvatar) || /^[a-zA-Z0-9_\-:]+$/.test(normalizedAvatar);
       if (!isPreset) {
         try {
-          const avatarUrl = new URL(normalizedAvatar);
-          if (!['http:', 'https:', 'data:'].includes(avatarUrl.protocol)) throw new Error('Invalid protocol');
+          const parsedUrl = new URL(normalizedAvatar);
+          if (!['http:', 'https:', 'data:'].includes(parsedUrl.protocol)) throw new Error('Invalid protocol');
         } catch {
           return NextResponse.json({ error: 'Avatar must be a valid preset identifier or valid image URL.' }, { status: 400 });
         }
@@ -181,36 +195,115 @@ export async function PUT(request) {
     const platformsVal = preferred_platforms !== undefined ? toStringArray(preferred_platforms) : (existingProfile?.preferred_platforms || []);
     const onboardingCompletedVal = onboarding_completed !== undefined ? Boolean(onboarding_completed) : Boolean(existingProfile?.onboarding_completed);
 
-    const { data, error } = await supabase
+    const upsertPayload = {
+      id: user.id,
+      username: normalizedUsername,
+      avatar_url: normalizedAvatar,
+      bio: normalizedBio,
+      role: roleVal,
+      experience_level: experienceVal,
+      interests: interestsVal,
+      technologies: technologiesVal,
+      goals: goalsVal,
+      preferred_pricing: pricingVal,
+      preferred_platforms: platformsVal,
+      onboarding_completed: onboardingCompletedVal,
+    };
+
+    if (normalizedAvatarId) {
+      upsertPayload.avatar_id = normalizedAvatarId;
+    }
+
+    let { data, error } = await supabase
       .from('user_profiles')
-      .upsert({
-        id: user.id,
-        username: normalizedUsername,
-        avatar_url: normalizedAvatar,
-        bio: normalizedBio,
-        role: roleVal,
-        experience_level: experienceVal,
-        interests: interestsVal,
-        technologies: technologiesVal,
-        goals: goalsVal,
-        preferred_pricing: pricingVal,
-        preferred_platforms: platformsVal,
-        onboarding_completed: onboardingCompletedVal,
-        updated_at: new Date().toISOString(),
-      })
+      .upsert(upsertPayload)
       .select()
       .single();
 
+    // Defensive fallback: if any column does not exist yet in Supabase's schema cache (PGRST204),
+    // extract the missing column name from the error message, strip it, and retry.
+    // This allows profile data to save even if newly added columns have not been migrated or cached yet.
+    let retryAttempts = 0;
+    const strippedColumns = [];
+    while (
+      error &&
+      (error.code === 'PGRST204' || (typeof error.message === 'string' && error.message.includes('schema cache'))) &&
+      retryAttempts < 12
+    ) {
+      retryAttempts++;
+      const match = error.message?.match(/Could not find the '([^']+)' column/i);
+      const missingCol = match ? match[1] : null;
+      if (missingCol && missingCol in upsertPayload && missingCol !== 'id' && missingCol !== 'username') {
+        console.warn(`[profile:upsert] PostgREST schema cache missing column "${missingCol}". Stripping and retrying.`);
+        delete upsertPayload[missingCol];
+        strippedColumns.push(missingCol);
+        const retryRes = await supabase
+          .from('user_profiles')
+          .upsert(upsertPayload)
+          .select()
+          .single();
+        data = retryRes.data;
+        error = retryRes.error;
+      } else if (error.message?.includes('avatar_id') && 'avatar_id' in upsertPayload) {
+        delete upsertPayload.avatar_id;
+        strippedColumns.push('avatar_id');
+        const retryRes = await supabase
+          .from('user_profiles')
+          .upsert(upsertPayload)
+          .select()
+          .single();
+        data = retryRes.data;
+        error = retryRes.error;
+      } else {
+        break;
+      }
+    }
+
     if (error) {
+      if (error.code === 'PGRST204' || (error.message && error.message.includes('schema cache'))) {
+        return NextResponse.json({
+          error: "Supabase schema cache is out of date. Please execute data/auth_profiles_schema.sql in the Supabase SQL Editor to add missing columns and run: NOTIFY pgrst, 'reload schema';",
+          code: 'SCHEMA_CACHE_STALE'
+        }, { status: 503 });
+      }
+      if (error.code === '42P01' || (error.message && error.message.includes('user_profiles') && error.message.includes('does not exist'))) {
+        return NextResponse.json({
+          error: 'The user_profiles table is missing in Supabase. Please execute data/auth_profiles_schema.sql in the Supabase SQL Editor to enable profile persistence.',
+          code: 'TABLE_MISSING'
+        }, { status: 503 });
+      }
       if (error.code === '23505') {
         return NextResponse.json({ error: 'That username is already taken by another account. Please choose a different one.' }, { status: 409 });
       }
       throw error;
     }
 
-    return NextResponse.json({ success: true, profile: data });
+    const returnedProfile = {
+      ...data,
+      avatar_id: data?.avatar_id || (isValidAvatarId(data?.avatar_url) ? data.avatar_url : ''),
+      avatar_url: data?.avatar_url || data?.avatar_id || '',
+    };
+
+    const responseJson = { success: true, profile: returnedProfile };
+    if (strippedColumns.length > 0) {
+      responseJson.warning = `The following columns were not found in your Supabase schema cache: ${strippedColumns.join(', ')}. Run data/auth_profiles_schema.sql in Supabase SQL Editor to enable full personalization.`;
+    }
+
+    return NextResponse.json(responseJson);
   } catch (error) {
     console.error('Error updating profile:', error);
+    if (error?.code === 'PGRST204' || (error?.message && error.message.includes('schema cache'))) {
+      return NextResponse.json({
+        error: "Supabase schema cache is out of date. Please execute data/auth_profiles_schema.sql in the Supabase SQL Editor to add missing columns and run: NOTIFY pgrst, 'reload schema';",
+        code: 'SCHEMA_CACHE_STALE'
+      }, { status: 503 });
+    }
+    if (error?.code === '42P01' || (error?.message && error.message.includes('user_profiles') && error.message.includes('does not exist'))) {
+      return NextResponse.json({
+        error: 'The user_profiles table is missing in Supabase. Please execute data/auth_profiles_schema.sql in the Supabase SQL Editor to enable profile persistence.',
+        code: 'TABLE_MISSING'
+      }, { status: 503 });
+    }
     return NextResponse.json({ error: error.message || 'Failed to update profile' }, { status: 500 });
   }
 }
