@@ -269,5 +269,823 @@
     "verified": true,
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "framer-ai",
+    "name": "Framer AI",
+    "slug": "framer-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "Generative web design and layout platform turning text prompts into production-ready responsive sites.",
+    "fullOverview": "Framer AI enables designers and developers to generate entire websites from a single text prompt. It produces fully responsive layouts, copywriting, and color schemes that can be further customized with Framer's visual canvas and published instantly to a global CDN.",
+    "website": "https://www.framer.com",
+    "logoImageUrl": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAHBgkIBw4KCAkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIABwAHAMBIgACEQEDEQH/xAAaAAACAgMAAAAAAAAAAAAAAAAGBwAEAwUI/8QAJxAAAQMDAwMEAwAAAAAAAAAAAQIDBAAFEQYSMQchUUFxgZITFTL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AVe+ii3dP7rc4TM2DDEiM8kLbdRLYIUPvQc47tQoj0FdH6I0s5pC3vi1znJ6H2/yJhy0hLYdIzkKTkpzwex9jQI7UGnpmm3mGr3HMJb6VKaBdQvcBjP8AKjjkc1qt9E/U3VkjUl4YYukL9NKtoW0tku7ySopOeB27DBGQQc0I76CutW5JHmmE11Kff0ZLhOvLi3ZhDYYkNnBdSHEg+ytuc+Rk+aXNSgv3G7yLs8l+6PuzXUJ2JW6ckJ5xn5NVd9YqlB//2Q==",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Prompt-to-website generation",
+      "Adaptive responsive breakpoints",
+      "Built-in CMS & SEO optimization",
+      "AI copywriter and layout rewrites",
+      "Integrated animation & motion system"
+    ],
+    "pros": [
+      "Stunning modern design output",
+      "Instant publishing with custom domains",
+      "Figma-like freeform canvas"
+    ],
+    "cons": [
+      "Requires learning Framer layout conventions",
+      "Advanced features require paid plan"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "macOS",
+      "Windows"
+    ],
+    "tags": [
+      "ai-website",
+      "web-design",
+      "framer",
+      "landing-pages",
+      "no-code"
+    ],
+    "useCases": [
+      "Portfolio creation",
+      "Startup landing pages",
+      "Marketing campaign sites"
+    ],
+    "bestFor": [
+      "Designers",
+      "Founders",
+      "Frontend Developers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "webflow-ai",
+    "name": "Webflow AI",
+    "slug": "webflow-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "AI-assisted visual development platform generating semantic HTML/CSS structures, CMS items, and localized variations.",
+    "fullOverview": "Webflow AI integrates generative capabilities directly into the Webflow Designer, allowing developers to generate layouts, write copy, populate CMS collections, and translate content across multiple locales with enterprise security.",
+    "website": "https://webflow.com",
+    "logoImageUrl": "https://assets-global.website-files.com/6009ec8cda7f305645c9d91b/62b0e6308c3d526e08212e03_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI-powered component generation",
+      "Automated semantic tag & class naming",
+      "CMS collection auto-generation",
+      "Multi-lingual AI localization",
+      "Clean exportable HTML/CSS code"
+    ],
+    "pros": [
+      "Industry standard for visual web dev",
+      "Enterprise-grade hosting & security",
+      "Deep custom code control"
+    ],
+    "cons": [
+      "Steeper learning curve for non-developers",
+      "Higher pricing tier for team workspaces"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "webflow",
+      "visual-development",
+      "cms",
+      "html-css",
+      "ai-builder"
+    ],
+    "useCases": [
+      "Enterprise marketing sites",
+      "Dynamic CMS publishing",
+      "Agency client projects"
+    ],
+    "bestFor": [
+      "Web Agencies",
+      "Frontend Engineers",
+      "Growth Marketers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "wix-studio-ai",
+    "name": "Wix Studio AI",
+    "slug": "wix-studio-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "Agency-grade web creation platform with AI responsive layout generation, text & image synthesis, and code assistants.",
+    "fullOverview": "Wix Studio AI provides advanced web creators with intelligent tools including automated responsive section adjustments, AI-assisted code writing in Velo, smart image background removal, and prompt-driven layout scaffolding.",
+    "website": "https://www.wix.com/studio",
+    "logoImageUrl": "https://static.parastorage.com/services/wix-studio-homepage/1.1215.0/assets/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Responsive AI layout engine",
+      "Velo JavaScript AI coding assistant",
+      "Integrated generative image studio",
+      "Custom CSS and interaction designer",
+      "Client management and handoff workspace"
+    ],
+    "pros": [
+      "Robust agency client management tools",
+      "Instant responsive styling across viewports",
+      "Extensive built-in app ecosystem"
+    ],
+    "cons": [
+      "Can feel overwhelming for simple sites",
+      "E-commerce transaction fees on entry tiers"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "wix",
+      "wix-studio",
+      "agency-tools",
+      "responsive-design",
+      "no-code"
+    ],
+    "useCases": [
+      "Agency client delivery",
+      "High-end e-commerce",
+      "Interactive portfolios"
+    ],
+    "bestFor": [
+      "Agencies",
+      "Freelancers",
+      "UI/UX Designers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "dora-ai",
+    "name": "Dora AI",
+    "slug": "dora-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "Next-generation 3D web builder generating interactive 3D landing pages and spatial animations from natural language.",
+    "fullOverview": "Dora AI allows creators to build immersive, animated 3D websites directly from natural language prompts. It transforms 2D web mockups into interactive 3D environments with scroll-driven parallax animations without requiring WebGL programming.",
+    "website": "https://www.dora.run",
+    "logoImageUrl": "https://www.dora.run/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Text-to-3D website generation",
+      "Interactive keyframe & scroll animations",
+      "3D model import & spatial lighting",
+      "Code-free viewport customization",
+      "High-performance CDN deployment"
+    ],
+    "pros": [
+      "Spectacular visual depth and 3D effects",
+      "Zero WebGL or Three.js code required",
+      "Intuitive timeline-based keyframing"
+    ],
+    "cons": [
+      "Complex 3D scenes can increase mobile page load",
+      "Limited traditional CMS functionality"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "3d-web",
+      "spatial-design",
+      "animation",
+      "threejs",
+      "landing-pages"
+    ],
+    "useCases": [
+      "Product launches",
+      "Immersive brand experiences",
+      "Creative portfolios"
+    ],
+    "bestFor": [
+      "Creative Technologists",
+      "3D Designers",
+      "Product Marketers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "relume",
+    "name": "Relume AI",
+    "slug": "relume",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "AI website architecture builder generating complete site maps, wireframes, and component-based layouts for Figma and Webflow.",
+    "fullOverview": "Relume AI accelerates website discovery and wireframing by generating comprehensive sitemaps and wireframes from simple business descriptions. It exports wireframes directly into Figma or Webflow components using the industry-standard Client-First design system.",
+    "website": "https://www.relume.io",
+    "logoImageUrl": "https://assets-global.website-files.com/624380709031623b4792ec06/62438070903162124592ec79_relume-icon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI sitemap and wireframe generator",
+      "1000+ pre-built Client-First components",
+      "Seamless Figma and Webflow export",
+      "Interactive sitemap collaboration",
+      "Real-time copy and layout variations"
+    ],
+    "pros": [
+      "Saves tens of hours on website planning",
+      "Clean, developer-ready component structure",
+      "Widely loved by top web design studios"
+    ],
+    "cons": [
+      "Requires separate builder (Webflow/Figma) to finish sites",
+      "Free plan limited to single projects"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "sitemap",
+      "wireframing",
+      "figma",
+      "webflow",
+      "design-system"
+    ],
+    "useCases": [
+      "Website discovery sprints",
+      "Client sitemap approval",
+      "Rapid wireframing"
+    ],
+    "bestFor": [
+      "Web Designers",
+      "Agencies",
+      "Product Managers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "10web",
+    "name": "10Web AI",
+    "slug": "10web",
+    "category": "ai-app-building",
+    "subCategory": "ai-website-builders",
+    "description": "AI website builder and WordPress platform that recreates, hosts, and generates full WordPress sites with Google Cloud speed.",
+    "fullOverview": "10Web AI generates tailored WordPress websites with automated copy, high-resolution imagery, and Elementor-based drag-and-drop customization. It includes automated PageSpeed 90+ optimization, Google Cloud hosting, and AI URL-recreation.",
+    "website": "https://10web.io",
+    "logoImageUrl": "https://10web.io/wp-content/themes/10web/images/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI WordPress site generator",
+      "AI site recreation from existing URLs",
+      "Automated 90+ PageSpeed booster",
+      "Elementor-based visual editing",
+      "Managed Google Cloud hosting"
+    ],
+    "pros": [
+      "Brings AI ease to the WordPress ecosystem",
+      "Exceptional PageSpeed performance optimization",
+      "Automated SSL, backups, and security"
+    ],
+    "cons": [
+      "Tied to the WordPress ecosystem",
+      "Limited trial period before requiring paid tier"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "wordpress",
+      "elementor",
+      "pagespeed",
+      "hosting",
+      "ai-website"
+    ],
+    "useCases": [
+      "Migrating legacy sites to WordPress",
+      "Fast business website delivery",
+      "SEO-driven blogs"
+    ],
+    "bestFor": [
+      "WordPress Developers",
+      "Small Business Owners",
+      "SEO Specialists"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "flutterflow-ai",
+    "name": "FlutterFlow AI",
+    "slug": "flutterflow-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "Low-code native iOS, Android, and web app builder with AI page generation, code assistant, and Firestore integration.",
+    "fullOverview": "FlutterFlow AI accelerates mobile and web app creation by generating responsive screens, backend logic, Custom Dart code, and database schemas from natural language. It exports clean Flutter source code with zero vendor lock-in.",
+    "website": "https://flutterflow.io",
+    "logoImageUrl": "https://assets-global.website-files.com/605b9b8b08269e061a9d0ee4/613b94236cf54e0c4013baef_flutterflow-icon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI screen and UI component generator",
+      "AI Dart code and custom action writer",
+      "Native iOS and Android app compiling",
+      "Firebase & Supabase database integration",
+      "Full Flutter source code export"
+    ],
+    "pros": [
+      "True native mobile application performance",
+      "Exportable clean Flutter code with no lock-in",
+      "Direct Apple App Store & Google Play publishing"
+    ],
+    "cons": [
+      "Requires understanding of mobile app architecture",
+      "Complex animations require custom Dart code"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "macOS",
+      "Windows"
+    ],
+    "tags": [
+      "flutter",
+      "mobile-apps",
+      "dart",
+      "firebase",
+      "low-code"
+    ],
+    "useCases": [
+      "Cross-platform mobile apps",
+      "MVP development",
+      "Internal enterprise tools"
+    ],
+    "bestFor": [
+      "Mobile Developers",
+      "Startup Founders",
+      "Product Designers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "base44",
+    "name": "Base44",
+    "slug": "base44",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "Conversational full-stack web application builder that provisions React frontends, database models, and cloud APIs.",
+    "fullOverview": "Base44 allows developers and founders to build production web applications through conversational natural language. It generates React frontends, PostgreSQL databases, user authentication, and API integrations in a unified real-time sandbox.",
+    "website": "https://base44.com",
+    "logoImageUrl": "https://base44.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Conversational full-stack generation",
+      "Automated PostgreSQL schema provisioning",
+      "Built-in user auth and access control",
+      "Live code preview and terminal execution",
+      "One-click cloud deployment"
+    ],
+    "pros": [
+      "Generates both frontend and backend seamlessly",
+      "Iterative prompt-based refactoring",
+      "Instant database migration handling"
+    ],
+    "cons": [
+      "Emerging platform with evolving ecosystem",
+      "Custom integrations require manual code tweaking"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "full-stack",
+      "react",
+      "postgres",
+      "vibe-coding",
+      "ai-apps"
+    ],
+    "useCases": [
+      "SaaS prototypes",
+      "Internal business tools",
+      "Customer portals"
+    ],
+    "bestFor": [
+      "Indie Hackers",
+      "Product Engineers",
+      "Tech Founders"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "marblism",
+    "name": "Marblism",
+    "slug": "marblism",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "AI platform that turns prompts into production-ready Next.js, Prisma, and Tailwind web applications with auth and payments.",
+    "fullOverview": "Marblism generates boilerplate-free, fully functional full-stack web applications from product descriptions. It scaffolding includes Next.js App Router, Prisma ORM, PostgreSQL, Tailwind CSS, Stripe checkout, and Lucia/NextAuth authentication.",
+    "website": "https://marblism.com",
+    "logoImageUrl": "https://marblism.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Complete Next.js full-stack scaffolding",
+      "Prisma ORM & PostgreSQL database schema",
+      "Pre-configured Stripe payment processing",
+      "Authentication and role-based permissions",
+      "GitHub repository sync and export"
+    ],
+    "pros": [
+      "Real modern tech stack (Next.js, Prisma, Tailwind)",
+      "Saves weeks of initial SaaS setup",
+      "Complete code ownership on GitHub"
+    ],
+    "cons": [
+      "Best suited for developers who know Next.js",
+      "Credit consumption on heavy schema regenerations"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "nextjs",
+      "prisma",
+      "stripe",
+      "saas-starter",
+      "tailwind"
+    ],
+    "useCases": [
+      "SaaS product launch",
+      "Marketplace MVP",
+      "Subscription business apps"
+    ],
+    "bestFor": [
+      "Full-Stack Engineers",
+      "SaaS Founders",
+      "Hackathon Teams"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "create-xyz",
+    "name": "Create.xyz",
+    "slug": "create-xyz",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "AI-first canvas for building websites, calculators, and internal tools with live preview and interactive components.",
+    "fullOverview": "Create.xyz lets creators build interactive web components, calculators, forms, and functional mini-apps by simply describing what they need. It connects components to live integrations, databases, and third-party APIs with zero configuration.",
+    "website": "https://www.create.xyz",
+    "logoImageUrl": "https://www.create.xyz/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1508873696983-2df5293cb32f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Interactive component prompt generation",
+      "Live stateful previews without compiling",
+      "Native database & API connections",
+      "Custom domains and iframe embedding",
+      "Collaborative visual canvas"
+    ],
+    "pros": [
+      "Incredibly fast prototyping feedback loop",
+      "Embeddable in any existing website or Notion page",
+      "Clean, modern aesthetic defaults"
+    ],
+    "cons": [
+      "Not designed for deeply nested complex architectures",
+      "Export options are simpler compared to raw Next.js repos"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "interactive-tools",
+      "calculators",
+      "react-components",
+      "prototyping",
+      "embeds"
+    ],
+    "useCases": [
+      "Interactive pricing calculators",
+      "Lead capture mini-tools",
+      "Client portals"
+    ],
+    "bestFor": [
+      "Marketers",
+      "Growth Engineers",
+      "Product Managers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "softr-ai",
+    "name": "Softr AI",
+    "slug": "softr-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "No-code portal and internal tools builder powered by Airtable and Google Sheets with AI prompt-to-app generator.",
+    "fullOverview": "Softr AI turns Airtable bases and Google Sheets into client portals, member directories, and internal dashboards in seconds. Its AI app generator designs the database schema, sets up role-based access rules, and styles pre-built responsive blocks.",
+    "website": "https://www.softr.io",
+    "logoImageUrl": "https://assets-global.website-files.com/5f70a4848396c21e51b68903/617a9437142436d4f647c211_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Prompt-to-portal app generator",
+      "Airtable & Google Sheets sync",
+      "Granular role-based user permissions",
+      "Pre-built CRUD blocks and forms",
+      "Custom domain & white-label branding"
+    ],
+    "pros": [
+      "Safest way to expose Airtable data to external clients",
+      "Instant permissions and user login flows",
+      "Extremely easy to maintain for non-technical teams"
+    ],
+    "cons": [
+      "Limited to spreadsheet/Airtable data structures",
+      "Advanced custom frontend logic is restricted"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "airtable",
+      "client-portals",
+      "internal-tools",
+      "no-code",
+      "google-sheets"
+    ],
+    "useCases": [
+      "Client portal",
+      "Employee intranet",
+      "Membership directories"
+    ],
+    "bestFor": [
+      "Operations Teams",
+      "No-Code Builders",
+      "Small Business Owners"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "glide-ai",
+    "name": "Glide AI",
+    "slug": "glide-ai",
+    "category": "ai-app-building",
+    "subCategory": "ai-app-builders",
+    "description": "Enterprise no-code app builder with built-in AI column computations, OCR document scanning, and mobile app generation.",
+    "fullOverview": "Glide AI enables business teams to create powerful mobile and web apps on top of existing databases like SQL, BigQuery, and Excel. Its native AI columns automatically categorize data, transcribe audio, extract text from receipts, and synthesize unstructured text.",
+    "website": "https://www.glideapps.com",
+    "logoImageUrl": "https://assets-global.website-files.com/6178385311e51703213ec551/6233519890a563ec0478ebc6_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI columns for automatic data processing",
+      "OCR receipt & document scanning",
+      "Mobile-first responsive app templates",
+      "PostgreSQL, SQL Server, and Airtable integrations",
+      "Enterprise SSO and audit logging"
+    ],
+    "pros": [
+      "Exceptional mobile UX out of the box",
+      "AI data transformations run directly inside database tables",
+      "High security standards for enterprise data"
+    ],
+    "cons": [
+      "Rigid UI customization compared to raw React",
+      "Tier pricing scales with active monthly users"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "internal-tools",
+      "mobile-apps",
+      "sql",
+      "enterprise",
+      "data-entry"
+    ],
+    "useCases": [
+      "Field inspection apps",
+      "Inventory tracking",
+      "Executive dashboards"
+    ],
+    "bestFor": [
+      "Operations Leaders",
+      "Field Service Teams",
+      "IT Managers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "uizard",
+    "name": "Uizard",
+    "slug": "uizard",
+    "category": "ai-app-building",
+    "subCategory": "ui-to-code",
+    "description": "AI-powered UI design tool that transforms hand-drawn sketches and text prompts into clickable wireframes and React mockups.",
+    "fullOverview": "Uizard democratizes product design by allowing non-designers to create high-fidelity UI prototypes. Using its Autodesigner engine, users can upload paper sketches, take screenshots of existing apps, or write text prompts to generate interactive wireframes.",
+    "website": "https://uizard.io",
+    "logoImageUrl": "https://uizard.io/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Sketch-to-screen AI digitization",
+      "Autodesigner text-to-UI generator",
+      "Screenshot-to-editable mockup converter",
+      "Interactive prototyping and user testing",
+      "Frontend CSS and React component export"
+    ],
+    "pros": [
+      "Turns whiteboard sketches into digital designs in seconds",
+      "Extremely beginner-friendly interface",
+      "Fast clickable user test prototypes"
+    ],
+    "cons": [
+      "Exported code is primarily for layout reference",
+      "Less comprehensive vector editing than Figma"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "ui-design",
+      "sketch-to-code",
+      "wireframes",
+      "prototyping",
+      "product-design"
+    ],
+    "useCases": [
+      "Product brainstorming",
+      "Investor pitch prototypes",
+      "Design sprint mockups"
+    ],
+    "bestFor": [
+      "Product Managers",
+      "Founders",
+      "Design Sprint Facilitators"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "locofy",
+    "name": "Locofy.ai",
+    "slug": "locofy",
+    "category": "ai-app-building",
+    "subCategory": "ui-to-code",
+    "description": "Design-to-code platform converting Figma and Adobe XD designs into pixel-perfect React, Next.js, Vue, and Flutter code.",
+    "fullOverview": "Locofy.ai accelerates frontend engineering by converting static Figma designs into clean, production-ready frontend code. Its Large Design Model (LDM) understands visual hierarchies, tags interactive elements, configures responsiveness, and integrates state management.",
+    "website": "https://www.locofy.ai",
+    "logoImageUrl": "https://assets-global.website-files.com/62495d4d38c6428a2a514d43/624a9e5db1e21b76df479b18_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Figma to React, Next.js, and Flutter code",
+      "Large Design Model (LDM) architecture",
+      "Automated responsive layout detection",
+      "GitHub synchronization & PR generation",
+      "Clean Tailwind CSS and CSS Modules output"
+    ],
+    "pros": [
+      "Generates modular, readable component code",
+      "Direct sync with existing GitHub repositories",
+      "Supports popular UI libraries like Chakra and MUI"
+    ],
+    "cons": [
+      "Requires clean, auto-layout structured Figma files",
+      "Complex business logic still requires manual coding"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Figma Plugin"
+    ],
+    "tags": [
+      "figma-to-code",
+      "react",
+      "nextjs",
+      "frontend",
+      "tailwind"
+    ],
+    "useCases": [
+      "Design system implementation",
+      "Frontend sprint acceleration",
+      "Pixel-perfect UI delivery"
+    ],
+    "bestFor": [
+      "Frontend Developers",
+      "Design Engineers",
+      "Digital Agencies"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "teleporthq",
+    "name": "TeleportHQ",
+    "slug": "teleporthq",
+    "category": "ai-app-building",
+    "subCategory": "ui-to-code",
+    "description": "Visual UI builder and code generation platform converting OpenAI vision prompts and wireframes into clean React and Vue code.",
+    "fullOverview": "TeleportHQ is a collaborative visual builder powered by an open-source code generation engine. It lets developers visually design complex web applications and export production-quality code in React, Next.js, Vue, Nuxt, and HTML/CSS.",
+    "website": "https://teleporthq.io",
+    "logoImageUrl": "https://teleporthq.io/static/favicons/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Vision AI screenshot to web page converter",
+      "Multi-framework code generation (React, Vue, Angular)",
+      "Real-time multi-user visual collaboration",
+      "Figma plugin with bi-directional sync",
+      "Integrated static deployment and hosting"
+    ],
+    "pros": [
+      "Broadest framework export support (React, Vue, Nuxt, HTML)",
+      "Clean separation of styling and component logic",
+      "Open-source code generator foundation"
+    ],
+    "cons": [
+      "Smaller community compared to Webflow or Framer",
+      "Advanced dynamic backend connections require custom code"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "react-export",
+      "vue",
+      "ui-generator",
+      "visual-builder",
+      "figma-plugin"
+    ],
+    "useCases": [
+      "Multi-framework component design",
+      "Landing page code export",
+      "UI rapid prototyping"
+    ],
+    "bestFor": [
+      "Frontend Engineers",
+      "Full-Stack Developers",
+      "UI Designers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
   }
 ]

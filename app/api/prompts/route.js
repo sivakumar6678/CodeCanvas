@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../lib/supabase/server';
 import defaultPrompts from '../../../data/default-prompts.json';
+import { groupKnowledgeType } from '../../../lib/knowledge-schema';
 
 export async function GET(request) {
   const query = request.nextUrl.searchParams.get('q')?.trim().toLowerCase() || '';
   const category = request.nextUrl.searchParams.get('category')?.trim() || '';
-  const model = request.nextUrl.searchParams.get('model')?.trim() || '';
-  const type = request.nextUrl.searchParams.get('type')?.trim() || '';
+  const model = request.nextUrl.searchParams.get('model')?.trim().toLowerCase() || '';
+  const type = request.nextUrl.searchParams.get('type')?.trim().toLowerCase() || '';
   const useCase = request.nextUrl.searchParams.get('useCase')?.trim().toLowerCase() || '';
   const tag = request.nextUrl.searchParams.get('tag')?.trim().toLowerCase() || '';
 
@@ -23,8 +24,6 @@ export async function GET(request) {
 
       if (query) queryBuilder = queryBuilder.or(`title.ilike.%${query}%,description.ilike.%${query}%,prompt_content.ilike.%${query}%`);
       if (category) queryBuilder = queryBuilder.eq('category', category);
-      if (model) queryBuilder = queryBuilder.eq('ai_model', model);
-      if (type) queryBuilder = queryBuilder.eq('type', type);
       if (useCase) queryBuilder = queryBuilder.or(`use_case.ilike.%${useCase}%,use_cases.cs.{${useCase}}`);
       if (tag) queryBuilder = queryBuilder.contains('tags', [tag]);
 
@@ -37,28 +36,61 @@ export async function GET(request) {
     console.warn('Supabase prompt fetch skipped/failed, using local prompts cache:', err.message);
   }
 
-  // Merge with default static prompts if supabase results are fewer or empty
+  // Merge with default static prompts
   const combined = [...prompts];
   const seenIds = new Set(combined.map((p) => String(p.id)));
 
   for (const p of defaultPrompts) {
     if (!seenIds.has(String(p.id))) {
-      const matchQuery = !query || p.title.toLowerCase().includes(query) || p.description.toLowerCase().includes(query) || p.prompt_content.toLowerCase().includes(query);
-      const matchCategory = !category || p.category === category;
-      const matchModel = !model || p.ai_model === model;
-      const matchType = !type || p.type === type;
-
-      const promptUseCases = [p.use_case, ...(p.use_cases || [])].filter(Boolean).map((u) => String(u).toLowerCase());
-      const matchUseCase = !useCase || promptUseCases.some((u) => u.includes(useCase) || useCase.includes(u));
-
-      const promptTags = (p.tags || []).map((t) => String(t).toLowerCase());
-      const matchTag = !tag || promptTags.some((t) => t === tag || t.includes(tag));
-
-      if (matchQuery && matchCategory && matchModel && matchType && matchUseCase && matchTag) {
-        combined.push(p);
-      }
+      combined.push(p);
     }
   }
 
-  return NextResponse.json(combined);
+  // Filter combined set with full grouped type matching and model/platform support
+  const filtered = combined.filter((p) => {
+    if (query) {
+      const matchQuery =
+        p.title?.toLowerCase().includes(query) ||
+        p.description?.toLowerCase().includes(query) ||
+        p.prompt_content?.toLowerCase().includes(query);
+      if (!matchQuery) return false;
+    }
+
+    if (category && p.category?.toLowerCase() !== category.toLowerCase()) {
+      return false;
+    }
+
+    if (model) {
+      const itemModel = (p.ai_model || '').toLowerCase();
+      if (itemModel !== model && !itemModel.includes(model)) {
+        return false;
+      }
+    }
+
+    if (type) {
+      const itemGroup = groupKnowledgeType(p.type);
+      const targetGroup = groupKnowledgeType(type);
+      if (itemGroup !== targetGroup && p.type?.toLowerCase() !== type) {
+        return false;
+      }
+    }
+
+    if (useCase) {
+      const promptUseCases = [p.use_case, ...(p.use_cases || [])].filter(Boolean).map((u) => String(u).toLowerCase());
+      if (!promptUseCases.some((u) => u.includes(useCase) || useCase.includes(u))) {
+        return false;
+      }
+    }
+
+    if (tag) {
+      const promptTags = (p.tags || []).map((t) => String(t).toLowerCase());
+      if (!promptTags.some((t) => t === tag || t.includes(tag))) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  return NextResponse.json(filtered);
 }

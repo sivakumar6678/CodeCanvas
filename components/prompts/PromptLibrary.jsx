@@ -6,6 +6,7 @@ import { FiArrowUpRight, FiCheck, FiCopy, FiRotateCcw, FiSearch } from 'react-ic
 import styles from './PromptLibrary.module.scss';
 import SavePromptButton from './SavePromptButton';
 
+import { KNOWLEDGE_TYPE_LABELS, PRIMARY_KNOWLEDGE_TYPES } from '../../lib/knowledge-schema';
 import defaultPrompts from '../../data/default-prompts.json';
 
 export default function PromptLibrary() {
@@ -86,10 +87,10 @@ export default function PromptLibrary() {
     setSelectedTag('');
   };
 
-  const categories = [...new Set(defaultPrompts.map((prompt) => prompt.category).filter(Boolean))];
-  const models = [...new Set(defaultPrompts.map((prompt) => prompt.ai_model).filter(Boolean))];
-  const useCases = [...new Set(defaultPrompts.map((prompt) => prompt.use_case).filter(Boolean))];
-  const allTags = [...new Set(defaultPrompts.flatMap((prompt) => prompt.tags || []).filter(Boolean))];
+  const categories = [...new Set(defaultPrompts.map((prompt) => prompt.category).filter(Boolean))].sort();
+  const models = [...new Set(defaultPrompts.map((prompt) => prompt.ai_model).filter(Boolean))].sort();
+  const useCases = [...new Set(defaultPrompts.map((prompt) => prompt.use_case).filter(Boolean))].sort();
+  const allTags = [...new Set(defaultPrompts.flatMap((prompt) => prompt.tags || []).filter(Boolean))].sort();
   const hasActiveFilters = Boolean(query || category || model || contentType || useCase || selectedTag);
 
   return (
@@ -100,8 +101,8 @@ export default function PromptLibrary() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search prompts, tricks, and techniques..."
-            aria-label="Search AI prompts and tricks"
+            placeholder="Search prompts, tricks, shortcuts, guides..."
+            aria-label="Search AI knowledge items"
           />
         </label>
         <select
@@ -110,18 +111,16 @@ export default function PromptLibrary() {
           aria-label="Filter by content type"
         >
           <option value="">All content types</option>
-          <option value="prompt">Prompts</option>
-          <option value="trick">Tricks</option>
-          <option value="slash-command">Slash commands</option>
-          <option value="technique">Techniques</option>
-          <option value="guide">Guides / Tips</option>
+          {PRIMARY_KNOWLEDGE_TYPES.map((t) => (
+            <option key={t.id} value={t.id}>{t.label}</option>
+          ))}
         </select>
         <select
           value={model}
           onChange={(event) => setModel(event.target.value)}
-          aria-label="Filter by AI model"
+          aria-label="Filter by AI model or platform"
         >
-          <option value="">All models</option>
+          <option value="">All models &amp; platforms</option>
           {models.map((item) => (
             <option key={item} value={item}>{item}</option>
           ))}
@@ -183,7 +182,7 @@ export default function PromptLibrary() {
             <article key={prompt.id} className={styles.card}>
               <div className={styles.cardMeta}>
                 <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                  <span className={styles.typeBadge}>{prompt.type || 'prompt'}</span>
+                  <span className={styles.typeBadge}>{KNOWLEDGE_TYPE_LABELS[prompt.type] || prompt.type || 'Prompt'}</span>
                   {prompt.ai_model && <span className={styles.modelBadge}>{prompt.ai_model}</span>}
                   {prompt.category && <span className={styles.catBadge}>{prompt.category}</span>}
                 </div>
@@ -219,7 +218,7 @@ export default function PromptLibrary() {
 
               <div className={styles.cardFooter}>
                 <span>By {prompt.is_anonymous ? 'Anonymous contributor' : (prompt.display_name || 'Community contributor')}</span>
-                <Link href={`/ai-prompts-tricks/${prompt.id}`}>
+                <Link href={`/ai-knowledge/${prompt.id}`}>
                   View details <FiArrowUpRight />
                 </Link>
               </div>

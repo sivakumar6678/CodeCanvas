@@ -118,9 +118,10 @@ create table if not exists public.prompt_submissions (
     id uuid default gen_random_uuid() primary key,
     user_id uuid references auth.users(id) on delete cascade not null,
     title text not null,
-    type text default 'prompt' not null check (type in ('prompt', 'trick', 'slash-command', 'technique')),
+    type text default 'prompt' not null check (type in ('prompt', 'trick', 'shortcut', 'slash-command', 'technique', 'guide', 'tip')),
     prompt_content text not null,
     ai_model text not null,
+    platform text default 'Universal' not null,
     category text not null,
     use_case text not null,
     use_cases text[] default '{}'::text[] not null,
@@ -137,20 +138,21 @@ create table if not exists public.prompt_submissions (
 );
 
 alter table public.prompt_submissions add column if not exists type text default 'prompt';
+alter table public.prompt_submissions add column if not exists platform text default 'Universal';
 alter table public.prompt_submissions add column if not exists use_cases text[] default '{}'::text[] not null;
 alter table public.prompt_submissions add column if not exists contributor jsonb default '{}'::jsonb not null;
 alter table public.prompt_submissions add column if not exists created_date timestamptz default timezone('utc'::text, now()) not null;
 
 create table if not exists public.saved_prompts (
     user_id uuid references auth.users(id) on delete cascade not null,
-    prompt_id uuid references public.prompt_submissions(id) on delete cascade not null,
+    prompt_id text not null,
     saved_at timestamptz default timezone('utc'::text, now()) not null,
     primary key (user_id, prompt_id)
 );
 
 create table if not exists public.analytics_prompt_events (
     id uuid default gen_random_uuid() primary key,
-    prompt_id uuid references public.prompt_submissions(id) on delete cascade not null,
+    prompt_id text not null,
     event_type text not null check (event_type in ('view', 'copy', 'save')),
     user_id uuid references auth.users(id) on delete set null,
     occurred_at timestamptz default timezone('utc'::text, now()) not null,
@@ -218,7 +220,7 @@ create policy "CodeCraft users view own saved prompts" on public.saved_prompts
     for select to authenticated using (auth.uid() = user_id);
 drop policy if exists "CodeCraft users save own prompts" on public.saved_prompts;
 create policy "CodeCraft users save own prompts" on public.saved_prompts
-    for insert to authenticated with check (auth.uid() = user_id and exists (select 1 from public.prompt_submissions p where p.id = prompt_id and p.status = 'approved'));
+    for insert to authenticated with check (auth.uid() = user_id);
 drop policy if exists "CodeCraft users remove own prompts" on public.saved_prompts;
 create policy "CodeCraft users remove own prompts" on public.saved_prompts
     for delete to authenticated using (auth.uid() = user_id);

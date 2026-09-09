@@ -58,8 +58,8 @@
     "id": "meta-business-agent",
     "name": "Meta Business Agent",
     "slug": "meta-business-agent",
-    "category": "business",
-    "subCategory": "ai-agent",
+    "category": "business-ai",
+    "subCategory": "sales-support",
     "description": "Meta's AI business agent that automates customer service, sales, and lead qualification across WhatsApp, Messenger, and Instagram.",
     "fullOverview": "Meta Business Agent is an AI agent that helps businesses automate customer interactions 24/7 across WhatsApp, Messenger, and Instagram.[reference:4][reference:5] It can answer business-specific questions, make product recommendations, book appointments, qualify leads, and close sales.[reference:6] The Meta Business Agent Platform allows integration with hundreds of systems like Shopify, Zendesk, and Shopee.[reference:7][reference:8] Currently free to start, with paid subscription offerings coming soon.[reference:9]",
     "website": "https://about.fb.com/news/2026/06/meta-business-agent",
@@ -112,5 +112,773 @@
     "verified": true,
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "julius-ai",
+    "name": "Julius AI",
+    "slug": "julius-ai",
+    "category": "business-ai",
+    "subCategory": "business-intelligence",
+    "description": "AI data analyst that creates statistical models, cleans messy spreadsheets, and plots publication-ready charts.",
+    "fullOverview": "Julius AI is an intelligent data analysis copilot. Users simply upload CSV, Excel, Google Sheets, or SQLite databases and chat in plain English. Julius writes and executes Python and R code in a secure cloud sandbox to generate linear regressions, cluster maps, cohort charts, and executive slide decks.",
+    "website": "https://julius.ai",
+    "logoImageUrl": "https://julius.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Interactive plain-English chat over CSV, Excel, and SQL data",
+      "Executes real Python & R data science scripts in sandboxed cloud",
+      "Generates interactive 3D charts, histograms, and heatmaps",
+      "Advanced statistical regression and forecasting models",
+      "Exportable Jupyter notebooks and executive PDF reports"
+    ],
+    "pros": [
+      "Replaces hours of writing pandas/matplotlib code in Python",
+      "Executes verified real code rather than hallucinating numbers",
+      "Handles messy, poorly formatted spreadsheets with ease"
+    ],
+    "cons": [
+      "Heavy dataset processing requires paid plan credits",
+      "Large multi-gigabyte SQL queries require pre-aggregating"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "data-analyst",
+      "python",
+      "spreadsheets",
+      "data-visualization",
+      "julius"
+    ],
+    "useCases": [
+      "SaaS churn cohort analysis",
+      "Financial forecasting models",
+      "Survey data regression"
+    ],
+    "bestFor": [
+      "Data Analysts",
+      "Financial Planners",
+      "Operations Leads"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "polymer-search",
+    "name": "Polymer Search",
+    "slug": "polymer-search",
+    "category": "business-ai",
+    "subCategory": "business-intelligence",
+    "description": "No-code business intelligence tool that turns raw spreadsheet data into interactive, searchable web dashboards.",
+    "fullOverview": "Polymer Search makes data analysis and presentation effortless. By uploading an Excel or Google Sheet, Polymer automatically identifies column patterns, computes key correlations, and generates a beautiful, interactive web portal that stakeholders can filter and search without complex SQL.",
+    "website": "https://www.polymersearch.com",
+    "logoImageUrl": "https://www.polymersearch.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Auto-generates interactive BI dashboards from spreadsheets",
+      "Multi-dimensional filtering and instant faceted search",
+      "AI insights engine highlighting statistical anomalies",
+      "Shareable client dashboards with custom password protection",
+      "Embeddable interactive widgets for web applications"
+    ],
+    "pros": [
+      "Easiest way to share searchable data with non-technical clients",
+      "Zero SQL, DAX, or formula knowledge required",
+      "Modern, responsive visual aesthetic out of the box"
+    ],
+    "cons": [
+      "Not designed for complex transactional streaming databases",
+      "Row limit caps on entry-tier plans"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "business-intelligence",
+      "dashboards",
+      "no-code-bi",
+      "spreadsheets",
+      "client-portals"
+    ],
+    "useCases": [
+      "Client reporting dashboards",
+      "E-commerce product catalog search",
+      "Real estate inventory explorer"
+    ],
+    "bestFor": [
+      "Agencies",
+      "Account Managers",
+      "Marketing Directors"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "akkio",
+    "name": "Akkio",
+    "slug": "akkio",
+    "category": "business-ai",
+    "subCategory": "business-intelligence",
+    "description": "Generative business analytics platform offering predictive machine learning, conversational dashboards, and forecasting.",
+    "fullOverview": "Akkio combines predictive machine learning with conversational AI for modern business agencies. Marketing and operations teams use Akkio to forecast lead conversions, score customer churn risk, and chat directly with business intelligence dashboards.",
+    "website": "https://www.akkio.com",
+    "logoImageUrl": "https://www.akkio.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Predictive ML model training without writing code",
+      "Chat Explore: conversational natural language over business data",
+      "Lead scoring and customer churn probability algorithms",
+      "One-click Snowflake, HubSpot, and Salesforce connectors",
+      "Automated KPI anomaly detection"
+    ],
+    "pros": [
+      "Brings enterprise-grade predictive modeling to non-engineers",
+      "Direct API endpoints to deploy trained prediction models",
+      "Exceptional customer success support for agencies"
+    ],
+    "cons": [
+      "Enterprise focus means higher entry-level monthly pricing",
+      "Requires substantial historical data for high predictive accuracy"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "predictive-ai",
+      "lead-scoring",
+      "churn-prevention",
+      "machine-learning",
+      "bi"
+    ],
+    "useCases": [
+      "Predicting customer lifetime value",
+      "Scoring inbound sales leads",
+      "Attribution modeling"
+    ],
+    "bestFor": [
+      "Marketing Agencies",
+      "RevOps Directors",
+      "Growth Executives"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "rows-ai",
+    "name": "Rows AI",
+    "slug": "rows-ai",
+    "category": "business-ai",
+    "subCategory": "business-intelligence",
+    "description": "The spreadsheet with superpowers: built-in AI analyst, automated data enrichments, and live web connectors.",
+    "fullOverview": "Rows is a modern web spreadsheet that integrates large language models and 50+ third-party data connectors. With the AI Analyst, users can ask questions about data, summarize columns, translate text, and scrape web pages directly into spreadsheet cells.",
+    "website": "https://rows.com",
+    "logoImageUrl": "https://rows.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Built-in AI Analyst for formula generation and table insights",
+      "50+ native integrations (Google Analytics, Stripe, Twitter, Crunchbase)",
+      "AI cell functions for text categorization and translation",
+      "Interactive embeddable calculators and charts",
+      "Real-time team spreadsheet collaboration"
+    ],
+    "pros": [
+      "Far more powerful and flexible for modern web data than legacy Excel",
+      "Direct built-in API enrichment without needing custom Python scripts",
+      "Generous free plan for individuals and small teams"
+    ],
+    "cons": [
+      "Can be slower than local desktop Excel on massive 500k+ row datasets",
+      "Advanced formula syntax differs slightly from Microsoft Excel"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "spreadsheet",
+      "rows",
+      "data-enrichment",
+      "ai-analyst",
+      "no-code"
+    ],
+    "useCases": [
+      "Lead list enrichment with company data",
+      "Stripe revenue cohort tracking",
+      "Interactive financial models"
+    ],
+    "bestFor": [
+      "Startup Founders",
+      "Growth Marketers",
+      "Financial Analysts"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "surfer-seo",
+    "name": "Surfer SEO",
+    "slug": "surfer-seo",
+    "category": "business-ai",
+    "subCategory": "marketing-seo",
+    "description": "Data-driven content intelligence platform analyzing top search results to guide article ranking and keyword optimization.",
+    "fullOverview": "Surfer SEO takes the guesswork out of search engine optimization. By analyzing over 500 on-page ranking signals from top Google results, Surfer provides real-time Content Score feedback, semantic keyword recommendations, and automated internal linking suggestions.",
+    "website": "https://surferseo.com",
+    "logoImageUrl": "https://surferseo.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Real-time Content Editor with 0-100 Content Score",
+      "Surfer AI for one-click ranking article generation",
+      "SERP Analyzer comparing 500+ ranking factors",
+      "Automated Internal Linking and audit recommendations",
+      "Seamless Google Docs and WordPress integrations"
+    ],
+    "pros": [
+      "Proven track record of helping articles achieve Page 1 Google rankings",
+      "Clear, actionable numerical score guides writers as they draft",
+      "Deep integration with Google Docs and WordPress CMS"
+    ],
+    "cons": [
+      "Surfer AI generation credits are charged separately from base subscription",
+      "Requires balancing keyword suggestions with natural human readability"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "seo",
+      "content-optimization",
+      "surfer",
+      "serp-analysis",
+      "ranking"
+    ],
+    "useCases": [
+      "Optimizing blog articles for Google Page 1",
+      "Content gap auditing",
+      "Automating internal link structures"
+    ],
+    "bestFor": [
+      "SEO Specialists",
+      "Content Strategists",
+      "Affiliate Marketers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "semrush-ai",
+    "name": "Semrush AI",
+    "slug": "semrush-ai",
+    "category": "business-ai",
+    "subCategory": "marketing-seo",
+    "description": "All-in-one digital marketing intelligence platform enhanced with AI writing, backlink auditing, and competitor tracking.",
+    "fullOverview": "Semrush is the global authority in digital marketing and competitive analysis. Its AI suite assists marketers in auditing competitor PPC keywords, generating high-converting ad copy, tracking organic search rankings, and discovering high-impact backlink opportunities.",
+    "website": "https://www.semrush.com",
+    "logoImageUrl": "https://www.semrush.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Comprehensive keyword database with 25+ billion search terms",
+      "AI Writing Assistant and SEO Content Template",
+      "Competitor backlink and PPC advertising analysis",
+      "Technical site health audit with 140+ checks",
+      "Social media posting and analytics scheduler"
+    ],
+    "pros": [
+      "Largest and most accurate competitive search database in the world",
+      "Unmatched depth for competitive intelligence and backlink research",
+      "Complete end-to-end marketing suite covering SEO, PPC, and Social"
+    ],
+    "cons": [
+      "Premium enterprise pricing can be high for solo bloggers",
+      "Vast toolset presents a significant initial learning curve"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "semrush",
+      "digital-marketing",
+      "competitor-analysis",
+      "ppc",
+      "backlinks"
+    ],
+    "useCases": [
+      "Reverse-engineering competitor search traffic",
+      "Discovering low-competition keywords",
+      "Auditing website technical SEO health"
+    ],
+    "bestFor": [
+      "Marketing Agencies",
+      "Enterprise CMOs",
+      "PPC Specialists"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "brand24-ai",
+    "name": "Brand24 AI",
+    "slug": "brand24-ai",
+    "category": "business-ai",
+    "subCategory": "marketing-seo",
+    "description": "AI-powered social listening and media monitoring platform tracking brand mentions, sentiment, and influencer reach.",
+    "fullOverview": "Brand24 tracks online mentions across social media, news, podcasts, forums, and reviews in real time. Its AI engine computes sentiment scores, detects PR crises before they explode, and pinpoints key industry influencers driving viral conversations.",
+    "website": "https://brand24.com",
+    "logoImageUrl": "https://brand24.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Real-time mention monitoring across Twitter, Reddit, YouTube, TikTok",
+      "AI Sentiment Analysis classifying positive, negative, and neutral buzz",
+      "PR Crisis Alert System triggering instant Slack/email notifications",
+      "Influencer Score measuring author reach and authority",
+      "Automated executive PDF reporting"
+    ],
+    "pros": [
+      "Catches brand mentions across obscure forums and podcasts that Google alerts miss",
+      "Instant alerts enable immediate customer support intervention",
+      "Clean sentiment breakdown graphs for board presentations"
+    ],
+    "cons": [
+      "Brand names with common dictionary words can pull irrelevant noise",
+      "Tier pricing scales with total tracked mention volume"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "social-listening",
+      "brand-monitoring",
+      "sentiment-analysis",
+      "pr-crisis",
+      "brand24"
+    ],
+    "useCases": [
+      "Protecting brand reputation during PR crises",
+      "Tracking competitor social perception",
+      "Discovering organic brand advocates"
+    ],
+    "bestFor": [
+      "PR Managers",
+      "Brand Directors",
+      "Social Media Strategists"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "marketmuse",
+    "name": "MarketMuse",
+    "slug": "marketmuse",
+    "category": "business-ai",
+    "subCategory": "marketing-seo",
+    "description": "AI content strategy platform that audits your entire domain to identify content gaps and topical authority clusters.",
+    "fullOverview": "MarketMuse uses patented topic modeling to assess domain authority and content quality. Rather than looking at keywords in isolation, it analyzes entire clusters of related concepts to show editorial teams exactly what topics to cover to become the recognized authority in their niche.",
+    "website": "https://www.marketmuse.com",
+    "logoImageUrl": "https://www.marketmuse.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Patented topic modeling algorithm analyzing conceptual depth",
+      "Content Inventory and domain authority gap auditing",
+      "Automated Content Briefs with subheadings, questions, and topics",
+      "Personalized Difficulty metric tailored to your domain strength",
+      "Competitive topical gap analysis against market leaders"
+    ],
+    "pros": [
+      "Focuses on true topical authority rather than superficial keyword density",
+      "Personalized difficulty scores prevent wasting time targeting unwinnable terms",
+      "Comprehensive content briefs drastically accelerate freelance writer onboarding"
+    ],
+    "cons": [
+      "Geared primarily for mid-market and enterprise publication teams",
+      "Interface can be complex for beginning bloggers"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "topical-authority",
+      "content-strategy",
+      "topic-modeling",
+      "marketmuse",
+      "content-briefs"
+    ],
+    "useCases": [
+      "Building comprehensive topic clusters",
+      "Domain content audits",
+      "Creating briefs for freelance writers"
+    ],
+    "bestFor": [
+      "Managing Editors",
+      "Content Marketing Leads",
+      "Enterprise SEOs"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "crayon-ai",
+    "name": "Crayon",
+    "slug": "crayon-ai",
+    "category": "business-ai",
+    "subCategory": "strategy-research",
+    "description": "Competitive intelligence platform that tracks competitor website changes, pricing shifts, and product messaging.",
+    "fullOverview": "Crayon is an enterprise competitive intelligence platform. It automatically tracks thousands of competitor data sources—from website modifications, pricing changes, and customer reviews to executive hiring—synthesizing shifts into actionable Battlecards for sales teams.",
+    "website": "https://www.crayon.co",
+    "logoImageUrl": "https://www.crayon.co/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated competitor tracking across 100+ digital data sources",
+      "Dynamic real-time Sales Battlecards updated as competitors pivot",
+      "AI Spark: automated summary of competitor messaging changes",
+      "Win/Loss analysis and sales enablement tracking",
+      "Direct integration with Salesforce, Slack, and Highspot"
+    ],
+    "pros": [
+      "Gives sales teams real-time ammunition to defeat competitors in deals",
+      "Catches silent stealth competitor pricing and packaging changes",
+      "Eliminates hundreds of hours of manual competitor monitoring"
+    ],
+    "cons": [
+      "Annual enterprise software licensing commitment",
+      "Requires dedicated product marketing ownership to maximize value"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "competitive-intelligence",
+      "battlecards",
+      "sales-enablement",
+      "market-research",
+      "crayon"
+    ],
+    "useCases": [
+      "Sales competitive battlecards",
+      "Tracking competitor pricing changes",
+      "Executive strategy reviews"
+    ],
+    "bestFor": [
+      "Product Marketing Managers",
+      "Sales Enablement Leaders",
+      "Chief Strategy Officers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "feedly-ai",
+    "name": "Feedly Leo AI",
+    "slug": "feedly-ai",
+    "category": "business-ai",
+    "subCategory": "strategy-research",
+    "description": "Market intelligence engine that cuts through information noise to track industry trends, security threats, and competitors.",
+    "fullOverview": "Feedly Leo is an AI research assistant embedded inside the Feedly news reader. Leo reads millions of articles across business publications, research papers, and regulatory filings, prioritizing high-signal breakthroughs while filtering out redundant marketing fluff.",
+    "website": "https://feedly.com",
+    "logoImageUrl": "https://feedly.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI prioritization of strategic business and market trends",
+      "Cybersecurity threat intelligence (CVEs, threat actors, IOCs)",
+      "Automated deduplication and noise reduction filters",
+      "Custom machine learning models trained on user feedback",
+      "Team bi-weekly newsletters and automated Slack digests"
+    ],
+    "pros": [
+      "Drastically reduces information overload from industry news",
+      "Exceptional threat intelligence capabilities for cybersecurity teams",
+      "Automated team newsletters keep entire companies informed effortlessly"
+    ],
+    "cons": [
+      "Leo AI features require Feedly Pro+ or Enterprise plan",
+      "Initial training of custom topic models requires a few days of curation"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "market-intelligence",
+      "feedly-leo",
+      "threat-intelligence",
+      "trend-tracking",
+      "curation"
+    ],
+    "useCases": [
+      "Tracking industry technology shifts",
+      "Cybersecurity threat intelligence monitoring",
+      "Curating executive newsletters"
+    ],
+    "bestFor": [
+      "Strategy Directors",
+      "CISO Teams",
+      "Venture Capitalists"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "browse-ai",
+    "name": "Browse AI",
+    "slug": "browse-ai",
+    "category": "business-ai",
+    "subCategory": "strategy-research",
+    "description": "No-code web scraper and market monitoring robot that extracts structured data and tracks live website changes.",
+    "fullOverview": "Browse AI allows anyone to build a web scraper in 2 minutes simply by clicking elements in their browser. Robots extract structured data, monitor competitor inventory or prices, and automatically stream updates to Google Sheets or Zapier with captcha-solving built in.",
+    "website": "https://www.browse.ai",
+    "logoImageUrl": "https://assets-global.website-files.com/60904d9c49ca2e742be4b611/6091398c8e192c730e7dfca5_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Zero-code point-and-click robot training",
+      "Automated pagination and infinite scroll handling",
+      "Scheduled recurring website data extractions",
+      "Automated captcha solving and geo-location proxies",
+      "Live sync to Google Sheets, Airtable, and webhooks"
+    ],
+    "pros": [
+      "Build functioning scrapers in 2 minutes without writing a line of Python",
+      "Handles complex dynamic JavaScript sites and infinite scroll easily",
+      "Automatic adaptation to minor website layout changes"
+    ],
+    "cons": [
+      "Websites with aggressive anti-bot protections can occasionally block runs",
+      "Monthly credit allowance scales with extraction frequency"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "web-scraping",
+      "data-extraction",
+      "price-monitoring",
+      "no-code",
+      "browse-ai"
+    ],
+    "useCases": [
+      "Competitor price tracking",
+      "Job board vacancy monitoring",
+      "Real estate property scraping"
+    ],
+    "bestFor": [
+      "Growth Hackers",
+      "E-commerce Operators",
+      "Market Researchers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "fin-intercom",
+    "name": "Fin by Intercom",
+    "slug": "fin-intercom",
+    "category": "business-ai",
+    "subCategory": "sales-support",
+    "description": "Breakthrough AI customer service agent that resolves complex support tickets instantly with near-zero hallucinations.",
+    "fullOverview": "Fin is Intercom's revolutionary customer service bot powered by frontier LLMs. It ingests your company's support documentation, Zendesk articles, and internal manuals, autonomously resolving over 50% of incoming customer support inquiries with human-like accuracy.",
+    "website": "https://www.intercom.com/fin",
+    "logoImageUrl": "https://www.intercom.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Autonomous customer query resolution based on company help docs",
+      "Near-zero hallucinations: cites exact internal knowledge sources",
+      "Smooth, seamless escalation to human agents with full conversation context",
+      "Omnichannel support across web chat, email, and WhatsApp",
+      "Comprehensive resolution analytics and unanswered question clustering"
+    ],
+    "pros": [
+      "Resolves 50%+ of support tickets without human agent intervention",
+      "Pricing model aligns with success: pay primarily per successful resolution",
+      "Integrated into the world-class Intercom customer service suite"
+    ],
+    "cons": [
+      "Resolution fee model ($0.99 per resolution) scales with high volume",
+      "Requires clean, up-to-date documentation to perform at its peak"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "customer-service",
+      "support-bot",
+      "intercom",
+      "fin",
+      "helpdesk"
+    ],
+    "useCases": [
+      "Autonomous tier-1 customer support",
+      "24/7 global coverage",
+      "Triaging high-volume billing inquiries"
+    ],
+    "bestFor": [
+      "Customer Support VPs",
+      "SaaS Operations Leads",
+      "E-commerce Support Managers"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "clay-com",
+    "name": "Clay",
+    "slug": "clay-com",
+    "category": "business-ai",
+    "subCategory": "sales-support",
+    "description": "Data enrichment and AI messaging platform scaling personalized outbound sales and GTM prospecting campaigns.",
+    "fullOverview": "Clay combines 50+ data providers into a single automated spreadsheet interface. GTM teams use Clay to enrich company and contact data, research prospect LinkedIn profiles via AI, and write hyper-personalized outbound sales emails at scale.",
+    "website": "https://www.clay.com",
+    "logoImageUrl": "https://assets-global.website-files.com/619e8d2e81b8326305b653a0/62446ee9dc5d9a74a1e9e7fa_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "50+ aggregated data enrichment providers (Clearbit, Apollo, Hunter, etc.)",
+      "Claygent: autonomous AI web researcher that browses sites for custom answers",
+      "AI email personalization based on LinkedIn activity and company news",
+      "Waterfall enrichment that maximizes email find rates while minimizing cost",
+      "Native export to Salesforce, HubSpot, and email sequencers (Smartlead, Instantly)"
+    ],
+    "pros": [
+      "Waterfall enrichment achieves 85%+ verified business email find rates",
+      "Claygent can research bespoke questions (e.g. \"Does this company hire remote engineers?\")",
+      "Has quickly become the industry standard for modern outbound GTM teams"
+    ],
+    "cons": [
+      "Steeper learning curve than simple static lead databases",
+      "Credit consumption requires careful formula budgeting"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "sales-enrichment",
+      "gtm-automation",
+      "claygent",
+      "waterfall-enrichment",
+      "outbound"
+    ],
+    "useCases": [
+      "Outbound sales lead enrichment",
+      "Hyper-personalized cold email generation",
+      "Account-based marketing list building"
+    ],
+    "bestFor": [
+      "Growth Engineers",
+      "Head of Sales",
+      "Outbound SDR Leads"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "apollo-ai",
+    "name": "Apollo.io AI",
+    "slug": "apollo-ai",
+    "category": "business-ai",
+    "subCategory": "sales-support",
+    "description": "B2B lead intelligence database of 275M+ contacts with integrated AI email writer, dialer, and sequence automation.",
+    "fullOverview": "Apollo.io is an all-in-one sales intelligence and engagement platform. With access to 275 million verified business contacts, Apollo's AI assists sales reps in filtering ideal prospects, generating personalized outreach emails, scheduling calls, and logging conversations directly to CRM.",
+    "website": "https://www.apollo.io",
+    "logoImageUrl": "https://assets-global.website-files.com/604f866416196f7c527f052e/606c4b22c76a91702f300c3b_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "275M+ verified B2B contact and company database",
+      "AI sales email writer integrated into sequence builder",
+      "Built-in cloud dialer with automatic call transcription and AI summaries",
+      "Intent data tracking to identify companies actively researching solutions",
+      "Two-way sync with Salesforce and HubSpot"
+    ],
+    "pros": [
+      "Unrivaled value-to-cost ratio for outbound prospecting data",
+      "Combines contact database, cold email sequencing, and dialer in one platform",
+      "Extremely generous free tier including email credits"
+    ],
+    "cons": [
+      "Email deliverability requires careful domain warmup setup",
+      "Phone numbers occasionally require manual verification"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "b2b-database",
+      "cold-email",
+      "sales-engagement",
+      "prospecting",
+      "apollo"
+    ],
+    "useCases": [
+      "Sourcing verified email addresses and direct dials",
+      "Automated cold outreach sequences",
+      "Tracking B2B buyer intent"
+    ],
+    "bestFor": [
+      "Sales Development Reps",
+      "Founders",
+      "Account Executives"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
   }
 ]

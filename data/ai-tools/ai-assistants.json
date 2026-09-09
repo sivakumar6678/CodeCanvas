@@ -335,7 +335,7 @@
   },
   {
     "id": "tool-005",
-    "name": "perpelxity",
+    "name": "Perplexity AI",
     "slug": "perpelxity",
     "category": "ai-assistants",
     "subCategory": "research-assistants",
@@ -442,5 +442,668 @@
     "verified": true,
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "microsoft-copilot",
+    "name": "Microsoft Copilot",
+    "slug": "microsoft-copilot",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Everyday AI companion powered by OpenAI models integrated across Bing search, Windows, and Microsoft 365.",
+    "fullOverview": "Microsoft Copilot provides real-time web-grounded reasoning, image creation via DALL-E, document synthesis, and deep productivity integration across Windows, Microsoft 365 apps, and Microsoft Edge browser.",
+    "website": "https://copilot.microsoft.com",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Microsoft_365_Copilot_Icon.svg",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "GPT-4o reasoning with Bing web search grounding",
+      "Integrated DALL-E 3 image generation",
+      "Microsoft 365 (Word, Excel, PowerPoint) synthesis",
+      "Commercial data protection for enterprise users",
+      "Voice input and interactive multimodal vision"
+    ],
+    "pros": [
+      "Free access to state-of-the-art OpenAI models with web search",
+      "Seamless Windows 11 and Edge browser integration",
+      "Strong enterprise privacy controls"
+    ],
+    "cons": [
+      "Context window can feel constrained in consumer tier",
+      "Occasional interface clutter with search citations"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Windows",
+      "iOS",
+      "Android",
+      "macOS"
+    ],
+    "tags": [
+      "microsoft",
+      "copilot",
+      "bing",
+      "gpt-4o",
+      "enterprise-ai"
+    ],
+    "useCases": [
+      "Web research",
+      "Drafting emails and docs",
+      "Image creation"
+    ],
+    "bestFor": [
+      "Knowledge Workers",
+      "Enterprise Teams",
+      "Students"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "poe",
+    "name": "Poe by Quora",
+    "slug": "poe",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Fast, multi-bot chat platform offering unified access to Claude, GPT-4o, Gemini, FLUX, and custom prompt bots.",
+    "fullOverview": "Poe (Platform for Open Exploration) by Quora is an AI aggregator providing access to dozens of state-of-the-art models in a single interface. Users can chat with Claude 3.5 Sonnet, GPT-4o, Mistral Large, Llama 3, and build or monetize custom bots.",
+    "website": "https://poe.com",
+    "logoImageUrl": "https://poe.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Unified access to all leading frontier models",
+      "Custom prompt bot creator and monetization",
+      "Compute points system for flexible model usage",
+      "Cross-platform sync across web and mobile",
+      "Multi-bot comparison threads"
+    ],
+    "pros": [
+      "Compare different AI model responses side by side",
+      "Single monthly subscription covers all major AI providers",
+      "Lucrative creator bot monetization program"
+    ],
+    "cons": [
+      "Points system limits heavy daily queries on top models",
+      "Less specialized for deep multi-file software engineering"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android",
+      "macOS",
+      "Windows"
+    ],
+    "tags": [
+      "poe",
+      "multi-model",
+      "quora",
+      "bot-creator",
+      "claude-gpt"
+    ],
+    "useCases": [
+      "Model benchmarking",
+      "Custom chatbot deployment",
+      "Everyday Q&A"
+    ],
+    "bestFor": [
+      "AI Enthusiasts",
+      "Prompt Engineers",
+      "Content Creators"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "you-com",
+    "name": "You.com",
+    "slug": "you-com",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "AI search engine and productivity assistant offering cited research answers, custom agents, and deep research modes.",
+    "fullOverview": "You.com combines conversational AI with real-time web search indexing. It offers specialized modes like Smart, Genius (multi-step Python-driven reasoning), Research (in-depth academic synthesis), and Creative writing assistance.",
+    "website": "https://you.com",
+    "logoImageUrl": "https://you.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Multi-step Genius mode with live Python execution",
+      "Real-time cited web search results",
+      "Research mode with comprehensive source bibliography",
+      "Customizable privacy modes and zero ad tracking",
+      "Team collaboration and shared workspaces"
+    ],
+    "pros": [
+      "Excellent citation transparency with direct web sources",
+      "Multi-step computational reasoning in Genius mode",
+      "High commitment to privacy and ad-free searching"
+    ],
+    "cons": [
+      "Genius mode queries take longer to compute",
+      "Free tier has daily caps on advanced models"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "ai-search",
+      "citations",
+      "research",
+      "privacy",
+      "genius-mode"
+    ],
+    "useCases": [
+      "Technical web search",
+      "Academic fact-checking",
+      "Market research synthesis"
+    ],
+    "bestFor": [
+      "Researchers",
+      "Developers",
+      "Students"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "pi-ai",
+    "name": "Pi by Inflection",
+    "slug": "pi-ai",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Empathetic, highly conversational personal AI designed for friendly dialogue, self-reflection, and spoken guidance.",
+    "fullOverview": "Pi, created by Inflection AI, is designed as a supportive, empathetic conversational companion. It stands out with natural, human-like voice synthesis, deep conversational recall within sessions, and active listening capabilities.",
+    "website": "https://pi.ai",
+    "logoImageUrl": "https://pi.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Industry-leading realistic spoken voice synthesis",
+      "Empathetic, psychologically aware dialogue style",
+      "Natural back-and-forth conversational pacing",
+      "Zero-clutter minimalist mobile and web interface",
+      "Completely free to use without subscription gates"
+    ],
+    "pros": [
+      "Most natural and expressive spoken voice synthesis in AI",
+      "Exceptional companion for brainstorming and talk therapy",
+      "Clean, distraction-free conversational canvas"
+    ],
+    "cons": [
+      "Not designed for coding or technical documentation",
+      "Does not support image generation or file attachments"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "conversational-ai",
+      "voice-agent",
+      "empathy",
+      "inflection",
+      "free-ai"
+    ],
+    "useCases": [
+      "Spoken practice and debriefs",
+      "Brainstorming ideas",
+      "Daily reflection"
+    ],
+    "bestFor": [
+      "Solopreneurs",
+      "Lifelong Learners",
+      "Writers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "le-chat-mistral",
+    "name": "Le Chat by Mistral",
+    "slug": "le-chat-mistral",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "European frontier conversational assistant powered by Mistral Large, Pixtral vision, and Codestral reasoning.",
+    "fullOverview": "Le Chat is Mistral AI's flagship conversational interface. It provides direct, cost-effective access to Mistral Large 2, Codestral for code generation, and Pixtral for multimodal document and image understanding, respecting European GDPR standards.",
+    "website": "https://chat.mistral.ai",
+    "logoImageUrl": "https://mistral.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Mistral Large 2 frontier reasoning",
+      "Codestral code generation and debugging",
+      "Pixtral multimodal vision and PDF understanding",
+      "Web search grounding with cited sources",
+      "European data residency and strict GDPR compliance"
+    ],
+    "pros": [
+      "Very generous free tier with high speed",
+      "Independent European AI infrastructure",
+      "Top-tier multilingual fluency across French, German, Spanish"
+    ],
+    "cons": [
+      "Ecosystem features (e.g. plugins) still maturing",
+      "Voice input is more basic than competitors"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "mistral",
+      "le-chat",
+      "codestral",
+      "open-weights",
+      "european-ai"
+    ],
+    "useCases": [
+      "Multilingual translation",
+      "Code review & debugging",
+      "Document analysis"
+    ],
+    "bestFor": [
+      "European Organizations",
+      "Software Engineers",
+      "Data Privacy Advocates"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "huggingchat",
+    "name": "HuggingChat",
+    "slug": "huggingchat",
+    "category": "ai-assistants",
+    "subCategory": "general-ai-assistants",
+    "description": "Open-source conversational AI hub letting users chat with Llama 3, Qwen, Command R+, and community fine-tunes.",
+    "fullOverview": "HuggingChat is Hugging Face's open-source alternative to proprietary chatbots. It allows users to chat with the latest open-weights models including Meta Llama 3, Cohere Command R+, and Alibaba Qwen with live web search and custom assistant tools.",
+    "website": "https://huggingface.co/chat",
+    "logoImageUrl": "https://huggingface.co/front/assets/huggingface_logo-noborder.svg",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1534972195531-a756b1126f24?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Switch between leading open models (Llama 3, Qwen, Gemma)",
+      "Community assistant creator with system prompts",
+      "Integrated live web search via DuckDuckGo",
+      "Document analysis and file uploads",
+      "100% open-source backend and frontend code"
+    ],
+    "pros": [
+      "Completely free without intrusive paywalls",
+      "True transparency and open-source model access",
+      "Custom tools and web search integration"
+    ],
+    "cons": [
+      "Occasional rate limits during peak Hugging Face traffic",
+      "No native desktop app"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "open-source",
+      "hugging-face",
+      "llama3",
+      "community-ai",
+      "free-chat"
+    ],
+    "useCases": [
+      "Open model experimentation",
+      "Ad-free chat",
+      "Prompt experimentation"
+    ],
+    "bestFor": [
+      "Open Source Advocates",
+      "AI Researchers",
+      "Developers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "consensus",
+    "name": "Consensus",
+    "slug": "consensus",
+    "category": "ai-assistants",
+    "subCategory": "research-assistants",
+    "description": "AI research engine that searches 200M+ academic papers and provides evidence-based answers with consensus meters.",
+    "fullOverview": "Consensus extracts findings directly from peer-reviewed scientific literature. Its Consensus Meter visualizes scientific agreement on contested topics, extracts methodologies, and creates citation-backed literature reviews.",
+    "website": "https://consensus.app",
+    "logoImageUrl": "https://consensus.app/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Consensus Meter measuring scientific agreement",
+      "Indexed across 200M+ peer-reviewed papers",
+      "Automated study metadata extraction (sample size, design)",
+      "GPT-powered literature review summaries",
+      "Zotero and reference manager export"
+    ],
+    "pros": [
+      "Zero hallucinations: answers come strictly from peer-reviewed papers",
+      "Clear visualization of scientific consensus",
+      "Essential tool for evidence-based policymaking and research"
+    ],
+    "cons": [
+      "Best for scientific/medical fields, less suited for tech docs",
+      "Advanced synthesis filters require premium plan"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "academic-research",
+      "peer-review",
+      "citations",
+      "scientific-consensus",
+      "literature-review"
+    ],
+    "useCases": [
+      "Literature reviews",
+      "Fact-checking scientific claims",
+      "Medical and social research"
+    ],
+    "bestFor": [
+      "Scientists",
+      "Medical Professionals",
+      "Graduate Students"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "elicit",
+    "name": "Elicit",
+    "slug": "elicit",
+    "category": "ai-assistants",
+    "subCategory": "research-assistants",
+    "description": "AI research assistant that automates literature reviews, synthesizes papers, and extracts structured data from PDFs.",
+    "fullOverview": "Elicit uses language models to help researchers analyze research papers at scale. It extracts custom data columns from batches of papers, synthesizes key takeaways, finds related work, and automates systematic reviews.",
+    "website": "https://elicit.com",
+    "logoImageUrl": "https://elicit.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated systematic literature reviews",
+      "Custom data extraction across dozens of PDFs",
+      "Semantic citation search over 125M+ papers",
+      "Methodology and sample size extraction",
+      "BIB and CSV export for reference managers"
+    ],
+    "pros": [
+      "Replaces weeks of manual paper reading and data entry",
+      "Extracts specific numerical variables across research studies",
+      "Extremely high citation precision"
+    ],
+    "cons": [
+      "Credit consumption system for heavy paper extraction",
+      "Focused strictly on academic literature"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "systematic-review",
+      "pdf-extraction",
+      "academic-papers",
+      "research-tool",
+      "data-synthesis"
+    ],
+    "useCases": [
+      "Systematic literature reviews",
+      "Meta-analyses",
+      "PhD thesis research"
+    ],
+    "bestFor": [
+      "Academics",
+      "R&D Teams",
+      "Biotech Researchers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "scite-ai",
+    "name": "Scite.ai",
+    "slug": "scite-ai",
+    "category": "ai-assistants",
+    "subCategory": "research-assistants",
+    "description": "Smart citation platform that classifies citations as supporting, mentioning, or contrasting research findings.",
+    "fullOverview": "Scite.ai introduces Smart Citations, allowing researchers to see how a publication has been cited by providing the context of the citation and a classification indicating whether it provides supporting or contrasting evidence for the cited claim.",
+    "website": "https://scite.ai",
+    "logoImageUrl": "https://scite.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1507842229451-7f01be637a5f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Smart Citations categorizing supporting vs contrasting evidence",
+      "Scite Assistant for cited question answering",
+      "Reference check for retracted or disputed papers",
+      "Interactive citation network visualization",
+      "Browser extension for PubMed, Google Scholar, and Nature"
+    ],
+    "pros": [
+      "Immediately identifies if a study has been debunked or contradicted",
+      "Browser extension shows citation validity anywhere on the web",
+      "Trusted by major academic publishers worldwide"
+    ],
+    "cons": [
+      "Subscription required after 7-day free trial",
+      "Specialized primarily for scientific literature"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "smart-citations",
+      "peer-review",
+      "fact-checking",
+      "academic-integrity",
+      "bibliometrics"
+    ],
+    "useCases": [
+      "Evaluating study credibility",
+      "Finding contradicting evidence",
+      "Manuscript reference checking"
+    ],
+    "bestFor": [
+      "Peer Reviewers",
+      "Clinical Researchers",
+      "Postdoctoral Scholars"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "phind",
+    "name": "Phind",
+    "slug": "phind",
+    "category": "ai-assistants",
+    "subCategory": "research-assistants",
+    "description": "Intelligent search engine optimized specifically for developers, technical documentation, and complex coding questions.",
+    "fullOverview": "Phind is an answer engine tailored for software engineers. It indexes official documentation, GitHub repositories, and Stack Overflow, providing instant answers accompanied by executable code snippets, compiler links, and technical explanations.",
+    "website": "https://www.phind.com",
+    "logoImageUrl": "https://www.phind.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Developer-optimized search index and technical citations",
+      "Phind-70B model fine-tuned for software engineering",
+      "VS Code extension for in-editor documentation lookups",
+      "Interactive multi-turn coding debugging",
+      "Deep search mode with multi-link source crawling"
+    ],
+    "pros": [
+      "Significantly faster and more accurate for technical debugging than general chatbots",
+      "Direct links to official library documentation and GitHub issues",
+      "Generous free access with lightning-fast latency"
+    ],
+    "cons": [
+      "Not intended for general creative writing or marketing copy",
+      "Deep search mode consumes subscription credits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "VS Code"
+    ],
+    "tags": [
+      "developer-search",
+      "coding-qa",
+      "technical-docs",
+      "debugging",
+      "vs-code"
+    ],
+    "useCases": [
+      "Debugging compiler errors",
+      "Learning new API frameworks",
+      "System architecture lookups"
+    ],
+    "bestFor": [
+      "Software Engineers",
+      "DevOps Specialists",
+      "CS Students"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "writesonic",
+    "name": "Writesonic",
+    "slug": "writesonic",
+    "category": "ai-assistants",
+    "subCategory": "writing-assistants",
+    "description": "AI writing and SEO content platform for long-form articles, ad copy, and brand voice automation.",
+    "fullOverview": "Writesonic provides generative writing tools tuned for marketing teams, copywriters, and content agencies. It includes Article Writer 6 for SEO-optimized long-form blog posts, Chatsonic for real-time web chat, and Photosonic for marketing imagery.",
+    "website": "https://writesonic.com",
+    "logoImageUrl": "https://assets-global.website-files.com/6009ec8cda7f305645c9d91b/62b0e6308c3d526e08212e03_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Article Writer for 3,000+ word SEO blog posts",
+      "Chatsonic web-connected conversational assistant",
+      "Brand Voice customization and tone memory",
+      "One-click WordPress and Shopify publishing",
+      "Grammar checker and plagiarism detector"
+    ],
+    "pros": [
+      "Fast long-form blog drafting with keyword optimization",
+      "Built-in publishing integrations to WordPress and Ghost",
+      "Flexible credit and word-count tiers"
+    ],
+    "cons": [
+      "Generated content still requires human editorial polish",
+      "Credits expire monthly on specific plans"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "content-writing",
+      "seo-copy",
+      "blog-generator",
+      "marketing",
+      "copywriting"
+    ],
+    "useCases": [
+      "Long-form SEO blog posts",
+      "Social media ad copy",
+      "Product descriptions"
+    ],
+    "bestFor": [
+      "Content Marketers",
+      "SEO Agencies",
+      "Bloggers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "copy-ai",
+    "name": "Copy.ai",
+    "slug": "copy-ai",
+    "category": "ai-assistants",
+    "subCategory": "writing-assistants",
+    "description": "AI copywriting and sales workflow automation platform helping marketing and GTM teams scale content.",
+    "fullOverview": "Copy.ai has evolved from a simple copywriting assistant into an enterprise GTM AI platform. It connects large language models to automated workflows that generate outbound sales sequences, blog posts, social campaigns, and product collateral.",
+    "website": "https://www.copy.ai",
+    "logoImageUrl": "https://assets-global.website-files.com/628288c5cd3e8411b90d3670/628288c5cd3e8460ca0d36d2_Favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Workflows for multi-step content automation",
+      "Infobase for central brand guidelines and company context",
+      "Chat by Copy.ai with live web search",
+      "Multi-model routing (Claude, GPT-4o)",
+      "Team permissions and enterprise data compliance"
+    ],
+    "pros": [
+      "Powerful multi-step workflows for recurring marketing tasks",
+      "Excellent brand voice consistency via Infobase",
+      "Unlimited chat queries on paid plans"
+    ],
+    "cons": [
+      "Advanced workflow automations require paid plan",
+      "Can produce generic copy without detailed prompt tuning"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "copywriting",
+      "gtm-automation",
+      "marketing-workflows",
+      "infobase",
+      "sales-copy"
+    ],
+    "useCases": [
+      "Outbound sales sequences",
+      "Multi-channel social campaigns",
+      "Content localization"
+    ],
+    "bestFor": [
+      "GTM Teams",
+      "Marketing Agencies",
+      "Copywriters"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
   }
 ]

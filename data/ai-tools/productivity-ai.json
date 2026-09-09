@@ -55,5 +55,959 @@
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z",
     "status": "active"
+  },
+  {
+    "id": "craft-ai",
+    "name": "Craft Docs AI",
+    "slug": "craft-ai",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "Beautiful document workspace with integrated Assistant for instant outlining, translation, and structured notes.",
+    "fullOverview": "Craft is an award-winning document platform beloved for its visual aesthetics and native performance. Its AI Assistant helps creators structure chaotic thoughts into polished client proposals, meeting briefs, and interactive roadmaps with native Apple and web apps.",
+    "website": "https://www.craft.do",
+    "logoImageUrl": "https://www.craft.do/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Craft AI Assistant for drafting, summarizing, and translating",
+      "Nested document hierarchy and structured cards",
+      "Native iOS, macOS, Windows, and Web applications",
+      "Offline-first architecture with end-to-end sync",
+      "Interactive web sharing with custom branding"
+    ],
+    "pros": [
+      "Unrivaled typography and visual polish for documents",
+      "Lightning-fast native performance on macOS and iOS",
+      "Offline support ensures continuous productivity"
+    ],
+    "cons": [
+      "Database and relational tables are simpler than Notion",
+      "AI queries require Craft Pro subscription"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "macOS",
+      "iOS",
+      "Windows",
+      "Web"
+    ],
+    "tags": [
+      "docs",
+      "note-taking",
+      "design-first",
+      "apple-design",
+      "craft"
+    ],
+    "useCases": [
+      "Executive proposals",
+      "Design project briefs",
+      "Personal knowledge journaling"
+    ],
+    "bestFor": [
+      "Executives",
+      "Product Designers",
+      "Solopreneurs"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "mem-ai",
+    "name": "Mem.ai",
+    "slug": "mem-ai",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "Self-organizing workspace that uses AI to connect notes, recall past ideas, and automatically group related knowledge.",
+    "fullOverview": "Mem is the first self-organizing workspace powered by AI. Instead of forcing you to organize notes into rigid folders or tags, Mem automatically understands connections between people, projects, and topics, delivering relevant past ideas when you need them.",
+    "website": "https://mem.ai",
+    "logoImageUrl": "https://mem.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Self-organizing semantic knowledge graph",
+      "Mem X intelligent conversational recall",
+      "Smart collections and automated tagging",
+      "Email and SMS capture integrations",
+      "Team workspace and shared context memory"
+    ],
+    "pros": [
+      "Eliminates the cognitive chore of organizing and tagging notes",
+      "Mem Chat references your own notes and documents with high recall accuracy",
+      "Fast capture from mobile, email, and desktop shortcuts"
+    ],
+    "cons": [
+      "Users who prefer rigid manual folder hierarchies may feel disoriented",
+      "Team collaboration features still developing"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "macOS",
+      "Windows",
+      "iOS"
+    ],
+    "tags": [
+      "second-brain",
+      "self-organizing",
+      "mem-x",
+      "note-taking",
+      "semantic-search"
+    ],
+    "useCases": [
+      "Personal second brain",
+      "Meeting synthesis",
+      "Long-term research accumulation"
+    ],
+    "bestFor": [
+      "Knowledge Workers",
+      "Writers",
+      "Researchers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "anytype",
+    "name": "Anytype",
+    "slug": "anytype",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "Decentralized, local-first, peer-to-peer productivity environment with zero-knowledge encryption and local AI.",
+    "fullOverview": "Anytype is an open-source, local-first operating system for your notes, tasks, documents, and databases. Built with cryptography and IPFS, your data belongs exclusively to you on your machine, with local AI assistant capabilities that never leak personal notes.",
+    "website": "https://anytype.io",
+    "logoImageUrl": "https://anytype.io/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "100% local-first and peer-to-peer synchronization",
+      "Zero-knowledge encryption (keys stay on your device)",
+      "Object-based relational database and graph view",
+      "Local offline AI model execution",
+      "Open-source codebase with native desktop and mobile apps"
+    ],
+    "pros": [
+      "Absolute privacy and sovereignty over your notes and personal records",
+      "Works completely offline without an active internet connection",
+      "Beautiful Notion-like blocks with relational graph modeling"
+    ],
+    "cons": [
+      "Peer-to-peer sync requires setting up backup keys carefully",
+      "Web-based sharing is more complex due to end-to-end encryption"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "macOS",
+      "Windows",
+      "Linux",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "local-first",
+      "privacy",
+      "open-source",
+      "peer-to-peer",
+      "second-brain"
+    ],
+    "useCases": [
+      "Encrypted personal journal",
+      "Private task tracking",
+      "Confidential project planning"
+    ],
+    "bestFor": [
+      "Privacy Advocates",
+      "Developers",
+      "Security Professionals"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "granola-ai",
+    "name": "Granola",
+    "slug": "granola-ai",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "AI meeting notepad that combines your rough typed notes with ambient audio transcription into structured summaries.",
+    "fullOverview": "Granola is an AI notepad designed for human beings in meetings. Instead of sending an awkward bot to join your Zoom or Google Meet, Granola runs quietly on your Mac, transcribing meeting audio and fusing it with your own shorthand notes into concise, actionable summaries.",
+    "website": "https://granola.so",
+    "logoImageUrl": "https://granola.so/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Zero bot joining: runs locally on your computer",
+      "Blends human shorthand notes with audio transcription",
+      "One-click customizable summary templates",
+      "Integrated chat over past meeting transcripts",
+      "Seamless Slack, Notion, and email export"
+    ],
+    "pros": [
+      "No awkward bot invading your customer calls",
+      "Respects your personal note-taking style while filling in missing context",
+      "Delightful macOS native design and keyboard navigation"
+    ],
+    "cons": [
+      "Currently limited to macOS desktop users",
+      "Transcription depends on clean microphone audio"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "macOS"
+    ],
+    "tags": [
+      "meeting-notes",
+      "ambient-audio",
+      "granola",
+      "no-bots",
+      "summaries"
+    ],
+    "useCases": [
+      "Executive 1-on-1s",
+      "Sales discovery calls",
+      "User interview transcription"
+    ],
+    "bestFor": [
+      "Product Managers",
+      "Founders",
+      "Venture Capitalists"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "zapier-central",
+    "name": "Zapier Central",
+    "slug": "zapier-central",
+    "category": "productivity-ai",
+    "subCategory": "workflow-automation",
+    "description": "AI workspace that lets you train autonomous bots to work across 6,000+ business applications with live triggers.",
+    "fullOverview": "Zapier Central is an AI-first workspace where teams can build, teach, and dispatch autonomous assistants across Zapier's ecosystem of 6,000+ apps. Bots listen for events (new emails, form submissions, Slack mentions) and perform multi-step actions autonomously.",
+    "website": "https://zapier.com/central",
+    "logoImageUrl": "https://zapier.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Autonomous AI bots operating across 6,000+ apps",
+      "Teach bots by showing examples and system instructions",
+      "Data-source grounding with spreadsheets and Notion",
+      "Live event triggers and automated multi-app execution",
+      "Audit log and human approval gates for critical actions"
+    ],
+    "pros": [
+      "Unmatched breadth of third-party integrations (6,000+ apps)",
+      "Empowers non-technical users to build complex autonomous bots",
+      "Approval gates prevent accidental unintended mutations"
+    ],
+    "cons": [
+      "High-frequency workflow triggers consume Zapier task credits",
+      "Complex multi-branch logic can require debugging"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "automation",
+      "zapier",
+      "autonomous-bots",
+      "integrations",
+      "workflow"
+    ],
+    "useCases": [
+      "Customer inquiry routing",
+      "Automated CRM data enrichment",
+      "Cross-platform notification syncing"
+    ],
+    "bestFor": [
+      "Operations Managers",
+      "Growth Marketers",
+      "No-Code Automators"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "make-ai",
+    "name": "Make.com AI",
+    "slug": "make-ai",
+    "category": "productivity-ai",
+    "subCategory": "workflow-automation",
+    "description": "Visual integration platform with AI Assistant for generating complex multi-step scenario logic and JSON transformations.",
+    "fullOverview": "Make (formerly Integromat) is a visual integration platform for automating business workflows. Its built-in AI assistant helps developers design complex multi-branch scenarios, write custom regex and data functions, and parse API payloads visually.",
+    "website": "https://www.make.com",
+    "logoImageUrl": "https://images.ctfassets.net/un655fb9wln6/68gCj3WkXhT9F0Q8f1Q9k/favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI-assisted visual scenario design",
+      "Prompt-to-formula and regex converter",
+      "Direct OpenAI, Anthropic, and Gemini integration modules",
+      "Visual flow routing with infinite nested loops",
+      "Real-time execution debugging and replay"
+    ],
+    "pros": [
+      "Superior visual debugging and payload inspection compared to competitors",
+      "Significantly more cost-effective per operation than Zapier",
+      "Deep native modules for LLM prompts, embeddings, and vision"
+    ],
+    "cons": [
+      "Visual node interface has a steeper initial learning curve",
+      "Complex error-handling routes require explicit configuration"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "make",
+      "visual-automation",
+      "integromat",
+      "api-integration",
+      "scenarios"
+    ],
+    "useCases": [
+      "Batch content generation pipelines",
+      "Automated lead scoring",
+      "Webhook data transformation"
+    ],
+    "bestFor": [
+      "Technical Automators",
+      "DevOps Engineers",
+      "Agency Operators"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "bardeen-ai",
+    "name": "Bardeen AI",
+    "slug": "bardeen-ai",
+    "category": "productivity-ai",
+    "subCategory": "workflow-automation",
+    "description": "Browser-native AI workflow automation extension that scrapes web pages, automates clicks, and synchronizes data to apps.",
+    "fullOverview": "Bardeen brings workflow automation directly into Google Chrome. By operating within the browser context, it scrapes unstructured website data, automates repetitive CRM data entry, summarizes web pages, and transfers tables into Google Sheets or Notion in one click.",
+    "website": "https://www.bardeen.ai",
+    "logoImageUrl": "https://assets-global.website-files.com/605a968600fa3247076a0d01/605a968600fa3226a26a0d78_Favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Browser-based AI web scraper and table extractor",
+      "One-click data transfer to Google Sheets, Notion, and Airtable",
+      "Automated LinkedIn profile and job posting enrichment",
+      "Trigger automations with custom keyboard shortcuts",
+      "Zero-code visual automation builder"
+    ],
+    "pros": [
+      "Runs locally inside the browser, eliminating complex webhook setups",
+      "Easiest web scraper available for LinkedIn, Twitter, and news sites",
+      "Vast library of pre-built \"Playbooks\" for instant adoption"
+    ],
+    "cons": [
+      "Requires the browser to be open for certain client-side triggers",
+      "Heavy scraping requires purchasing Bardeen cloud credits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Chrome Extension",
+      "Web"
+    ],
+    "tags": [
+      "web-scraper",
+      "chrome-extension",
+      "prospecting",
+      "lead-generation",
+      "browser-automation"
+    ],
+    "useCases": [
+      "Sales lead prospecting on LinkedIn",
+      "Competitive price scraping",
+      "Meeting candidate research"
+    ],
+    "bestFor": [
+      "Recruiters",
+      "Sales Development Reps",
+      "Growth Marketers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "relay-app",
+    "name": "Relay.app",
+    "slug": "relay-app",
+    "category": "productivity-ai",
+    "subCategory": "workflow-automation",
+    "description": "Modern workflow automation tool designed with 1-click human-in-the-loop approvals and native AI extraction.",
+    "fullOverview": "Relay.app re-imagines workflow automation with first-class human-in-the-loop collaboration. Instead of automations running blind, Relay allows teams to seamlessly inject human review checkpoints (e.g. approve an AI-drafted email before sending) into multi-app automations.",
+    "website": "https://www.relay.app",
+    "logoImageUrl": "https://www.relay.app/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Human-in-the-loop review and approval checkpoints",
+      "Native AI steps for summarization, classification, and drafting",
+      "Team multiplayer workflow building and editing",
+      "Clean modern interface with zero configuration friction",
+      "Deep integrations with Slack, Google Workspace, and Linear"
+    ],
+    "pros": [
+      "Best human-in-the-loop design prevents embarrassing AI errors",
+      "Significantly more modern and intuitive UI than legacy automation platforms",
+      "Transparent pricing and generous starter tier"
+    ],
+    "cons": [
+      "Smaller catalog of niche third-party apps than Zapier",
+      "Primarily optimized for tech-forward modern SaaS stacks"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "human-in-the-loop",
+      "workflow-automation",
+      "approvals",
+      "modern-saas",
+      "relay"
+    ],
+    "useCases": [
+      "Customer onboarding approval workflows",
+      "Content review before social publishing",
+      "Expense approval processing"
+    ],
+    "bestFor": [
+      "Product Teams",
+      "Customer Success Leads",
+      "Founders"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "motion",
+    "name": "Motion (UseMotion)",
+    "slug": "motion",
+    "category": "productivity-ai",
+    "subCategory": "task-management",
+    "description": "AI executive assistant that automatically builds your daily schedule, prioritizes tasks, and reschedules when plans change.",
+    "fullOverview": "Motion uses machine learning algorithms to eliminate manual calendar planning. It takes your tasks, meetings, deadlines, and working hours, and dynamically constructs the optimal daily schedule. When unexpected meetings arise, Motion automatically reorganizes your day.",
+    "website": "https://www.usemotion.com",
+    "logoImageUrl": "https://www.usemotion.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Happiness Algorithm dynamic daily schedule optimization",
+      "Automated task rescheduling upon calendar conflict",
+      "Integrated meeting booking links with custom availability",
+      "Project management and team workload forecasting",
+      "Native Google Calendar and Microsoft Outlook synchronization"
+    ],
+    "pros": [
+      "Saves an estimated 2 hours of daily calendar juggling",
+      "Ensures tasks are completed before deadlines without manual time-blocking",
+      "Unifies team tasks and individual calendars in one place"
+    ],
+    "cons": [
+      "Premium pricing with no permanent free tier (7-day trial)",
+      "Requires strict adherence to logging tasks for algorithm efficacy"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web",
+      "macOS",
+      "Windows",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "calendar-ai",
+      "auto-scheduling",
+      "task-management",
+      "time-blocking",
+      "motion"
+    ],
+    "useCases": [
+      "Dynamic daily calendar planning",
+      "Client meeting scheduling",
+      "Team sprint capacity allocation"
+    ],
+    "bestFor": [
+      "Executives",
+      "Founders",
+      "Busy Consultants"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "reclaim-ai",
+    "name": "Reclaim.ai",
+    "slug": "reclaim-ai",
+    "category": "productivity-ai",
+    "subCategory": "task-management",
+    "description": "Smart calendar assistant that defends time for habits, tasks, focus work, and 1-on-1 meetings across Google Calendar.",
+    "fullOverview": "Reclaim.ai is an intelligent calendar allocation tool for Google Calendar users. It automatically defends flexible blocks of time for your daily habits (lunch, exercise, reading) and tasks, keeping them flexible until your calendar fills up, when it automatically locks them as busy.",
+    "website": "https://reclaim.ai",
+    "logoImageUrl": "https://reclaim.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Smart Habits with flexible recurring time protection",
+      "Task integration with Jira, Asana, Linear, and Todoist",
+      "Smart 1-on-1 meeting auto-scheduling at ideal mutual times",
+      "Buffer times and automatic decompression breaks",
+      "Time tracking analytics and team burnout metrics"
+    ],
+    "pros": [
+      "Works seamlessly right inside your existing Google Calendar",
+      "Generous free plan supporting personal habits and sync",
+      "Outstanding integrations with developer tools like Linear and Jira"
+    ],
+    "cons": [
+      "Exclusively supports Google Calendar (no Outlook support)",
+      "Team features require company-wide seat licensing"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Google Calendar"
+    ],
+    "tags": [
+      "habits",
+      "focus-time",
+      "google-calendar",
+      "task-sync",
+      "reclaim"
+    ],
+    "useCases": [
+      "Defending deep work focus blocks",
+      "Syncing Linear tickets to calendar",
+      "Scheduling mutual 1-on-1s"
+    ],
+    "bestFor": [
+      "Software Engineers",
+      "Product Designers",
+      "Remote Workers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "taskade",
+    "name": "Taskade AI",
+    "slug": "taskade",
+    "category": "productivity-ai",
+    "subCategory": "task-management",
+    "description": "Unified workspace for tasks, mind maps, and collaborative docs powered by customizable autonomous AI agents.",
+    "fullOverview": "Taskade is an all-in-one productivity suite that combines mind mapping, task lists, Kanban boards, and structured documents. With Taskade AI, users can deploy autonomous agents that generate sprint plans, research topics, and coordinate project workflows in real time.",
+    "website": "https://www.taskade.com",
+    "logoImageUrl": "https://www.taskade.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Multi-view project layout (Kanban, Mind Map, Org Chart, List)",
+      "Customizable AI Team Agents with custom system prompts",
+      "Real-time video chat and collaborative multiplayer canvas",
+      "Automated workflow generation from text prompts",
+      "Native apps across all desktop, mobile, and web platforms"
+    ],
+    "pros": [
+      "Seamless switching between Mind Maps, Kanban, and Lists",
+      "Built-in real-time video chat directly in project boards",
+      "Generous free tier with active feature updates"
+    ],
+    "cons": [
+      "Wide feature set can feel cluttered for simple checklist users",
+      "Agent automation tiers have monthly task limits"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "macOS",
+      "Windows",
+      "Linux",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "mind-maps",
+      "kanban",
+      "ai-agents",
+      "taskade",
+      "collaboration"
+    ],
+    "useCases": [
+      "Sprint planning mind maps",
+      "Team brainstorming sessions",
+      "Content calendar coordination"
+    ],
+    "bestFor": [
+      "Remote Teams",
+      "Agile Product Teams",
+      "Creative Studios"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "routine",
+    "name": "Routine",
+    "slug": "routine",
+    "category": "productivity-ai",
+    "subCategory": "task-management",
+    "description": "Minimalist desktop calendar, task manager, and notes console designed for keyboard-driven daily planning.",
+    "fullOverview": "Routine combines calendar, tasks, notes, and contacts into a lightning-fast native desktop application. With its universal keyboard overlay, professionals can capture tasks, schedule events, and access meeting context in seconds without switching browser tabs.",
+    "website": "https://www.routine.co",
+    "logoImageUrl": "https://www.routine.co/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Global keyboard shortcut overlay for instant capture",
+      "Unifies calendar events, tasks, and meeting notes in one view",
+      "Interactive daily planner and habit tracking dashboard",
+      "Native macOS and Windows apps with zero latency",
+      "Meeting assistant with attendee context"
+    ],
+    "pros": [
+      "Gorgeous minimalist user interface that keeps you focused",
+      "Instant keyboard capture from any desktop application",
+      "High design aesthetic combining tasks directly with calendar blocks"
+    ],
+    "cons": [
+      "Advanced enterprise collaboration features still rolling out",
+      "Mobile apps have a slightly reduced feature set compared to desktop"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "macOS",
+      "Windows",
+      "iOS"
+    ],
+    "tags": [
+      "daily-planner",
+      "keyboard-first",
+      "minimalist",
+      "calendar",
+      "routine"
+    ],
+    "useCases": [
+      "Daily task scheduling",
+      "Quick meeting note taking",
+      "Habit execution"
+    ],
+    "bestFor": [
+      "Product Designers",
+      "Founders",
+      "Knowledge Professionals"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "limitless-ai",
+    "name": "Limitless (Rewind AI)",
+    "slug": "limitless-ai",
+    "category": "productivity-ai",
+    "subCategory": "knowledge-base",
+    "description": "Personalized AI assistant and wearable pendant that captures spoken conversations and web interactions for instant recall.",
+    "fullOverview": "Limitless (from the creators of Rewind AI) is a personalized AI memory assistant. Working via desktop apps and an optional wearable pendant, it securely transcribes in-person conversations, Zoom calls, and notes, giving you a searchable photographic memory of everything you've heard or seen.",
+    "website": "https://www.limitless.ai",
+    "logoImageUrl": "https://www.limitless.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Confidential Cloud with end-to-end privacy guarantees",
+      "Wearable Limitless Pendant for real-world ambient conversation capture",
+      "Automated meeting briefs, commitments, and action items",
+      "Natural language search over everything you've discussed",
+      "Cross-platform sync across Mac, Windows, Web, and iOS"
+    ],
+    "pros": [
+      "Never forget a commitment, conversation detail, or spoken instruction",
+      "Pendant wearable enables in-person conversation memory without phones",
+      "Confidential Cloud architecture ensures your data cannot be decrypted by third parties"
+    ],
+    "cons": [
+      "Hardware pendant is sold separately",
+      "Ambient recording requires clear consent in professional environments"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "macOS",
+      "Windows",
+      "Web",
+      "iOS",
+      "Hardware"
+    ],
+    "tags": [
+      "second-brain",
+      "wearable-ai",
+      "meeting-memory",
+      "ambient-computing",
+      "limitless"
+    ],
+    "useCases": [
+      "Recalling verbal client commitments",
+      "Personal daily meeting reviews",
+      "In-person conference note-taking"
+    ],
+    "bestFor": [
+      "Executives",
+      "Founders",
+      "Venture Capitalists"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "raycast-ai",
+    "name": "Raycast AI",
+    "slug": "raycast-ai",
+    "category": "productivity-ai",
+    "subCategory": "knowledge-base",
+    "description": "Supercharged macOS launcher that integrates AI chat, code explanations, and text transformations directly into system hotkeys.",
+    "fullOverview": "Raycast AI embeds frontier language models directly into your Mac's primary command launcher. With a single keystroke, developers and creators can query AI, rewrite highlighted text in any application, explain code snippets, generate commit messages, and query local files.",
+    "website": "https://www.raycast.com",
+    "logoImageUrl": "https://www.raycast.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Global hotkey activation over any active application",
+      "Multi-model selection (Claude 3.5 Sonnet, GPT-4o, Llama 3)",
+      "Custom AI Commands with personal prompt templates",
+      "Direct system actions (clipboard, window management, files)",
+      "Rich community store with thousands of developer extensions"
+    ],
+    "pros": [
+      "Faster than any web app: zero tab-switching required to query AI",
+      "Transforms highlighted text in any app (Slack, VS Code, Mail)",
+      "Raycast ecosystem is universally beloved by Mac power users"
+    ],
+    "cons": [
+      "Mac-exclusive (Windows version currently in development waitlist)",
+      "Advanced models require Raycast Pro subscription"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "macOS",
+      "iOS"
+    ],
+    "tags": [
+      "launcher",
+      "macos",
+      "hotkey",
+      "system-utility",
+      "raycast"
+    ],
+    "useCases": [
+      "Fixing grammar across apps",
+      "Explaining highlighted terminal errors",
+      "Instant calculations and translations"
+    ],
+    "bestFor": [
+      "Mac Power Users",
+      "Software Engineers",
+      "Product Designers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "superhuman-ai",
+    "name": "Superhuman AI",
+    "slug": "superhuman-ai",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "Ultra-fast email client with AI that drafts replies in your personal voice, summarizes long threads, and auto-corrects typos.",
+    "fullOverview": "Superhuman AI transforms the email experience by allowing executives and power users to fly through their inboxes twice as fast. Its AI writes replies matching your unique tone and phrasing, summarizes long complex email threads in 1-click, and auto-corrects spelling as you type.",
+    "website": "https://superhuman.com",
+    "logoImageUrl": "https://superhuman.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Drafts full emails from one-line shorthand thoughts",
+      "Learns and replicates your personal writing voice and vocabulary",
+      "Instant thread summarization with key action items",
+      "Auto-correct that fixes errors without interrupting flow",
+      "Sub-100ms keyboard navigation and offline processing"
+    ],
+    "pros": [
+      "Guarantees reaching Inbox Zero in half the time",
+      "AI drafted replies actually sound like you wrote them",
+      "Best-in-class keyboard shortcuts and speed"
+    ],
+    "cons": [
+      "Premium subscription pricing geared toward professionals",
+      "Requires Gmail or Outlook email accounts"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "macOS",
+      "Windows",
+      "iOS",
+      "Android",
+      "Web"
+    ],
+    "tags": [
+      "email-client",
+      "inbox-zero",
+      "superhuman",
+      "keyboard-first",
+      "email-ai"
+    ],
+    "useCases": [
+      "Executive email triage",
+      "Drafting client follow-ups",
+      "Summarizing 50+ message threads"
+    ],
+    "bestFor": [
+      "CEOs",
+      "Founders",
+      "Sales Leaders"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "otter-ai",
+    "name": "Otter.ai",
+    "slug": "otter-ai",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "AI meeting assistant that records, transcribes in real time, and auto-generates summaries with speaker identification.",
+    "fullOverview": "Otter.ai acts as an automated meeting secretary for Zoom, Google Meet, and Microsoft Teams. It joins meetings, creates real-time synced transcripts, extracts action items, assigns tasks to team members, and lets absent members chat with the meeting record.",
+    "website": "https://otter.ai",
+    "logoImageUrl": "https://otter.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated OtterPilot bot joins Zoom, Meet, and Teams calls",
+      "Real-time live transcription with speaker diarization",
+      "Automated 30-second summary and action item extraction",
+      "Otter AI Chat to ask questions about past team meetings",
+      "Direct capture of slide screenshots during presentations"
+    ],
+    "pros": [
+      "Captures visual presentation slides alongside spoken words",
+      "Chat feature lets you query across all past meetings simultaneously",
+      "Generous 300 free monthly transcription minutes"
+    ],
+    "cons": [
+      "Sending an external bot into sensitive meetings can raise privacy concerns",
+      "Speaker diarization can stumble if multiple people speak simultaneously"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "meeting-transcription",
+      "otter-ai",
+      "action-items",
+      "speaker-id",
+      "zoom-bot"
+    ],
+    "useCases": [
+      "Virtual team standups",
+      "University lecture transcription",
+      "Customer interview documentation"
+    ],
+    "bestFor": [
+      "Remote Teams",
+      "Students",
+      "Sales Professionals"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "fireflies-ai",
+    "name": "Fireflies.ai",
+    "slug": "fireflies-ai",
+    "category": "productivity-ai",
+    "subCategory": "note-taking-docs",
+    "description": "Enterprise AI voice assistant that records, transcribes, and searches all your voice conversations across web conferences.",
+    "fullOverview": "Fireflies.ai is a comprehensive meeting intelligence platform that transcribes and analyzes meetings across Zoom, Google Meet, Teams, Webex, and telephony systems. It provides conversation sentiment analysis, speaker talk-time percentages, and CRM auto-logging.",
+    "website": "https://fireflies.ai",
+    "logoImageUrl": "https://fireflies.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated meeting recording across Zoom, Teams, Meet, and phone systems",
+      "AI Super Summaries with bullet points and action items",
+      "Topic tracking and custom keyword alerts across all company calls",
+      "Sentiment analysis and speaker talk-time ratios",
+      "Automatic sync to Salesforce, HubSpot, Slack, and Notion"
+    ],
+    "pros": [
+      "Deep enterprise CRM logging saves sales teams hours of data entry",
+      "Soundbites feature allows creating shareable audio clips of key moments",
+      "Global search across thousands of hours of company meetings"
+    ],
+    "cons": [
+      "Bot joining calls can require host permission on enterprise accounts",
+      "Advanced conversation analytics requires Business tier"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Chrome Extension"
+    ],
+    "tags": [
+      "meeting-intelligence",
+      "sentiment-analysis",
+      "crm-sync",
+      "fireflies",
+      "transcription"
+    ],
+    "useCases": [
+      "Sales call coaching",
+      "Executive board meetings",
+      "Automated CRM meeting logging"
+    ],
+    "bestFor": [
+      "Sales Managers",
+      "Revenue Operations",
+      "Executive Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
   }
 ]

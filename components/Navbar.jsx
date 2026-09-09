@@ -90,7 +90,7 @@ const Navbar = () => {
     { name: 'Home', path: '/', icon: <FaHome /> },
     { name: 'Tools', path: '/tools', icon: <FaTools /> },
     { name: 'AI Tools', path: '/ai-tools', icon: <FaSlidersH /> },
-    { name: 'AI Prompts & Tricks', path: '/ai-prompts-tricks', icon: <FaSlidersH /> },
+    { name: 'AI Knowledge', path: '/ai-knowledge', icon: <FaSlidersH /> },
     { name: 'Contribute', path: '/contribute', icon: <FaTools /> },
     { name: 'About', path: '/about', icon: <FaInfoCircle /> },
     ...(authReady && user
@@ -102,7 +102,7 @@ const Navbar = () => {
     if (path === '/') return pathname === '/';
     if (path === '/profile') return pathname.startsWith('/profile');
     if (path === '/ai-tools') return pathname.startsWith('/ai-tools');
-    if (path === '/ai-prompts-tricks') return pathname.startsWith('/ai-prompts-tricks') || pathname.startsWith('/prompts') || pathname.startsWith('/ai-knowledge');
+    if (path === '/ai-knowledge') return pathname.startsWith('/ai-knowledge') || pathname.startsWith('/ai-prompts-tricks') || pathname.startsWith('/prompts');
     if (path === '/tools') return pathname.startsWith('/tools') || pathname.startsWith('/tool/');
     return pathname === path || pathname.startsWith(path + '/');
   };

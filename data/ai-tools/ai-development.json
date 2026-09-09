@@ -3,11 +3,14 @@
     "id": "tool-1",
     "name": "GitHub Copilot",
     "slug": "github-copilot",
-    "logo": "https://github.githubassets.com/images/modules/site/copilot/copilot.png",
-    "banner": "https://github.blog/wp-content/uploads/2022/06/Copilot-GA-Blog-Hero.png",
+    "category": "ai-development",
+    "subCategory": "coding-assistants",
     "description": "Your AI pair programmer that helps you write code faster.",
-    "overview": "GitHub Copilot is an AI pair programmer that offers autocomplete-style suggestions as you code. You can receive suggestions from GitHub Copilot either by starting to write the code you want to use, or by writing a natural language comment describing what you want the code to do.",
-    "features": [
+    "fullOverview": "GitHub Copilot is an AI pair programmer that offers autocomplete-style suggestions as you code. You can receive suggestions from GitHub Copilot either by starting to write the code you want to use, or by writing a natural language comment describing what you want the code to do.",
+    "website": "https://github.com/features/copilot",
+    "logoImageUrl": "https://github.githubassets.com/images/modules/site/copilot/copilot.png",
+    "bannerImageUrl": "https://github.blog/wp-content/uploads/2022/06/Copilot-GA-Blog-Hero.png",
+    "keyFeatures": [
       "Real-time code suggestions",
       "Multi-language support",
       "Chat interface in IDE",
@@ -22,12 +25,8 @@
       "Requires active subscription",
       "Can sometimes suggest incorrect code"
     ],
-    "website": "https://github.com/features/copilot",
-    "category": "ai-development",
-    "subCategory": "coding-assistants",
-    "pricing": "Paid",
-    "freeTrial": true,
-    "platform": [
+    "pricingModel": "Paid",
+    "platforms": [
       "Web",
       "VS Code",
       "JetBrains"
@@ -49,22 +48,8 @@
     "featured": true,
     "new": false,
     "verified": true,
-    "createdDate": "2026-07-19T00:00:00.000Z",
-    "platforms": [
-      "Web",
-      "VS Code",
-      "JetBrains"
-    ],
-    "pricingModel": "Paid",
-    "keyFeatures": [
-      "Real-time code suggestions",
-      "Multi-language support",
-      "Chat interface in IDE",
-      "Inline code explanations"
-    ],
-    "fullOverview": "GitHub Copilot is an AI pair programmer that offers autocomplete-style suggestions as you code. You can receive suggestions from GitHub Copilot either by starting to write the code you want to use, or by writing a natural language comment describing what you want the code to do.",
-    "logoImageUrl": "https://github.githubassets.com/images/modules/site/copilot/copilot.png",
-    "bannerImageUrl": "https://github.blog/wp-content/uploads/2022/06/Copilot-GA-Blog-Hero.png"
+    "hasFree": true,
+    "createdDate": "2026-07-19T00:00:00.000Z"
   },
   {
     "id": "antigravity",
@@ -955,8 +940,8 @@
     "id": "opencode",
     "name": "OpenCode",
     "slug": "opencode",
-    "category": "development",
-    "subCategory": "code-completion",
+    "category": "ai-development",
+    "subCategory": "coding-assistants",
     "description": "Open-source AI coding agent for the terminal with 163K+ GitHub stars, designed as a drop-in replacement for Claude Code.",
     "fullOverview": "OpenCode is an open-source AI coding agent that runs in the terminal, with a desktop app and IDE extension also available.[reference:10][reference:11] It connects AI models to your code repository, terminal, and development tools to fix bugs, edit code, run tests, and more.[reference:12] Completely provider-agnostic — works with Anthropic, OpenAI, Google, or local models.[reference:13][reference:14] MIT licensed and 100% open source.[reference:15][reference:16]",
     "website": "https://opencode.ai",
@@ -1014,8 +999,8 @@
     "id": "freebuff",
     "name": "Freebuff",
     "slug": "freebuff",
-    "category": "development",
-    "subCategory": "code-completion",
+    "category": "ai-development",
+    "subCategory": "coding-assistants",
     "description": "Free AI coding agent with no subscription, credits, or API key required — ad-supported access to leading AI models.",
     "fullOverview": "Freebuff is a free AI coding agent from YC W24 that provides access to leading AI models without subscriptions or credits.[reference:17][reference:18] Available as CLI, Desktop, Web, Cloud, and Chat products.[reference:19] Uses specialized agents for different tasks and includes models like GLM 5.3 Flash, GPT-5.6 Luna, DeepSeek V4 Flash, and MiMo 2.5.[reference:20] Supported by text ads displayed in the terminal interface.[reference:21][reference:22]",
     "website": "https://freebuff.com",
@@ -1070,5 +1055,1018 @@
     "verified": true,
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z"
+  },
+  {
+    "id": "windsurf",
+    "name": "Windsurf",
+    "slug": "windsurf",
+    "category": "ai-development",
+    "subCategory": "ai-ides",
+    "description": "The world's first agentic IDE by Codeium featuring Flows and Cascade for deep multi-file contextual development.",
+    "fullOverview": "Windsurf is an AI-native code editor designed ground-up by Codeium. It blends seamless developer agency with Cascade, an agentic AI assistant capable of reasoning across your entire repository, running terminal commands, navigating dependencies, and applying complex multi-file refactors with minimal friction.",
+    "website": "https://codeium.com/windsurf",
+    "logoImageUrl": "https://codeium.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Cascade agentic pair programming engine",
+      "Flows contextual awareness across entire workspace",
+      "Real-time terminal execution and error self-correction",
+      "Supercomplete intelligent multi-line code predictions",
+      "VS Code extension ecosystem compatibility"
+    ],
+    "pros": [
+      "Incredible multi-file awareness and automated refactoring",
+      "Fast inline tab autocompletion with zero latency",
+      "Familiar VS Code fork layout requires zero learning curve"
+    ],
+    "cons": [
+      "Requires switching default IDE from vanilla VS Code",
+      "High model demand can occasionally throttle during peak hours"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "macOS",
+      "Windows",
+      "Linux"
+    ],
+    "tags": [
+      "ai-ide",
+      "codeium",
+      "cascade",
+      "agentic-coding",
+      "pair-programming"
+    ],
+    "useCases": [
+      "Multi-file repository refactoring",
+      "New feature implementation",
+      "Autonomous debugging"
+    ],
+    "bestFor": [
+      "Full-Stack Engineers",
+      "Systems Programmers",
+      "Frontend Developers"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "tabnine",
+    "name": "Tabnine",
+    "slug": "tabnine",
+    "category": "ai-development",
+    "subCategory": "coding-assistants",
+    "description": "Privacy-focused AI code assistant trained exclusively on permissively licensed code with air-gapped on-premise deployment.",
+    "fullOverview": "Tabnine is an enterprise-grade AI code assistant prioritizing intellectual property protection and code privacy. It guarantees zero training on customer data and can run completely air-gapped or on self-hosted servers with support for all popular IDEs.",
+    "website": "https://www.tabnine.com",
+    "logoImageUrl": "https://www.tabnine.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "100% permissively licensed training data",
+      "Self-hosted, air-gapped, and VPC deployment options",
+      "Personalized codebase context adaptation",
+      "Unit test generation and automated documentation",
+      "Supports 30+ programming languages and 15+ IDEs"
+    ],
+    "pros": [
+      "Zero IP risk with legally vetted training datasets",
+      "Strict enterprise confidentiality and data isolation",
+      "Works in air-gapped and military-grade secure environments"
+    ],
+    "cons": [
+      "Chat suggestions can feel slightly more conservative than unconstrained frontier models",
+      "Enterprise tier pricing is geared for large teams"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "Eclipse",
+      "Web"
+    ],
+    "tags": [
+      "privacy-first",
+      "enterprise",
+      "on-premise",
+      "tabnine",
+      "code-completion"
+    ],
+    "useCases": [
+      "Enterprise software engineering",
+      "Regulated banking/defense coding",
+      "Secure unit testing"
+    ],
+    "bestFor": [
+      "Enterprise Engineering Teams",
+      "Security Architects",
+      "Fintech Developers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "amazon-q-developer",
+    "name": "Amazon Q Developer",
+    "slug": "amazon-q-developer",
+    "category": "ai-development",
+    "subCategory": "coding-assistants",
+    "description": "Generative AI assistant for software development with deep AWS cloud architecture, Java transformation, and security scanning.",
+    "fullOverview": "Amazon Q Developer (formerly CodeWhisperer) is AWS's AI coding assistant. It assists with code generation, automated Java version upgrades, vulnerability scanning, and infrastructure-as-code generation across AWS services directly inside your IDE and CLI.",
+    "website": "https://aws.amazon.com/q/developer",
+    "logoImageUrl": "https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated code generation and multi-line completion",
+      "Automated Java application transformation (e.g. Java 8 to 17)",
+      "Security vulnerability remediation and IP reference tracking",
+      "AWS architecture recommendations and CLI integration",
+      "CloudWatch troubleshooting and log analysis"
+    ],
+    "pros": [
+      "Deepest integration with the Amazon Web Services ecosystem",
+      "Automated legacy Java upgrades save months of manual migration",
+      "Generous free tier with AWS Builder ID"
+    ],
+    "cons": [
+      "Less versatile for non-AWS cloud platforms like Azure or GCP",
+      "Interface heavily optimized around AWS services"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "CLI",
+      "AWS Console"
+    ],
+    "tags": [
+      "aws",
+      "cloud-architecture",
+      "java-transformation",
+      "security-scanning",
+      "amazon-q"
+    ],
+    "useCases": [
+      "AWS cloud development",
+      "Legacy Java migrations",
+      "Security vulnerability patching"
+    ],
+    "bestFor": [
+      "Cloud Architects",
+      "AWS Engineers",
+      "DevOps Specialists"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "sourcegraph-cody",
+    "name": "Sourcegraph Cody",
+    "slug": "sourcegraph-cody",
+    "category": "ai-development",
+    "subCategory": "coding-assistants",
+    "description": "AI coding assistant powered by Sourcegraph's code graph, bringing comprehensive context across massive codebases.",
+    "fullOverview": "Sourcegraph Cody uses comprehensive code graph context to write, explain, and fix code. By understanding all symbols, repositories, and historical changes in your company's code graph, Cody generates answers that strictly respect internal architecture and design patterns.",
+    "website": "https://sourcegraph.com/cody",
+    "logoImageUrl": "https://sourcegraph.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Code graph context indexing across multi-repo organizations",
+      "Model choice between Claude 3.5 Sonnet, GPT-4o, and Gemini",
+      "Custom commands for unit testing, docstrings, and smell detection",
+      "Enterprise codebase security and RBAC permissions",
+      "High-speed autocomplete and context-aware chat"
+    ],
+    "pros": [
+      "Superior multi-repo enterprise search context",
+      "Flexibility to switch between top underlying LLMs",
+      "Understands organizational code conventions deeply"
+    ],
+    "cons": [
+      "Full multi-repo power requires Sourcegraph enterprise instance",
+      "Setup requires initial code indexing on large repos"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "Web"
+    ],
+    "tags": [
+      "sourcegraph",
+      "cody",
+      "code-graph",
+      "enterprise-search",
+      "multi-repo"
+    ],
+    "useCases": [
+      "Understanding legacy monorepos",
+      "Company-wide refactoring",
+      "Accurate code generation"
+    ],
+    "bestFor": [
+      "Enterprise Developers",
+      "Monorepo Maintainers",
+      "Platform Engineers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "aider",
+    "name": "Aider",
+    "slug": "aider",
+    "category": "ai-development",
+    "subCategory": "terminal-cli-agents",
+    "description": "Command-line AI pair programming agent that edits code directly in your local git repository with automated atomic commits.",
+    "fullOverview": "Aider is an open-source terminal pair programming tool that works with LLMs to edit code directly in your local git repo. It inspects your repository graph, proposes edits, applies multi-file diffs cleanly, and creates sensible git commit messages automatically.",
+    "website": "https://aider.chat",
+    "logoImageUrl": "https://aider.chat/assets/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated git commit creation for every change",
+      "Repository map using tree-sitter for semantic understanding",
+      "Voice-to-code support for conversational commands",
+      "Direct compatibility with Claude 3.5 Sonnet, GPT-4o, and local models",
+      "Multi-file architectural edits and test-driven loops"
+    ],
+    "pros": [
+      "Highest benchmarks for terminal-based code generation",
+      "Git integration makes rolling back experiments trivial",
+      "Zero telemetry and 100% open source"
+    ],
+    "cons": [
+      "CLI-only workflow requires terminal familiarity",
+      "Requires users to bring their own API keys"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "CLI",
+      "macOS",
+      "Linux",
+      "Windows"
+    ],
+    "tags": [
+      "terminal",
+      "cli-agent",
+      "git",
+      "open-source",
+      "tree-sitter"
+    ],
+    "useCases": [
+      "Rapid feature scaffolding from the terminal",
+      "Automated bug fixing",
+      "Refactoring legacy code"
+    ],
+    "bestFor": [
+      "Command-Line Enthusiasts",
+      "Git Power Users",
+      "Backend Developers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "sweep-ai",
+    "name": "Sweep AI",
+    "slug": "sweep-ai",
+    "category": "ai-development",
+    "subCategory": "coding-agents",
+    "description": "AI junior developer that turns GitHub issues into tested, ready-to-merge pull requests automatically.",
+    "fullOverview": "Sweep is an autonomous AI agent integrated into GitHub. When developers or product managers open a GitHub issue, Sweep analyzes the repository, writes unit tests, writes code to fix the issue or build the feature, and opens a clean pull request with interactive feedback.",
+    "website": "https://sweep.dev",
+    "logoImageUrl": "https://sweep.dev/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated Pull Request generation from GitHub issues",
+      "Continuous code search and vector embeddings over repo",
+      "Unit test generation to self-verify code changes",
+      "Interactive PR review conversation to iterate on code",
+      "Self-healing CI test failure remediation"
+    ],
+    "pros": [
+      "Transforms GitHub issue backlog into working PRs without manual intervention",
+      "Great for tackling technical debt, bug fixes, and minor features",
+      "Native GitHub app integration"
+    ],
+    "cons": [
+      "Complex architectural shifts still require human oversight",
+      "Can get stuck in loops on failing CI pipelines if tests are flaky"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "GitHub App",
+      "Web"
+    ],
+    "tags": [
+      "github",
+      "autonomous-agent",
+      "pull-requests",
+      "issue-resolver",
+      "ci-cd"
+    ],
+    "useCases": [
+      "Bug backlog resolution",
+      "Small feature delivery",
+      "Documentation PRs"
+    ],
+    "bestFor": [
+      "Engineering Managers",
+      "Open Source Maintainers",
+      "Startup Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "mentat",
+    "name": "Mentat",
+    "slug": "mentat",
+    "category": "ai-development",
+    "subCategory": "terminal-cli-agents",
+    "description": "Open-source command line AI tool that coordinates complex multi-file code editing directly in your terminal.",
+    "fullOverview": "Mentat coordinates complex code edits across multiple files directly from your terminal. Unlike copilot plugins that focus on single files, Mentat coordinates edits across all relevant project files simultaneously, taking full advantage of git diff inspection.",
+    "website": "https://mentat.ai",
+    "logoImageUrl": "https://mentat.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Context-aware multi-file coordinate editing",
+      "Interactive visual diff inspection before committing",
+      "Open-source architecture with custom model endpoints",
+      "Git worktree and branch isolation",
+      "Fast semantic file search"
+    ],
+    "pros": [
+      "Clean interactive terminal diff confirmation",
+      "Completely transparent open source code",
+      "Flexible API configuration with local and cloud models"
+    ],
+    "cons": [
+      "Smaller user community than Aider",
+      "Requires local environment setup via Python"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "CLI",
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "tags": [
+      "cli",
+      "terminal-agent",
+      "multi-file",
+      "diff-viewer",
+      "open-source"
+    ],
+    "useCases": [
+      "Multi-file feature additions",
+      "Terminal-driven refactoring",
+      "Test authoring"
+    ],
+    "bestFor": [
+      "Terminal Minimalists",
+      "Linux Developers",
+      "Python Engineers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "devin",
+    "name": "Devin (Cognition)",
+    "slug": "devin",
+    "category": "ai-development",
+    "subCategory": "coding-agents",
+    "description": "The premier autonomous AI software engineer capable of planning, coding, debugging, and deploying entire end-to-end tasks.",
+    "fullOverview": "Devin, developed by Cognition, is an autonomous AI software engineer. Equipped with its own sandboxed command line, browser, and code editor, Devin can plan multi-step technical initiatives, read documentation, debug runtime errors, and deploy full applications autonomously.",
+    "website": "https://cognition.ai",
+    "logoImageUrl": "https://cognition.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Fully autonomous planning and execution sandbox",
+      "Integrated shell, browser, and code editor",
+      "Real-time status updates and human collaboration checkpoints",
+      "Autonomous API documentation reading and implementation",
+      "End-to-end bug fixing and deployment verification"
+    ],
+    "pros": [
+      "Pioneering autonomy benchmark on SWE-bench",
+      "Can research unknown third-party APIs and use them correctly",
+      "Solves difficult end-to-end tasks without constant hand-holding"
+    ],
+    "cons": [
+      "High compute cost and enterprise-level pricing",
+      "Waitlist access for certain enterprise tiers"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "autonomous-agent",
+      "swe-bench",
+      "cognition",
+      "ai-engineer",
+      "end-to-end"
+    ],
+    "useCases": [
+      "Autonomous migration of legacy libraries",
+      "Complex feature implementation",
+      "End-to-end bug investigation"
+    ],
+    "bestFor": [
+      "CTOs",
+      "Engineering Leaders",
+      "High-Growth Tech Startups"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "pythagora",
+    "name": "Pythagora (GPT Pilot)",
+    "slug": "pythagora",
+    "category": "ai-development",
+    "subCategory": "coding-agents",
+    "description": "Developer tool that builds production-ready applications step by step with the developer in the loop.",
+    "fullOverview": "Pythagora (the core engine behind GPT Pilot) is an open-source development tool that pairs with programmers to build real, production-ready apps from scratch. It breaks down requirements, plans architecture, writes code, tests each piece, and asks for user feedback when clarification is needed.",
+    "website": "https://pythagora.ai",
+    "logoImageUrl": "https://pythagora.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Step-by-step interactive app scaffolding",
+      "Automated terminal test validation and retry loops",
+      "Detailed architectural breakdown before code generation",
+      "VS Code extension with visual progress tracking",
+      "Open-source core architecture"
+    ],
+    "pros": [
+      "Keeps developer in control at every crucial architectural step",
+      "Significantly less hallucination due to small, verifiable steps",
+      "Self-debugging loop checks terminal output for errors"
+    ],
+    "cons": [
+      "Interactive step-by-step confirmation requires active attention",
+      "Can consume substantial LLM tokens on large apps"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "CLI",
+      "Web"
+    ],
+    "tags": [
+      "gpt-pilot",
+      "scaffolding",
+      "autonomous-coding",
+      "step-by-step",
+      "open-source"
+    ],
+    "useCases": [
+      "Full-stack application bootstrapping",
+      "Architecture planning",
+      "Test-driven development"
+    ],
+    "bestFor": [
+      "Solo Developers",
+      "Startup Founders",
+      "Full-Stack Engineers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "openhands",
+    "name": "OpenHands",
+    "slug": "openhands",
+    "category": "ai-development",
+    "subCategory": "coding-agents",
+    "description": "Open-source platform for autonomous software development agents with Docker sandbox execution.",
+    "fullOverview": "OpenHands (formerly OpenDevin) is a community-driven open-source project building autonomous agents for software development. Agents run inside secure Docker containers, equipped with bash terminals, code editors, and browsers to build and test software.",
+    "website": "https://github.com/All-Hands-AI/OpenHands",
+    "logoImageUrl": "https://github.com/All-Hands-AI/OpenHands/raw/main/docs/static/img/logo.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Secure Docker containerized sandboxing",
+      "Support for multiple LLMs via LiteLLM",
+      "Web-based interactive GUI and terminal viewer",
+      "SWE-bench benchmark evaluation framework",
+      "100% open-source with active global community"
+    ],
+    "pros": [
+      "Completely open-source, private, and self-hostable",
+      "Containerized execution prevents accidental local machine damage",
+      "Rapidly advancing capabilities backed by active open-source contributors"
+    ],
+    "cons": [
+      "Requires Docker installed and running locally",
+      "Setup requires technical comfort with containers and environment variables"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Docker",
+      "Web UI",
+      "Linux",
+      "macOS",
+      "Windows"
+    ],
+    "tags": [
+      "opendevin",
+      "openhands",
+      "docker-sandbox",
+      "open-source",
+      "swe-bench"
+    ],
+    "useCases": [
+      "Autonomous bug fixing",
+      "Automated code refactoring",
+      "AI agent research"
+    ],
+    "bestFor": [
+      "AI Researchers",
+      "Open Source Contributors",
+      "DevOps Engineers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "codiumate",
+    "name": "Codiumate (PR-Agent)",
+    "slug": "codiumate",
+    "category": "ai-development",
+    "subCategory": "code-review-testing",
+    "description": "AI code review and test generation tool providing intelligent PR descriptions, security audits, and automated test suites.",
+    "fullOverview": "Codiumate (by Qodo / CodiumAI) enhances code integrity through test-first AI workflows. It generates meaningful edge-case unit tests, analyzes pull requests via PR-Agent on GitHub/GitLab, and alerts developers to subtle runtime regressions before code merges.",
+    "website": "https://www.qodo.ai",
+    "logoImageUrl": "https://www.qodo.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Automated PR summaries and code review comments",
+      "Meaningful edge-case unit test generation",
+      "PR-Agent integration for GitHub, GitLab, and Bitbucket",
+      "Test behavior coverage analysis",
+      "Security and bug vulnerability scanning"
+    ],
+    "pros": [
+      "Generates tests that actually catch edge-case bugs rather than trivial happy paths",
+      "Tremendous time-saver for PR reviews on engineering teams",
+      "Great GitHub Actions and CI integration"
+    ],
+    "cons": [
+      "Can create large volumes of test boilerplate that needs selection",
+      "Team tier requires paid subscription"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "GitHub App",
+      "GitLab"
+    ],
+    "tags": [
+      "qodo",
+      "unit-tests",
+      "pr-agent",
+      "code-review",
+      "test-automation"
+    ],
+    "useCases": [
+      "Automated PR review",
+      "Unit test coverage boosting",
+      "Edge case bug detection"
+    ],
+    "bestFor": [
+      "QA Engineers",
+      "Backend Developers",
+      "Engineering Leads"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "sonarqube-ai",
+    "name": "SonarQube AI",
+    "slug": "sonarqube-ai",
+    "category": "ai-development",
+    "subCategory": "code-review-testing",
+    "description": "Clean code and security analysis platform augmented with AI code remediation and automated fix suggestions.",
+    "fullOverview": "SonarQube AI elevates static code analysis by offering automated, context-aware AI fixes for security vulnerabilities, code smells, and architecture violations across 30+ languages, enabling clean code standards across CI/CD pipelines.",
+    "website": "https://www.sonarsource.com",
+    "logoImageUrl": "https://www.sonarsource.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "AI CodeFix automated remediation recommendations",
+      "Deep static analysis for bugs, code smells, and vulnerabilities",
+      "Quality Gate enforcement in GitHub, GitLab, and Azure DevOps",
+      "Coverage and duplication tracking across 30+ languages",
+      "Enterprise security compliance reporting (OWASP, CWE, SANS)"
+    ],
+    "pros": [
+      "Gold standard in enterprise static code analysis and quality gates",
+      "AI CodeFix saves developers hours of researching obscure vulnerabilities",
+      "High accuracy with low false-positive rates"
+    ],
+    "cons": [
+      "Enterprise tier is costly for small teams",
+      "Strict quality gates can block PRs if not tuned properly"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Self-Hosted",
+      "Cloud",
+      "CLI",
+      "IDE Plugins"
+    ],
+    "tags": [
+      "clean-code",
+      "static-analysis",
+      "security",
+      "quality-gate",
+      "sonarqube"
+    ],
+    "useCases": [
+      "Enterprise CI/CD quality gates",
+      "OWASP vulnerability remediation",
+      "Technical debt management"
+    ],
+    "bestFor": [
+      "DevSecOps Engineers",
+      "Enterprise Architects",
+      "Tech Leads"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "snyk-deepcode",
+    "name": "Snyk Code (DeepCode)",
+    "slug": "snyk-deepcode",
+    "category": "ai-development",
+    "subCategory": "code-review-testing",
+    "description": "Real-time developer-first security scanning powered by DeepCode AI that finds and fixes vulnerabilities as you type.",
+    "fullOverview": "Snyk Code utilizes DeepCode AI to scan source code for security vulnerabilities and licensing issues in real time. Trained on millions of security fixes and curated by top security researchers, it suggests verified 1-click patches directly inside IDEs and pull requests.",
+    "website": "https://snyk.io/product/snyk-code",
+    "logoImageUrl": "https://snyk.io/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1510511459019-5dee997dd1db?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "DeepCode AI engine trained on vetted security commits",
+      "Real-time in-IDE vulnerability scanning",
+      "Automated 1-click pull request remediation",
+      "OWASP Top 10 and SANS Top 25 vulnerability detection",
+      "Zero customer code used for public model training"
+    ],
+    "pros": [
+      "Instant scanning speed compared to legacy SAST tools",
+      "Accurate actionable fixes, not just alarm warnings",
+      "Seamless developer adoption within VS Code and JetBrains"
+    ],
+    "cons": [
+      "Free tier has monthly test limits",
+      "Enterprise pricing scales with developer headcount"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "VS Code",
+      "JetBrains",
+      "GitHub",
+      "CLI"
+    ],
+    "tags": [
+      "snyk",
+      "appsec",
+      "security-scanner",
+      "vulnerabilities",
+      "deepcode"
+    ],
+    "useCases": [
+      "Preventing zero-day vulnerabilities in PRs",
+      "Secure coding compliance",
+      "Real-time IDE auditing"
+    ],
+    "bestFor": [
+      "AppSec Engineers",
+      "Full-Stack Developers",
+      "Security Compliance Officers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "langchain",
+    "name": "LangChain",
+    "slug": "langchain",
+    "category": "ai-development",
+    "subCategory": "developer-utilities",
+    "description": "The standard open-source framework for developing, orchestrating, and deploying applications powered by language models.",
+    "fullOverview": "LangChain provides the building blocks and orchestration layer for LLM applications. With LangGraph for stateful agent workflows, LangSmith for tracing and debugging, and hundreds of integrations with vector stores and models, it is the cornerstone of modern AI engineering.",
+    "website": "https://www.langchain.com",
+    "logoImageUrl": "https://www.langchain.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "LangGraph for stateful multi-actor agent orchestration",
+      "LangSmith observability, tracing, and evaluation",
+      "Hundreds of vector database and model connectors",
+      "Standardized document loaders and text splitters",
+      "Python and TypeScript full feature parity"
+    ],
+    "pros": [
+      "Largest AI developer ecosystem and community support",
+      "LangGraph provides industry standard agentic loops",
+      "LangSmith tracing gives unparalleled visibility into production LLM calls"
+    ],
+    "cons": [
+      "Rapid API evolution can cause version upgrade friction",
+      "High abstraction layer can feel dense for very simple single-prompt tasks"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Python",
+      "TypeScript",
+      "Cloud"
+    ],
+    "tags": [
+      "langchain",
+      "langgraph",
+      "agents",
+      "llm-framework",
+      "rag"
+    ],
+    "useCases": [
+      "Production RAG systems",
+      "Stateful autonomous agents",
+      "LLM observability & tracing"
+    ],
+    "bestFor": [
+      "AI Engineers",
+      "Machine Learning Developers",
+      "Data Scientists"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "llamaindex",
+    "name": "LlamaIndex",
+    "slug": "llamaindex",
+    "category": "ai-development",
+    "subCategory": "developer-utilities",
+    "description": "Data framework for LLMs providing data connectors, ingestion pipelines, advanced indexing, and query engines for RAG.",
+    "fullOverview": "LlamaIndex (formerly GPT Index) is the premier data framework for connecting custom enterprise data sources to large language models. It provides specialized tools for data ingestion, semantic parsing, hybrid vector/keyword search, and advanced multi-document RAG.",
+    "website": "https://www.llamaindex.ai",
+    "logoImageUrl": "https://www.llamaindex.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "LlamaParse for state-of-the-art complex PDF parsing",
+      "160+ data connectors via LlamaHub",
+      "Advanced hierarchical and hybrid indexing algorithms",
+      "Evaluation benchmarks for retrieval precision",
+      "Python and TypeScript developer SDKs"
+    ],
+    "pros": [
+      "Unmatched parsing quality for complex tables and charts with LlamaParse",
+      "Highest retrieval accuracy for complex technical manuals and financial PDFs",
+      "Active developer community and documentation"
+    ],
+    "cons": [
+      "LlamaParse cloud service costs apply for high PDF volume",
+      "Focused strictly on data retrieval/RAG rather than generic agents"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Python",
+      "TypeScript",
+      "Cloud"
+    ],
+    "tags": [
+      "rag",
+      "vector-index",
+      "llamaparse",
+      "retrieval",
+      "data-framework"
+    ],
+    "useCases": [
+      "Enterprise knowledge retrieval",
+      "Financial PDF analysis",
+      "Multi-source RAG search"
+    ],
+    "bestFor": [
+      "RAG Architects",
+      "Data Engineers",
+      "Enterprise Developers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "vllm",
+    "name": "vLLM",
+    "slug": "vllm",
+    "category": "ai-development",
+    "subCategory": "developer-utilities",
+    "description": "High-throughput and memory-efficient LLM serving engine with PagedAttention for maximum GPU inference performance.",
+    "fullOverview": "vLLM is an open-source library for fast and flexible LLM inference and serving. Developed at UC Berkeley, its PagedAttention algorithm achieves 2-4x higher throughput than Hugging Face TGI by drastically reducing KV-cache memory waste and enabling continuous request batching.",
+    "website": "https://github.com/vllm-project/vllm",
+    "logoImageUrl": "https://vllm.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "PagedAttention for near-zero KV-cache memory waste",
+      "Continuous batching of incoming requests",
+      "OpenAI-compatible HTTP serving endpoint",
+      "Quantization support (AWQ, GPTQ, FP8, SqueezeLLM)",
+      "Distributed tensor parallelism for multi-GPU serving"
+    ],
+    "pros": [
+      "Industry standard for self-hosted GPU LLM inference",
+      "Massive throughput boost dramatically slashes cloud compute bills",
+      "Drop-in replacement for OpenAI API endpoints"
+    ],
+    "cons": [
+      "Requires modern NVIDIA GPU infrastructure (Ampere, Hopper, Ada)",
+      "Requires operational expertise in Linux and CUDA management"
+    ],
+    "pricingModel": "Free",
+    "platforms": [
+      "Linux",
+      "Docker",
+      "CUDA"
+    ],
+    "tags": [
+      "inference",
+      "gpu-serving",
+      "pagedattention",
+      "llm-serving",
+      "open-source"
+    ],
+    "useCases": [
+      "Self-hosting open models (Llama 3, Mistral)",
+      "High-volume production API hosting",
+      "Reducing cloud GPU spend"
+    ],
+    "bestFor": [
+      "MLOps Engineers",
+      "Infrastructure Developers",
+      "AI Platform Leads"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "huggingface-hub",
+    "name": "Hugging Face Hub",
+    "slug": "huggingface-hub",
+    "category": "ai-development",
+    "subCategory": "developer-utilities",
+    "description": "The GitHub of machine learning: host, discover, and collaborate on models, datasets, and ML application spaces.",
+    "fullOverview": "Hugging Face Hub is the central destination for open-source machine learning. It hosts over 500,000 models, 100,000 datasets, and interactive Spaces demos. With Transformers, Diffusers, and Inference Endpoints, it powers the global AI open-source revolution.",
+    "website": "https://huggingface.co",
+    "logoImageUrl": "https://huggingface.co/front/assets/huggingface_logo-noborder.svg",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1534972195531-a756b1126f24?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Git-based hosting for model weights and datasets",
+      "Hugging Face Spaces for instant Streamlit & Gradio demos",
+      "Inference Endpoints for 1-click production model deployments",
+      "Transformers and Diffusers Python libraries",
+      "Open LLM Leaderboard for competitive model benchmarking"
+    ],
+    "pros": [
+      "Indisputable epicenter of open-source AI community and research",
+      "Every major open-weights model is released on HF first",
+      "Effortless 1-click cloud deployments on enterprise hardware"
+    ],
+    "cons": [
+      "Dedicated GPU hardware endpoints incur hourly cloud charges",
+      "Huge variety of models requires careful vetting of weights"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "CLI",
+      "Python"
+    ],
+    "tags": [
+      "hugging-face",
+      "model-hub",
+      "transformers",
+      "open-source-ai",
+      "datasets"
+    ],
+    "useCases": [
+      "Discovering open-weights models",
+      "Fine-tuning & model distribution",
+      "Hosting interactive AI demos"
+    ],
+    "bestFor": [
+      "Machine Learning Researchers",
+      "AI Engineers",
+      "Data Scientists"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "groq-cloud",
+    "name": "GroqCloud",
+    "slug": "groq-cloud",
+    "category": "ai-development",
+    "subCategory": "developer-utilities",
+    "description": "Ultra-fast LPU inference platform running open-source models at 500+ tokens per second with near-instant latency.",
+    "fullOverview": "GroqCloud delivers lightning-fast inference powered by the Groq LPU (Language Processing Unit). Designed specifically for sequential compute, Groq serves models like Llama 3 and Mixtral at speeds exceeding 500 tokens per second, enabling real-time voice and agentic experiences.",
+    "website": "https://groq.com",
+    "logoImageUrl": "https://groq.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "500+ tokens per second inference speeds",
+      "Groq LPU tensor architecture",
+      "OpenAI-compatible API format",
+      "Ultra-fast Whisper speech-to-text transcription",
+      "Generous developer free tier with instant onboarding"
+    ],
+    "pros": [
+      "Fastest LLM inference engine in the world",
+      "Enables truly real-time conversational agents and voice bots",
+      "Extremely economical pricing compared to legacy GPU clouds"
+    ],
+    "cons": [
+      "Focused strictly on open-weights models supported on LPUs",
+      "Rate limits on free tier during heavy traffic"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "API",
+      "Web Console"
+    ],
+    "tags": [
+      "lpu",
+      "ultra-fast",
+      "groq",
+      "inference",
+      "real-time"
+    ],
+    "useCases": [
+      "Real-time voice assistants",
+      "Ultra-fast autonomous agent loops",
+      "Sub-second search synthesis"
+    ],
+    "bestFor": [
+      "Agent Developers",
+      "Real-Time App Builders",
+      "AI Engineers"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
   }
 ]

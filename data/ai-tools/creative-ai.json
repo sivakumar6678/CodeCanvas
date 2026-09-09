@@ -171,11 +171,14 @@
     "id": "tool-3",
     "name": "Midjourney",
     "slug": "midjourney",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
-    "banner": "https://images.unsplash.com/photo-1678483788775-81cc3f721ea7?w=1200&q=80",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
     "description": "An independent research lab exploring new mediums of thought and expanding the imaginative powers of the human species.",
-    "overview": "Midjourney is a generative AI program and service created and hosted by a San Francisco-based independent research lab. Midjourney generates images from natural language descriptions, called prompts, similar to OpenAI's DALL-E and Stable Diffusion.",
-    "features": [
+    "fullOverview": "Midjourney is a generative AI program and service created and hosted by a San Francisco-based independent research lab. Midjourney generates images from natural language descriptions, called prompts, similar to OpenAI's DALL-E and Stable Diffusion.",
+    "website": "https://midjourney.com",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1678483788775-81cc3f721ea7?w=1200&q=80",
+    "keyFeatures": [
       "High-fidelity image generation",
       "Varying styles and artist emulation",
       "Upscaling and variations",
@@ -191,12 +194,8 @@
       "No free tier available anymore",
       "Steep learning curve for advanced prompting"
     ],
-    "website": "https://midjourney.com",
-    "category": "creative-ai",
-    "subCategory": "image-generation",
-    "pricing": "Paid",
-    "freeTrial": false,
-    "platform": [
+    "pricingModel": "Paid",
+    "platforms": [
       "Discord",
       "Web"
     ],
@@ -217,20 +216,892 @@
     "featured": true,
     "new": false,
     "verified": true,
-    "createdDate": "2026-07-10T00:00:00.000Z",
+    "hasFree": false,
+    "createdDate": "2026-07-10T00:00:00.000Z"
+  },
+  {
+    "id": "stable-diffusion",
+    "name": "Stable Diffusion",
+    "slug": "stable-diffusion",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
+    "description": "Pioneering open-weights text-to-image foundation model by Stability AI for photorealistic art and visual synthesis.",
+    "fullOverview": "Stable Diffusion (SDXL and SD3) by Stability AI is the world's leading open-weights generative image model. With ComfyUI and Automatic1111 web UIs, creators have unmatched control over ControlNet poses, LoRAs, inpainting, and local private GPU generation.",
+    "website": "https://stability.ai",
+    "logoImageUrl": "https://stability.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Open-weights model weights for local GPU execution",
+      "ControlNet for exact depth, pose, and line-art guidance",
+      "LoRA training for custom characters and styles",
+      "High-resolution multi-modal prompt comprehension",
+      "API access via Stability Developer Platform"
+    ],
+    "pros": [
+      "100% private, local generation without content censorship gates",
+      "Massive global community of LoRAs and checkpoints on Civitai",
+      "Complete parameter control via node-based ComfyUI"
+    ],
+    "cons": [
+      "Requires dedicated high-VRAM NVIDIA GPU for local generation",
+      "ComfyUI has a steep learning curve for beginners"
+    ],
+    "pricingModel": "Free",
     "platforms": [
-      "Discord",
+      "Local GPU",
+      "Web",
+      "API",
+      "ComfyUI"
+    ],
+    "tags": [
+      "stable-diffusion",
+      "open-weights",
+      "controlnet",
+      "text-to-image",
+      "comfyui"
+    ],
+    "useCases": [
+      "Concept art generation",
+      "Product photography rendering",
+      "Custom character design"
+    ],
+    "bestFor": [
+      "Concept Artists",
+      "Game Designers",
+      "Creative Technologists"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "dalle-3",
+    "name": "DALL-E 3",
+    "slug": "dalle-3",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
+    "description": "OpenAI's frontier text-to-image system with nuanced prompt following and accurate in-image typography.",
+    "fullOverview": "DALL-E 3 by OpenAI transforms complex natural language ideas into crisp, imaginative visual artwork. Deeply integrated with ChatGPT, it understands long descriptive prompts effortlessly, renders legible text inside images, and supports iterative conversational inpainting.",
+    "website": "https://openai.com/dall-e-3",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Exceptional prompt adherence and nuance",
+      "Accurate text and letter rendering within images",
+      "Interactive conversational inpainting via ChatGPT",
+      "Safety and copyright watermarking (C2PA standard)",
+      "Enterprise API access for programmatic generation"
+    ],
+    "pros": [
+      "Easiest image model to prompt accurately without prompt engineering hacks",
+      "Handles multi-character compositions and specific text rendering brilliantly",
+      "Seamlessly accessible inside ChatGPT Plus and Microsoft Copilot"
+    ],
+    "cons": [
+      "Strict safety filtering can reject benign surreal prompts",
+      "Fewer stylistic knob adjustments compared to Midjourney"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS",
+      "Android",
+      "API"
+    ],
+    "tags": [
+      "dalle-3",
+      "openai",
+      "text-to-image",
+      "chatgpt",
+      "typography"
+    ],
+    "useCases": [
+      "Blog illustration",
+      "Social media visuals",
+      "Creative concept ideation"
+    ],
+    "bestFor": [
+      "Content Creators",
+      "Marketers",
+      "Storytellers"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "leonardo-ai",
+    "name": "Leonardo.Ai",
+    "slug": "leonardo-ai",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
+    "description": "Full-suite generative production platform with fine-tuned models, real-time canvas, and 3D texture generation.",
+    "fullOverview": "Leonardo.Ai empowers visual artists, game studios, and designers with specialized fine-tuned models (Phoenix, Kino, Anime), a Realtime Canvas for instant brush-to-art generation, universal upscalers, and custom model training workflows.",
+    "website": "https://leonardo.ai",
+    "logoImageUrl": "https://leonardo.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Leonardo Phoenix high-coherence visual model",
+      "Realtime Canvas with instantaneous generation",
+      "Fine-tuned custom model training on user art",
+      "Universal Upscaler with detail restoration",
+      "3D texture and UV map generation"
+    ],
+    "pros": [
+      "Generous daily free token allowance that resets every 24 hours",
+      "Astonishing production control tailored for game assets and digital art",
+      "Instant real-time drawing canvas is deeply addictive and useful"
+    ],
+    "cons": [
+      "Advanced upscaling features consume substantial tokens",
+      "Subscription required for private non-public generations"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS"
+    ],
+    "tags": [
+      "game-assets",
+      "digital-art",
+      "realtime-canvas",
+      "concept-art",
+      "leonardo"
+    ],
+    "useCases": [
+      "Game concept art",
+      "Texture mapping",
+      "Marketing asset generation"
+    ],
+    "bestFor": [
+      "Game Artists",
+      "Digital Illustrators",
+      "Asset Creators"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "ideogram",
+    "name": "Ideogram",
+    "slug": "ideogram",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
+    "description": "Generative image platform renowned for typography, graphic design layouts, and photorealistic poster rendering.",
+    "fullOverview": "Ideogram solves the hardest challenge in generative AI: consistent, beautiful typography. With Ideogram 2.0, designers create graphic t-shirts, typographic posters, logos, and editorial covers with flawless spelling, kerning, and color palettes.",
+    "website": "https://ideogram.ai",
+    "logoImageUrl": "https://ideogram.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "State-of-the-art in-image typography and spelling precision",
+      "Magic Prompt feature for automated prompt expansion",
+      "Graphic design, anime, illustration, and realistic styles",
+      "Color palette controls and aspect ratio customization",
+      "Public community inspiration feed"
+    ],
+    "pros": [
+      "Undisputed leader in rendering complex text and typography in images",
+      "Produces graphic design layouts that look human-crafted",
+      "Daily free generation credits for all registered users"
+    ],
+    "cons": [
+      "Free tier generations are visible in public community feed",
+      "Can take 15-30 seconds per generation batch"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS"
+    ],
+    "tags": [
+      "typography",
+      "graphic-design",
+      "posters",
+      "t-shirt-design",
+      "ideogram"
+    ],
+    "useCases": [
+      "Typographic posters",
+      "Logo design ideation",
+      "Print-on-demand merchandise"
+    ],
+    "bestFor": [
+      "Graphic Designers",
+      "Merchandise Creators",
+      "Brand Designers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "flux-ai",
+    "name": "FLUX.1 (Black Forest Labs)",
+    "slug": "flux-ai",
+    "category": "creative-ai",
+    "subCategory": "image-generation",
+    "description": "Frontier 12-billion parameter text-to-image suite setting new benchmarks in visual quality, anatomy, and prompt adherence.",
+    "fullOverview": "FLUX.1 by Black Forest Labs (created by the original Stable Diffusion inventors) is a 12-billion parameter rectified flow transformer. Available in schnell, dev, and pro variants, it dominates open benchmarks for realistic human anatomy, hands, lighting, and diverse styles.",
+    "website": "https://blackforestlabs.ai",
+    "logoImageUrl": "https://blackforestlabs.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "12B parameter rectified flow transformer architecture",
+      "Superior anatomical realism (hands, facial micro-expressions)",
+      "FLUX [schnell] for ultra-fast 4-step local generation",
+      "FLUX [dev] open-weights for non-commercial research and LoRAs",
+      "FLUX [pro] API for maximum enterprise visual fidelity"
+    ],
+    "pros": [
+      "Highest photorealism and anatomy quality currently available in AI image generation",
+      "Open weights available for local generation with LoRA ecosystem",
+      "Schnell version generates in 4 steps with astonishing speed"
+    ],
+    "cons": [
+      "Dev/pro variants require significant GPU VRAM (16GB+ recommended)",
+      "Pro variant is accessible exclusively via paid API"
+    ],
+    "pricingModel": "Free / Freemium",
+    "platforms": [
+      "Local GPU",
+      "Web",
+      "API",
+      "ComfyUI"
+    ],
+    "tags": [
+      "flux",
+      "black-forest-labs",
+      "rectified-flow",
+      "photorealism",
+      "open-weights"
+    ],
+    "useCases": [
+      "Photorealistic portraits",
+      "Commercial advertising campaigns",
+      "Hyper-realistic product shoots"
+    ],
+    "bestFor": [
+      "Art Directors",
+      "Photographers",
+      "AI Researchers"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "recraft-ai",
+    "name": "Recraft AI",
+    "slug": "recraft-ai",
+    "category": "creative-ai",
+    "subCategory": "graphic-design",
+    "description": "Design canvas generating editable vector art (SVG), 3D graphics, icon sets, and illustrations with unified brand styles.",
+    "fullOverview": "Recraft AI is built specifically for professional designers. It generates infinite-resolution vector SVGs, 3D illustrations, app icon sets, and brand visual kits. Designers can define a color palette, ensure brand consistency across 50+ assets, and edit vector anchor points directly.",
+    "website": "https://www.recraft.ai",
+    "logoImageUrl": "https://www.recraft.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Infinite-resolution vector SVG generation and export",
+      "Consistent style palette lock across multiple asset batches",
+      "Direct in-canvas vector node and path editing",
+      "App store icon and brand kit generator",
+      "Layered vector export for Figma and Illustrator"
+    ],
+    "pros": [
+      "Generates genuine editable SVGs with clean paths, not just rasterized tracings",
+      "Style-locking allows complete matching icon and illustration libraries",
+      "Seamless copy-paste into Figma"
+    ],
+    "cons": [
+      "Less focused on photorealistic human photos than Midjourney",
+      "Commercial SVG export requires active subscription"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "macOS",
+      "Windows"
+    ],
+    "tags": [
+      "vector-art",
+      "svg-generator",
+      "icon-sets",
+      "figma",
+      "branding"
+    ],
+    "useCases": [
+      "App icon design",
+      "SaaS landing page illustrations",
+      "Vector logo concepts"
+    ],
+    "bestFor": [
+      "UI/UX Designers",
+      "Brand Strategists",
+      "Design Systems Engineers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "runway-gen3",
+    "name": "Runway (Gen-3 Alpha)",
+    "slug": "runway-gen3",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "Industry-leading video generation model offering cinematic photorealism, precise camera motions, and director tools.",
+    "fullOverview": "Runway Gen-3 Alpha is a foundational video model capable of generating high-fidelity cinematic video clips from text or image prompts. Filmmakers and animators use its Motion Brush, camera control, and lip-sync features to produce broadcast-quality clips and visual effects.",
+    "website": "https://runwayml.com",
+    "logoImageUrl": "https://runwayml.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Gen-3 Alpha cinematic video generation",
+      "Motion Brush for targeted multi-region animation",
+      "Camera control (pan, tilt, zoom, dolly, roll)",
+      "Text-to-video, image-to-video, and video-to-video",
+      "Integrated AI audio, voiceover, and lip sync"
+    ],
+    "pros": [
+      "Hollywood-grade physics, lighting, and camera motion coherence",
+      "Unmatched directorial control over which parts of the frame move",
+      "Web-based editing studio with comprehensive timeline features"
+    ],
+    "cons": [
+      "Video generation consumes credits rapidly",
+      "Generation queues can experience latency during heavy demand"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS"
+    ],
+    "tags": [
+      "video-generation",
+      "gen-3",
+      "runway",
+      "filmmaking",
+      "motion-brush"
+    ],
+    "useCases": [
+      "Commercial cinematic b-roll",
+      "Music videos",
+      "VFX pre-visualization"
+    ],
+    "bestFor": [
+      "Filmmakers",
+      "Video Editors",
+      "VFX Artists"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "pika-labs",
+    "name": "Pika Labs",
+    "slug": "pika-labs",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "Creative video platform turning ideas and still images into dynamic 3D animations, cinematic clips, and special effects.",
+    "fullOverview": "Pika is an idea-to-video platform that makes video generation fun, accessible, and cinematic. With features like Pikaffects (inflate, melt, crush, explode), lip sync, region modification, and sound effect generation, Pika brings static creative assets to life.",
+    "website": "https://pika.art",
+    "logoImageUrl": "https://pika.art/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Pikaffects (melt, crush, explode, inflate physics effects)",
+      "Modify region canvas for in-painting video areas",
+      "Image-to-video with automated sound effects",
+      "Accurate Lip Sync synchronized to voice audio",
+      "Camera movement controls (pan, zoom, orbit)"
+    ],
+    "pros": [
+      "Viral, innovative creative video effects (Pikaffects)",
+      "Generates matching sound effects automatically with video clips",
+      "Smooth intuitive user interface on web"
+    ],
+    "cons": [
+      "Standard video clips are capped at 3 to 4 seconds before extensions",
+      "Watermarking on free tier downloads"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
       "Web"
     ],
-    "pricingModel": "Paid",
-    "keyFeatures": [
-      "High-fidelity image generation",
-      "Varying styles and artist emulation",
-      "Upscaling and variations",
-      "Discord integration"
+    "tags": [
+      "video-effects",
+      "animation",
+      "pika",
+      "pikaffects",
+      "sound-fx"
     ],
-    "fullOverview": "Midjourney is a generative AI program and service created and hosted by a San Francisco-based independent research lab. Midjourney generates images from natural language descriptions, called prompts, similar to OpenAI's DALL-E and Stable Diffusion.",
-    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Midjourney_Emblem.png",
-    "bannerImageUrl": "https://images.unsplash.com/photo-1678483788775-81cc3f721ea7?w=1200&q=80"
+    "useCases": [
+      "Viral social media video hooks",
+      "Product animation effects",
+      "Animated storytelling"
+    ],
+    "bestFor": [
+      "Social Media Creators",
+      "Animators",
+      "Brand Marketers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "luma-dream-machine",
+    "name": "Luma Dream Machine",
+    "slug": "luma-dream-machine",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "High-speed AI video model generating realistic, physically consistent shots with camera movements from text and images.",
+    "fullOverview": "Dream Machine by Luma AI is a foundational video model capable of generating high-definition, physically consistent 5-second video shots at rapid speeds. It understands real-world camera kinematics, character continuity, and lighting physics.",
+    "website": "https://lumalabs.ai/dream-machine",
+    "logoImageUrl": "https://lumalabs.ai/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Ultra-fast cinematic 5-second video rendering",
+      "Physically consistent world physics and lighting",
+      "Seamless multi-clip camera motion extensions",
+      "Text-to-video and keyframe-to-video animation",
+      "High character continuity across extended shots"
+    ],
+    "pros": [
+      "Remarkable physical realism and camera fluidity",
+      "Very fast generation times compared to traditional video diffusion",
+      "Generous free monthly generation allotment"
+    ],
+    "cons": [
+      "Can struggle with fast, complex limb movements",
+      "High traffic can cause queue delays"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "dream-machine",
+      "luma-ai",
+      "video-generation",
+      "physics-simulation",
+      "cinematography"
+    ],
+    "useCases": [
+      "Cinematic establishing shots",
+      "Camera fly-through animations",
+      "Rapid film storyboarding"
+    ],
+    "bestFor": [
+      "Cinematographers",
+      "Creative Directors",
+      "Storyboard Artists"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "sora-ai",
+    "name": "Sora",
+    "slug": "sora-ai",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "OpenAI's world simulator video model generating up to 60 seconds of high-definition video with physical consistency.",
+    "fullOverview": "Sora is OpenAI's breakthrough text-to-video model that operates as a world simulator. It generates up to minute-long videos while maintaining visual quality, complex multi-character tracking, realistic background persistence, and accurate physics simulations.",
+    "website": "https://openai.com/sora",
+    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Generates videos up to 60 seconds in duration",
+      "Diffusion transformer architecture operating on spacetime patches",
+      "Complex multi-character physical persistence and motion tracking",
+      "Understands real-world physics and camera angles",
+      "Deep integration with OpenAI creative tools suite"
+    ],
+    "pros": [
+      "Unmatched duration (up to 60s) with coherent character continuity",
+      "Understands how objects interact in 3D spacetime",
+      "Stunning cinematic fidelity across diverse lenses and aspect ratios"
+    ],
+    "cons": [
+      "High compute demand limits widespread availability",
+      "Occasional physical anomalies with complex causal interactions"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "sora",
+      "openai",
+      "world-simulator",
+      "text-to-video",
+      "cinematic"
+    ],
+    "useCases": [
+      "Film and commercial production",
+      "Architectural walkthroughs",
+      "Educational video simulations"
+    ],
+    "bestFor": [
+      "Film Studios",
+      "Creative Agencies",
+      "Hollywood Animators"
+    ],
+    "featured": true,
+    "new": true,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "kling-ai",
+    "name": "Kling AI",
+    "slug": "kling-ai",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "High-definition video generation model producing 1080p clips up to 2 minutes with 3D space-time attention.",
+    "fullOverview": "Kling AI (by Kuaishou) is an AI video generator based on 3D Spatiotemporal Joint Attention. It simulates real-world physical properties, generating up to 2-minute 1080p video clips at 30fps with accurate facial expressions and natural human motion.",
+    "website": "https://klingai.com",
+    "logoImageUrl": "https://klingai.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "1080p high definition output at 30fps",
+      "Video generation up to 2 minutes with prompt extensions",
+      "3D space-time joint attention simulation",
+      "Multi-aspect ratio support (16:9, 9:16, 1:1)",
+      "Motion brush and camera trajectory controls"
+    ],
+    "pros": [
+      "Phenomenal realism in human eating, drinking, and close-up movements",
+      "Smooth 30 frames-per-second motion with minimal stuttering",
+      "Generous daily login credits for free users"
+    ],
+    "cons": [
+      "Queue processing times can increase during peak Asian/US overlap hours",
+      "Interface features are continually evolving"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "kling-ai",
+      "3d-attention",
+      "1080p-video",
+      "motion-brush",
+      "high-fps"
+    ],
+    "useCases": [
+      "Realistic human video clips",
+      "Product commercials",
+      "Social media storytelling"
+    ],
+    "bestFor": [
+      "Commercial Producers",
+      "Content Creators",
+      "Visual Storytellers"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "heygen",
+    "name": "HeyGen",
+    "slug": "heygen",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "AI video generation platform creating hyper-realistic talking avatars, video translations, and personalized video campaigns.",
+    "fullOverview": "HeyGen produces studio-quality video presentations with AI avatars and synthetic voiceovers. Teams produce corporate training, sales outreach, and localized global videos in 175+ languages with automated voice cloning and natural lip synchronization.",
+    "website": "https://www.heygen.com",
+    "logoImageUrl": "https://assets-global.website-files.com/63c5a7dd0e74744d18721c56/63e150f8fb086603a1fc6c5d_favicon.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Custom photo and studio video avatar creation",
+      "Video translation with automatic voice cloning and lip matching",
+      "175+ languages and dialects supported",
+      "Interactive Streaming Avatar API for real-time web agents",
+      "Zapier, HubSpot, and Canva workflow integrations"
+    ],
+    "pros": [
+      "Highest fidelity lip sync and facial micro-expressions on avatars",
+      "Translating a video into 10 languages takes under 5 minutes",
+      "Interactive Streaming Avatar API powers real-time conversational agents"
+    ],
+    "cons": [
+      "Video credit minutes can feel limited on entry-level plans",
+      "Enterprise avatars require identity verification and setup fees"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API",
+      "Canva Plugin"
+    ],
+    "tags": [
+      "ai-avatar",
+      "video-translation",
+      "lip-sync",
+      "voice-cloning",
+      "sales-video"
+    ],
+    "useCases": [
+      "Enterprise training modules",
+      "Personalized sales prospecting",
+      "Global video localization"
+    ],
+    "bestFor": [
+      "Corporate L&D Teams",
+      "Sales SDRs",
+      "Global Marketing Teams"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "synthesia",
+    "name": "Synthesia",
+    "slug": "synthesia",
+    "category": "creative-ai",
+    "subCategory": "video-creation",
+    "description": "Enterprise AI video communications platform turning docs and scripts into engaging training videos with AI avatars.",
+    "fullOverview": "Synthesia is the enterprise standard for AI video creation. Trusted by over 50% of the Fortune 100, it transforms PDFs, technical docs, and training manuals into polished video courses with over 160 photorealistic diverse avatars and 140+ voice accents.",
+    "website": "https://www.synthesia.io",
+    "logoImageUrl": "https://assets-global.website-files.com/61dc0796f359b6145bcbaa66/621644d5c4be4b55be91e920_favicon-32x32.png",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "160+ diverse expressive AI avatars",
+      "140+ languages and localized accents",
+      "AI Screen Recorder and video editor",
+      "SOC 2 Type II and ISO/IEC 27001 compliance",
+      "Custom enterprise avatar synthesis"
+    ],
+    "pros": [
+      "Strict enterprise security compliance and brand safety guidelines",
+      "Eliminates expensive film crews, cameras, and studio rentals",
+      "Updating a training video is as simple as editing a text doc"
+    ],
+    "cons": [
+      "Annual enterprise commitment needed for custom studio avatars",
+      "Avatars have fixed positioning on video slides"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "enterprise-video",
+      "training-videos",
+      "ai-presenter",
+      "soc2",
+      "synthesia"
+    ],
+    "useCases": [
+      "Employee onboarding courses",
+      "Customer support tutorials",
+      "Internal compliance training"
+    ],
+    "bestFor": [
+      "Enterprise Training Teams",
+      "HR Leaders",
+      "Customer Success Teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "elevenlabs",
+    "name": "ElevenLabs",
+    "slug": "elevenlabs",
+    "category": "creative-ai",
+    "subCategory": "audio-music",
+    "description": "Premier AI voice generator with emotive text-to-speech, instant voice cloning, and real-time conversational agents.",
+    "fullOverview": "ElevenLabs leads the synthetic voice revolution with emotive text-to-speech across 32 languages. Creators, game developers, and enterprises use its Voice Library, instant voice cloning, AI Dubbing studio, and low-latency Conversational AI agent API.",
+    "website": "https://elevenlabs.io",
+    "logoImageUrl": "https://elevenlabs.io/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Emotional and contextual voice synthesis with nuance",
+      "Instant and professional voice cloning from short audio clips",
+      "Conversational AI Agent SDK with sub-500ms latency",
+      "AI Dubbing studio with automated speaker translation",
+      "AI Sound Effects generator from natural language prompts"
+    ],
+    "pros": [
+      "Most realistic and emotionally expressive voice synthesis in the industry",
+      "Extensive community Voice Library with thousands of voice profiles",
+      "Conversational Agent SDK makes building voice bots effortless"
+    ],
+    "cons": [
+      "Voice generation characters deplete rapidly on long audiobooks",
+      "Professional voice cloning requires microphone verification"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API",
+      "iOS",
+      "Android"
+    ],
+    "tags": [
+      "voice-generator",
+      "text-to-speech",
+      "voice-cloning",
+      "dubbing",
+      "elevenlabs"
+    ],
+    "useCases": [
+      "Audiobook narration",
+      "Video game voice acting",
+      "Real-time voice assistant bots"
+    ],
+    "bestFor": [
+      "Game Audio Designers",
+      "Podcasters",
+      "Voice App Developers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "suno-ai",
+    "name": "Suno AI",
+    "slug": "suno-ai",
+    "category": "creative-ai",
+    "subCategory": "audio-music",
+    "description": "Generative music platform creating radio-ready full-length songs with vocals, instruments, and lyrics from text.",
+    "fullOverview": "Suno AI generates complete, broadcast-quality songs in any genre directly from simple text descriptions. It composes lyrics, crafts musical arrangements, and synthesizes singing vocals across rock, jazz, pop, EDM, hip-hop, and orchestral music.",
+    "website": "https://suno.com",
+    "logoImageUrl": "https://suno.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "Generates full 2+ minute songs with verse-chorus structure",
+      "Vocal synthesis across diverse genres and languages",
+      "Custom lyrics input and structure tagging ([Verse], [Chorus])",
+      "Stem separation and audio remixing features",
+      "Commercial usage rights for Pro and Premier subscribers"
+    ],
+    "pros": [
+      "Astonishing musical quality that genuinely sounds like studio recordings",
+      "Generates complete tracks in under 30 seconds",
+      "50 free daily generation credits for all registered accounts"
+    ],
+    "cons": [
+      "Occasional minor audio compression artifacts in vocal highs",
+      "Free tier songs cannot be monetized commercially on Spotify"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "iOS"
+    ],
+    "tags": [
+      "music-generation",
+      "suno",
+      "songwriting",
+      "vocals",
+      "audio-ai"
+    ],
+    "useCases": [
+      "Custom soundtrack creation",
+      "Jingle production",
+      "Creative songwriting inspiration"
+    ],
+    "bestFor": [
+      "Musicians",
+      "Video Creators",
+      "Game Soundtrack Designers"
+    ],
+    "featured": true,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "udio-ai",
+    "name": "Udio",
+    "slug": "udio-ai",
+    "category": "creative-ai",
+    "subCategory": "audio-music",
+    "description": "High-fidelity AI music creation app with granular track extension, stem downloads, and complex musical arrangements.",
+    "fullOverview": "Udio is an AI music generation platform built by former DeepMind researchers. It stands out for its audio fidelity, dynamic range, and musical sophistication. Musicians can extend songs backwards and forwards, adjust intro/outro dynamics, and download separated stems.",
+    "website": "https://www.udio.com",
+    "logoImageUrl": "https://www.udio.com/favicon.ico",
+    "bannerImageUrl": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1200&auto=format&fit=crop&q=80",
+    "keyFeatures": [
+      "High-fidelity audio synthesis engine with rich dynamic range",
+      "Bidirectional track extensions (add intros, bridges, and outros)",
+      "Audio inpainting to replace specific bars and vocal phrases",
+      "Stem download capabilities (vocals, bass, drums, instruments)",
+      "Audio-to-audio prompting and uploaded sample extension"
+    ],
+    "pros": [
+      "Audiophile-grade clarity and stereo depth in generated tracks",
+      "Inpainting allows fixing a single bad lyric without regenerating the song",
+      "Stem downloads allow fine-tuning mixes inside standard DAWs (Ableton, Logic)"
+    ],
+    "cons": [
+      "Steeper learning curve than Suno for non-musicians",
+      "Extensions take a few iterations to match musical key seamlessly"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "music-synthesis",
+      "audio-stems",
+      "udio",
+      "inpainting",
+      "high-fidelity"
+    ],
+    "useCases": [
+      "Producing full music tracks",
+      "Extracting vocal stems for remixes",
+      "Film scoring"
+    ],
+    "bestFor": [
+      "Music Producers",
+      "Audio Engineers",
+      "Songwriters"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-09T00:00:00.000Z"
   }
 ]
