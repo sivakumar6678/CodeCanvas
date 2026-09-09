@@ -11,7 +11,7 @@ const navigation = [
   { href: '/studio', label: 'Overview', icon: FiGrid, exact: true },
   { href: '/studio/tools', label: 'AI Tools', icon: FiBox },
   { href: '/studio/knowledge', label: 'AI Knowledge', icon: FiBookOpen },
-  { href: '/studio/suggestions', label: 'Suggestions', icon: FiMessageSquare },
+  { href: '/studio/contributions', label: 'Contributions', icon: FiMessageSquare },
   { href: '/studio/analytics', label: 'Analytics', icon: FiBarChart2 },
   { href: '/studio/users', label: 'Users', icon: FiUsers },
   { href: '/studio/settings', label: 'Settings', icon: FiSettings },

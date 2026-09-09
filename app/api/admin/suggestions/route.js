@@ -3,8 +3,14 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 import { createAdminClient } from '../../../../lib/supabase/admin';
-import { cleanTags, cleanText, validatePromptSubmission, validateToolSuggestion } from '../../../../lib/contribution-validation';
-import { getCatalogFileForCategory, getCatalogCategorySlugs } from '../../../../lib/catalog-categories';
+import {
+  cleanTags,
+  cleanText,
+  validatePromptSubmission,
+  validateToolSuggestion,
+  CONTRIBUTION_TYPES,
+} from '../../../../lib/contribution-validation';
+import { getCatalogFileForCategory } from '../../../../lib/catalog-categories';
 import { normalizeToolToCanonical, toCanonicalNames } from '../../../../lib/canonical-tool-schema';
 import { getCategories } from '../../../../lib/data-fetchers';
 
@@ -12,7 +18,11 @@ const DATA_DIR = path.join(process.cwd(), 'data', 'ai-tools');
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function slugify(value) {
-  return cleanText(value, 120).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+  return cleanText(value, 120)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80);
 }
 
 async function readCategory(category) {
@@ -42,8 +52,10 @@ async function publishTool(suggestion) {
   const tools = await readCategory(category);
   const baseSlug = slugify(suggestion.tool_name);
   if (!SAFE_SLUG.test(baseSlug)) throw new Error('Tool name cannot be converted to a valid slug');
-  
-  const slug = tools.some((tool) => tool.slug === baseSlug) ? `${baseSlug}-${Date.now().toString(36)}` : baseSlug;
+
+  const slug = tools.some((tool) => tool.slug === baseSlug)
+    ? `${baseSlug}-${Date.now().toString(36)}`
+    : baseSlug;
 
   const rawTool = {
     id: `tool-${Date.now()}`,
@@ -60,9 +72,16 @@ async function publishTool(suggestion) {
     category,
     subCategory: suggestion.subcategory || suggestion.subCategory || '',
     pricingModel: suggestion.pricingModel || suggestion.pricing || 'Free',
-    hasFree: suggestion.hasFree !== undefined ? Boolean(suggestion.hasFree) : (suggestion.pricing === 'Free' || suggestion.pricing === 'Freemium'),
-    platforms: Array.isArray(suggestion.platforms) ? suggestion.platforms : [],
-    tags: suggestion.tags || [],
+    hasFree:
+      suggestion.hasFree !== undefined
+        ? Boolean(suggestion.hasFree)
+        : suggestion.pricing === 'Free' || suggestion.pricing === 'Freemium',
+    platforms: Array.isArray(suggestion.platforms)
+      ? suggestion.platforms
+      : typeof suggestion.platforms === 'string'
+        ? suggestion.platforms.split(',').map((p) => p.trim()).filter(Boolean)
+        : ['Web'],
+    tags: Array.isArray(suggestion.tags) ? suggestion.tags : cleanTags(suggestion.tags),
     useCases: Array.isArray(suggestion.useCases) ? suggestion.useCases : [],
     bestFor: Array.isArray(suggestion.bestFor) ? suggestion.bestFor : [],
     featured: false,
@@ -87,8 +106,10 @@ async function requireAdmin() {
 export async function GET(request) {
   const access = await requireAdmin();
   if (access.response) return access.response;
+
   const categories = await getCategories();
-  const supabase = createAdminClient();
+  const adminClient = createAdminClient();
+  const supabase = adminClient || access.auth.supabase;
 
   if (!supabase) {
     return NextResponse.json({
@@ -96,60 +117,115 @@ export async function GET(request) {
       promptSubmissions: [],
       categories: categories || [],
       missingConfig: true,
-      warning: 'SUPABASE_SERVICE_ROLE_KEY is not configured in .env.local.'
+      warning: 'Supabase client is not available.',
     });
   }
 
-  const type = request.nextUrl.searchParams.get('type');
+  const type = request.nextUrl.searchParams.get('type') || 'all';
   const status = request.nextUrl.searchParams.get('status');
-  const tables = type === 'prompt' ? ['prompt_submissions'] : type === 'tool' ? ['tool_suggestions'] : ['tool_suggestions', 'prompt_submissions'];
-  
-  const results = await Promise.all(tables.map(async (table) => {
-    let builder = supabase.from(table).select('*').order('created_at', { ascending: false });
-    if (status) builder = builder.eq('status', status);
-    const { data, error } = await builder;
-    if (error) {
-      console.error(`Error querying ${table}:`, error);
-      return [];
-    }
-    return data || [];
-  }));
+  const query = request.nextUrl.searchParams.get('q')?.trim().toLowerCase() || '';
 
-  const resultByTable = Object.fromEntries(tables.map((table, index) => [table, results[index]]));
+  const includeTools = type === 'all' || type === 'tool';
+  const includePrompts = type === 'all' || type !== 'tool';
+
+  const [toolsRes, promptsRes] = await Promise.all([
+    includeTools
+      ? (async () => {
+          let b = supabase.from('tool_suggestions').select('*').order('created_at', { ascending: false });
+          if (status && status !== 'all') b = b.eq('status', status);
+          const { data, error } = await b;
+          if (error) console.error('tool_suggestions fetch error:', error);
+          return data || [];
+        })()
+      : Promise.resolve([]),
+    includePrompts
+      ? (async () => {
+          let b = supabase.from('prompt_submissions').select('*').order('created_at', { ascending: false });
+          if (status && status !== 'all') b = b.eq('status', status);
+          if (type !== 'all' && type !== 'prompt' && CONTRIBUTION_TYPES.includes(type)) {
+            b = b.eq('type', type);
+          }
+          const { data, error } = await b;
+          if (error) console.error('prompt_submissions fetch error:', error);
+          return data || [];
+        })()
+      : Promise.resolve([]),
+  ]);
+
+  let toolSuggestions = toolsRes;
+  let promptSubmissions = promptsRes;
+
+  // In-memory query filtering if search term provided
+  if (query) {
+    toolSuggestions = toolSuggestions.filter(
+      (t) =>
+        t.tool_name?.toLowerCase().includes(query) ||
+        t.description?.toLowerCase().includes(query) ||
+        t.display_name?.toLowerCase().includes(query) ||
+        (Array.isArray(t.tags) && t.tags.some((tag) => tag.toLowerCase().includes(query)))
+    );
+
+    promptSubmissions = promptSubmissions.filter(
+      (p) =>
+        p.title?.toLowerCase().includes(query) ||
+        p.description?.toLowerCase().includes(query) ||
+        p.prompt_content?.toLowerCase().includes(query) ||
+        p.display_name?.toLowerCase().includes(query) ||
+        (Array.isArray(p.tags) && p.tags.some((tag) => tag.toLowerCase().includes(query)))
+    );
+  }
+
   return NextResponse.json({
-    toolSuggestions: resultByTable.tool_suggestions || [],
-    promptSubmissions: resultByTable.prompt_submissions || [],
-    categories: categories || []
+    toolSuggestions,
+    promptSubmissions,
+    categories: categories || [],
   });
 }
 
 export async function PATCH(request) {
   const access = await requireAdmin();
   if (access.response) return access.response;
+
   const payload = await request.json().catch(() => null);
   const { type, id, action, data = {} } = payload || {};
-  if (!['tool', 'prompt'].includes(type) || !id || !['edit', 'approve', 'edit-and-approve', 'reject'].includes(action)) {
+
+  if (
+    !['tool', 'prompt'].includes(type) ||
+    !id ||
+    !['edit', 'approve', 'edit-and-approve', 'reject', 'delete'].includes(action)
+  ) {
     return NextResponse.json({ error: 'Invalid review operation' }, { status: 400 });
   }
 
-  const supabase = createAdminClient();
+  const adminClient = createAdminClient();
+  const supabase = adminClient || access.auth.supabase;
+
   if (!supabase) {
-    return NextResponse.json({ error: 'SUPABASE_SERVICE_ROLE_KEY is required to moderate suggestions.' }, { status: 503 });
+    return NextResponse.json({ error: 'Supabase database client unavailable.' }, { status: 503 });
   }
 
   const table = type === 'tool' ? 'tool_suggestions' : 'prompt_submissions';
+
+  if (action === 'delete') {
+    const { error } = await supabase.from(table).delete().eq('id', id);
+    if (error) return NextResponse.json({ error: 'Failed to delete submission' }, { status: 500 });
+    return NextResponse.json({ success: true, deletedId: id });
+  }
+
   const { data: existing, error: findError } = await supabase.from(table).select('*').eq('id', id).single();
   if (findError || !existing) return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
 
   const merged = { ...existing, ...data };
   const validationError = type === 'tool' ? validateToolSuggestion(merged) : validatePromptSubmission(merged);
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
-  
+
   const changes = {
     ...data,
     tags: cleanTags(merged.tags),
+    admin_notes: cleanText(data.admin_notes || existing.admin_notes, 1000),
     updated_at: new Date().toISOString(),
   };
+
   if (action === 'reject') changes.status = 'rejected';
   if (action === 'approve' || action === 'edit-and-approve') changes.status = 'approved';
 
@@ -161,7 +237,29 @@ export async function PATCH(request) {
       return NextResponse.json({ error: error.message || 'Unable to publish tool' }, { status: 400 });
     }
   }
+
   const { data: updated, error } = await supabase.from(table).update(changes).eq('id', id).select().single();
   if (error) return NextResponse.json({ error: 'Unable to update submission' }, { status: 500 });
   return NextResponse.json({ submission: updated });
+}
+
+export async function DELETE(request) {
+  const access = await requireAdmin();
+  if (access.response) return access.response;
+
+  const { searchParams } = new URL(request.url);
+  const type = searchParams.get('type');
+  const id = searchParams.get('id');
+
+  if (!['tool', 'prompt'].includes(type) || !id) {
+    return NextResponse.json({ error: 'Type and ID required' }, { status: 400 });
+  }
+
+  const adminClient = createAdminClient();
+  const supabase = adminClient || access.auth.supabase;
+  const table = type === 'tool' ? 'tool_suggestions' : 'prompt_submissions';
+
+  const { error } = await supabase.from(table).delete().eq('id', id);
+  if (error) return NextResponse.json({ error: 'Unable to delete submission' }, { status: 500 });
+  return NextResponse.json({ success: true, deletedId: id });
 }
