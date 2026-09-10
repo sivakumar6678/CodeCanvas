@@ -215,6 +215,16 @@ drop policy if exists "CodeCraft users delete pending prompt submissions" on pub
 create policy "CodeCraft users delete pending prompt submissions" on public.prompt_submissions
     for delete to authenticated using (auth.uid() = user_id and status = 'pending');
 
+drop policy if exists "CodeCraft admins manage all tool suggestions" on public.tool_suggestions;
+create policy "CodeCraft admins manage all tool suggestions" on public.tool_suggestions
+    for all to authenticated
+    using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
+
+drop policy if exists "CodeCraft admins manage all prompt submissions" on public.prompt_submissions;
+create policy "CodeCraft admins manage all prompt submissions" on public.prompt_submissions
+    for all to authenticated
+    using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
+
 drop policy if exists "CodeCraft users view own saved prompts" on public.saved_prompts;
 create policy "CodeCraft users view own saved prompts" on public.saved_prompts
     for select to authenticated using (auth.uid() = user_id);

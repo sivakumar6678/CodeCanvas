@@ -69,7 +69,7 @@ export default function SavedKnowledgeSection({ initialPrompts = [], onCountChan
           <FiBookmark />
           <h3>No saved AI Knowledge items yet</h3>
           <p>Save prompts, tricks, shortcuts, and techniques to your personal library.</p>
-          <Link href="/ai-prompts-tricks" className={styles.exploreButton}>
+          <Link href="/ai-knowledge" className={styles.exploreButton}>
             Explore AI Knowledge
           </Link>
         </div>
@@ -96,7 +96,7 @@ export default function SavedKnowledgeSection({ initialPrompts = [], onCountChan
             )}
             <div className={styles.actions}>
               <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <Link href={`/ai-prompts-tricks/${prompt.id}`} className={styles.viewButton}>
+                <Link href={`/ai-knowledge/${prompt.id}`} className={styles.viewButton}>
                   View <FiExternalLink />
                 </Link>
                 {prompt.prompt_content && (

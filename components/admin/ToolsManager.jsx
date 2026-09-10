@@ -24,6 +24,7 @@ import styles from './ToolsManager.module.scss';
 import ToolJsonImport from './BulkToolJsonImport';
 import { toolToFormState, formStateToTool } from '../../lib/canonical-tool-schema';
 import { isValidHttpUrl, evaluateToolHealth, computeCatalogMetrics } from '../../lib/tool-health';
+import { getCatalogFileForCategory } from '../../lib/catalog-categories';
 
 export { isValidHttpUrl, evaluateToolHealth, computeCatalogMetrics };
 
@@ -78,7 +79,11 @@ export default function ToolsManager({ initialTools, categories = [] }) {
   const availableSubcategories = useMemo(() => {
     const set = new Set();
     tools.forEach(t => {
-      if (filters.category === 'all' || t.category === filters.category) {
+      const catMatches = filters.category === 'all' ||
+        t.category === filters.category ||
+        (getCatalogFileForCategory(t.category) && getCatalogFileForCategory(t.category) === getCatalogFileForCategory(filters.category));
+
+      if (catMatches) {
         if (t.subCategory && typeof t.subCategory === 'string' && t.subCategory.trim()) {
           set.add(t.subCategory.trim());
         }
@@ -111,34 +116,13 @@ export default function ToolsManager({ initialTools, categories = [] }) {
 
   // Derived Metrics
   const metrics = useMemo(() => {
-    let active = 0;
-    let archived = 0;
-    let missingImages = 0;
-    let missingMetadata = 0;
-
-    tools.forEach(t => {
-      if (t.status === 'archived') archived++;
-      else active++;
-
-      if (!t.logoImageUrl || !t.bannerImageUrl) missingImages++;
-      if (!t.description || !t.website) missingMetadata++;
-    });
-
-    return {
-      total: tools.length,
-      active,
-      archived,
-      missingImages,
-      missingMetadata
-    };
     return computeCatalogMetrics(tools);
   }, [tools]);
 
   // Derived Filtered List
   const filteredTools = useMemo(() => {
     return tools.filter(t => {
-      // 1. Search Query
-      // 1. Search Query across name, slug, category, subcategory, tags, use cases, description
+      // 1. Search Query across name, slug, category, subcategory, tags, use cases, description, fullOverview
       if (searchQuery) {
         const q = searchQuery.toLowerCase().trim();
         const matchName = t.name?.toLowerCase().includes(q);
@@ -169,21 +153,27 @@ export default function ToolsManager({ initialTools, categories = [] }) {
       }
 
       // 2. Category
+      if (filters.category !== 'all') {
+        const matchesCategory = t.category === filters.category ||
+          (getCatalogFileForCategory(t.category) && getCatalogFileForCategory(t.category) === getCatalogFileForCategory(filters.category));
+        if (!matchesCategory) return false;
+      }
 
       // 3. Subcategory
       if (filters.subCategory !== 'all') {
         const toolSub = (t.subCategory || '').toLowerCase().trim();
         if (toolSub !== filters.subCategory.toLowerCase().trim()) return false;
-      }      if (filters.category !== 'all' && t.category !== filters.category) return false;
-
+      }
 
       // 4. Pricing
       if (filters.pricing !== 'all') {
         const p = (t.pricingModel || t.pricing || 'Free').toLowerCase();
         const filterP = filters.pricing.toLowerCase();
-        if (filterP === 'free' && p !== 'free') return false;
-        if (filterP === 'paid' && p !== 'paid') return false;
-        if (filterP === 'freemium' && p !== 'freemium') return false;
+        const isFreemium = p.includes('freemium');
+        if (filterP === 'free' && (!p.includes('free') || (isFreemium && !p.includes('/')))) return false;
+        if (filterP === 'freemium' && !isFreemium) return false;
+        if (filterP === 'free / freemium' && !p.includes('free') && !isFreemium) return false;
+        if (filterP === 'paid' && !p.includes('paid')) return false;
         if (filterP === 'open_source' && !p.includes('open') && !p.includes('source')) return false;
         if (filterP === 'contact' && !p.includes('contact') && !p.includes('enterprise')) return false;
       }
@@ -207,8 +197,6 @@ export default function ToolsManager({ initialTools, categories = [] }) {
 
       // 6. Status
       if (filters.status !== 'all') {
-        if (filters.status === 'active' && t.status === 'archived') return false;
-        if (filters.status === 'archived' && t.status !== 'archived') return false;
         const isArchived = t.status === 'archived';
         const isDraft = t.status === 'draft' || t.status === 'pending';
         const isActive = !isArchived && !isDraft;
@@ -223,7 +211,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
 
       // 7. Health
       if (filters.health !== 'all') {
-        
+        const health = evaluateToolHealth(t);
         if (filters.health === 'healthy' && !health.isHealthy) return false;
         if (filters.health === 'needs-attention' && health.isHealthy) return false;
         if (filters.health === 'broken-url' && !health.brokenUrl) return false;
@@ -408,13 +396,15 @@ export default function ToolsManager({ initialTools, categories = [] }) {
       return;
     }
 
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(toolsToExport, null, 2));
+    const blob = new Blob([JSON.stringify(toolsToExport, null, 2)], { type: 'application/json;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.setAttribute('href', dataStr);
+    link.setAttribute('href', url);
     link.setAttribute('download', `codecraft_tools_export_${new Date().toISOString().split('T')[0]}.json`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const exportCsv = () => {
@@ -451,6 +441,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const handleDeleteTool = async (tool, e) => {
@@ -730,9 +721,10 @@ export default function ToolsManager({ initialTools, categories = [] }) {
                 <option value="all">Any Pricing</option>
                 <option value="Free">Free</option>
                 <option value="Freemium">Freemium</option>
+                <option value="Free / Freemium">Free / Freemium</option>
                 <option value="Paid">Paid</option>
+                <option value="contact">Contact for pricing</option>
                 <option value="open_source">Open Source</option>
-                <option value="contact">Contact / Enterprise</option>
               </select>
             </div>
 

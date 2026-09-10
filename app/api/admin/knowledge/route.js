@@ -125,3 +125,36 @@ export async function DELETE(request) {
     return NextResponse.json({ error: 'Failed to delete knowledge item' }, { status: 500 });
   }
 }
+
+export async function PATCH(request) {
+  try {
+    const { user, isAdmin } = await getCurrentUserWithProfile();
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
+    const body = await request.json().catch(() => ({}));
+    const { id, action, status } = body;
+    if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+
+    const items = await readPromptsFile();
+    const index = items.findIndex((i) => String(i.id) === String(id));
+    if (index === -1) {
+      return NextResponse.json({ error: 'Knowledge item not found' }, { status: 404 });
+    }
+
+    if (action === 'toggle-status') {
+      const current = items[index].status || 'published';
+      items[index].status = current === 'published' ? 'draft' : 'published';
+    } else if (status) {
+      items[index].status = status === 'draft' ? 'draft' : 'published';
+    } else {
+      return NextResponse.json({ error: 'Valid action or status is required' }, { status: 400 });
+    }
+
+    await writePromptsFile(items);
+    return NextResponse.json({ success: true, item: items[index] });
+  } catch (error) {
+    console.error('Admin PATCH knowledge error:', error);
+    return NextResponse.json({ error: 'Failed to update item status' }, { status: 500 });
+  }
+}

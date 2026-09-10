@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   FiBookOpen,
   FiPlus,
@@ -14,7 +14,12 @@ import {
   FiTag,
   FiCpu,
   FiFolder,
-  FiX
+  FiX,
+  FiEye,
+  FiEyeOff,
+  FiDownload,
+  FiChevronLeft,
+  FiChevronRight,
 } from 'react-icons/fi';
 import styles from './KnowledgeManager.module.scss';
 import { ALLOWED_KNOWLEDGE_TYPES, KNOWLEDGE_TYPE_LABELS } from '../../lib/knowledge-schema';
@@ -28,6 +33,12 @@ export default function KnowledgeManager({ initialItems = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [modelFilter, setModelFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
 
   // Form State for Add / Edit
   const [editingItem, setEditingItem] = useState(null);
@@ -42,6 +53,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
     description: '',
     display_name: 'CodeCraft Team',
     is_anonymous: false,
+    status: 'published',
   });
   const [saving, setSaving] = useState(false);
 
@@ -51,13 +63,22 @@ export default function KnowledgeManager({ initialItems = [] }) {
   const [overwriteExisting, setOverwriteExisting] = useState(false);
   const [importing, setImporting] = useState(false);
 
+  // Reset pagination on filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, typeFilter, categoryFilter, modelFilter, statusFilter, pageSize]);
+
   const metrics = useMemo(() => {
-    const counts = { total: items.length, prompt: 0, trick: 0, shortcut: 0, technique: 0, guide: 0 };
+    const counts = { total: items.length, prompt: 0, trick: 0, shortcut: 0, technique: 0, guide: 0, published: 0, draft: 0 };
     items.forEach((item) => {
       const t = item.type || 'prompt';
       if (t === 'slash-command' || t === 'shortcut') counts.shortcut++;
       else if (t === 'tip' || t === 'guide') counts.guide++;
       else if (counts[t] !== undefined) counts[t]++;
+
+      const st = item.status || 'published';
+      if (st === 'draft') counts.draft++;
+      else counts.published++;
     });
     return counts;
   }, [items]);
@@ -69,7 +90,14 @@ export default function KnowledgeManager({ initialItems = [] }) {
         const matchTitle = item.title?.toLowerCase().includes(q);
         const matchDesc = item.description?.toLowerCase().includes(q);
         const matchContent = item.prompt_content?.toLowerCase().includes(q);
-        if (!matchTitle && !matchDesc && !matchContent) return false;
+        const matchUseCase = item.use_case?.toLowerCase().includes(q);
+        const matchModel = item.ai_model?.toLowerCase().includes(q);
+        const matchTags = Array.isArray(item.tags)
+          ? item.tags.some((t) => t.toLowerCase().includes(q))
+          : item.tags?.toLowerCase().includes(q);
+        if (!matchTitle && !matchDesc && !matchContent && !matchUseCase && !matchModel && !matchTags) {
+          return false;
+        }
       }
 
       if (typeFilter !== 'all') {
@@ -83,9 +111,24 @@ export default function KnowledgeManager({ initialItems = [] }) {
         return false;
       }
 
+      if (modelFilter !== 'all' && item.ai_model !== modelFilter) {
+        return false;
+      }
+
+      if (statusFilter !== 'all') {
+        const itemStatus = item.status || 'published';
+        if (itemStatus !== statusFilter) return false;
+      }
+
       return true;
     });
-  }, [items, searchQuery, typeFilter, categoryFilter]);
+  }, [items, searchQuery, typeFilter, categoryFilter, modelFilter, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize));
+  const paginatedItems = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredItems.slice(start, start + pageSize);
+  }, [filteredItems, currentPage, pageSize]);
 
   const categories = useMemo(() => {
     const set = new Set();
@@ -94,6 +137,50 @@ export default function KnowledgeManager({ initialItems = [] }) {
     });
     return Array.from(set).sort();
   }, [items]);
+
+  const models = useMemo(() => {
+    const set = new Set();
+    items.forEach((i) => {
+      if (i.ai_model) set.add(i.ai_model);
+    });
+    return Array.from(set).sort();
+  }, [items]);
+
+  const handleToggleStatus = async (id) => {
+    try {
+      const res = await fetch('/api/admin/knowledge', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action: 'toggle-status' }),
+      });
+      if (res.ok) {
+        const { item } = await res.json();
+        setItems((prev) => prev.map((i) => (i.id === id ? { ...i, status: item.status } : i)));
+        setFeedback({
+          type: 'success',
+          message: `"${item.title}" is now ${item.status === 'published' ? 'published' : 'draft'}.`,
+        });
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setFeedback({ type: 'error', message: err.error || 'Failed to update status.' });
+      }
+    } catch (err) {
+      setFeedback({ type: 'error', message: 'Network error updating item status.' });
+    }
+  };
+
+  const handleExportJson = () => {
+    const exportData = filteredItems.length ? filteredItems : items;
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `codecraft-ai-knowledge-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this knowledge item?')) return;
@@ -126,6 +213,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
       description: item.description || '',
       display_name: item.display_name || 'CodeCraft Team',
       is_anonymous: Boolean(item.is_anonymous),
+      status: item.status || 'published',
     });
     setActiveTab('add');
   };
@@ -174,6 +262,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
           description: '',
           display_name: 'CodeCraft Team',
           is_anonymous: false,
+          status: 'published',
         });
         setActiveTab('all');
       } else {
@@ -329,29 +418,37 @@ export default function KnowledgeManager({ initialItems = [] }) {
       {activeTab === 'all' && (
         <>
           <div className={styles.metricsGrid}>
-            <div className={styles.metricCard} onClick={() => setTypeFilter('all')}>
+            <div className={styles.metricCard} onClick={() => { setTypeFilter('all'); setStatusFilter('all'); }}>
               <span className={styles.metricLabel}>Total Items</span>
               <span className={styles.metricValue}>{metrics.total}</span>
             </div>
-            <div className={styles.metricCard} onClick={() => setTypeFilter('prompt')}>
+            <div className={styles.metricCard} onClick={() => { setTypeFilter('prompt'); setStatusFilter('all'); }}>
               <span className={styles.metricLabel}>Prompts</span>
               <span className={styles.metricValue}>{metrics.prompt}</span>
             </div>
-            <div className={styles.metricCard} onClick={() => setTypeFilter('trick')}>
+            <div className={styles.metricCard} onClick={() => { setTypeFilter('trick'); setStatusFilter('all'); }}>
               <span className={styles.metricLabel}>Tricks</span>
               <span className={styles.metricValue}>{metrics.trick}</span>
             </div>
-            <div className={styles.metricCard} onClick={() => setTypeFilter('shortcut')}>
+            <div className={styles.metricCard} onClick={() => { setTypeFilter('shortcut'); setStatusFilter('all'); }}>
               <span className={styles.metricLabel}>Shortcuts</span>
               <span className={styles.metricValue}>{metrics.shortcut}</span>
             </div>
-            <div className={styles.metricCard} onClick={() => setTypeFilter('technique')}>
+            <div className={styles.metricCard} onClick={() => { setTypeFilter('technique'); setStatusFilter('all'); }}>
               <span className={styles.metricLabel}>Techniques</span>
               <span className={styles.metricValue}>{metrics.technique}</span>
             </div>
-            <div className={styles.metricCard} onClick={() => setTypeFilter('guide')}>
+            <div className={styles.metricCard} onClick={() => { setTypeFilter('guide'); setStatusFilter('all'); }}>
               <span className={styles.metricLabel}>Guides &amp; Tips</span>
               <span className={styles.metricValue}>{metrics.guide}</span>
+            </div>
+            <div className={styles.metricCard} onClick={() => setStatusFilter('published')}>
+              <span className={styles.metricLabel} style={{ color: '#10b981' }}>Published</span>
+              <span className={styles.metricValue} style={{ color: '#10b981' }}>{metrics.published}</span>
+            </div>
+            <div className={styles.metricCard} onClick={() => setStatusFilter('draft')}>
+              <span className={styles.metricLabel} style={{ color: '#f59e0b' }}>Drafts</span>
+              <span className={styles.metricValue} style={{ color: '#f59e0b' }}>{metrics.draft}</span>
             </div>
           </div>
 
@@ -361,11 +458,19 @@ export default function KnowledgeManager({ initialItems = [] }) {
                 <FiSearch />
                 <input
                   type="text"
-                  placeholder="Search by title, prompt text, or description..."
+                  placeholder="Search by title, prompt text, model, tags, or use case..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
+              <button
+                type="button"
+                onClick={handleExportJson}
+                className={styles.exportBtn}
+                title="Export filtered items as JSON"
+              >
+                <FiDownload /> Export JSON
+              </button>
             </div>
             <div className={styles.filtersRow}>
               <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
@@ -377,6 +482,15 @@ export default function KnowledgeManager({ initialItems = [] }) {
                 <option value="guide">Guides &amp; Tips</option>
               </select>
 
+              <select value={modelFilter} onChange={(e) => setModelFilter(e.target.value)}>
+                <option value="all">All Models</option>
+                {models.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+
               <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                 <option value="all">All Categories</option>
                 {categories.map((c) => (
@@ -384,6 +498,12 @@ export default function KnowledgeManager({ initialItems = [] }) {
                     {c}
                   </option>
                 ))}
+              </select>
+
+              <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                <option value="all">All Statuses</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft / Unpublished</option>
               </select>
             </div>
           </div>
@@ -396,6 +516,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
                   <th>Type</th>
                   <th>Model</th>
                   <th>Category</th>
+                  <th>Status</th>
                   <th>Prompt Snippet</th>
                   <th>Actions</th>
                 </tr>
@@ -403,12 +524,12 @@ export default function KnowledgeManager({ initialItems = [] }) {
               <tbody>
                 {filteredItems.length === 0 ? (
                   <tr>
-                    <td colSpan="6" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                    <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
                       No knowledge items found matching the current filters.
                     </td>
                   </tr>
                 ) : (
-                  filteredItems.map((item) => (
+                  paginatedItems.map((item) => (
                     <tr key={item.id}>
                       <td>
                         <strong>{item.title}</strong>
@@ -426,12 +547,37 @@ export default function KnowledgeManager({ initialItems = [] }) {
                       <td>{item.ai_model || 'Universal'}</td>
                       <td>{item.category || 'General'}</td>
                       <td>
+                        <span
+                          className={`${styles.statusBadge} ${
+                            item.status === 'draft' ? styles.draft : styles.published
+                          }`}
+                        >
+                          {item.status === 'draft' ? 'Draft' : 'Published'}
+                        </span>
+                      </td>
+                      <td>
                         <div className={styles.snippetCell}>
                           {item.prompt_content ? item.prompt_content.slice(0, 70) + '...' : <i>Empty</i>}
                         </div>
                       </td>
                       <td>
                         <div className={styles.actionsCell}>
+                          <button
+                            type="button"
+                            className={item.status === 'draft' ? styles.publishBtn : styles.unpublishBtn}
+                            onClick={() => handleToggleStatus(item.id)}
+                            title={item.status === 'draft' ? 'Publish this item' : 'Unpublish this item to draft'}
+                          >
+                            {item.status === 'draft' ? (
+                              <>
+                                <FiEye /> Publish
+                              </>
+                            ) : (
+                              <>
+                                <FiEyeOff /> Unpublish
+                              </>
+                            )}
+                          </button>
                           <button type="button" onClick={() => startEdit(item)} title="Edit item">
                             <FiEdit2 /> Edit
                           </button>
@@ -451,6 +597,55 @@ export default function KnowledgeManager({ initialItems = [] }) {
               </tbody>
             </table>
           </div>
+
+          {filteredItems.length > 0 && (
+            <div className={styles.paginationBar}>
+              <div className={styles.pageInfo}>
+                Showing {(currentPage - 1) * pageSize + 1} -{' '}
+                {Math.min(currentPage * pageSize, filteredItems.length)} of {filteredItems.length} items
+              </div>
+              <div className={styles.pageControls}>
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  aria-label="Previous page"
+                >
+                  <FiChevronLeft />
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    className={currentPage === page ? styles.activePage : ''}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  aria-label="Next page"
+                >
+                  <FiChevronRight />
+                </button>
+              </div>
+              <div className={styles.pageSizeSelect}>
+                <span>Per page:</span>
+                <select
+                  value={pageSize}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
+            </div>
+          )}
         </>
       )}
 
@@ -557,6 +752,17 @@ export default function KnowledgeManager({ initialItems = [] }) {
                   value={formData.display_name}
                   onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
                 />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Publication Status</label>
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                >
+                  <option value="published">Published</option>
+                  <option value="draft">Draft / Unpublished</option>
+                </select>
               </div>
             </div>
 

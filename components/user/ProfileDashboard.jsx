@@ -34,6 +34,7 @@ import SavedKnowledgeSection from './SavedKnowledgeSection';
 import AIToolCard from '../ai-tools/AIToolCard';
 import UserAvatar from '../ui/UserAvatar';
 import AvatarPicker from './AvatarPicker';
+import { CONTRIBUTION_TYPE_LABELS } from '../../lib/contribution-validation';
 
 const ROLES = [
   'Developer',
@@ -616,8 +617,8 @@ export default function ProfileDashboard({ initialData }) {
                     Track the status of AI tools and prompts you have submitted to the CodeCraft catalog.
                   </p>
                 </div>
-                <Link href="/community" className={styles.toolkitBuilderBtn}>
-                  + Submit New Tool or Prompt
+                <Link href="/contribute" className={styles.toolkitBuilderBtn}>
+                  + Submit New Contribution
                 </Link>
               </div>
 
@@ -628,7 +629,7 @@ export default function ProfileDashboard({ initialData }) {
                       <div className={styles.submissionCardHeader}>
                         <div className={styles.submissionBadges}>
                           <span className={styles.subKindBadge}>
-                            {sub.kind === 'tool' ? 'AI Tool' : (sub.type || 'Prompt')}
+                            {sub.kind === 'tool' ? 'AI Tool' : (CONTRIBUTION_TYPE_LABELS[sub.type] || sub.type || 'Knowledge')}
                           </span>
                           <span className={styles.subCategoryBadge}>{sub.category}</span>
                         </div>
@@ -654,6 +655,12 @@ export default function ProfileDashboard({ initialData }) {
                       <h3 className={styles.submissionTitle}>{sub.kind === 'tool' ? sub.tool_name : sub.title}</h3>
                       <p className={styles.submissionDesc}>{sub.description}</p>
 
+                      {sub.admin_notes && (
+                        <div style={{ padding: '6px 10px', background: 'rgba(239, 68, 68, 0.08)', borderLeft: '3px solid #dc2626', borderRadius: '4px', fontSize: '0.8rem', marginBottom: '8px' }}>
+                          <strong style={{ color: '#dc2626' }}>Moderator Note:</strong> {sub.admin_notes}
+                        </div>
+                      )}
+
                       {sub.website && (
                         <a
                           href={sub.website}
@@ -672,8 +679,8 @@ export default function ProfileDashboard({ initialData }) {
                   <div className={styles.emptyIconBox}><FiLayers /></div>
                   <h3>No Contributions Yet</h3>
                   <p>You haven't submitted any AI tools or prompts to the catalog yet.</p>
-                  <Link href="/community" className={styles.primaryActionButton}>
-                    Submit a Tool or Prompt &rarr;
+                  <Link href="/contribute" className={styles.primaryActionButton}>
+                    Submit a Contribution &rarr;
                   </Link>
                 </div>
               )}

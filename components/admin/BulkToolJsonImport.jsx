@@ -191,16 +191,54 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
 
   const summary = classification?.summary;
 
+  const currentStep = message && message.startsWith('Applied')
+    ? 5
+    : classification?.preview
+    ? 4
+    : loading
+    ? 2
+    : records.length > 0
+    ? 3
+    : 1;
+
   return (
     <section className={styles.importer}>
       <div className={styles.importHeader}>
         <div>
-          <h2>Bulk JSON update</h2>
-          <p>Match by stable ID first, then slug. Existing metadata is updated in JSON without changing saved tools, reviews, or analytics.</p>
+          <h2>Bulk JSON Catalog Import</h2>
+          <p>Match by stable ID first, then slug. Existing metadata is updated safely without changing saved tools, reviews, upvotes, or analytics.</p>
         </div>
         <button type="button" onClick={() => setShowPrompt(true)} className={styles.helpButton}>
           <FiDownload /> JSON prompt
         </button>
+      </div>
+
+      {/* 5-Step Safe Flow Indicator */}
+      <div className={styles.stepsBar} aria-label="JSON Import Progress Steps">
+        <div className={`${styles.stepItem} ${currentStep === 1 ? styles.stepActive : currentStep > 1 ? styles.stepDone : ''}`}>
+          <span className={styles.stepNumber}>{currentStep > 1 ? '✓' : '1'}</span>
+          <span>1. Upload</span>
+        </div>
+        <span className={styles.stepDivider}>→</span>
+        <div className={`${styles.stepItem} ${currentStep === 2 ? styles.stepActive : currentStep > 2 ? styles.stepDone : ''}`}>
+          <span className={styles.stepNumber}>{currentStep > 2 ? '✓' : '2'}</span>
+          <span>2. Validate</span>
+        </div>
+        <span className={styles.stepDivider}>→</span>
+        <div className={`${styles.stepItem} ${currentStep === 3 ? styles.stepActive : currentStep > 3 ? styles.stepDone : ''}`}>
+          <span className={styles.stepNumber}>{currentStep > 3 ? '✓' : '3'}</span>
+          <span>3. Preview</span>
+        </div>
+        <span className={styles.stepDivider}>→</span>
+        <div className={`${styles.stepItem} ${currentStep === 4 ? styles.stepActive : currentStep > 4 ? styles.stepDone : ''}`}>
+          <span className={styles.stepNumber}>{currentStep > 4 ? '✓' : '4'}</span>
+          <span>4. Detect New / Existing</span>
+        </div>
+        <span className={styles.stepDivider}>→</span>
+        <div className={`${styles.stepItem} ${currentStep === 5 ? styles.stepActive : ''}`}>
+          <span className={styles.stepNumber}>5</span>
+          <span>5. Confirm & Import</span>
+        </div>
       </div>
 
       <div className={styles.supportedCategories}>
@@ -267,9 +305,9 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
 
       {summary && (
         <div className={styles.summary}>
-          <div><strong>{summary.existing}</strong><span>Existing</span></div>
-          <div><strong>{summary.new}</strong><span>New</span></div>
-          <div><strong>{summary.invalid}</strong><span>Invalid</span></div>
+          <div><strong>{summary.existing}</strong><span>Existing Detected</span></div>
+          <div><strong>{summary.new}</strong><span>New Detected</span></div>
+          <div><strong>{summary.invalid}</strong><span>Invalid (Skipped)</span></div>
           <div><strong>{summary.conflicts}</strong><span>Conflicts</span></div>
         </div>
       )}
@@ -296,16 +334,16 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
       {classification?.preview && (
         <div className={styles.preview}>
           <div className={styles.previewHeader}>
-            <strong>What will happen</strong>
+            <strong>Ready to apply changes safely:</strong>
             <button type="button" onClick={apply} disabled={loading} className={styles.confirm}>
-              Apply changes
+              {loading ? 'Importing...' : 'Confirm & Apply Changes'}
             </button>
           </div>
           <div className={styles.previewList}>
-            <div className={styles.previewRow}><span>Added</span><small>{classification.preview.added.length}</small></div>
-            <div className={styles.previewRow}><span>Updated</span><small>{classification.preview.updated.length}</small></div>
+            <div className={styles.previewRow}><span>Added (New Tools)</span><small>{classification.preview.added.length}</small></div>
+            <div className={styles.previewRow}><span>Updated (Existing Tools)</span><small>{classification.preview.updated.length}</small></div>
             <div className={styles.previewRow}><span>Skipped</span><small>{classification.preview.skipped.length}</small></div>
-            <div className={styles.previewRow}><span>Invalid</span><small>{classification.preview.invalid.length}</small></div>
+            <div className={styles.previewRow}><span>Invalid Records</span><small>{classification.preview.invalid.length}</small></div>
             {records.map((record) => (
               <div key={`${record.id || ''}-${record.slug}`} className={styles.previewRow}>
                 <span>{record.name}</span>

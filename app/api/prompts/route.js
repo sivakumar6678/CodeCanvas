@@ -48,6 +48,11 @@ export async function GET(request) {
 
   // Filter combined set with full grouped type matching and model/platform support
   const filtered = combined.filter((p) => {
+    // Exclude draft or unpublished items
+    if (p.status === 'draft') {
+      return false;
+    }
+
     if (query) {
       const matchQuery =
         p.title?.toLowerCase().includes(query) ||

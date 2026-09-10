@@ -63,7 +63,7 @@ export default async function PromptDetailPage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <Link href="/ai-prompts-tricks" className={styles.back}>
+        <Link href="/ai-knowledge" className={styles.back}>
           <FiArrowLeft /> Back to AI Knowledge
         </Link>
         <SavePromptButton promptId={prompt.id} showLabel={true} />

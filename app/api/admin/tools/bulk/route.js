@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import { getCurrentUserWithProfile } from '../../../../../lib/auth/server';
+import { getCatalogFileForCategory } from '../../../../../lib/catalog-categories';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
@@ -9,7 +10,8 @@ const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function categoryPath(category) {
   if (typeof category !== 'string' || !SAFE_SLUG.test(category)) return null;
-  return path.join(AI_TOOLS_DIR, `${category}.json`);
+  const fileName = getCatalogFileForCategory(category) || `${category}.json`;
+  return path.join(AI_TOOLS_DIR, fileName);
 }
 
 async function readToolsFile(filePath) {
