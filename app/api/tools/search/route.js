@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAllTools, getCategories } from '../../../../lib/data-fetchers';
+import { createClient } from '../../../../lib/supabase/server';
+import { recordAnalyticsEvent } from '../../../../lib/analytics';
 
 const WORKSPACE_TOOLS = [
   { id: 'ws-palette', name: 'Color Palette Generator', type: 'workspace_tool', category: 'Built-in Tool', description: 'AI-assisted color palette generator with hex/rgb export', href: '/tools' },
@@ -62,6 +64,19 @@ export async function GET(request) {
     ).slice(0, 3);
 
     const combined = [...matchedTools, ...matchedCategories, ...matchedWorkspace].slice(0, 10);
+
+    // Record non-blocking search event
+    if (query) {
+      createClient().then((supabase) => {
+        return recordAnalyticsEvent(supabase, {
+          event_type: 'search',
+          entity_type: 'search',
+          entity_id: query.slice(0, 80),
+          metadata: { count: combined.length },
+        });
+      }).catch(() => {});
+    }
+
     return NextResponse.json(combined);
   } catch (error) {
     console.error('Search API error:', error);

@@ -18,6 +18,7 @@ import {
   FiCode,
   FiDollarSign,
   FiMonitor,
+  FiTag,
 } from 'react-icons/fi';
 import BookmarkButton, { invalidateBookmarksCache } from './BookmarkButton';
 import {
@@ -28,6 +29,7 @@ import {
   TOOLKIT_BUDGET_OPTIONS,
   TOOLKIT_TECHNOLOGIES,
   TOOLKIT_PLATFORMS,
+  TOOLKIT_INTERESTS,
 } from '../../lib/toolkit-recommender';
 import styles from './ToolkitBuilder.module.scss';
 
@@ -55,6 +57,13 @@ function TierBadge({ tier = 'exact' }) {
     return (
       <span className={`${styles.tierBadge} ${styles.tierExact}`}>
         <FiCheckCircle aria-hidden="true" /> Exact Match
+      </span>
+    );
+  }
+  if (tier === 'tag') {
+    return (
+      <span className={`${styles.tierBadge} ${styles.tierTag}`}>
+        <FiTag aria-hidden="true" /> Tag Match
       </span>
     );
   }
@@ -135,9 +144,19 @@ export default function ToolkitBuilder({
   const router = useRouter();
 
   const initialGoal = deriveInitialGoal(userProfile, searchParams.get('goal'));
+  const initialCurrentGoal = searchParams.get('goalText') || '';
   const initialRole = searchParams.get('role') || userProfile?.role || 'Developer';
   const initialExperience = searchParams.get('exp') || (userProfile?.experience_level || 'intermediate').toLowerCase();
   const initialBudget = searchParams.get('budget') || userProfile?.preferred_pricing || 'any';
+  const initialInterests = useMemo(() => {
+    const paramInterests = searchParams.get('interests');
+    if (paramInterests) return paramInterests.split(',');
+    if (userProfile?.interests && Array.isArray(userProfile.interests)) {
+      return userProfile.interests;
+    }
+    return [];
+  }, [searchParams, userProfile]);
+
   const initialTechnologies = useMemo(() => {
     const paramTech = searchParams.get('tech');
     if (paramTech) return paramTech.split(',');
@@ -158,10 +177,12 @@ export default function ToolkitBuilder({
 
   const [selection, setSelection] = useState({
     goalId: initialGoal,
+    currentGoal: initialCurrentGoal,
     role: initialRole,
     experience: initialExperience,
-    budget: initialBudget,
+    interests: initialInterests,
     technologies: initialTechnologies,
+    budget: initialBudget,
     platforms: initialPlatforms,
   });
 
@@ -194,8 +215,10 @@ export default function ToolkitBuilder({
   const resetToDefaults = () => {
     setSelection({
       goalId: 'build-website',
+      currentGoal: '',
       role: 'Developer',
       experience: 'intermediate',
+      interests: [],
       budget: 'any',
       technologies: ['React / Next.js', 'VS Code'],
       platforms: ['Web'],
@@ -208,11 +231,17 @@ export default function ToolkitBuilder({
     if (!userProfile) return;
     setSelection({
       goalId: deriveInitialGoal(userProfile, null),
+      currentGoal: '',
       role: userProfile.role || 'Developer',
       experience: (userProfile.experience_level || 'intermediate').toLowerCase(),
+      interests: Array.isArray(userProfile.interests) ? userProfile.interests : [],
       budget: userProfile.preferred_pricing || 'any',
-      technologies: userProfile.technologies || ['React / Next.js'],
-      platforms: userProfile.preferred_platforms || ['Web'],
+      technologies: Array.isArray(userProfile.technologies) && userProfile.technologies.length > 0
+        ? userProfile.technologies
+        : ['React / Next.js'],
+      platforms: Array.isArray(userProfile.preferred_platforms) && userProfile.preferred_platforms.length > 0
+        ? userProfile.preferred_platforms
+        : ['Web'],
     });
     setShareToast('Reset criteria to your profile preferences!');
     setTimeout(() => setShareToast(''), 3000);
@@ -221,11 +250,13 @@ export default function ToolkitBuilder({
   const handleShareStack = () => {
     const params = new URLSearchParams();
     if (selection.goalId) params.set('goal', selection.goalId);
+    if (selection.currentGoal) params.set('goalText', selection.currentGoal);
     if (selection.role) params.set('role', selection.role);
     if (selection.experience) params.set('exp', selection.experience);
+    if (selection.interests?.length) params.set('interests', selection.interests.join(','));
+    if (selection.technologies?.length) params.set('tech', selection.technologies.join(','));
     if (selection.budget) params.set('budget', selection.budget);
-    if (selection.technologies.length) params.set('tech', selection.technologies.join(','));
-    if (selection.platforms.length) params.set('plat', selection.platforms.join(','));
+    if (selection.platforms?.length) params.set('plat', selection.platforms.join(','));
 
     const shareUrl = `${window.location.origin}/build-toolkit?${params.toString()}`;
     navigator.clipboard.writeText(shareUrl).then(() => {
@@ -324,26 +355,57 @@ export default function ToolkitBuilder({
 
           {/* STEP 1: Goal / Work Type */}
           {step === 0 && (
-            <div className={styles.goalGrid} role="radiogroup" aria-label="Project Goal">
-              {TOOLKIT_GOALS.map((goal) => {
-                const isSelected = selection.goalId === goal.id;
-                return (
-                  <button
-                    key={goal.id}
-                    type="button"
-                    className={`${styles.goalCard} ${isSelected ? styles.goalSelected : ''}`}
-                    onClick={() => updateField('goalId', goal.id)}
-                    aria-checked={isSelected}
-                    role="radio"
-                  >
-                    <div className={styles.goalHeader}>
-                      <span className={styles.goalTitle}>{goal.label}</span>
-                      {isSelected && <FiCheck className={styles.checkIcon} aria-hidden="true" />}
-                    </div>
-                    <p className={styles.goalDesc}>{goal.description}</p>
-                  </button>
-                );
-              })}
+            <div className={styles.stepContent}>
+              <div className={styles.goalGrid} role="radiogroup" aria-label="Project Goal">
+                {TOOLKIT_GOALS.map((goal) => {
+                  const isSelected = selection.goalId === goal.id;
+                  return (
+                    <button
+                      key={goal.id}
+                      type="button"
+                      className={`${styles.goalCard} ${isSelected ? styles.goalSelected : ''}`}
+                      onClick={() => updateField('goalId', goal.id)}
+                      aria-checked={isSelected}
+                      role="radio"
+                    >
+                      <div className={styles.goalHeader}>
+                        <span className={styles.goalTitle}>{goal.label}</span>
+                        {isSelected && <FiCheck className={styles.checkIcon} aria-hidden="true" />}
+                      </div>
+                      <p className={styles.goalDesc}>{goal.description}</p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className={styles.customGoalSection}>
+                <label className={styles.fieldLabel} htmlFor="custom-work-goal">
+                  Current Work Goal / Specific Use Case (Optional)
+                </label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    id="custom-work-goal"
+                    type="text"
+                    className={styles.goalInput}
+                    placeholder="e.g. Automated customer support bot with LangChain and Next.js..."
+                    value={selection.currentGoal || ''}
+                    onChange={(e) => updateField('currentGoal', e.target.value)}
+                  />
+                  {selection.currentGoal && (
+                    <button
+                      type="button"
+                      className={styles.clearBtn}
+                      onClick={() => updateField('currentGoal', '')}
+                      aria-label="Clear custom goal"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
+                <p className={styles.inputHint}>
+                  Directly targets tools matching this specific use case and keywords across the catalog.
+                </p>
+              </div>
             </div>
           )}
 
@@ -386,6 +448,25 @@ export default function ToolkitBuilder({
                           {opt.desc && <div className={styles.optionDesc}>{opt.desc}</div>}
                         </div>
                         {isSelected && <FiCheck className={styles.checkIcon} aria-hidden="true" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className={styles.fieldSection}>
+                <label className={styles.fieldLabel}>Areas of Interest</label>
+                <div className={styles.pillsGrid}>
+                  {TOOLKIT_INTERESTS.map((interest) => {
+                    const isSelected = (selection.interests || []).includes(interest);
+                    return (
+                      <button
+                        key={interest}
+                        type="button"
+                        className={`${styles.pillBtn} ${isSelected ? styles.pillSelected : ''}`}
+                        onClick={() => toggleArrayItem('interests', interest)}
+                      >
+                        {isSelected && <FiCheck className={styles.checkInline} />} {interest}
                       </button>
                     );
                   })}
@@ -535,6 +616,14 @@ export default function ToolkitBuilder({
               <span className={styles.criteriaChip}>Role: {selection.role}</span>
               <span className={styles.criteriaChip}>Level: {selection.experience}</span>
               <span className={styles.criteriaChip}>Budget: {selection.budget}</span>
+              {selection.currentGoal && (
+                <span className={styles.criteriaChip}>
+                  Goal: {selection.currentGoal.length > 20 ? `${selection.currentGoal.slice(0, 18)}...` : selection.currentGoal}
+                </span>
+              )}
+              {selection.interests?.slice(0, 2).map((i) => (
+                <span key={i} className={styles.criteriaChip}>{i}</span>
+              ))}
               {selection.technologies.slice(0, 3).map((t) => (
                 <span key={t} className={styles.criteriaChip}>{t}</span>
               ))}

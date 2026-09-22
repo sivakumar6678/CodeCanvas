@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 import { serializeToolSuggestion, validateToolSuggestion } from '../../../../lib/contribution-validation';
+import { recordAnalyticsEvent } from '../../../../lib/analytics';
 
 export async function GET() {
   const supabase = await createClient();
@@ -33,6 +34,16 @@ export async function POST(request) {
     .single();
 
   if (error) return NextResponse.json({ error: 'Unable to submit this tool suggestion' }, { status: 500 });
+
+  // Record non-blocking analytics event
+  recordAnalyticsEvent(supabase, {
+    event_type: 'contribution',
+    entity_type: 'tool',
+    entity_id: data.tool_name,
+    metadata: { category: data.category },
+    user_id: user.id,
+  }).catch(() => {});
+
   return NextResponse.json({ suggestion: data }, { status: 201 });
 }
 

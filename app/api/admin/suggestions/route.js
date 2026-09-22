@@ -12,9 +12,11 @@ import {
 } from '../../../../lib/contribution-validation';
 import { getCatalogFileForCategory } from '../../../../lib/catalog-categories';
 import { normalizeToolToCanonical, toCanonicalNames } from '../../../../lib/canonical-tool-schema';
+import { normalizeKnowledgeItem } from '../../../../lib/knowledge-schema';
 import { getCategories } from '../../../../lib/data-fetchers';
 
 const DATA_DIR = path.join(process.cwd(), 'data', 'ai-tools');
+const PROMPTS_FILE = path.join(process.cwd(), 'data', 'default-prompts.json');
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function slugify(value) {
@@ -23,6 +25,67 @@ function slugify(value) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 80);
+}
+
+async function readPromptsFile() {
+  try {
+    const raw = await fs.readFile(PROMPTS_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      console.error('Failed to read prompts file:', error);
+    }
+    return [];
+  }
+}
+
+async function writePromptsFile(prompts) {
+  const temporaryPath = `${PROMPTS_FILE}.tmp-${process.pid}-${Date.now()}`;
+  await fs.writeFile(temporaryPath, JSON.stringify(prompts, null, 2), 'utf8');
+  await fs.rename(temporaryPath, PROMPTS_FILE);
+}
+
+export async function publishKnowledge(submission) {
+  const items = await readPromptsFile();
+  const baseSlug = slugify(submission.title);
+  if (!SAFE_SLUG.test(baseSlug)) throw new Error('Title cannot be converted to a valid slug');
+
+  const id = items.some((item) => item.id === baseSlug)
+    ? `${baseSlug}-${Date.now().toString(36)}`
+    : baseSlug;
+
+  const rawItem = {
+    id,
+    title: submission.title,
+    type: submission.type || 'prompt',
+    prompt_content: submission.prompt_content,
+    ai_model: submission.ai_model || submission.platform || 'Universal',
+    platform: submission.platform || submission.ai_model || 'Universal',
+    category: submission.category,
+    use_case: submission.use_case || (submission.use_cases && submission.use_cases[0]) || '',
+    use_cases: Array.isArray(submission.use_cases) && submission.use_cases.length > 0
+      ? submission.use_cases
+      : (submission.use_case ? [submission.use_case] : []),
+    tags: Array.isArray(submission.tags) ? submission.tags : cleanTags(submission.tags),
+    description: submission.description,
+    author: submission.is_anonymous ? 'Community Contributor' : (submission.display_name || 'Community Contributor'),
+    contributor: {
+      displayName: submission.is_anonymous ? 'Community Contributor' : (submission.display_name || 'Community Contributor'),
+    },
+    status: 'published',
+  };
+
+  const normalized = normalizeKnowledgeItem(rawItem);
+  const existingIdx = items.findIndex((i) => i.id === normalized.id);
+  if (existingIdx !== -1) {
+    items[existingIdx] = normalized;
+  } else {
+    items.unshift(normalized);
+  }
+
+  await writePromptsFile(items);
+  return normalized;
 }
 
 async function readCategory(category) {
@@ -192,7 +255,7 @@ export async function PATCH(request) {
   if (
     !['tool', 'prompt'].includes(type) ||
     !id ||
-    !['edit', 'approve', 'edit-and-approve', 'reject', 'delete'].includes(action)
+    !['edit', 'approve', 'edit-and-approve', 'publish', 'reject', 'delete'].includes(action)
   ) {
     return NextResponse.json({ error: 'Invalid review operation' }, { status: 400 });
   }
@@ -222,19 +285,30 @@ export async function PATCH(request) {
   const changes = {
     ...data,
     tags: cleanTags(merged.tags),
-    admin_notes: cleanText(data.admin_notes || existing.admin_notes, 1000),
+    admin_notes: cleanText(data.admin_notes !== undefined ? data.admin_notes : existing.admin_notes, 1000),
     updated_at: new Date().toISOString(),
   };
 
   if (action === 'reject') changes.status = 'rejected';
-  if (action === 'approve' || action === 'edit-and-approve') changes.status = 'approved';
+  if (action === 'approve' || action === 'edit-and-approve' || action === 'publish') {
+    changes.status = 'approved';
+  }
 
-  if (type === 'tool' && (action === 'approve' || action === 'edit-and-approve')) {
+  if (type === 'tool' && (action === 'approve' || action === 'edit-and-approve' || action === 'publish')) {
     try {
       const publishedTool = await publishTool(merged);
       changes.published_slug = publishedTool.slug;
     } catch (error) {
       return NextResponse.json({ error: error.message || 'Unable to publish tool' }, { status: 400 });
+    }
+  }
+
+  if (type === 'prompt' && (action === 'approve' || action === 'edit-and-approve' || action === 'publish')) {
+    try {
+      const publishedKnowledge = await publishKnowledge(merged);
+      changes.published_id = publishedKnowledge.id;
+    } catch (error) {
+      return NextResponse.json({ error: error.message || 'Unable to publish knowledge item' }, { status: 400 });
     }
   }
 

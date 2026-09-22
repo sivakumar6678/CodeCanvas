@@ -171,7 +171,9 @@ export default function ContributionsManager() {
             ? 'Submission removed.'
             : action === 'edit'
               ? 'Submission updated successfully.'
-              : 'Submission approved and published to catalog!'
+              : action === 'publish'
+                ? 'Submission approved and published to live catalog!'
+                : 'Submission approved successfully!'
       );
       setReview(null);
       await load();
@@ -346,7 +348,7 @@ export default function ContributionsManager() {
                     <>
                       <button
                         type="button"
-                        title="Approve & Publish"
+                        title="Approve"
                         className={styles.approveBtn}
                         onClick={() =>
                           act('approve', {
@@ -360,6 +362,23 @@ export default function ContributionsManager() {
                         }
                       >
                         <FiCheck /> Approve
+                      </button>
+                      <button
+                        type="button"
+                        title="Approve & Publish to Catalog"
+                        className={styles.publishBtn}
+                        onClick={() =>
+                          act('publish', {
+                            ...emptyReview,
+                            ...item,
+                            type: itemType,
+                            id: item.id,
+                            typeName: item.type,
+                            tags: Array.isArray(item.tags) ? item.tags.join(', ') : item.tags,
+                          })
+                        }
+                      >
+                        <FiExternalLink /> Publish
                       </button>
                       <button
                         type="button"
@@ -378,6 +397,50 @@ export default function ContributionsManager() {
                       >
                         <FiX /> Reject
                       </button>
+                    </>
+                  )}
+
+                  {item.status === 'approved' && (
+                    <>
+                      {isTool && item.published_slug ? (
+                        <a
+                          href={`/ai-tools/tool/${item.published_slug}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.viewLiveBtn}
+                          title="View in Live Catalog"
+                        >
+                          <FiExternalLink /> Live in Catalog
+                        </a>
+                      ) : !isTool && item.published_id ? (
+                        <a
+                          href={`/ai-knowledge/${item.published_id}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.viewLiveBtn}
+                          title="View in Live Knowledge Base"
+                        >
+                          <FiExternalLink /> Live in Knowledge
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          title="Publish to Live Catalog"
+                          className={styles.publishBtn}
+                          onClick={() =>
+                            act('publish', {
+                              ...emptyReview,
+                              ...item,
+                              type: itemType,
+                              id: item.id,
+                              typeName: item.type,
+                              tags: Array.isArray(item.tags) ? item.tags.join(', ') : item.tags,
+                            })
+                          }
+                        >
+                          <FiExternalLink /> Publish
+                        </button>
+                      )}
                     </>
                   )}
                 </div>
@@ -613,10 +676,19 @@ export default function ContributionsManager() {
                 <button
                   type="button"
                   className={styles.approveModalBtn}
-                  onClick={() => act('edit-and-approve')}
+                  onClick={() => act('approve')}
                   disabled={submitting}
                 >
-                  <FiCheck /> Save & Approve
+                  <FiCheck /> Approve
+                </button>
+
+                <button
+                  type="button"
+                  className={styles.publishModalBtn}
+                  onClick={() => act('publish')}
+                  disabled={submitting}
+                >
+                  <FiExternalLink /> Approve &amp; Publish
                 </button>
               </div>
             </div>

@@ -140,6 +140,7 @@ create table if not exists public.prompt_submissions (
 alter table public.prompt_submissions add column if not exists type text default 'prompt';
 alter table public.prompt_submissions add column if not exists platform text default 'Universal';
 alter table public.prompt_submissions add column if not exists use_cases text[] default '{}'::text[] not null;
+alter table public.prompt_submissions add column if not exists published_id text;
 alter table public.prompt_submissions add column if not exists contributor jsonb default '{}'::jsonb not null;
 alter table public.prompt_submissions add column if not exists created_date timestamptz default timezone('utc'::text, now()) not null;
 
@@ -159,6 +160,35 @@ create table if not exists public.analytics_prompt_events (
     user_agent text
 );
 
+create table if not exists public.analytics_events (
+    id uuid default gen_random_uuid() primary key,
+    event_type text not null check (event_type in (
+        'tool_view',
+        'tool_click',
+        'tool_save',
+        'tool_review',
+        'search',
+        'category_view',
+        'knowledge_view',
+        'knowledge_copy',
+        'knowledge_save',
+        'contribution'
+    )),
+    entity_type text,
+    entity_id text,
+    metadata jsonb default '{}'::jsonb,
+    user_id uuid references auth.users(id) on delete set null,
+    occurred_at timestamptz default timezone('utc'::text, now()) not null
+);
+
+create table if not exists public.recently_viewed_tools (
+    user_id uuid references auth.users(id) on delete cascade not null,
+    tool_slug text not null,
+    tool_type text default 'ai_tool' check (tool_type in ('ai_tool', 'builtin_tool')),
+    viewed_at timestamptz default timezone('utc'::text, now()) not null,
+    primary key (user_id, tool_slug)
+);
+
 create index if not exists tool_reviews_slug_idx on public.tool_reviews(tool_slug);
 create index if not exists comments_slug_idx on public.comments(tool_slug);
 create index if not exists saved_tools_user_idx on public.saved_tools(user_id);
@@ -172,6 +202,13 @@ create index if not exists prompt_submissions_user_idx on public.prompt_submissi
 create index if not exists prompt_submissions_status_idx on public.prompt_submissions(status, created_at desc);
 create index if not exists saved_prompts_user_idx on public.saved_prompts(user_id, saved_at desc);
 create index if not exists prompt_events_idx on public.analytics_prompt_events(prompt_id, event_type);
+create index if not exists analytics_events_type_occurred_idx on public.analytics_events(event_type, occurred_at desc);
+create index if not exists analytics_events_entity_idx on public.analytics_events(entity_type, entity_id);
+create index if not exists analytics_events_occurred_idx on public.analytics_events(occurred_at desc);
+create index if not exists analytics_events_user_idx on public.analytics_events(user_id);
+create index if not exists recently_viewed_user_viewed_idx on public.recently_viewed_tools(user_id, viewed_at desc);
+
+
 
 alter table public.user_profiles enable row level security;
 alter table public.tool_reviews enable row level security;
@@ -186,6 +223,8 @@ alter table public.tool_suggestions enable row level security;
 alter table public.prompt_submissions enable row level security;
 alter table public.saved_prompts enable row level security;
 alter table public.analytics_prompt_events enable row level security;
+alter table public.analytics_events enable row level security;
+alter table public.recently_viewed_tools enable row level security;
 
 drop policy if exists "CodeCraft users view own tool suggestions" on public.tool_suggestions;
 create policy "CodeCraft users view own tool suggestions" on public.tool_suggestions
@@ -370,6 +409,41 @@ create policy "CodeCraft anonymous click inserts" on public.analytics_tool_click
 drop policy if exists "CodeCraft authenticated click reads" on public.analytics_tool_clicks;
 create policy "CodeCraft authenticated click reads" on public.analytics_tool_clicks
     for select to authenticated using (true);
+
+drop policy if exists "CodeCraft analytics events are insertable" on public.analytics_events;
+create policy "CodeCraft analytics events are insertable" on public.analytics_events
+    for insert to anon, authenticated with check (true);
+drop policy if exists "CodeCraft admin reads analytics events" on public.analytics_events;
+create policy "CodeCraft admin reads analytics events" on public.analytics_events
+    for select to authenticated
+    using (
+        exists (
+            select 1 from public.user_profiles
+            where user_profiles.id = auth.uid()
+            and (user_profiles.role = 'admin' or auth.jwt() ->> 'email' = any(string_to_array(coalesce(current_setting('app.admin_emails', true), ''), ',')))
+        )
+    );
+
+drop policy if exists "CodeCraft users insert own recently viewed" on public.recently_viewed_tools;
+create policy "CodeCraft users insert own recently viewed" on public.recently_viewed_tools
+    for insert to authenticated
+    with check (auth.uid() = user_id);
+
+drop policy if exists "CodeCraft users select own recently viewed" on public.recently_viewed_tools;
+create policy "CodeCraft users select own recently viewed" on public.recently_viewed_tools
+    for select to authenticated
+    using (auth.uid() = user_id);
+
+drop policy if exists "CodeCraft users update own recently viewed" on public.recently_viewed_tools;
+create policy "CodeCraft users update own recently viewed" on public.recently_viewed_tools
+    for update to authenticated
+    using (auth.uid() = user_id)
+    with check (auth.uid() = user_id);
+
+drop policy if exists "CodeCraft users delete own recently viewed" on public.recently_viewed_tools;
+create policy "CodeCraft users delete own recently viewed" on public.recently_viewed_tools
+    for delete to authenticated
+    using (auth.uid() = user_id);
 
 -- Reload PostgREST schema cache
 notify pgrst, 'reload schema';

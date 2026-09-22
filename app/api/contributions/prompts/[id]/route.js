@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 import defaultPrompts from '../../../../../data/default-prompts.json';
+import { recordAnalyticsEvent } from '../../../../../lib/analytics';
 
 export async function POST(request, { params }) {
   const supabase = await createClient();
@@ -40,6 +41,13 @@ export async function POST(request, { params }) {
     } catch (err) {
       // Non-blocking telemetry
     }
+    const mappedType = action === 'copy' ? 'knowledge_copy' : action === 'view' ? 'knowledge_view' : 'knowledge_save';
+    recordAnalyticsEvent(supabase, {
+      event_type: mappedType,
+      entity_type: 'knowledge',
+      entity_id: id,
+      user_id: user?.id || null,
+    }).catch(() => {});
   }
 
   return NextResponse.json({ success: true, saved: action === 'save' });

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
+import { recordAnalyticsEvent } from '../../../../lib/analytics';
 
 export async function POST(request) {
   try {
@@ -11,6 +12,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
     }
 
+    // 1. Insert into legacy analytics_tool_clicks
     const { error } = await supabase
       .from('analytics_tool_clicks')
       .insert([
@@ -18,9 +20,22 @@ export async function POST(request) {
       ]);
 
     if (error) {
-      console.error('Error tracking click:', error);
-      return NextResponse.json({ error: 'Failed to track click' }, { status: 500 });
+      console.warn('Error tracking click in analytics_tool_clicks:', error.message);
     }
+
+    // 2. Insert into unified analytics_events
+    let userId = null;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      userId = user?.id || null;
+    } catch {}
+
+    await recordAnalyticsEvent(supabase, {
+      event_type: 'tool_click',
+      entity_type: 'tool',
+      entity_id: slug,
+      user_id: userId,
+    });
 
     return NextResponse.json({ success: true });
   } catch (err) {

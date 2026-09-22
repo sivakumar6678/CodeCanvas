@@ -6,6 +6,7 @@ import ToolHeader from '../../../components/ToolHeader';
 import ToolDescription from '../../../components/ToolDescription';
 import BackButton from '../../../components/BackButton';
 import { builtinTools } from '../../../lib/toolData';
+import TrackBuiltinToolView from '../../../components/tools_components/TrackBuiltinToolView';
 import '../../../app/tool-page-layout.scss';
 
 // Lazy load tool components
@@ -36,6 +37,7 @@ export default function ToolPage({ params }) {
 
   return (
     <div className="tool-page-wrapper">
+      <TrackBuiltinToolView id={id} />
       {/* Back button — visible below navbar, outside main container */}
       <BackButton href="/tools" label="Back to Tools" />
 

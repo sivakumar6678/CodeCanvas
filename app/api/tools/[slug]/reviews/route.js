@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
+import { recordAnalyticsEvent } from '../../../../../lib/analytics';
 
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -71,6 +72,15 @@ export async function POST(request, { params }) {
       .single();
 
     if (error) throw error;
+
+    // Record non-blocking analytics event
+    recordAnalyticsEvent(supabase, {
+      event_type: 'tool_review',
+      entity_type: 'tool',
+      entity_id: slug,
+      metadata: { rating },
+      user_id: user.id,
+    }).catch(() => {});
 
     return NextResponse.json({ success: true, review: data });
   } catch (error) {

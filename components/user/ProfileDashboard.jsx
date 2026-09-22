@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '../../lib/supabase/client';
 import {
@@ -25,7 +25,9 @@ import {
   FiCalendar,
   FiMail,
   FiAward,
-  FiCpu
+  FiCpu,
+  FiTrash2,
+  FiArrowUpRight,
 } from 'react-icons/fi';
 import styles from './ProfileDashboard.module.scss';
 import Link from 'next/link';
@@ -101,6 +103,18 @@ const PLATFORMS = [
   'CLI / Terminal'
 ];
 
+function formatRelativeTime(dateString) {
+  if (!dateString) return 'Recently';
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffSec = Math.floor((now - date) / 1000);
+  if (diffSec < 60) return 'Just now';
+  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
+  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`;
+  if (diffSec < 604800) return `${Math.floor(diffSec / 86400)}d ago`;
+  return date.toLocaleDateString();
+}
+
 export default function ProfileDashboard({ initialData }) {
   const router = useRouter();
   const [supabase] = useState(() => createClient());
@@ -140,10 +154,101 @@ export default function ProfileDashboard({ initialData }) {
 
   const contributions = initialData.contributions || { toolSubmissions: [], promptSubmissions: [] };
   const recommendedTools = initialData.recommendedTools || [];
-  const allSubmissions = [
+  const initialSubmissions = [
     ...(contributions.toolSubmissions || []).map((t) => ({ ...t, kind: 'tool' })),
     ...(contributions.promptSubmissions || []).map((p) => ({ ...p, kind: 'prompt' })),
   ].sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+
+  const [submissionList, setSubmissionList] = useState(initialSubmissions);
+  const [contributionStatusFilter, setContributionStatusFilter] = useState('all');
+  const [withdrawingId, setWithdrawingId] = useState(null);
+  const [withdrawFeedback, setWithdrawFeedback] = useState('');
+
+  const handleWithdrawSubmission = async (sub) => {
+    if (!confirm('Are you sure you want to withdraw this pending submission?')) return;
+    setWithdrawingId(sub.id);
+    setWithdrawFeedback('');
+
+    const endpoint = sub.kind === 'tool'
+      ? `/api/contributions/tools?id=${sub.id}`
+      : `/api/contributions/prompts?id=${sub.id}`;
+
+    try {
+      const res = await fetch(endpoint, { method: 'DELETE' });
+      if (res.ok) {
+        setSubmissionList((prev) => prev.filter((item) => item.id !== sub.id));
+        setWithdrawFeedback('Submission withdrawn successfully.');
+        setTimeout(() => setWithdrawFeedback(''), 3000);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setWithdrawFeedback(data.error || 'Failed to withdraw submission.');
+      }
+    } catch (err) {
+      console.error('Withdraw error:', err);
+      setWithdrawFeedback('Network error while withdrawing submission.');
+    } finally {
+      setWithdrawingId(null);
+    }
+  };
+
+  // Recently Viewed Tools History State
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [loadingRecentlyViewed, setLoadingRecentlyViewed] = useState(false);
+  const [clearingHistory, setClearingHistory] = useState(false);
+  const [historyFeedback, setHistoryFeedback] = useState('');
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoadingRecentlyViewed(true);
+    fetch('/api/user/recently-viewed')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data) => {
+        if (isMounted) {
+          setRecentlyViewed(Array.isArray(data) ? data : []);
+          setLoadingRecentlyViewed(false);
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching recently viewed tools:', err);
+        if (isMounted) setLoadingRecentlyViewed(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleClearHistory = async () => {
+    if (!confirm('Are you sure you want to clear your recently viewed tools history?')) return;
+    setClearingHistory(true);
+    setHistoryFeedback('');
+    try {
+      const res = await fetch('/api/user/recently-viewed', { method: 'DELETE' });
+      if (res.ok) {
+        setRecentlyViewed([]);
+        setHistoryFeedback('History cleared successfully.');
+        setTimeout(() => setHistoryFeedback(''), 3000);
+      } else {
+        setHistoryFeedback('Failed to clear history.');
+      }
+    } catch (err) {
+      console.error('Error clearing history:', err);
+      setHistoryFeedback('Network error while clearing history.');
+    } finally {
+      setClearingHistory(false);
+    }
+  };
+
+  const handleRemoveHistoryItem = async (slug) => {
+    try {
+      const res = await fetch(`/api/user/recently-viewed?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' });
+      if (res.ok) {
+        setRecentlyViewed((prev) => prev.filter((item) => item.tool_slug !== slug));
+      }
+    } catch (err) {
+      console.error('Error removing history item:', err);
+    }
+  };
 
   const toggleArrayItem = (list, setList, item) => {
     if (list.includes(item)) {
@@ -463,7 +568,7 @@ export default function ProfileDashboard({ initialData }) {
             <FiLayers />
           </div>
           <div className={styles.metricInfo}>
-            <span className={styles.metricNumber}>{stats.contributionsCount || allSubmissions.length}</span>
+            <span className={styles.metricNumber}>{submissionList.length}</span>
             <span className={styles.metricTitle}>Contributions</span>
             <span className={styles.metricSubtitle}>Submissions &amp; reviews</span>
           </div>
@@ -484,6 +589,22 @@ export default function ProfileDashboard({ initialData }) {
             <span className={styles.metricSubtitle}>Personalize toolkit</span>
           </div>
         </div>
+
+        <div
+          className={`${styles.metricCard} ${activeTab === 'history' ? styles.metricActive : ''}`}
+          onClick={() => setActiveTab('history')}
+          role="button"
+          tabIndex={0}
+        >
+          <div className={`${styles.metricIconBox} ${styles.iconPurple}`}>
+            <FiClock />
+          </div>
+          <div className={styles.metricInfo}>
+            <span className={styles.metricNumber}>{recentlyViewed.length}</span>
+            <span className={styles.metricTitle}>Recently Viewed</span>
+            <span className={styles.metricSubtitle}>Browsing history</span>
+          </div>
+        </div>
       </div>
 
       {/* Main Tabbed Container */}
@@ -497,6 +618,15 @@ export default function ProfileDashboard({ initialData }) {
           >
             <FiBookmark /> Saved Items
             <span className={styles.tabBadge}>{totalSavedCount}</span>
+          </button>
+          <button
+            type="button"
+            className={`${styles.tabLink} ${activeTab === 'history' ? styles.activeTabLink : ''}`}
+            onClick={() => setActiveTab('history')}
+            suppressHydrationWarning
+          >
+            <FiClock /> Recently Viewed
+            <span className={styles.tabBadge}>{recentlyViewed.length}</span>
           </button>
           <button
             type="button"
@@ -562,6 +692,111 @@ export default function ProfileDashboard({ initialData }) {
             </div>
           )}
 
+          {/* TAB: Recently Viewed Tools History */}
+          {activeTab === 'history' && (
+            <div className={styles.historySectionWrapper}>
+              <div className={styles.historyHeader}>
+                <div>
+                  <h3>Recently Viewed Tools</h3>
+                  <p>Tools you have recently explored across AI catalog and developer tools.</p>
+                </div>
+                {recentlyViewed.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearHistory}
+                    disabled={clearingHistory}
+                    className={styles.clearHistoryBtn}
+                    title="Clear your browsing history"
+                  >
+                    <FiTrash2 /> {clearingHistory ? 'Clearing...' : 'Clear History'}
+                  </button>
+                )}
+              </div>
+
+              {historyFeedback && (
+                <div className={styles.feedbackAlert}>
+                  <FiCheckCircle /> {historyFeedback}
+                </div>
+              )}
+
+              {loadingRecentlyViewed ? (
+                <div className={styles.emptyStateContainer}>
+                  <p>Loading your history...</p>
+                </div>
+              ) : recentlyViewed.length > 0 ? (
+                <div className={styles.historyGrid}>
+                  {recentlyViewed.map((item) => {
+                    const tool = item.tool || {};
+                    const isBuiltin = item.tool_type === 'builtin_tool';
+                    const targetHref = tool.href || (isBuiltin ? `/tool/${item.tool_slug}` : `/ai-tools/tool/${item.tool_slug}`);
+                    return (
+                      <div key={item.tool_slug} className={styles.historyCard}>
+                        <div className={styles.historyCardTop}>
+                          <div className={styles.historyToolIcon}>
+                            {tool.logo ? (
+                              <img src={tool.logo} alt={tool.name || item.tool_slug} />
+                            ) : (
+                              <FiCode />
+                            )}
+                          </div>
+                          <div className={styles.historyToolDetails}>
+                            <Link href={targetHref} className={styles.historyToolName}>
+                              {tool.name || item.tool_slug}
+                            </Link>
+                            <div className={styles.historyBadgesRow}>
+                              <span className={styles.historyBadge}>{tool.category || 'Tool'}</span>
+                              <span className={styles.historyTypeBadge}>{isBuiltin ? 'Built-in Tool' : 'AI Tool'}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className={styles.historyCardBottom}>
+                          <span className={styles.historyTime}>
+                            <FiClock /> {formatRelativeTime(item.viewed_at)}
+                          </span>
+                          <div className={styles.historyActions}>
+                            <Link href={targetHref} className={styles.openToolBtn}>
+                              Open <FiArrowUpRight />
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveHistoryItem(item.tool_slug)}
+                              className={styles.removeHistoryBtn}
+                              title="Remove from history"
+                              aria-label={`Remove ${tool.name || item.tool_slug} from history`}
+                            >
+                              <FiX />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className={styles.emptyStateContainer}>
+                  <div className={styles.emptyIconBox}>
+                    <FiClock />
+                  </div>
+                  <h3>No Recently Viewed Tools</h3>
+                  <p>Tools you explore will automatically appear here so you can quickly jump back in.</p>
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <Link href="/ai-tools" className={styles.browseToolsBtn}>
+                      Explore AI Catalog
+                    </Link>
+                    <Link
+                      href="/tools"
+                      className={styles.browseToolsBtn}
+                      style={{ background: 'var(--bg-muted)', color: 'var(--text-main)', border: '1px solid var(--border-medium)' }}
+                    >
+                      Built-in Developer Tools
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* TAB 2: Recommended For You */}
           {activeTab === 'recommendations' && (
             <div className={styles.recommendationsSection}>
@@ -608,84 +843,174 @@ export default function ProfileDashboard({ initialData }) {
           )}
 
           {/* TAB 3: My Contributions */}
-          {activeTab === 'contributions' && (
-            <div className={styles.contributionsSection}>
-              <div className={styles.sectionHeaderBox}>
-                <div>
-                  <h2 className={styles.sectionTitle}>Community Contributions</h2>
-                  <p className={styles.sectionDescription}>
-                    Track the status of AI tools and prompts you have submitted to the CodeCraft catalog.
-                  </p>
-                </div>
-                <Link href="/contribute" className={styles.toolkitBuilderBtn}>
-                  + Submit New Contribution
-                </Link>
-              </div>
+          {activeTab === 'contributions' && (() => {
+            const pendingCount = submissionList.filter((s) => s.status === 'pending').length;
+            const approvedCount = submissionList.filter((s) => s.status === 'approved').length;
+            const rejectedCount = submissionList.filter((s) => s.status === 'rejected').length;
+            const filteredSubmissions = submissionList.filter((sub) => {
+              if (contributionStatusFilter === 'all') return true;
+              return sub.status === contributionStatusFilter;
+            });
 
-              {allSubmissions.length > 0 ? (
-                <div className={styles.submissionsList}>
-                  {allSubmissions.map((sub) => (
-                    <article key={sub.id} className={styles.submissionCard}>
-                      <div className={styles.submissionCardHeader}>
-                        <div className={styles.submissionBadges}>
-                          <span className={styles.subKindBadge}>
-                            {sub.kind === 'tool' ? 'AI Tool' : (CONTRIBUTION_TYPE_LABELS[sub.type] || sub.type || 'Knowledge')}
-                          </span>
-                          <span className={styles.subCategoryBadge}>{sub.category}</span>
-                        </div>
-                        <span
-                          className={`${styles.statusBadge} ${
-                            sub.status === 'approved'
-                              ? styles.statusApproved
-                              : sub.status === 'rejected'
-                              ? styles.statusRejected
-                              : styles.statusPending
-                          }`}
-                        >
-                          {sub.status === 'approved' ? (
-                            <><FiCheckCircle /> Published</>
-                          ) : sub.status === 'rejected' ? (
-                            <><FiAlertCircle /> Rejected</>
-                          ) : (
-                            <><FiClock /> Under Review</>
-                          )}
-                        </span>
-                      </div>
-
-                      <h3 className={styles.submissionTitle}>{sub.kind === 'tool' ? sub.tool_name : sub.title}</h3>
-                      <p className={styles.submissionDesc}>{sub.description}</p>
-
-                      {sub.admin_notes && (
-                        <div style={{ padding: '6px 10px', background: 'rgba(239, 68, 68, 0.08)', borderLeft: '3px solid #dc2626', borderRadius: '4px', fontSize: '0.8rem', marginBottom: '8px' }}>
-                          <strong style={{ color: '#dc2626' }}>Moderator Note:</strong> {sub.admin_notes}
-                        </div>
-                      )}
-
-                      {sub.website && (
-                        <a
-                          href={sub.website}
-                          target="_blank"
-                          rel="noreferrer"
-                          className={styles.submissionLink}
-                        >
-                          Visit Website <FiExternalLink />
-                        </a>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              ) : (
-                <div className={styles.emptyStateBox}>
-                  <div className={styles.emptyIconBox}><FiLayers /></div>
-                  <h3>No Contributions Yet</h3>
-                  <p>You haven't submitted any AI tools or prompts to the catalog yet.</p>
-                  <Link href="/contribute" className={styles.primaryActionButton}>
-                    Submit a Contribution &rarr;
+            return (
+              <div className={styles.contributionsSection}>
+                <div className={styles.sectionHeaderBox}>
+                  <div>
+                    <h2 className={styles.sectionTitle}>Community Contributions</h2>
+                    <p className={styles.sectionDescription}>
+                      Track the status of AI tools and prompts you have submitted to the CodeCraft catalog.
+                    </p>
+                  </div>
+                  <Link href="/contribute" className={styles.toolkitBuilderBtn}>
+                    + Submit New Contribution
                   </Link>
                 </div>
-              )}
-            </div>
-          )}
+
+                {/* Status Filter Pills */}
+                <div className={styles.filterPillsRow}>
+                  <button
+                    type="button"
+                    className={`${styles.filterPill} ${contributionStatusFilter === 'all' ? styles.filterPillActive : ''}`}
+                    onClick={() => setContributionStatusFilter('all')}
+                  >
+                    All ({submissionList.length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.filterPill} ${contributionStatusFilter === 'pending' ? styles.filterPillActive : ''}`}
+                    onClick={() => setContributionStatusFilter('pending')}
+                  >
+                    Under Review ({pendingCount})
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.filterPill} ${contributionStatusFilter === 'approved' ? styles.filterPillActive : ''}`}
+                    onClick={() => setContributionStatusFilter('approved')}
+                  >
+                    Approved / Published ({approvedCount})
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.filterPill} ${contributionStatusFilter === 'rejected' ? styles.filterPillActive : ''}`}
+                    onClick={() => setContributionStatusFilter('rejected')}
+                  >
+                    Rejected ({rejectedCount})
+                  </button>
+                </div>
+
+                {withdrawFeedback && (
+                  <div style={{ padding: '8px 12px', background: 'rgba(16, 185, 129, 0.12)', color: '#059669', borderRadius: '6px', fontSize: '0.85rem', marginBottom: '12px' }}>
+                    ✓ {withdrawFeedback}
+                  </div>
+                )}
+
+                {filteredSubmissions.length > 0 ? (
+                  <div className={styles.submissionsList}>
+                    {filteredSubmissions.map((sub) => {
+                      const isTool = sub.kind === 'tool';
+                      const websiteUrl = sub.website_url || sub.website;
+
+                      return (
+                        <article key={sub.id} className={styles.submissionCard}>
+                          <div className={styles.submissionCardHeader}>
+                            <div className={styles.submissionBadges}>
+                              <span className={styles.subKindBadge}>
+                                {isTool ? 'AI Tool' : (CONTRIBUTION_TYPE_LABELS[sub.type] || sub.type || 'Knowledge')}
+                              </span>
+                              <span className={styles.subCategoryBadge}>{sub.category}</span>
+                            </div>
+                            <span
+                              className={`${styles.statusBadge} ${
+                                sub.status === 'approved'
+                                  ? styles.statusApproved
+                                  : sub.status === 'rejected'
+                                  ? styles.statusRejected
+                                  : styles.statusPending
+                              }`}
+                            >
+                              {sub.status === 'approved' ? (
+                                <><FiCheckCircle /> Published</>
+                              ) : sub.status === 'rejected' ? (
+                                <><FiAlertCircle /> Rejected</>
+                              ) : (
+                                <><FiClock /> Under Review</>
+                              )}
+                            </span>
+                          </div>
+
+                          <h3 className={styles.submissionTitle}>{isTool ? sub.tool_name : sub.title}</h3>
+                          <p className={styles.submissionDesc}>{sub.description}</p>
+
+                          {sub.admin_notes && (
+                            <div style={{ padding: '6px 10px', background: 'rgba(239, 68, 68, 0.08)', borderLeft: '3px solid #dc2626', borderRadius: '4px', fontSize: '0.8rem', marginBottom: '8px' }}>
+                              <strong style={{ color: '#dc2626' }}>Moderator Note:</strong> {sub.admin_notes}
+                            </div>
+                          )}
+
+                          <div className={styles.submissionFooter}>
+                            <div className={styles.submissionLinks}>
+                              {isTool && sub.status === 'approved' && sub.published_slug && (
+                                <Link
+                                  href={`/ai-tools/tool/${sub.published_slug}`}
+                                  className={styles.submissionCatalogLink}
+                                >
+                                  View in Catalog <FiExternalLink />
+                                </Link>
+                              )}
+
+                              {!isTool && sub.status === 'approved' && (
+                                <Link
+                                  href={`/ai-knowledge/${sub.published_id || sub.id}`}
+                                  className={styles.submissionCatalogLink}
+                                >
+                                  View in AI Knowledge <FiExternalLink />
+                                </Link>
+                              )}
+
+                              {websiteUrl && (
+                                <a
+                                  href={websiteUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className={styles.submissionLink}
+                                >
+                                  Visit Website <FiExternalLink />
+                                </a>
+                              )}
+                            </div>
+
+                            {sub.status === 'pending' && (
+                              <button
+                                type="button"
+                                className={styles.withdrawBtn}
+                                onClick={() => handleWithdrawSubmission(sub)}
+                                disabled={withdrawingId === sub.id}
+                              >
+                                {withdrawingId === sub.id ? 'Withdrawing...' : 'Withdraw Submission'}
+                              </button>
+                            )}
+                          </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className={styles.emptyStateBox}>
+                    <div className={styles.emptyIconBox}><FiLayers /></div>
+                    <h3>No {contributionStatusFilter !== 'all' ? contributionStatusFilter : ''} Contributions</h3>
+                    <p>
+                      {contributionStatusFilter === 'all'
+                        ? "You haven't submitted any AI tools or prompts to the catalog yet."
+                        : `No submissions currently in "${contributionStatusFilter}" status.`}
+                    </p>
+                    <Link href="/contribute" className={styles.primaryActionButton}>
+                      Submit a Contribution &rarr;
+                    </Link>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* TAB 4: Personalization & Preferences */}
           {activeTab === 'settings' && (

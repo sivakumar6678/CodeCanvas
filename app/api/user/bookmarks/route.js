@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 import { getToolBySlug } from '../../../../lib/data-fetchers';
+import { recordAnalyticsEvent } from '../../../../lib/analytics';
 
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -60,6 +61,15 @@ export async function POST(request) {
         .insert({ tool_slug, user_id: user.id });
       
       if (error && error.code !== '23505') throw error; // Ignore duplicate key error
+
+      // Record non-blocking analytics event
+      recordAnalyticsEvent(supabase, {
+        event_type: 'tool_save',
+        entity_type: 'tool',
+        entity_id: tool_slug,
+        metadata: { category: tool.category },
+        user_id: user.id,
+      }).catch(() => {});
     } else if (action === 'remove') {
       const { error } = await supabase
         .from('saved_tools')

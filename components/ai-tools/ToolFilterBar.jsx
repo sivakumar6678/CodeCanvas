@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FiX, FiFilter, FiLayers } from 'react-icons/fi';
+import { FiX, FiFilter, FiLayers, FiZap } from 'react-icons/fi';
 import styles from './ToolFilterBar.module.scss';
 
 const PRICING_OPTIONS = [
@@ -175,6 +176,9 @@ export default function ToolFilterBar({
         </div>
 
         <div className={styles.rightControls}>
+          <Link href="/build-toolkit" className={styles.toolkitBtn} title="Build your customized AI stack">
+            <FiZap aria-hidden="true" /> Build Toolkit
+          </Link>
           <span className={styles.countBadge}>{totalCount} tool{totalCount === 1 ? '' : 's'}</span>
           <select
             value={currentSort}

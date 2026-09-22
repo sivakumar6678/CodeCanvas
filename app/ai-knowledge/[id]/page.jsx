@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { createClient } from '../../../lib/supabase/server';
 import PromptCustomizer from '../../../components/prompts/PromptCustomizer';
 import SavePromptButton from '../../../components/prompts/SavePromptButton';
+import TrackKnowledgeView from '../../../components/prompts/TrackKnowledgeView';
 import { generatePromptSchema } from '../../../lib/seo-schema';
 import { KNOWLEDGE_TYPE_LABELS } from '../../../lib/knowledge-schema';
 import styles from './page.module.scss';
@@ -69,6 +70,7 @@ export default async function KnowledgeDetailPage({ params }) {
 
   return (
     <main className={styles.page}>
+      <TrackKnowledgeView id={item.id} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

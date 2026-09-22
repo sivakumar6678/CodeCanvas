@@ -3,6 +3,7 @@ import { filterTools, getAvailableFilterOptions } from '../../../lib/catalog-fil
 import AIToolCard from '../../../components/ai-tools/AIToolCard';
 import CategoryFilter from '../../../components/ai-tools/CategoryFilter';
 import ToolFilterBar from '../../../components/ai-tools/ToolFilterBar';
+import TrackCategoryView from '../../../components/ai-tools/TrackCategoryView';
 import { notFound } from 'next/navigation';
 import styles from '../page.module.scss';
 
@@ -52,6 +53,7 @@ export default async function CategoryPage({ params, searchParams }) {
 
   return (
     <div className={styles.container}>
+      <TrackCategoryView category={categorySlug} />
       <header className={styles.header}>
         <h1 className={styles.title}>{category.name} Tools</h1>
         <p className={styles.subtitle}>{category.description}</p>

@@ -238,6 +238,64 @@
   font-size: 1.1rem;
 }
 
+.customGoalSection {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--bg-muted);
+  border: 1px dashed var(--border-medium);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.goalInput {
+  width: 100%;
+  padding: 10px 36px 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light, rgba(99, 102, 241, 0.15));
+  }
+}
+
+.clearBtn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    color: var(--text-main);
+  }
+}
+
+.inputHint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
 /* Steps 2-4: Common Form Controls */
 .stepContent {
   display: flex;
@@ -496,8 +554,14 @@
 
 .tierExact {
   background: rgba(16, 185, 129, 0.12);
-  color: #059669;
+  color: #10b981;
   border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.tierTag {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(14, 165, 233, 0.25);
 }
 
 .tierCategory {

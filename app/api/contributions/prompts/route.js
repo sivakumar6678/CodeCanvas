@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 import { serializePromptSubmission, validatePromptSubmission } from '../../../../lib/contribution-validation';
+import { recordAnalyticsEvent } from '../../../../lib/analytics';
 
 export async function GET() {
   const supabase = await createClient();
@@ -33,6 +34,16 @@ export async function POST(request) {
     .single();
 
   if (error) return NextResponse.json({ error: 'Unable to submit this contribution' }, { status: 500 });
+
+  // Record non-blocking analytics event
+  recordAnalyticsEvent(supabase, {
+    event_type: 'contribution',
+    entity_type: 'knowledge',
+    entity_id: data.title,
+    metadata: { type: data.type, category: data.category },
+    user_id: user.id,
+  }).catch(() => {});
+
   return NextResponse.json({ prompt: data }, { status: 201 });
 }
 

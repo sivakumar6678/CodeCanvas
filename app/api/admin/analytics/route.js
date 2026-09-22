@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 import { getAllTools } from '../../../../lib/data-fetchers';
 import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
+import { computePopularCategories, computeMostSavedTools, formatRecentActivity } from '../../../../lib/analytics';
+import defaultPrompts from '../../../../data/default-prompts.json';
 
-export async function GET(request) {
-  const supabase = createClient();
+export async function GET() {
+  const supabase = await createClient();
 
   try {
     const { user, isAdmin } = await getCurrentUserWithProfile();
@@ -16,89 +18,144 @@ export async function GET(request) {
     }
 
     // Fetch raw metrics from Supabase
-    const { count: totalViews } = await supabase
-      .from('analytics_tool_views')
-      .select('*', { count: 'exact', head: true });
+    const [
+      usersCountRes,
+      viewsCountRes,
+      clicksCountRes,
+      reviewsCountRes,
+      upvotesCountRes,
+      savedToolsCountRes,
+      savedPromptsCountRes,
+      toolSuggestionsCountRes,
+      promptSubmissionsCountRes,
+      viewsListRes,
+      clicksListRes,
+      upvotesListRes,
+      savedToolsListRes,
+      analyticsEventsRes,
+    ] = await Promise.allSettled([
+      supabase.from('user_profiles').select('*', { count: 'exact', head: true }),
+      supabase.from('analytics_tool_views').select('*', { count: 'exact', head: true }),
+      supabase.from('analytics_tool_clicks').select('*', { count: 'exact', head: true }),
+      supabase.from('tool_reviews').select('*', { count: 'exact', head: true }),
+      supabase.from('tool_upvotes').select('*', { count: 'exact', head: true }),
+      supabase.from('saved_tools').select('*', { count: 'exact', head: true }),
+      supabase.from('saved_prompts').select('*', { count: 'exact', head: true }),
+      supabase.from('tool_suggestions').select('*', { count: 'exact', head: true }),
+      supabase.from('prompt_submissions').select('*', { count: 'exact', head: true }),
+      supabase.from('analytics_tool_views').select('tool_slug'),
+      supabase.from('analytics_tool_clicks').select('tool_slug'),
+      supabase.from('tool_upvotes').select('tool_slug'),
+      supabase.from('saved_tools').select('tool_slug, saved_at'),
+      supabase.from('analytics_events').select('*').order('occurred_at', { ascending: false }).limit(30),
+    ]);
 
-    const { count: totalClicks } = await supabase
-      .from('analytics_tool_clicks')
-      .select('*', { count: 'exact', head: true });
+    const totalUsers = usersCountRes.status === 'fulfilled' ? usersCountRes.value.count || 0 : 0;
+    const totalViews = viewsCountRes.status === 'fulfilled' ? viewsCountRes.value.count || 0 : 0;
+    const totalClicks = clicksCountRes.status === 'fulfilled' ? clicksCountRes.value.count || 0 : 0;
+    const totalReviews = reviewsCountRes.status === 'fulfilled' ? reviewsCountRes.value.count || 0 : 0;
+    const totalUpvotes = upvotesCountRes.status === 'fulfilled' ? upvotesCountRes.value.count || 0 : 0;
+    const totalSavedTools = savedToolsCountRes.status === 'fulfilled' ? savedToolsCountRes.value.count || 0 : 0;
+    const totalSavedPrompts = savedPromptsCountRes.status === 'fulfilled' ? savedPromptsCountRes.value.count || 0 : 0;
+    const totalToolSuggestions = toolSuggestionsCountRes.status === 'fulfilled' ? toolSuggestionsCountRes.value.count || 0 : 0;
+    const totalPromptSubmissions = promptSubmissionsCountRes.status === 'fulfilled' ? promptSubmissionsCountRes.value.count || 0 : 0;
 
-    const { count: totalReviews } = await supabase
-      .from('tool_reviews')
-      .select('*', { count: 'exact', head: true });
-
-    const { count: totalUpvotes } = await supabase
-      .from('tool_upvotes')
-      .select('*', { count: 'exact', head: true });
-
-    const { count: totalSavedTools } = await supabase
-      .from('saved_tools')
-      .select('*', { count: 'exact', head: true });
-
-    // Fetch tool-specific views and clicks for traffic breakdown
-    const { data: viewsData } = await supabase
-      .from('analytics_tool_views')
-      .select('tool_slug');
-
-    const { data: clicksData } = await supabase
-      .from('analytics_tool_clicks')
-      .select('tool_slug');
-
-    const { data: upvotesData } = await supabase
-      .from('tool_upvotes')
-      .select('tool_slug');
+    const viewsData = viewsListRes.status === 'fulfilled' ? viewsListRes.value.data || [] : [];
+    const clicksData = clicksListRes.status === 'fulfilled' ? clicksListRes.value.data || [] : [];
+    const upvotesData = upvotesListRes.status === 'fulfilled' ? upvotesListRes.value.data || [] : [];
+    const savedToolsData = savedToolsListRes.status === 'fulfilled' ? savedToolsListRes.value.data || [] : [];
+    const analyticsEvents = analyticsEventsRes.status === 'fulfilled' ? analyticsEventsRes.value.data || [] : [];
 
     // Aggregate counts by slug
     const viewsBySlug = {};
-    (viewsData || []).forEach(item => {
-      viewsBySlug[item.tool_slug] = (viewsBySlug[item.tool_slug] || 0) + 1;
+    viewsData.forEach((item) => {
+      if (item.tool_slug) {
+        viewsBySlug[item.tool_slug] = (viewsBySlug[item.tool_slug] || 0) + 1;
+      }
     });
 
     const clicksBySlug = {};
-    (clicksData || []).forEach(item => {
-      clicksBySlug[item.tool_slug] = (clicksBySlug[item.tool_slug] || 0) + 1;
+    clicksData.forEach((item) => {
+      if (item.tool_slug) {
+        clicksBySlug[item.tool_slug] = (clicksBySlug[item.tool_slug] || 0) + 1;
+      }
     });
 
     const upvotesBySlug = {};
-    (upvotesData || []).forEach(item => {
-      upvotesBySlug[item.tool_slug] = (upvotesBySlug[item.tool_slug] || 0) + 1;
+    upvotesData.forEach((item) => {
+      if (item.tool_slug) {
+        upvotesBySlug[item.tool_slug] = (upvotesBySlug[item.tool_slug] || 0) + 1;
+      }
+    });
+
+    const savesBySlug = {};
+    savedToolsData.forEach((item) => {
+      if (item.tool_slug) {
+        savesBySlug[item.tool_slug] = (savesBySlug[item.tool_slug] || 0) + 1;
+      }
     });
 
     // Merge with all JSON tools data
     const allTools = await getAllTools();
-    const toolsTraffic = allTools.map(tool => {
-      const views = viewsBySlug[tool.slug] || 0;
-      const clicks = clicksBySlug[tool.slug] || 0;
-      const upvotes = upvotesBySlug[tool.slug] || 0;
-      const ctr = views > 0 ? ((clicks / views) * 100).toFixed(1) + '%' : '0%';
+    const toolsTraffic = allTools
+      .map((tool) => {
+        const views = viewsBySlug[tool.slug] || 0;
+        const clicks = clicksBySlug[tool.slug] || 0;
+        const upvotes = upvotesBySlug[tool.slug] || 0;
+        const saves = savesBySlug[tool.slug] || 0;
+        const ctr = views > 0 ? ((clicks / views) * 100).toFixed(1) + '%' : '0%';
 
-      return {
-        id: tool.id,
-        slug: tool.slug,
-        name: tool.name,
-        category: tool.category,
-        views,
-        clicks,
-        ctr,
-        upvotes
-      };
-    }).sort((a, b) => b.views - a.views);
+        return {
+          id: tool.id,
+          slug: tool.slug,
+          name: tool.name,
+          category: tool.category,
+          views,
+          clicks,
+          ctr,
+          ctrNum: views > 0 ? (clicks / views) * 100 : 0,
+          upvotes,
+          saves,
+        };
+      })
+      .sort((a, b) => b.views - a.views);
 
     const overallViews = totalViews || 0;
     const overallClicks = totalClicks || 0;
     const overallCtr = overallViews > 0 ? ((overallClicks / overallViews) * 100).toFixed(1) + '%' : '0.0%';
+    const totalSaves = totalSavedTools + totalSavedPrompts;
+    const totalContributions = totalToolSuggestions + totalPromptSubmissions;
+
+    const mostViewedTools = toolsTraffic.slice(0, 5);
+    const mostSavedTools = computeMostSavedTools(savedToolsData, allTools).slice(0, 5);
+
+    const categoryViewsCount = {};
+    analyticsEvents.forEach((ev) => {
+      if (ev.event_type === 'category_view' && ev.entity_id) {
+        categoryViewsCount[ev.entity_id] = (categoryViewsCount[ev.entity_id] || 0) + 1;
+      }
+    });
+    const popularCategories = computePopularCategories(allTools, viewsBySlug, categoryViewsCount);
+    const recentActivity = formatRecentActivity(analyticsEvents, allTools, defaultPrompts);
 
     return NextResponse.json({
       kpis: {
+        totalUsers,
         totalViews: overallViews,
         totalClicks: overallClicks,
         ctr: overallCtr,
         totalReviews: totalReviews || 0,
         totalUpvotes: totalUpvotes || 0,
-        totalSavedTools: totalSavedTools || 0
+        totalSavedTools: totalSavedTools || 0,
+        totalSavedPrompts: totalSavedPrompts || 0,
+        totalSaves,
+        totalContributions,
       },
-      toolsTraffic
+      mostViewedTools,
+      mostSavedTools,
+      popularCategories,
+      recentActivity,
+      toolsTraffic,
     });
   } catch (error) {
     console.error('Error fetching admin analytics:', error);
