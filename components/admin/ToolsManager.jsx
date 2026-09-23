@@ -69,9 +69,13 @@ export default function ToolsManager({ initialTools, categories = [] }) {
           setTools(data);
           setSelectedIds(new Set());
         }
+      } else {
+        const err = await res.json().catch(() => ({}));
+        setFeedback({ type: 'error', message: err.error || 'Failed to refresh tools catalog.' });
       }
     } catch (e) {
       console.error('Failed to refresh tools catalog:', e);
+      setFeedback({ type: 'error', message: 'Network error while refreshing tools catalog.' });
     }
   };
 
@@ -909,7 +913,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
                 </td>
               </tr>
             ) : (
-              currentTools.map(tool => {
+              currentTools.map((tool, index) => {
                 const logo = tool.logoImageUrl || tool.logo || tool.logoImage;
                 const pricing = tool.pricingModel || tool.pricing || 'Free';
                 const isSelected = selectedIds.has(tool.slug);
@@ -917,7 +921,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
 
                 return (
                   <tr
-                    key={tool.id || tool.slug}
+                    key={`${tool.id || tool.slug || 'tool'}-${index}`}
                     className={isSelected ? styles.selected : ''}
                     onClick={(e) => {
                       if (e.target.tagName?.toLowerCase() === 'input' || e.target.closest('button') || e.target.closest('a')) return;

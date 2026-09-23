@@ -91,7 +91,9 @@ export default function SavedKnowledgeSection({ initialPrompts = [], onCountChan
             <p>{prompt.description}</p>
             {prompt.prompt_content && (
               <div className={styles.promptSnippet}>
-                {prompt.prompt_content.slice(0, 100)}...
+                {prompt.prompt_content.length > 100
+                  ? `${prompt.prompt_content.slice(0, 100)}...`
+                  : prompt.prompt_content}
               </div>
             )}
             <div className={styles.actions}>

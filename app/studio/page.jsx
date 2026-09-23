@@ -6,9 +6,14 @@ import styles from './page.module.scss';
 
 export default async function StudioDashboardPage() {
   const supabase = await createClient();
-  const [allTools, viewsResult, clicksResult] = await Promise.all([getAllTools(), supabase.from('analytics_tool_views').select('*', { count: 'exact', head: true }), supabase.from('analytics_tool_clicks').select('*', { count: 'exact', head: true })]);
-  const views = viewsResult.count || 0;
-  const clicks = clicksResult.count || 0;
+  const [allToolsResult, viewsResult, clicksResult] = await Promise.allSettled([
+    getAllTools(),
+    supabase.from('analytics_tool_views').select('*', { count: 'exact', head: true }),
+    supabase.from('analytics_tool_clicks').select('*', { count: 'exact', head: true }),
+  ]);
+  const allTools = allToolsResult.status === 'fulfilled' && Array.isArray(allToolsResult.value) ? allToolsResult.value : [];
+  const views = viewsResult.status === 'fulfilled' && viewsResult.value?.count ? viewsResult.value.count : 0;
+  const clicks = clicksResult.status === 'fulfilled' && clicksResult.value?.count ? clicksResult.value.count : 0;
   const ctr = views ? `${((clicks / views) * 100).toFixed(1)}%` : '0.0%';
   const stats = [{ label: 'Published AI tools', value: allTools.length, icon: FiBox }, { label: 'Catalog views', value: views, icon: FiActivity }, { label: 'Outbound clicks', value: clicks, icon: FiMousePointer }, { label: 'Click-through rate', value: ctr, icon: FiExternalLink }];
   return <div className={styles.dashboard}>

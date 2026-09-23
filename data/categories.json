@@ -196,5 +196,53 @@
         "description": "Automated customer support, CRM enrichment, outbound drafting, and lead qualification."
       }
     ]
+  },
+  {
+    "id": "cat-data-ai",
+    "name": "Data & Analytics",
+    "slug": "data-ai",
+    "description": "Tools for data manipulation, cleaning, and predictive analytics."
+  },
+  {
+    "id": "cat-security-ai",
+    "name": "Security & Compliance",
+    "slug": "security-ai",
+    "description": "AI solutions for threat detection, code security, and compliance monitoring."
+  },
+  {
+    "id": "cat-devops-ai",
+    "name": "DevOps & Infrastructure",
+    "slug": "devops-ai",
+    "description": "Cloud infrastructure optimization, CI/CD automation, and site reliability tools."
+  },
+  {
+    "id": "cat-audio-ai",
+    "name": "Audio & Speech",
+    "slug": "audio-ai",
+    "description": "Voice generation, transcription, enhancement, and audio production."
+  },
+  {
+    "id": "cat-video-ai",
+    "name": "Video & Animation",
+    "slug": "video-ai",
+    "description": "Video editing, generation, synthetic avatars, and post-production."
+  },
+  {
+    "id": "cat-research-ai",
+    "name": "Research & Science",
+    "slug": "research-ai",
+    "description": "Academic research, paper summarization, literature review, and specialized knowledge."
+  },
+  {
+    "id": "cat-customer-support-ai",
+    "name": "Customer Support",
+    "slug": "customer-support-ai",
+    "description": "AI agents, chatbots, and helpdesk automation for customer service."
+  },
+  {
+    "id": "cat-hr-recruiting-ai",
+    "name": "HR & Recruiting",
+    "slug": "hr-recruiting-ai",
+    "description": "Resume screening, automated outreach, and talent management solutions."
   }
 ]

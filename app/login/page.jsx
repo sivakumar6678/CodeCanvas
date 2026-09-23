@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { resendConfirmation } from './actions';
 import { createClient } from '../../lib/supabase/client';
+import { isSafeRedirectPath } from '../../lib/auth/access';
 import { FiLock, FiMail } from 'react-icons/fi';
 import styles from './page.module.scss';
 
@@ -41,7 +42,7 @@ export default function LoginPage() {
       const password = formData.get('password')?.toString();
       if (isSignup) {
         const username = formData.get('username')?.toString().trim();
-        if (!username || password.length < 8) {
+        if (!username || !password || password.length < 8) {
           setError(!username ? 'Username is required.' : 'Password must be at least 8 characters.');
           setLoading(false);
           return;
@@ -62,7 +63,8 @@ export default function LoginPage() {
         }
       } else {
         const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
-        result = loginError ? { error: loginError.message } : { success: 'Signed in successfully.', redirectTo: nextPath || '/profile' };
+        const safeDestination = (nextPath && isSafeRedirectPath(nextPath)) ? nextPath : '/profile';
+        result = loginError ? { error: loginError.message } : { success: 'Signed in successfully.', redirectTo: safeDestination };
       }
     } catch (submitError) {
       console.error('Authentication form failed:', submitError);

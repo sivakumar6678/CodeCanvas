@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   FaBars, 
   FaTimes, 
   FaHome, 
   FaTools, 
-  FaSlidersH, 
+  FaSlidersH,
+  FaLightbulb, 
   FaInfoCircle, 
   FaUser, 
   FaSignOutAlt, 
@@ -43,6 +43,7 @@ const Navbar = () => {
         setIsOpen(false);
       }
     };
+    
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
@@ -51,21 +52,36 @@ const Navbar = () => {
     const getCachedSession = async () => {
       // getSession reads the browser's persisted session and avoids blocking the
       // navigation bar on a round-trip to Supabase.
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
-      setAuthReady(true);
+      try {
+        const { data: { session } = {} } = await supabase.auth.getSession();
+        setUser(session?.user || null);
+      } catch (err) {
+        console.warn('[auth] navbar: failed to load cached session:', err?.message || err);
+        setUser(null);
+      } finally {
+        setAuthReady(true);
+      }
     };
     getCachedSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null);
+    let subscription = null;
+    try {
+      const { data } = supabase.auth.onAuthStateChange((event, session) => {
+        setUser(session?.user || null);
+        setAuthReady(true);
+      });
+      subscription = data?.subscription || null;
+    } catch (err) {
+      console.warn('[auth] navbar: onAuthStateChange listener unavailable:', err?.message || err);
       setAuthReady(true);
-    });
+    }
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
-      subscription.unsubscribe();
+      if (subscription?.unsubscribe) {
+        subscription.unsubscribe();
+      }
     };
   }, [supabase]);
 
@@ -76,10 +92,13 @@ const Navbar = () => {
   if (isStudio) return null;
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('[auth] navbar-logout:failed', { code: error.code, message: error.message });
-      return;
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('[auth] navbar-logout:failed', { code: error.code, message: error.message });
+      }
+    } catch (err) {
+      console.error('[auth] navbar-logout:unexpected error', err);
     }
     setUser(null);
     router.replace('/');
@@ -90,7 +109,7 @@ const Navbar = () => {
     { name: 'Home', path: '/', icon: <FaHome /> },
     { name: 'Tools', path: '/tools', icon: <FaTools /> },
     { name: 'AI Tools', path: '/ai-tools', icon: <FaSlidersH /> },
-    { name: 'AI Knowledge', path: '/ai-knowledge', icon: <FaSlidersH /> },
+    { name: 'AI Knowledge', path: '/ai-knowledge', icon: <FaLightbulb /> },
     { name: 'Contribute', path: '/contribute', icon: <FaTools /> },
     { name: 'About', path: '/about', icon: <FaInfoCircle /> },
     ...(authReady && user
@@ -118,6 +137,7 @@ const Navbar = () => {
           className="nav-toggle" 
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation"
+          aria-expanded={isOpen}
         >
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>

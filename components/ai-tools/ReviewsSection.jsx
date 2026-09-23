@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { FiStar, FiUser, FiLoader } from 'react-icons/fi';
+import { FiStar, FiLoader } from 'react-icons/fi';
 import styles from './ReviewsSection.module.scss';
 import ReviewForm from './ReviewForm';
 import UserAvatar from '../ui/UserAvatar';
@@ -39,7 +39,7 @@ export default function ReviewsSection({ slug }) {
 
   const averageRating = reviews.length > 0 
     ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
-    : 0;
+    : '0.0';
 
   return (
     <div className={styles.container}>
@@ -48,7 +48,7 @@ export default function ReviewsSection({ slug }) {
           <h2 className={styles.title}>Community Reviews</h2>
           <div className={styles.stats}>
             <span className={styles.avgRating}>{averageRating}</span>
-            <div className={styles.stars}>{renderStars(Math.round(averageRating))}</div>
+            <div className={styles.stars}>{renderStars(Math.round(Number(averageRating) || 0))}</div>
             <span className={styles.count}>({reviews.length} reviews)</span>
           </div>
         </div>

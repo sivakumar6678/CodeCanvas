@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 import { recordAnalyticsEvent } from '../../../../../lib/analytics';
 
+export const dynamic = 'force-dynamic';
+
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET(request, { params }) {
@@ -45,7 +47,7 @@ export async function POST(request, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { rating, review_text } = await request.json();
+    const { rating, review_text } = await request.json().catch(() => ({}));
 
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       return NextResponse.json({ error: 'Invalid rating' }, { status: 400 });

@@ -5,19 +5,19 @@ import UpvoteButton from './UpvoteButton';
 import BookmarkButton from './BookmarkButton';
 import styles from './AIToolCard.module.scss';
 
-export default function AIToolCard({ tool }) {
+export default function AIToolCard({ tool = {} }) {
   // Support both canonical and legacy field names
-  const logoUrl = tool.logoImageUrl || tool.logo;
-  const pricingModel = tool.pricingModel || tool.pricing;
+  const logoUrl = tool?.logoImageUrl || tool?.logo;
+  const pricingModel = tool?.pricingModel || tool?.pricing;
 
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
         <div className={styles.logoContainer}>
           {logoUrl ? (
-            <img src={logoUrl} alt={`${tool.name} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+            <img src={logoUrl} alt={`${tool.name || 'Tool'} logo`} className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
           ) : (
-            <div className={styles.placeholderLogo}>{tool.name.charAt(0)}</div>
+            <div className={styles.placeholderLogo}>{tool?.name ? tool.name.charAt(0) : 'T'}</div>
           )}
         </div>
         <div className={styles.badges}>
@@ -50,9 +50,11 @@ export default function AIToolCard({ tool }) {
         <Link href={`/ai-tools/tool/${tool.slug}`} className={styles.detailsBtn}>
           Details <FiArrowRight />
         </Link>
-        <TrackClickLink href={tool.website} slug={tool.slug} className={styles.websiteBtn}>
-          Visit <FiExternalLink />
-        </TrackClickLink>
+        {tool.website && (
+          <TrackClickLink href={tool.website} slug={tool.slug} className={styles.websiteBtn}>
+            Visit <FiExternalLink />
+          </TrackClickLink>
+        )}
       </div>
     </div>
   );

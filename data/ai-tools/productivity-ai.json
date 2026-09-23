@@ -1009,5 +1009,59 @@
     "verified": true,
     "hasFree": true,
     "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "roboapply",
+    "name": "RoboApply",
+    "slug": "roboapply",
+    "category": "productivity",
+    "subCategory": "recruitment",
+    "description": "AI-powered job search platform that automates job applications, tailors resumes, generates cover letters, and emails hiring managers directly.",
+    "fullOverview": "RoboApply is an AI-powered job search platform helping users automatically apply to jobs, tailor resumes, generate cover letters, track applications, and prepare for interviews[reference:17]. The platform uses artificial intelligence to generate tailored resumes, craft personalized cover letters, and automatically match candidates to relevant openings based on their profile and preferences[reference:18]. It aggregates job listings from major platforms including Indeed, LinkedIn, Google Jobs, Glassdoor, and ZipRecruiter into one centralized dashboard[reference:19]. Key features include an AI-driven resume builder with personalization engine, automated cover letter generation per job listing, one-click auto-apply across multiple job boards, real-time application status tracking dashboard, and interview preparation guide with AI interview copilot[reference:20].",
+    "website": "https://roboapply.jobs",
+    "logoImageUrl": "https://himalayas.app/_next/image?url=https%3A%2F%2Fcdn-images.himalayas.app%2Fnabopoe6jszn5ty048s9w9v3qb3y&w=256&q=75https://himalayas.app/_next/image?url=https%3A%2F%2Fcdn-images.himalayas.app%2Fnabopoe6jszn5ty048s9w9v3qb3y&w=256&q=75",
+    "bannerImageUrl": "https://himalayas.app/_next/image?url=https%3A%2F%2Fcdn-images.himalayas.app%2Fnabopoe6jszn5ty048s9w9v3qb3y&w=256&q=75",
+    "keyFeatures": [
+      "AI-driven resume builder with personalization engine",
+      "Automated cover letter generation per job listing",
+      "One-click auto-apply across multiple job boards",
+      "Real-time application status tracking dashboard",
+      "Interview preparation guide and AI interview copilot"
+    ],
+    "pros": [
+      "Automates the entire job application process",
+      "Tailors resumes and cover letters to each role",
+      "Aggregates job listings from major platforms"
+    ],
+    "cons": [
+      "Pricing details not fully transparent on public pages"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "job-search",
+      "ai",
+      "automation",
+      "career"
+    ],
+    "useCases": [
+      "Automated job applications",
+      "Resume tailoring",
+      "Cover letter generation",
+      "Interview preparation"
+    ],
+    "bestFor": [
+      "Job seekers",
+      "Professionals",
+      "Recent graduates"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
   }
 ]

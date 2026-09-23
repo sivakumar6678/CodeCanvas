@@ -9,6 +9,8 @@ export const metadata = {
   description: 'View and manage your saved AI productivity tools.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function BookmarksPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();

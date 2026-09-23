@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { FiBookmark, FiExternalLink, FiLoader, FiTrash2 } from 'react-icons/fi';
 import styles from './SavedToolsSection.module.scss';
 
-export default function SavedToolsSection({ initialTools, onCountChange }) {
-  const [tools, setTools] = useState(initialTools);
+export default function SavedToolsSection({ initialTools = [], onCountChange }) {
+  const [tools, setTools] = useState(initialTools || []);
   const [removingSlug, setRemovingSlug] = useState(null);
   const [feedback, setFeedback] = useState('');
 
@@ -28,7 +28,7 @@ export default function SavedToolsSection({ initialTools, onCountChange }) {
         const payload = await response.json().catch(() => ({}));
         throw new Error(payload.error || 'Unable to remove this saved tool.');
       }
-      setTools((current) => current.filter((tool) => tool.slug !== slug));
+      setTools((current) => (current || []).filter((tool) => tool?.slug !== slug));
       onCountChange?.(-1);
       setFeedback('Tool removed from your saved list.');
     } catch (error) {
@@ -39,15 +39,15 @@ export default function SavedToolsSection({ initialTools, onCountChange }) {
     }
   };
 
-  if (!tools.length) {
+  if (!tools || !tools.length) {
     return <>{feedback && <p role="status" className={styles.feedback}>{feedback}</p>}<div className={styles.emptyState}><FiBookmark /><h3>No saved tools yet</h3><p>Save useful AI tools from the directory to build your personal toolkit.</p><Link href="/ai-tools" className={styles.exploreButton}>Explore AI Tools</Link></div></>;
   }
 
   return <div>
     {feedback && <p role="status" className={styles.feedback}>{feedback}</p>}
-    <div className={styles.grid}>{tools.map((tool) => <article key={tool.slug} className={styles.card}>
-      <div className={styles.cardTop}>{tool.logo ? <img src={tool.logo} alt="" className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" /> : <span className={styles.logoFallback}>{tool.name.charAt(0)}</span>}<span className={styles.category}>{tool.category}</span></div>
-      <h3>{tool.name}</h3><p>{tool.description}</p>
+    <div className={styles.grid}>{(tools || []).map((tool) => <article key={tool.slug || tool.name} className={styles.card}>
+      <div className={styles.cardTop}>{tool.logo ? <img src={tool.logo} alt="" className={styles.logo} loading="lazy" decoding="async" referrerPolicy="no-referrer" /> : <span className={styles.logoFallback}>{tool.name ? tool.name.charAt(0) : 'T'}</span>}<span className={styles.category}>{tool.category || 'AI Tool'}</span></div>
+      <h3>{tool.name || 'Untitled Tool'}</h3><p>{tool.description || ''}</p>
       <div className={styles.actions}><Link href={`/ai-tools/tool/${tool.slug}`} className={styles.viewButton}>View tool <FiExternalLink /></Link><button type="button" onClick={() => removeTool(tool.slug)} disabled={Boolean(removingSlug)} className={styles.removeButton}>{removingSlug === tool.slug ? <><FiLoader className={styles.spinner} /> Removing...</> : <><FiTrash2 /> Remove</>}</button></div>
     </article>)}</div>
   </div>;

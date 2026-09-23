@@ -338,6 +338,7 @@ export default function AdminAnalyticsView({ analyticsData = {} }) {
                 <th>Category</th>
                 <th>Views</th>
                 <th>Saves</th>
+                <th>Upvotes</th>
                 <th>Outbound Clicks</th>
                 <th>CTR %</th>
                 <th>Action</th>
@@ -359,6 +360,11 @@ export default function AdminAnalyticsView({ analyticsData = {} }) {
                         <FiBookmark /> {tool.saves || 0}
                       </span>
                     </td>
+                    <td className={styles.numCell}>
+                      <span className={styles.saveCount}>
+                        <FiTrendingUp /> {tool.upvotes || 0}
+                      </span>
+                    </td>
                     <td className={styles.numCell}>{tool.clicks || 0}</td>
                     <td>
                       <span className={styles.ctrBadge}>{tool.ctr}</span>
@@ -372,7 +378,7 @@ export default function AdminAnalyticsView({ analyticsData = {} }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center', padding: '30px', color: '#64748b' }}>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '30px', color: '#64748b' }}>
                     No tools match the selected filters.
                   </td>
                 </tr>

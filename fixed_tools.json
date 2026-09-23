@@ -1,0 +1,416 @@
+[
+  {
+    "id": "kie-ai",
+    "name": "Kie.ai",
+    "slug": "kie-ai",
+    "category": "development",
+    "subCategory": "api-gateway",
+    "description": "Unified AI API platform providing a single API key to access a wide range of AI models for image, video, audio, music, chat, and upscaling.",
+    "fullOverview": "Kie.ai is a unified AI API platform that provides a single API key and consistent endpoints to access a wide range of AI models. It serves as a cost-effective intermediary, offering API access at prices typically 30%–50% lower than official APIs, with some models discounted up to 80%[reference:0]. The platform supports asynchronous task processing, callback/webhook notifications, rate limiting, IP whitelisting, and comprehensive task logging[reference:1].",
+    "website": "https://kie.ai",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "Unified API key for multiple AI models",
+      "Prices 30%–50% lower than official APIs, up to 80% discount on some models",
+      "Asynchronous task model with callback/webhook support",
+      "Rate limiting (up to 20 requests per 10 seconds)",
+      "IP whitelist support",
+      "Comprehensive task logging and credit usage tracking"
+    ],
+    "pros": [
+      "Significant cost savings compared to official APIs",
+      "Single API key for multiple models",
+      "Developer-friendly documentation"
+    ],
+    "cons": [
+      "Generated media files retained for only 14 days",
+      "Log records retained for only 2 months"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "API"
+    ],
+    "tags": [
+      "api",
+      "gateway",
+      "ai",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Image generation",
+      "Video generation",
+      "Music generation",
+      "Chat completions"
+    ],
+    "bestFor": [
+      "Developers",
+      "AI application builders"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "experiential-labs",
+    "name": "Experiential Labs",
+    "slug": "experiential-labs",
+    "category": "development",
+    "subCategory": "api-gateway",
+    "description": "Open-source AI gateway that routes requests to every major model provider through one OpenAI-compatible endpoint and trains a specialized model you own.",
+    "fullOverview": "Experiential Labs is an open-source AI gateway and router for agent workflows. It provides one OpenAI-compatible API to use hosted, BYOK, and local models from 1000+ marketplace models[reference:2]. The platform uses your traffic to build a simulation of the tasks, failures, and edge cases your agent encounters, then trains a small language model for your specific use cases[reference:3]. Companies fully own the resulting model weights and can run them wherever they want. On some tasks, up to 97% lower cost and +50% higher quality have been observed, with a guarantee of at least 50% lower cost at the same or better quality backed by an SLA[reference:4].",
+    "website": "https://www.experientiallabs.ai",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "Open-source AI gateway with zero token markup",
+      "Routes to 1000+ marketplace models",
+      "OpenAI and Anthropic compatible API",
+      "Traffic simulation and model training",
+      "Companies fully own resulting model weights",
+      "BYOK (Bring Your Own Key) support",
+      "Self-hosted deployment option"
+    ],
+    "pros": [
+      "Zero token markup on model calls",
+      "Companies own the resulting specialized model",
+      "Guaranteed 50% lower cost at same or better quality"
+    ],
+    "cons": [],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "API",
+      "Self-hosted",
+      "Cloud"
+    ],
+    "tags": [
+      "api",
+      "gateway",
+      "open-source",
+      "developer-tools"
+    ],
+    "useCases": [
+      "AI cost optimization",
+      "Model routing",
+      "Training specialized models",
+      "BYOK management"
+    ],
+    "bestFor": [
+      "Developers",
+      "AI startups",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "gitlab-duo",
+    "name": "GitLab Duo",
+    "slug": "gitlab-duo",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "Suite of AI-native features integrated across the GitLab DevSecOps platform for code explanation, generation, CI/CD troubleshooting, and vulnerability resolution.",
+    "fullOverview": "GitLab Duo is a suite of AI-native features integrated throughout the GitLab workflow. GitLab Duo Chat can help get explanations of code, errors, and GitLab features; generate or refactor code, write tests, and fix issues; create CI/CD configurations and troubleshoot job failures; summarize issues, epics, and merge requests; and resolve security vulnerabilities[reference:5]. The default LLM was updated to Claude Sonnet 4.5 in GitLab 18.6[reference:6]. GitLab Duo Agent Platform offers three GitLab-hosted open weight models with up to 4x more calls per credit at performance comparable to frontier models[reference:7]. Organizations on the GitLab.com free tier can use GitLab Duo Agent Platform through a monthly commitment of GitLab Credits shared across the group without per-seat costs[reference:8].",
+    "website": "https://gitlab.com",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "GitLab Duo Chat with context-aware conversational AI",
+      "Code Suggestions with intelligent completions",
+      "Merge Request Summaries",
+      "Root Cause Analysis for CI/CD failures",
+      "Vulnerability explanation and resolution",
+      "GitLab Duo Agent Platform for agentic automation",
+      "Integration with VS Code, JetBrains, Visual Studio, Eclipse, and Web IDE"
+    ],
+    "pros": [
+      "Native AI integration across the entire DevSecOps lifecycle",
+      "Usage-based credit pricing shared across the group",
+      "Self-hosted model configuration support"
+    ],
+    "cons": [
+      "AI features require Premium or Ultimate tier for full access",
+      "On-demand credits cost $1 per credit at list price"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "VS Code",
+      "JetBrains",
+      "Visual Studio",
+      "Eclipse",
+      "Self-hosted"
+    ],
+    "tags": [
+      "coding",
+      "ai",
+      "devsecops",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Code completion and generation",
+      "CI/CD troubleshooting",
+      "Security vulnerability resolution",
+      "Merge request summarization"
+    ],
+    "bestFor": [
+      "Software development teams",
+      "DevOps engineers",
+      "Enterprise organizations"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "ashna-ai",
+    "name": "Ashna AI",
+    "slug": "ashna-ai",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Unified AI application combining chat, search, writing, and coding assistance with the Ashna-X1 model.",
+    "fullOverview": "Ashna AI enhances chat, search, writing, and coding using advanced Ashna-X1 models, offering personalized learning, market intelligence, and comprehensive research solutions with high efficiency and speed[reference:9]. The platform is a no-code platform for building custom AI agents, enabling users to create and deploy automated assistants without technical expertise[reference:10]. API availability is available, and the platform operates on a freemium pricing model[reference:11].",
+    "website": "https://app.ashna.ai",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "Ashna-X1 model with fast response times",
+      "Chat, search, writing, and coding assistance",
+      "No-code platform for building custom AI agents",
+      "API availability",
+      "Personalized learning and market intelligence"
+    ],
+    "pros": [
+      "Freemium model with free tier",
+      "No-code platform for building AI agents",
+      "API available for integration"
+    ],
+    "cons": [
+      "Pricing details for paid tiers not publicly available"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "no-code",
+      "chat"
+    ],
+    "useCases": [
+      "Academic research assistance",
+      "Market research",
+      "Code management and collaboration",
+      "Content summarization"
+    ],
+    "bestFor": [
+      "Students",
+      "Researchers",
+      "Businesses"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "venice-ai",
+    "name": "Venice AI",
+    "slug": "venice-ai",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Privacy-first AI platform providing private, unrestricted access to over 200 AI models across text, image, video, and audio.",
+    "fullOverview": "Venice AI is a private, unrestricted AI platform that gives users access to more than 200 leading AI models across text, image, video, and audio[reference:12]. Venice never logs prompts; conversations are stored locally on the user's own device, not on Venice's servers[reference:13]. All user input is encrypted and unencrypted client-side, and routed through an external proxy before it is processed and returned, with no data stored on Venice's own systems[reference:14]. The company has 3.5 million registered users and processes 1.3 trillion tokens per month, with annualized run-rate revenues of over $70 million[reference:15][reference:16].",
+    "website": "https://venice.ai",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "Access to 200+ uncensored open source and commercial AI models",
+      "No prompt or response logging on servers",
+      "Client-side conversation storage",
+      "End-to-end encryption (E2EE) and Trusted Execution Environment (TEE) models",
+      "OpenAI-compatible API with function calling",
+      "Venice CLI for terminal-based access"
+    ],
+    "pros": [
+      "Privacy-first architecture with no central data storage",
+      "Unrestricted access to 200+ models",
+      "End-to-end encryption on some models"
+    ],
+    "cons": [
+      "E2EE requires a paid subscription",
+      "Higher-tier plans are expensive"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Mobile",
+      "API",
+      "CLI"
+    ],
+    "tags": [
+      "ai",
+      "privacy",
+      "assistant",
+      "uncensored"
+    ],
+    "useCases": [
+      "Private AI chat",
+      "Unrestricted content generation",
+      "Image and video generation",
+      "Agentic workflows"
+    ],
+    "bestFor": [
+      "Privacy-conscious users",
+      "Developers",
+      "Content creators"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "roboapply",
+    "name": "RoboApply",
+    "slug": "roboapply",
+    "category": "productivity",
+    "subCategory": "recruitment",
+    "description": "AI-powered job search platform that automates job applications, tailors resumes, generates cover letters, and emails hiring managers directly.",
+    "fullOverview": "RoboApply is an AI-powered job search platform helping users automatically apply to jobs, tailor resumes, generate cover letters, track applications, and prepare for interviews[reference:17]. The platform uses artificial intelligence to generate tailored resumes, craft personalized cover letters, and automatically match candidates to relevant openings based on their profile and preferences[reference:18]. It aggregates job listings from major platforms including Indeed, LinkedIn, Google Jobs, Glassdoor, and ZipRecruiter into one centralized dashboard[reference:19]. Key features include an AI-driven resume builder with personalization engine, automated cover letter generation per job listing, one-click auto-apply across multiple job boards, real-time application status tracking dashboard, and interview preparation guide with AI interview copilot[reference:20].",
+    "website": "https://roboapply.jobs",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "AI-driven resume builder with personalization engine",
+      "Automated cover letter generation per job listing",
+      "One-click auto-apply across multiple job boards",
+      "Real-time application status tracking dashboard",
+      "Interview preparation guide and AI interview copilot"
+    ],
+    "pros": [
+      "Automates the entire job application process",
+      "Tailors resumes and cover letters to each role",
+      "Aggregates job listings from major platforms"
+    ],
+    "cons": [
+      "Pricing details not fully transparent on public pages"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "job-search",
+      "ai",
+      "automation",
+      "career"
+    ],
+    "useCases": [
+      "Automated job applications",
+      "Resume tailoring",
+      "Cover letter generation",
+      "Interview preparation"
+    ],
+    "bestFor": [
+      "Job seekers",
+      "Professionals",
+      "Recent graduates"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "poxima",
+    "name": "Poxima",
+    "slug": "poxima",
+    "category": "development",
+    "subCategory": "not_publicly_available",
+    "description": "not_publicly_available",
+    "fullOverview": "not_publicly_available",
+    "website": "https://poxima.com",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [],
+    "pros": [],
+    "cons": [],
+    "pricingModel": "Contact for pricing",
+    "platforms": [],
+    "tags": [],
+    "useCases": [],
+    "bestFor": [],
+    "featured": false,
+    "new": false,
+    "verified": false,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "kantix-ai",
+    "name": "Kentrix AI",
+    "slug": "kentrix-ai",
+    "category": "business-ai",
+    "subCategory": "business-intelligence",
+    "description": "Data and AI-powered GTM platform for India, helping businesses plan smarter market entry, target the right consumers, and optimize operations.",
+    "fullOverview": "Kentrix AI is a data and AI-powered GTM platform for India, helping businesses plan smarter market entry, target the right consumers, and optimize operations, all backed by granular consumer intelligence built for the Indian market[reference:21]. Founded in 2021 by Rahoul Anders and Divyansh Raghuvanshi, the company is based in Mumbai and has been profitable since inception, closing FY25 with revenue exceeding $1 million and a net profit margin of 24%[reference:22]. The platform operates on a proprietary dataset of 920 million+ Indian consumer profiles mapped to the building level, with a 90%+ accuracy benchmark that carries no PII and is DPDPA compliant[reference:23]. The platform offers three products: Geomarketeer (AI-led location intelligence), Persona 360 (discovering high-intent audiences on digital platforms), and Karma (customer enrichment and AI-powered product recommendation engine)[reference:24]. Clients include McDonald's (HRPL), Croma, IKEA, Yes Bank, Axis Bank, Parle, Chaayos, and Ugaoo[reference:25].",
+    "website": "https://kentrix.ai",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "Geomarketeer — AI-led location intelligence for store planning and catchment analysis",
+      "Persona 360 — high-intent audience discovery on digital platforms",
+      "Karma — customer enrichment and AI-powered product recommendation engine",
+      "Proprietary dataset of 920M+ Indian consumer profiles",
+      "Lifestyle Segmentation of India (LSI) framework",
+      "Activates 545M+ digitally targetable Indian profiles on Meta, DV360, and programmatic channels"
+    ],
+    "pros": [
+      "Proprietary building-level consumer dataset for India",
+      "Profitable since inception with 24% net profit margin",
+      "90%+ data accuracy and DPDPA compliant"
+    ],
+    "cons": [
+      "Pricing is custom/quoted based on engagement"
+    ],
+    "pricingModel": "Contact for pricing",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "data",
+      "ai",
+      "gtm",
+      "business-intelligence"
+    ],
+    "useCases": [
+      "Market entry planning",
+      "Consumer targeting",
+      "Store planning",
+      "Customer retention"
+    ],
+    "bestFor": [
+      "Consumer brands",
+      "Retail companies",
+      "Marketing teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  }
+]

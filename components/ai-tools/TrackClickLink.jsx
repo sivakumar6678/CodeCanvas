@@ -7,7 +7,7 @@ export default function TrackClickLink({ href, slug, className, children }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug }),
-    }).catch(err => console.error('Failed to track click', err));
+    }).catch(() => {});
   };
 
   return (

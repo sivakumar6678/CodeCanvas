@@ -30,6 +30,7 @@ export function invalidateUpvoteCache(slug) {
 export default function UpvoteButton({ slug, compact = false, className = '' }) {
   const [count, setCount] = useState(0);
   const [hasUpvoted, setHasUpvoted] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [upvoteLoading, setUpvoteLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
       if (isMounted && data) {
         setCount(data.count || 0);
         setHasUpvoted(Boolean(data.hasUpvoted));
+        setInitialLoading(false);
       }
     });
     return () => {
@@ -101,7 +103,7 @@ export default function UpvoteButton({ slug, compact = false, className = '' }) 
       aria-label={error || (hasUpvoted ? 'Remove Upvote' : 'Upvote this tool')}
     >
       <FiChevronUp className={styles.icon} />
-      <span className={styles.count}>{count}</span>
+      <span className={styles.count}>{initialLoading ? '·' : count}</span>
     </button>
   );
 }

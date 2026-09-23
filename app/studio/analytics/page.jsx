@@ -1,4 +1,5 @@
 import { createClient } from '../../../lib/supabase/server';
+import { requireAdminAccess } from '../../../lib/auth/server';
 import { getAllTools } from '../../../lib/data-fetchers';
 import { computePopularCategories, computeMostSavedTools, formatRecentActivity } from '../../../lib/analytics';
 import AdminAnalyticsView from '../../../components/admin/AdminAnalyticsView';
@@ -12,6 +13,8 @@ export const metadata = {
 };
 
 export default async function StudioAnalyticsPage() {
+  await requireAdminAccess();
+
   let allTools = [];
   try {
     allTools = await getAllTools();
@@ -69,10 +72,10 @@ export default async function StudioAnalyticsPage() {
       supabase.from('saved_prompts').select('*', { count: 'exact', head: true }),
       supabase.from('tool_suggestions').select('*', { count: 'exact', head: true }),
       supabase.from('prompt_submissions').select('*', { count: 'exact', head: true }),
-      supabase.from('analytics_tool_views').select('tool_slug'),
-      supabase.from('analytics_tool_clicks').select('tool_slug'),
-      supabase.from('tool_upvotes').select('tool_slug'),
-      supabase.from('saved_tools').select('tool_slug, saved_at'),
+      supabase.from('analytics_tool_views').select('tool_slug').limit(10000),
+      supabase.from('analytics_tool_clicks').select('tool_slug').limit(10000),
+      supabase.from('tool_upvotes').select('tool_slug').limit(10000),
+      supabase.from('saved_tools').select('tool_slug, saved_at').limit(10000),
       supabase.from('analytics_events').select('*').order('occurred_at', { ascending: false }).limit(40),
       supabase.from('tool_reviews').select('tool_slug, rating, review_text, created_at').order('created_at', { ascending: false }).limit(10),
       supabase.from('tool_suggestions').select('tool_name, category, created_at').order('created_at', { ascending: false }).limit(10),

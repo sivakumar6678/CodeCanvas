@@ -61,12 +61,14 @@ export default function ContributionsManager() {
   const [feedback, setFeedback] = useState('');
   const [loadError, setLoadError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     load();
   }, [status, typeFilter]);
 
   async function load() {
+    setLoading(true);
     try {
       setLoadError('');
       const query = new URLSearchParams({ status });
@@ -88,6 +90,8 @@ export default function ContributionsManager() {
       console.error('Error loading contributions:', error);
       setLoadError('Failed to load contributions from server.');
       setItems({ toolSuggestions: [], promptSubmissions: [] });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -447,6 +451,11 @@ export default function ContributionsManager() {
               </article>
             );
           })
+        ) : loading ? (
+          <div className={styles.empty}>
+            <FiLayers className={styles.emptyIcon} />
+            <p>Loading contributions...</p>
+          </div>
         ) : (
           <div className={styles.empty}>
             <FiLayers className={styles.emptyIcon} />

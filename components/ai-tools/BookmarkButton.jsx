@@ -38,6 +38,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
   const [error, setError] = useState('');
   const router = useRouter();
   const pathname = usePathname();
@@ -62,6 +63,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
     setIsUpdating(true);
     const previousSavedState = isSaved;
     const action = previousSavedState ? 'remove' : 'save';
+    setPendingAction(action);
     try {
       // Optimistic UI update
       setIsSaved(!previousSavedState);
@@ -93,6 +95,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
       setError(error.message);
     } finally {
       setIsUpdating(false);
+      setPendingAction(null);
     }
   };
 
@@ -109,7 +112,13 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
       aria-label={error || (isSaved ? 'Remove from Saved Tools' : 'Save Tool')}
     >
       {isSaved ? <FaBookmark className={styles.icon} /> : <FiBookmark className={styles.icon} />}
-      {showLabel && <span>{isUpdating ? (isSaved ? 'Saving...' : 'Removing...') : (isSaved ? 'Saved' : 'Save Tool')}</span>}
+      {showLabel && (
+        <span>
+          {isUpdating
+            ? (pendingAction === 'remove' ? 'Removing...' : 'Saving...')
+            : (isSaved ? 'Saved' : 'Save Tool')}
+        </span>
+      )}
     </button>
   );
 }

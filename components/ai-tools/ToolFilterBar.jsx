@@ -112,7 +112,7 @@ export default function ToolFilterBar({
           <div className={styles.pricingPills}>
             {PRICING_OPTIONS.map((opt) => (
               <button
-                key={opt.value}
+                key={opt.value || 'all'}
                 type="button"
                 className={`${styles.pill} ${currentPricing === opt.value ? styles.active : ''}`}
                 onClick={() => updateParam('pricing', opt.value)}

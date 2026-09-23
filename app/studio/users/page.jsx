@@ -1,11 +1,11 @@
 import { createAdminClient } from '../../../lib/supabase/admin';
-import { getCurrentUserWithProfile } from '../../../lib/auth/server';
+import { requireAdminAccess } from '../../../lib/auth/server';
 import StudioUsersView from '../../../components/admin/StudioUsersView';
 
 export const metadata = { title: 'Users Directory | Studio' };
 
 export default async function StudioUsersPage() {
-  const auth = await getCurrentUserWithProfile();
+  const auth = await requireAdminAccess();
   const adminEmails = (process.env.ADMIN_EMAILS || '')
     .split(',')
     .map((e) => e.trim().toLowerCase())

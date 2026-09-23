@@ -5,11 +5,11 @@ import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 import { computePopularCategories, computeMostSavedTools, formatRecentActivity } from '../../../../lib/analytics';
 import defaultPrompts from '../../../../data/default-prompts.json';
 
-export async function GET() {
-  const supabase = await createClient();
+export const dynamic = 'force-dynamic';
 
+export async function GET() {
   try {
-    const { user, isAdmin } = await getCurrentUserWithProfile();
+    const { supabase, user, isAdmin } = await getCurrentUserWithProfile();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -43,10 +43,10 @@ export async function GET() {
       supabase.from('saved_prompts').select('*', { count: 'exact', head: true }),
       supabase.from('tool_suggestions').select('*', { count: 'exact', head: true }),
       supabase.from('prompt_submissions').select('*', { count: 'exact', head: true }),
-      supabase.from('analytics_tool_views').select('tool_slug'),
-      supabase.from('analytics_tool_clicks').select('tool_slug'),
-      supabase.from('tool_upvotes').select('tool_slug'),
-      supabase.from('saved_tools').select('tool_slug, saved_at'),
+      supabase.from('analytics_tool_views').select('tool_slug').limit(10000),
+      supabase.from('analytics_tool_clicks').select('tool_slug').limit(10000),
+      supabase.from('tool_upvotes').select('tool_slug').limit(10000),
+      supabase.from('saved_tools').select('tool_slug, saved_at').limit(10000),
       supabase.from('analytics_events').select('*').order('occurred_at', { ascending: false }).limit(30),
     ]);
 

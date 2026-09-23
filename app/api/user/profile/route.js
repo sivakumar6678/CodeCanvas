@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
 import { isValidAvatarId } from '../../../../lib/avatars';
 
+export const dynamic = 'force-dynamic';
+
 function toStringArray(val) {
   if (Array.isArray(val)) return val.map((x) => String(x).trim()).filter(Boolean);
   if (typeof val === 'string' && val.trim()) return val.split(',').map((x) => x.trim()).filter(Boolean);
@@ -63,26 +65,23 @@ export async function GET(request) {
       }, { status: 503 });
     }
 
-    // Get stats
-    const { count: bookmarksCount } = await supabase
-      .from('saved_tools')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
+    // Get stats in parallel
+    const [
+      bookmarksCountRes,
+      savedPromptsCountRes,
+      reviewsCountRes,
+      upvotesCountRes
+    ] = await Promise.allSettled([
+      supabase.from('saved_tools').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+      supabase.from('saved_prompts').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+      supabase.from('tool_reviews').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+      supabase.from('tool_upvotes').select('*', { count: 'exact', head: true }).eq('user_id', user.id),
+    ]);
 
-    const { count: savedPromptsCount } = await supabase
-      .from('saved_prompts')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
-
-    const { count: reviewsCount } = await supabase
-      .from('tool_reviews')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
-
-    const { count: upvotesCount } = await supabase
-      .from('tool_upvotes')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
+    const bookmarksCount = bookmarksCountRes.status === 'fulfilled' ? bookmarksCountRes.value.count || 0 : 0;
+    const savedPromptsCount = savedPromptsCountRes.status === 'fulfilled' ? savedPromptsCountRes.value.count || 0 : 0;
+    const reviewsCount = reviewsCountRes.status === 'fulfilled' ? reviewsCountRes.value.count || 0 : 0;
+    const upvotesCount = upvotesCountRes.status === 'fulfilled' ? upvotesCountRes.value.count || 0 : 0;
 
     return NextResponse.json({
       user: {
@@ -138,7 +137,7 @@ export async function PUT(request) {
       avatar_id,
       avatarId,
       bio,
-      role,
+      // role is intentionally not destructured — users cannot self-set it (admin escalation vector)
       experience_level,
       interests,
       technologies,
@@ -147,6 +146,7 @@ export async function PUT(request) {
       preferred_platforms,
       onboarding_completed,
     } = body;
+
 
     const rawUsername = username !== undefined
       ? username
@@ -186,7 +186,10 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Bio must be 500 characters or fewer.' }, { status: 400 });
     }
 
-    const roleVal = role !== undefined ? String(role || '').trim() : (existingProfile?.role || '');
+    // SECURITY: `role` is intentionally excluded from the user PUT payload.
+    // `user_profiles.role` is checked by isAdminIdentity() — allowing users to
+    // write this field would let any authenticated user self-promote to admin.
+    // Role assignment must be done server-side (Supabase service role or SQL).
     const experienceVal = experience_level !== undefined ? String(experience_level || '').trim() : (existingProfile?.experience_level || '');
     const interestsVal = interests !== undefined ? toStringArray(interests) : (existingProfile?.interests || []);
     const technologiesVal = technologies !== undefined ? toStringArray(technologies) : (existingProfile?.technologies || []);
@@ -200,7 +203,7 @@ export async function PUT(request) {
       username: normalizedUsername,
       avatar_url: normalizedAvatar,
       bio: normalizedBio,
-      role: roleVal,
+      // role is intentionally omitted — preserves existing DB value, cannot be user-set
       experience_level: experienceVal,
       interests: interestsVal,
       technologies: technologiesVal,
@@ -209,6 +212,7 @@ export async function PUT(request) {
       preferred_platforms: platformsVal,
       onboarding_completed: onboardingCompletedVal,
     };
+
 
     if (normalizedAvatarId) {
       upsertPayload.avatar_id = normalizedAvatarId;

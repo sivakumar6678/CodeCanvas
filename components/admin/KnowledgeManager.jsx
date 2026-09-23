@@ -24,6 +24,76 @@ import {
 import styles from './KnowledgeManager.module.scss';
 import { ALLOWED_KNOWLEDGE_TYPES, KNOWLEDGE_TYPE_LABELS } from '../../lib/knowledge-schema';
 
+export const SUGGESTED_AI_MODELS = [
+  'Claude 3.5 Sonnet',
+  'GPT-4o',
+  'Cursor',
+  'GitHub Copilot',
+  'Gemini 1.5 Pro',
+  'v0',
+  'Windsurf',
+  'Universal',
+];
+
+export const SUGGESTED_USE_CASES = [
+  'Full-stack Web Development',
+  'Refactoring',
+  'Code Generation',
+  'Database Security',
+  'API Design',
+  'Debugging',
+  'Testing',
+  'DevOps',
+];
+
+export function toggleListValue(currentString, itemToToggle) {
+  const currentItems = (currentString || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const exists = currentItems.some((s) => s.toLowerCase() === itemToToggle.toLowerCase());
+  let updated;
+  if (exists) {
+    updated = currentItems.filter((s) => s.toLowerCase() !== itemToToggle.toLowerCase());
+  } else {
+    updated = [...currentItems, itemToToggle];
+  }
+  return updated.join(', ');
+}
+
+export function getContentGuidance(type) {
+  switch (type) {
+    case 'trick':
+      return {
+        placeholder: 'Describe the trick, workflow hack, keyboard shortcut, or config tweak...',
+        hint: 'Explain how this trick works, prerequisites, and developer productivity gain.',
+      };
+    case 'shortcut':
+    case 'slash-command':
+      return {
+        placeholder: 'Enter shortcut keystrokes, slash command syntax (/fix, /test), or command sequence...',
+        hint: 'Specify the exact command trigger and arguments or key combination.',
+      };
+    case 'technique':
+      return {
+        placeholder: 'Outline the architecture technique, prompt-chaining strategy, or development pattern...',
+        hint: 'Include methodology, sequencing, inputs, and expected architectural output.',
+      };
+    case 'guide':
+    case 'tip':
+      return {
+        placeholder: 'Write the step-by-step guide, best practice recommendations, or instructions...',
+        hint: 'Format with clear numbered steps, prerequisites, and code or configuration snippets.',
+      };
+    case 'prompt':
+    default:
+      return {
+        placeholder: 'Enter the complete prompt template, system instructions, or context...',
+        hint: 'Supports template variables like {{ComponentName}} or [TECH_STACK]',
+      };
+  }
+}
+
 export default function KnowledgeManager({ initialItems = [] }) {
   const [items, setItems] = useState(initialItems);
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'add' | 'import'
@@ -202,13 +272,20 @@ export default function KnowledgeManager({ initialItems = [] }) {
 
   const startEdit = (item) => {
     setEditingItem(item);
+    const aiModelsStr = Array.isArray(item.ai_models) && item.ai_models.length > 0
+      ? item.ai_models.join(', ')
+      : item.ai_model || 'Universal';
+    const useCasesStr = Array.isArray(item.use_cases) && item.use_cases.length > 0
+      ? item.use_cases.join(', ')
+      : item.use_case || '';
+
     setFormData({
       title: item.title || '',
       type: item.type || 'prompt',
       prompt_content: item.prompt_content || '',
-      ai_model: item.ai_model || 'Universal',
+      ai_model: aiModelsStr,
       category: item.category || 'Development',
-      use_case: item.use_case || (item.use_cases?.[0] || ''),
+      use_case: useCasesStr,
       tags: Array.isArray(item.tags) ? item.tags.join(', ') : item.tags || '',
       description: item.description || '',
       display_name: item.display_name || 'CodeCraft Team',
@@ -223,10 +300,22 @@ export default function KnowledgeManager({ initialItems = [] }) {
     setSaving(true);
     setFeedback(null);
 
+    const parsedAiModels = (formData.ai_model || '')
+      .split(',')
+      .map((m) => m.trim())
+      .filter(Boolean);
+    const parsedUseCases = (formData.use_case || '')
+      .split(',')
+      .map((u) => u.trim())
+      .filter(Boolean);
+
     const payload = {
       ...formData,
+      ai_model: parsedAiModels.join(', ') || 'Universal',
+      ai_models: parsedAiModels.length > 0 ? parsedAiModels : ['Universal'],
+      use_case: parsedUseCases[0] || 'General',
+      use_cases: parsedUseCases,
       tags: formData.tags.split(',').map((t) => t.trim()).filter(Boolean),
-      use_cases: formData.use_case ? [formData.use_case] : [],
     };
 
     if (editingItem) {
@@ -650,149 +739,196 @@ export default function KnowledgeManager({ initialItems = [] }) {
       )}
 
       {/* TAB 2: ADD / EDIT CONTENT */}
-      {activeTab === 'add' && (
-        <div className={styles.formCard}>
-          <h2 style={{ marginBottom: '1.25rem', fontSize: '1.25rem', color: 'var(--text-main)' }}>
-            {editingItem ? `Edit: ${editingItem.title}` : 'Add New Knowledge Item'}
-          </h2>
-          <form onSubmit={handleSaveForm}>
-            <div className={styles.formGrid}>
-              <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-                <label>Title *</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Next.js 16 App Router Component Scaffold"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  required
-                />
+      {activeTab === 'add' && (() => {
+        const guidance = getContentGuidance(formData.type);
+        return (
+          <div className={styles.formCard}>
+            <h2 style={{ marginBottom: '1.25rem', fontSize: '1.25rem', color: 'var(--text-main)' }}>
+              {editingItem ? `Edit: ${editingItem.title}` : 'Add New Knowledge Item'}
+            </h2>
+            <form onSubmit={handleSaveForm}>
+              <div className={styles.formGrid}>
+                <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                  <label>Title *</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Next.js 16 App Router Component Scaffold"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Content Type *</label>
+                  <select
+                    value={formData.type}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  >
+                    <option value="prompt">Prompt</option>
+                    <option value="trick">Trick</option>
+                    <option value="shortcut">Shortcut / Slash Command</option>
+                    <option value="technique">Technique</option>
+                    <option value="guide">Guide / Tip</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Category</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Development, Writing, Productivity"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  />
+                </div>
+
+                <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                  <label>AI Model / Platform</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Claude 3.5 Sonnet, GPT-4o, Cursor"
+                    value={formData.ai_model}
+                    onChange={(e) => setFormData({ ...formData, ai_model: e.target.value })}
+                  />
+                  <div className={styles.chipGroup}>
+                    {SUGGESTED_AI_MODELS.map((model) => {
+                      const isSelected = (formData.ai_model || '')
+                        .split(',')
+                        .map((s) => s.trim().toLowerCase())
+                        .includes(model.toLowerCase());
+                      return (
+                        <button
+                          key={model}
+                          type="button"
+                          className={`${styles.chip} ${isSelected ? styles.chipActive : ''}`}
+                          onClick={() =>
+                            setFormData({ ...formData, ai_model: toggleListValue(formData.ai_model, model) })
+                          }
+                        >
+                          {isSelected ? <FiCheck /> : <FiPlus />}
+                          {model}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <span className={styles.hint}>Click to toggle models/platforms or type custom values separated by commas</span>
+                </div>
+
+                <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                  <label>Use Cases</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Full-stack Web Development, Database Security, Testing"
+                    value={formData.use_case}
+                    onChange={(e) => setFormData({ ...formData, use_case: e.target.value })}
+                  />
+                  <div className={styles.chipGroup}>
+                    {SUGGESTED_USE_CASES.map((uc) => {
+                      const isSelected = (formData.use_case || '')
+                        .split(',')
+                        .map((s) => s.trim().toLowerCase())
+                        .includes(uc.toLowerCase());
+                      return (
+                        <button
+                          key={uc}
+                          type="button"
+                          className={`${styles.chip} ${isSelected ? styles.chipActive : ''}`}
+                          onClick={() =>
+                            setFormData({ ...formData, use_case: toggleListValue(formData.use_case, uc) })
+                          }
+                        >
+                          {isSelected ? <FiCheck /> : <FiPlus />}
+                          {uc}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <span className={styles.hint}>Click to toggle use cases or enter multiple separated by commas</span>
+                </div>
+
+                <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                  <label>Tags (comma separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. nextjs, react, typescript, tailwind"
+                    value={formData.tags}
+                    onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  />
+                </div>
+
+                <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                  <label>Description / Overview</label>
+                  <input
+                    type="text"
+                    placeholder="Brief summary of what this knowledge item achieves"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  />
+                </div>
+
+                <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                  <label>Content / Instructions *</label>
+                  <textarea
+                    rows={6}
+                    placeholder={guidance.placeholder}
+                    value={formData.prompt_content}
+                    onChange={(e) => setFormData({ ...formData, prompt_content: e.target.value })}
+                    required
+                  />
+                  <span className={styles.hint}>{guidance.hint}</span>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Contributor</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. CodeCraft Team, @alex, Community"
+                    value={formData.display_name}
+                    onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Publication Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft / Unpublished</option>
+                  </select>
+                </div>
               </div>
 
-              <div className={styles.formGroup}>
-                <label>Content Type *</label>
-                <select
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                >
-                  <option value="prompt">Prompt</option>
-                  <option value="trick">Trick</option>
-                  <option value="shortcut">Shortcut / Slash Command</option>
-                  <option value="technique">Technique</option>
-                  <option value="guide">Guide / Tip</option>
-                </select>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>AI Model</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Claude 3.5 Sonnet, GPT-4o, Cursor"
-                  value={formData.ai_model}
-                  onChange={(e) => setFormData({ ...formData, ai_model: e.target.value })}
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Category</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Development, Writing, Productivity"
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Use Case</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Full-stack Web Development"
-                  value={formData.use_case}
-                  onChange={(e) => setFormData({ ...formData, use_case: e.target.value })}
-                />
-              </div>
-
-              <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-                <label>Tags (comma separated)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. nextjs, react, typescript, tailwind"
-                  value={formData.tags}
-                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                />
-              </div>
-
-              <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-                <label>Description / Overview</label>
-                <input
-                  type="text"
-                  placeholder="Brief summary of what this prompt or pattern achieves"
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                />
-              </div>
-
-              <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-                <label>Prompt Content / Instructions *</label>
-                <textarea
-                  rows={6}
-                  placeholder="Enter the complete prompt template, shortcut, or pattern..."
-                  value={formData.prompt_content}
-                  onChange={(e) => setFormData({ ...formData, prompt_content: e.target.value })}
-                  required
-                />
-                <span className={styles.hint}>Supports template parameters like {'{{ComponentName}}'} or [TECH_STACK]</span>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Contributor Display Name</label>
-                <input
-                  type="text"
-                  placeholder="CodeCraft Team"
-                  value={formData.display_name}
-                  onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Publication Status</label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                >
-                  <option value="published">Published</option>
-                  <option value="draft">Draft / Unpublished</option>
-                </select>
-              </div>
-            </div>
-
-            <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-              <button type="submit" disabled={saving} className={styles.submitBtn}>
-                {saving ? 'Saving...' : editingItem ? 'Update Knowledge Item' : 'Create Knowledge Item'}
-              </button>
-              {editingItem && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditingItem(null);
-                    setActiveTab('all');
-                  }}
-                  style={{
-                    background: 'transparent',
-                    border: '1px solid var(--border-medium)',
-                    padding: '0.65rem 1.2rem',
-                    borderRadius: 'var(--radius-md)',
-                    color: 'var(--text-secondary)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Cancel
+              <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                <button type="submit" disabled={saving} className={styles.submitBtn}>
+                  {saving ? 'Saving...' : editingItem ? 'Update Knowledge Item' : 'Create Knowledge Item'}
                 </button>
-              )}
-            </div>
-          </form>
-        </div>
-      )}
+                {editingItem && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingItem(null);
+                      setActiveTab('all');
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid var(--border-medium)',
+                      padding: '0.65rem 1.2rem',
+                      borderRadius: 'var(--radius-md)',
+                      color: 'var(--text-secondary)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        );
+      })()}
 
       {/* TAB 3: IMPORT JSON */}
       {activeTab === 'import' && (

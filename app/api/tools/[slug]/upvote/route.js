@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 
+export const dynamic = 'force-dynamic';
+
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET(request, { params }) {
@@ -19,19 +21,24 @@ export async function GET(request, { params }) {
 
     // Check if current user has upvoted
     let hasUpvoted = false;
-    const { data: { user } } = await supabase.auth.getUser();
+    try {
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user;
 
-    if (user) {
-      const { data: userUpvote } = await supabase
-        .from('tool_upvotes')
-        .select('tool_slug')
-        .eq('tool_slug', slug)
-        .eq('user_id', user.id)
-        .maybeSingle();
+      if (user) {
+        const { data: userUpvote } = await supabase
+          .from('tool_upvotes')
+          .select('tool_slug')
+          .eq('tool_slug', slug)
+          .eq('user_id', user.id)
+          .maybeSingle();
 
-      if (userUpvote) {
-        hasUpvoted = true;
+        if (userUpvote) {
+          hasUpvoted = true;
+        }
       }
+    } catch {
+      // ignore auth check errors in public GET
     }
 
     return NextResponse.json({ count: count || 0, hasUpvoted });

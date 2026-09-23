@@ -244,9 +244,14 @@ export default function ProfileDashboard({ initialData }) {
       const res = await fetch(`/api/user/recently-viewed?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' });
       if (res.ok) {
         setRecentlyViewed((prev) => prev.filter((item) => item.tool_slug !== slug));
+      } else {
+        setHistoryFeedback('Failed to remove tool from history.');
+        setTimeout(() => setHistoryFeedback(''), 3000);
       }
     } catch (err) {
       console.error('Error removing history item:', err);
+      setHistoryFeedback('Network error while removing history item.');
+      setTimeout(() => setHistoryFeedback(''), 3000);
     }
   };
 
@@ -401,7 +406,9 @@ export default function ProfileDashboard({ initialData }) {
     }
   };
 
-  const totalSavedCount = (stats.bookmarksCount || 0) + (stats.savedPromptsCount || initialData.savedPrompts?.length || 0);
+  const totalSavedCount =
+    (stats.bookmarksCount ?? initialData.savedTools?.length ?? 0) +
+    (stats.savedPromptsCount ?? initialData.savedPrompts?.length ?? 0);
   const totalStackPreferencesCount = (prefInterests.length + prefTech.length + prefGoals.length);
 
   return (
@@ -644,7 +651,7 @@ export default function ProfileDashboard({ initialData }) {
             suppressHydrationWarning
           >
             <FiLayers /> My Contributions
-            <span className={styles.tabBadge}>{allSubmissions.length}</span>
+            <span className={styles.tabBadge}>{(submissionList || []).length}</span>
           </button>
           <button
             type="button"

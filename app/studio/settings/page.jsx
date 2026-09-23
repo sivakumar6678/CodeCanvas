@@ -1,4 +1,4 @@
-import { getCurrentUserWithProfile } from '../../../lib/auth/server';
+import { requireAdminAccess } from '../../../lib/auth/server';
 import { getCategories, getAllTools } from '../../../lib/data-fetchers';
 import { getCatalogCategorySlugs, getCatalogFileForCategory } from '../../../lib/catalog-categories';
 import StudioSettingsView from '../../../components/admin/StudioSettingsView';
@@ -6,7 +6,7 @@ import StudioSettingsView from '../../../components/admin/StudioSettingsView';
 export const metadata = { title: 'Settings & Diagnostics | Studio' };
 
 export default async function StudioSettingsPage() {
-  const auth = await getCurrentUserWithProfile();
+  const auth = await requireAdminAccess();
   const categories = await getCategories();
   const allTools = await getAllTools();
   const categorySlugs = getCatalogCategorySlugs();

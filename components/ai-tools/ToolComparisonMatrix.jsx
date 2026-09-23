@@ -38,6 +38,19 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
     }
   };
 
+  if (!allTools.length || !selectedTools.length) {
+    return (
+      <div className={styles.matrixWrapper}>
+        <div style={{ textAlign: 'center', padding: '48px 24px' }}>
+          <h3>No Tools Available for Comparison</h3>
+          <p style={{ color: 'var(--text-muted, #94a3b8)', marginTop: '8px' }}>
+            There are currently no tools available in the catalog to compare.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.matrixWrapper}>
       <div className={styles.controls}>
@@ -59,7 +72,7 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             <tr>
               <th className={styles.featureCol}>Features</th>
               {selectedTools.map((tool, idx) => (
-                <th key={idx} className={styles.toolCol}>
+                <th key={tool.slug} className={styles.toolCol}>
                   <div className={styles.toolHeaderControl}>
                     <select
                       value={tool.slug}
@@ -120,8 +133,8 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Category Row */}
             <tr>
               <td className={styles.featureLabel}>Category</td>
-              {selectedTools.map((t, idx) => (
-                <td key={idx} className={styles.cellText}>
+              {selectedTools.map((t) => (
+                <td key={t.slug} className={styles.cellText}>
                   {t.category} {t.subCategory ? `(${t.subCategory})` : ''}
                 </td>
               ))}
@@ -130,8 +143,8 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Overview Row */}
             <tr>
               <td className={styles.featureLabel}>Overview</td>
-              {selectedTools.map((t, idx) => (
-                <td key={idx} className={styles.cellText}>
+              {selectedTools.map((t) => (
+                <td key={t.slug} className={styles.cellText}>
                   {t.fullOverview || t.description}
                 </td>
               ))}
@@ -140,16 +153,16 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Free Plan / Trial Available */}
             <tr>
               <td className={styles.featureLabel}>Free Tier / Trial</td>
-              {selectedTools.map((t, idx) => {
+              {selectedTools.map((t) => {
                 const hasFreeOption = t.hasFree || t.freeTrial || (t.pricingModel || t.pricing || '').toLowerCase().includes('free');
                 return (
-                  <td key={idx} className={styles.cellText}>
+                  <td key={t.slug} className={styles.cellText}>
                     {hasFreeOption ? (
-                      <span style={{ color: '#059669', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}>
+                      <span style={{ color: 'var(--color-success, #059669)', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}>
                         <FiCheck /> Available
                       </span>
                     ) : (
-                      <span style={{ color: '#64748b', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ color: 'var(--text-muted, #64748b)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                         <FiX /> Paid Only
                       </span>
                     )}
@@ -161,10 +174,15 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Platforms Row */}
             <tr>
               <td className={styles.featureLabel}>Platforms</td>
-              {selectedTools.map((t, idx) => {
-                const platforms = t.platforms || t.platform || [];
+              {selectedTools.map((t) => {
+                const rawPlatforms = t.platforms || t.platform || [];
+                const platforms = Array.isArray(rawPlatforms)
+                  ? rawPlatforms
+                  : typeof rawPlatforms === 'string' && rawPlatforms.trim()
+                  ? [rawPlatforms.trim()]
+                  : [];
                 return (
-                  <td key={idx} className={styles.cellText}>
+                  <td key={t.slug} className={styles.cellText}>
                     {platforms.length > 0 ? platforms.join(', ') : 'Web'}
                   </td>
                 );
@@ -174,14 +192,14 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Key Features Row */}
             <tr>
               <td className={styles.featureLabel}>Key Features</td>
-              {selectedTools.map((t, idx) => {
+              {selectedTools.map((t) => {
                 const features = t.keyFeatures || t.features || [];
                 return (
-                  <td key={idx} className={styles.cellList}>
+                  <td key={t.slug} className={styles.cellList}>
                     {features.length > 0 ? (
                       <ul>
                         {features.map((feat, fIdx) => (
-                          <li key={fIdx}>
+                          <li key={`${t.slug}-feat-${fIdx}`}>
                             <FiCheck className={styles.checkIcon} /> {feat}
                           </li>
                         ))}
@@ -197,14 +215,14 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Best For Row */}
             <tr>
               <td className={styles.featureLabel}>Best For</td>
-              {selectedTools.map((t, idx) => {
+              {selectedTools.map((t) => {
                 const bestFor = t.bestFor || t.best_for || [];
                 return (
-                  <td key={idx} className={styles.cellList}>
+                  <td key={t.slug} className={styles.cellList}>
                     {bestFor.length > 0 ? (
                       <ul>
                         {bestFor.map((item, bIdx) => (
-                          <li key={bIdx}>
+                          <li key={`${t.slug}-bf-${bIdx}`}>
                             <FiCheck className={styles.checkIcon} /> {item}
                           </li>
                         ))}
@@ -220,14 +238,14 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Use Cases Row */}
             <tr>
               <td className={styles.featureLabel}>Use Cases</td>
-              {selectedTools.map((t, idx) => {
+              {selectedTools.map((t) => {
                 const useCases = t.useCases || t.use_cases || [];
                 return (
-                  <td key={idx} className={styles.cellList}>
+                  <td key={t.slug} className={styles.cellList}>
                     {useCases.length > 0 ? (
                       <ul>
                         {useCases.map((uc, uIdx) => (
-                          <li key={uIdx}>
+                          <li key={`${t.slug}-uc-${uIdx}`}>
                             <FiCheck className={styles.checkIcon} /> {uc}
                           </li>
                         ))}
@@ -243,12 +261,12 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Pros Row */}
             <tr>
               <td className={styles.featureLabel}>Pros</td>
-              {selectedTools.map((t, idx) => (
-                <td key={idx} className={styles.cellList}>
+              {selectedTools.map((t) => (
+                <td key={t.slug} className={styles.cellList}>
                   {t.pros && t.pros.length > 0 ? (
                     <ul className={styles.prosList}>
                       {t.pros.map((pro, pIdx) => (
-                        <li key={pIdx}>
+                        <li key={`${t.slug}-pro-${pIdx}`}>
                           <FiCheck className={styles.proIcon} /> {pro}
                         </li>
                       ))}
@@ -263,12 +281,12 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
             {/* Cons Row */}
             <tr>
               <td className={styles.featureLabel}>Cons</td>
-              {selectedTools.map((t, idx) => (
-                <td key={idx} className={styles.cellList}>
+              {selectedTools.map((t) => (
+                <td key={t.slug} className={styles.cellList}>
                   {t.cons && t.cons.length > 0 ? (
                     <ul className={styles.consList}>
                       {t.cons.map((con, cIdx) => (
-                        <li key={cIdx}>
+                        <li key={`${t.slug}-con-${cIdx}`}>
                           <FiX className={styles.conIcon} /> {con}
                         </li>
                       ))}

@@ -2068,5 +2068,292 @@
     "verified": true,
     "hasFree": true,
     "createdDate": "2026-09-09T00:00:00.000Z"
+  },
+  {
+    "id": "kie-ai",
+    "name": "Kie.ai",
+    "slug": "kie-ai",
+    "category": "development",
+    "subCategory": "api-gateway",
+    "description": "Unified AI API platform providing a single API key to access a wide range of AI models for image, video, audio, music, chat, and upscaling.",
+    "fullOverview": "Kie.ai is a unified AI API platform that provides a single API key and consistent endpoints to access a wide range of AI models. It serves as a cost-effective intermediary, offering API access at prices typically 30%–50% lower than official APIs, with some models discounted up to 80%[reference:0]. The platform supports asynchronous task processing, callback/webhook notifications, rate limiting, IP whitelisting, and comprehensive task logging[reference:1].",
+    "website": "https://kie.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAK4PkE11nv8m49uR31IPUtZJ2dmKb_JQLzbrjs6UBcg&s",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAK4PkE11nv8m49uR31IPUtZJ2dmKb_JQLzbrjs6UBcg&s",
+    "keyFeatures": [
+      "Unified API key for multiple AI models",
+      "Prices 30%–50% lower than official APIs, up to 80% discount on some models",
+      "Asynchronous task model with callback/webhook support",
+      "Rate limiting (up to 20 requests per 10 seconds)",
+      "IP whitelist support",
+      "Comprehensive task logging and credit usage tracking"
+    ],
+    "pros": [
+      "Significant cost savings compared to official APIs",
+      "Single API key for multiple models",
+      "Developer-friendly documentation"
+    ],
+    "cons": [
+      "Generated media files retained for only 14 days",
+      "Log records retained for only 2 months"
+    ],
+    "pricingModel": "Paid",
+    "platforms": [
+      "API"
+    ],
+    "tags": [
+      "api",
+      "gateway",
+      "ai",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Image generation",
+      "Video generation",
+      "Music generation",
+      "Chat completions"
+    ],
+    "bestFor": [
+      "Developers",
+      "AI application builders"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "experiential-labs",
+    "name": "Experiential Labs",
+    "slug": "experiential-labs",
+    "category": "development",
+    "subCategory": "api-gateway",
+    "description": "Open-source AI gateway that routes requests to every major model provider through one OpenAI-compatible endpoint and trains a specialized model you own.",
+    "fullOverview": "Experiential Labs is an open-source AI gateway and router for agent workflows. It provides one OpenAI-compatible API to use hosted, BYOK, and local models from 1000+ marketplace models[reference:2]. The platform uses your traffic to build a simulation of the tasks, failures, and edge cases your agent encounters, then trains a small language model for your specific use cases[reference:3]. Companies fully own the resulting model weights and can run them wherever they want. On some tasks, up to 97% lower cost and +50% higher quality have been observed, with a guarantee of at least 50% lower cost at the same or better quality backed by an SLA[reference:4].",
+    "website": "https://www.experientiallabs.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeZ4Ug6UZnU3WytlbBGLviYKvJFPI5Jt3r7N1XIV2vOcAqghsAVQSboZ4O&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeZ4Ug6UZnU3WytlbBGLviYKvJFPI5Jt3r7N1XIV2vOcAqghsAVQSboZ4O&s=10",
+    "keyFeatures": [
+      "Open-source AI gateway with zero token markup",
+      "Routes to 1000+ marketplace models",
+      "OpenAI and Anthropic compatible API",
+      "Traffic simulation and model training",
+      "Companies fully own resulting model weights",
+      "BYOK (Bring Your Own Key) support",
+      "Self-hosted deployment option"
+    ],
+    "pros": [
+      "Zero token markup on model calls",
+      "Companies own the resulting specialized model",
+      "Guaranteed 50% lower cost at same or better quality"
+    ],
+    "cons": [],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "API",
+      "Self-hosted",
+      "Cloud"
+    ],
+    "tags": [
+      "api",
+      "gateway",
+      "open-source",
+      "developer-tools"
+    ],
+    "useCases": [
+      "AI cost optimization",
+      "Model routing",
+      "Training specialized models",
+      "BYOK management"
+    ],
+    "bestFor": [
+      "Developers",
+      "AI startups",
+      "Enterprises"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "gitlab-duo",
+    "name": "GitLab Duo",
+    "slug": "gitlab-duo",
+    "category": "development",
+    "subCategory": "code-completion",
+    "description": "Suite of AI-native features integrated across the GitLab DevSecOps platform for code explanation, generation, CI/CD troubleshooting, and vulnerability resolution.",
+    "fullOverview": "GitLab Duo is a suite of AI-native features integrated throughout the GitLab workflow. GitLab Duo Chat can help get explanations of code, errors, and GitLab features; generate or refactor code, write tests, and fix issues; create CI/CD configurations and troubleshoot job failures; summarize issues, epics, and merge requests; and resolve security vulnerabilities[reference:5]. The default LLM was updated to Claude Sonnet 4.5 in GitLab 18.6[reference:6]. GitLab Duo Agent Platform offers three GitLab-hosted open weight models with up to 4x more calls per credit at performance comparable to frontier models[reference:7]. Organizations on the GitLab.com free tier can use GitLab Duo Agent Platform through a monthly commitment of GitLab Credits shared across the group without per-seat costs[reference:8].",
+    "website": "https://gitlab.com",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYCSHTbSSHVmVbXEoPvldn_NutlhMKpzbAR4n9UY_OfX6TACCc-1eykNU&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmN80rzXQuBNip5OqUCaZub1bNRASUqYe3dCQox7rg2g&s=10",
+    "keyFeatures": [
+      "GitLab Duo Chat with context-aware conversational AI",
+      "Code Suggestions with intelligent completions",
+      "Merge Request Summaries",
+      "Root Cause Analysis for CI/CD failures",
+      "Vulnerability explanation and resolution",
+      "GitLab Duo Agent Platform for agentic automation",
+      "Integration with VS Code, JetBrains, Visual Studio, Eclipse, and Web IDE"
+    ],
+    "pros": [
+      "Native AI integration across the entire DevSecOps lifecycle",
+      "Usage-based credit pricing shared across the group",
+      "Self-hosted model configuration support"
+    ],
+    "cons": [
+      "AI features require Premium or Ultimate tier for full access",
+      "On-demand credits cost $1 per credit at list price"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "VS Code",
+      "JetBrains",
+      "Visual Studio",
+      "Eclipse",
+      "Self-hosted"
+    ],
+    "tags": [
+      "coding",
+      "ai",
+      "devsecops",
+      "developer-tools"
+    ],
+    "useCases": [
+      "Code completion and generation",
+      "CI/CD troubleshooting",
+      "Security vulnerability resolution",
+      "Merge request summarization"
+    ],
+    "bestFor": [
+      "Software development teams",
+      "DevOps engineers",
+      "Enterprise organizations"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "ashna-ai",
+    "name": "Ashna AI",
+    "slug": "ashna-ai",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Unified AI application combining chat, search, writing, and coding assistance with the Ashna-X1 model.",
+    "fullOverview": "Ashna AI enhances chat, search, writing, and coding using advanced Ashna-X1 models, offering personalized learning, market intelligence, and comprehensive research solutions with high efficiency and speed[reference:9]. The platform is a no-code platform for building custom AI agents, enabling users to create and deploy automated assistants without technical expertise[reference:10]. API availability is available, and the platform operates on a freemium pricing model[reference:11].",
+    "website": "https://app.ashna.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrHE6rL0IXigS6BbCyd8Yz7uG1TR4RAzHNGZhV2dKGRQ&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrHE6rL0IXigS6BbCyd8Yz7uG1TR4RAzHNGZhV2dKGRQ&s=10",
+    "keyFeatures": [
+      "Ashna-X1 model with fast response times",
+      "Chat, search, writing, and coding assistance",
+      "No-code platform for building custom AI agents",
+      "API availability",
+      "Personalized learning and market intelligence"
+    ],
+    "pros": [
+      "Freemium model with free tier",
+      "No-code platform for building AI agents",
+      "API available for integration"
+    ],
+    "cons": [
+      "Pricing details for paid tiers not publicly available"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "API"
+    ],
+    "tags": [
+      "ai",
+      "assistant",
+      "no-code",
+      "chat"
+    ],
+    "useCases": [
+      "Academic research assistance",
+      "Market research",
+      "Code management and collaboration",
+      "Content summarization"
+    ],
+    "bestFor": [
+      "Students",
+      "Researchers",
+      "Businesses"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
+  },
+  {
+    "id": "venice-ai",
+    "name": "Venice AI",
+    "slug": "venice-ai",
+    "category": "development",
+    "subCategory": "ai-assistant",
+    "description": "Privacy-first AI platform providing private, unrestricted access to over 200 AI models across text, image, video, and audio.",
+    "fullOverview": "Venice AI is a private, unrestricted AI platform that gives users access to more than 200 leading AI models across text, image, video, and audio[reference:12]. Venice never logs prompts; conversations are stored locally on the user's own device, not on Venice's servers[reference:13]. All user input is encrypted and unencrypted client-side, and routed through an external proxy before it is processed and returned, with no data stored on Venice's own systems[reference:14]. The company has 3.5 million registered users and processes 1.3 trillion tokens per month, with annualized run-rate revenues of over $70 million[reference:15][reference:16].",
+    "website": "https://venice.ai",
+    "logoImageUrl": "https://play-lh.googleusercontent.com/x_L9XN13N8tM7in55yKlETaobXrR6ognDlbu07Y1vlpSjl59c--C8rvfHT9Vk5T3cOSTvDZAFLq3YOTVYfY6Ng",
+    "bannerImageUrl": "https://play-lh.googleusercontent.com/x_L9XN13N8tM7in55yKlETaobXrR6ognDlbu07Y1vlpSjl59c--C8rvfHT9Vk5T3cOSTvDZAFLq3YOTVYfY6Ng",
+    "keyFeatures": [
+      "Access to 200+ uncensored open source and commercial AI models",
+      "No prompt or response logging on servers",
+      "Client-side conversation storage",
+      "End-to-end encryption (E2EE) and Trusted Execution Environment (TEE) models",
+      "OpenAI-compatible API with function calling",
+      "Venice CLI for terminal-based access"
+    ],
+    "pros": [
+      "Privacy-first architecture with no central data storage",
+      "Unrestricted access to 200+ models",
+      "End-to-end encryption on some models"
+    ],
+    "cons": [
+      "E2EE requires a paid subscription",
+      "Higher-tier plans are expensive"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Mobile",
+      "API",
+      "CLI"
+    ],
+    "tags": [
+      "ai",
+      "privacy",
+      "assistant",
+      "uncensored"
+    ],
+    "useCases": [
+      "Private AI chat",
+      "Unrestricted content generation",
+      "Image and video generation",
+      "Agentic workflows"
+    ],
+    "bestFor": [
+      "Privacy-conscious users",
+      "Developers",
+      "Content creators"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": true,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
   }
 ]

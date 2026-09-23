@@ -71,7 +71,9 @@ export default async function ProfilePage() {
       if (dbPrompts && dbPrompts.length > 0) {
         savedPrompts = [...savedPrompts, ...dbPrompts];
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Could not fetch extra saved prompt submissions:', e?.message || e);
+    }
   }
 
   const [toolSubmissionsRes, promptSubmissionsRes] = await Promise.allSettled([
@@ -86,7 +88,7 @@ export default async function ProfilePage() {
     allTools,
     profile || {},
     savedSlugs,
-    { limit: 6, excludeSaved: false }
+    { limit: 6, excludeSaved: true }
   );
 
   const initialData = {

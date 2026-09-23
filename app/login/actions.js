@@ -185,8 +185,12 @@ export async function resendConfirmation(formData) {
 
 export async function logout() {
   const supabase = await createClient();
-  const { error } = await supabase.auth.signOut();
-  if (error) console.warn('[auth] logout:failed', { code: error.code, message: error.message });
-  else console.info('[auth] logout:success');
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.warn('[auth] logout:failed', { code: error.code, message: error.message });
+    else console.info('[auth] logout:success');
+  } catch (err) {
+    console.warn('[auth] logout:exception', err?.message || err);
+  }
   redirect('/login');
 }

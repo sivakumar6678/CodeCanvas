@@ -3,6 +3,8 @@ import { createClient } from '../../../../lib/supabase/server';
 import { getToolBySlug } from '../../../../lib/data-fetchers';
 import { recordAnalyticsEvent } from '../../../../lib/analytics';
 
+export const dynamic = 'force-dynamic';
+
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET(request) {
@@ -21,8 +23,13 @@ export async function GET(request) {
       .order('saved_at', { ascending: false });
 
     if (error) {
-      // If table doesn't exist yet in Supabase (PGRST205 / 42P01), return empty list gracefully
-      if (error.code === 'PGRST205' || error.code === '42P01') {
+      // If table doesn't exist yet in Supabase, return empty list gracefully
+      if (
+        error.code === 'PGRST205' ||
+        error.code === 'PGRST116' ||
+        error.code === '42P01' ||
+        error.message?.includes('does not exist')
+      ) {
         console.warn('saved_tools table not found in Supabase schema cache. Return empty array.');
         return NextResponse.json([]);
       }
@@ -45,7 +52,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { tool_slug, action } = await request.json();
+    const body = await request.json().catch(() => ({}));
+    const { tool_slug, action } = body;
 
     if (!tool_slug || !SAFE_SLUG.test(tool_slug)) {
       return NextResponse.json({ error: 'Tool slug is required' }, { status: 400 });

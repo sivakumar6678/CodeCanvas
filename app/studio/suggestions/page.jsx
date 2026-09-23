@@ -1,4 +1,5 @@
-import SuggestionsManager from '../../../components/admin/SuggestionsManager';
+import { redirect } from 'next/navigation';
 
-export const metadata = { title: 'Suggestions | Studio' };
-export default function StudioSuggestionsPage() { return <SuggestionsManager />; }
+export default function StudioSuggestionsPage() {
+  redirect('/studio/contributions');
+}

@@ -3,6 +3,8 @@ import { createClient } from '../../../../lib/supabase/server';
 import { getAllTools } from '../../../../lib/data-fetchers';
 import { builtinTools } from '../../../../lib/toolData';
 
+export const dynamic = 'force-dynamic';
+
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function GET() {
@@ -22,7 +24,12 @@ export async function GET() {
       .limit(20);
 
     if (error) {
-      if (error.code === 'PGRST205' || error.code === '42P01') {
+      if (
+        error.code === 'PGRST205' ||
+        error.code === 'PGRST116' ||
+        error.code === '42P01' ||
+        error.message?.includes('does not exist')
+      ) {
         console.warn('recently_viewed_tools table not found in Supabase schema cache. Returning empty array.');
         return NextResponse.json([]);
       }
@@ -145,6 +152,14 @@ export async function POST(request) {
 
     if (error) {
       console.warn('Unable to record recently viewed tool in Supabase:', error.message);
+      if (
+        error.code === 'PGRST205' ||
+        error.code === 'PGRST116' ||
+        error.code === '42P01' ||
+        error.message?.includes('does not exist')
+      ) {
+        return NextResponse.json({ success: true, tracked: false, reason: 'table_missing' });
+      }
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
@@ -177,6 +192,14 @@ export async function DELETE(request) {
 
     if (error) {
       console.warn('Error clearing recently viewed history:', error.message);
+      if (
+        error.code === 'PGRST205' ||
+        error.code === 'PGRST116' ||
+        error.code === '42P01' ||
+        error.message?.includes('does not exist')
+      ) {
+        return NextResponse.json({ success: true, cleared: !slug, removedSlug: slug || null });
+      }
       return NextResponse.json({ error: 'Failed to clear history' }, { status: 500 });
     }
 

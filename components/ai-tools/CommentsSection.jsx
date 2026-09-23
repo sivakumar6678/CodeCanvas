@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { FiMessageSquare, FiCornerDownRight, FiUser, FiSend } from 'react-icons/fi';
+import { FiMessageSquare, FiCornerDownRight, FiSend } from 'react-icons/fi';
 import styles from './CommentsSection.module.scss';
 import { useRouter } from 'next/navigation';
 import UserAvatar from '../ui/UserAvatar';

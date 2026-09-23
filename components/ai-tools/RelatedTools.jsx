@@ -13,7 +13,7 @@ export default function RelatedTools({ tools }) {
 
       <div className={styles.grid}>
         {tools.map(tool => (
-          <AIToolCard key={tool.id} tool={tool} />
+          <AIToolCard key={tool.id || tool.slug} tool={tool} />
         ))}
       </div>
     </section>

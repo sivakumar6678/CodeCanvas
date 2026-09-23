@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FiCheck, FiCopy, FiDownload, FiImage, FiUpload, FiX } from 'react-icons/fi';
 import styles from './ToolJsonImport.module.scss';
 
-const SCHEMA_PROMPT = `Convert this tool list into CodeCraft JSON. Return only a valid JSON array using the canonical schema: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate. Preserve names and URLs, generate unique string IDs and lowercase hyphenated slugs, use only the supported categories shown in Studio, generate tags, platforms, and useCases only from supplied information, and leave empty optional values instead of inventing facts. Do not use legacy aliases like logo, banner, features, pricing, freeTrial, or platform. Do not auto-copy the logoImageUrl into the bannerImageUrl field.`;
+const SCHEMA_PROMPT = `Convert this tool list into CodeCraft JSON. Return only a valid JSON array using the canonical schema: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate. Category is strictly mandatory (e.g. data-ai, security-ai, devops-ai, audio-ai, video-ai, research-ai, ai-development). Subcategory is entirely optional—only use it if it provides highly specific value; otherwise omit it or leave null. Preserve names and URLs, generate unique string IDs and lowercase hyphenated slugs, generate tags, platforms, and useCases only from supplied information, and leave empty optional values instead of inventing facts.`;
 
 export default function BulkToolJsonImport({ categories, onImportComplete }) {
   const [text, setText] = useState('');
@@ -115,7 +115,7 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
         return;
       }
 
-      setMessage(`Applied changes: ${result.updated} updated and ${result.imported} added; ${result.skipped || 0} skipped.`);
+      setMessage(`Applied changes: ${result.added} added; ${result.skipped || 0} skipped.`);
       setClassification(null);
       setRecords([]);
       setSelectedImages({});
@@ -283,14 +283,7 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
         </div>
       </div>
 
-      <div className={styles.modeRow}>
-        <strong>Bulk action</strong>
-        <select value={mode} onChange={(event) => setMode(event.target.value)}>
-          <option value="upsert">Update + Import All</option>
-          <option value="update-existing">Update All Existing</option>
-          <option value="import-new">Import All New</option>
-        </select>
-      </div>
+      
 
       {message && <p className={styles.success}><FiCheck /> {message}</p>}
       
@@ -305,10 +298,9 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
 
       {summary && (
         <div className={styles.summary}>
-          <div><strong>{summary.existing}</strong><span>Existing Detected</span></div>
-          <div><strong>{summary.new}</strong><span>New Detected</span></div>
-          <div><strong>{summary.invalid}</strong><span>Invalid (Skipped)</span></div>
-          <div><strong>{summary.conflicts}</strong><span>Conflicts</span></div>
+          <div><strong>{summary.added}</strong><span>Added</span></div>
+          <div><strong>{summary.skipped}</strong><span>Skipped as duplicate</span></div>
+          <div><strong>{summary.invalid}</strong><span>Invalid/failed</span></div>
         </div>
       )}
 
@@ -341,8 +333,7 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
           </div>
           <div className={styles.previewList}>
             <div className={styles.previewRow}><span>Added (New Tools)</span><small>{classification.preview.added.length}</small></div>
-            <div className={styles.previewRow}><span>Updated (Existing Tools)</span><small>{classification.preview.updated.length}</small></div>
-            <div className={styles.previewRow}><span>Skipped</span><small>{classification.preview.skipped.length}</small></div>
+            <div className={styles.previewRow}><span>Skipped (Existing)</span><small>{classification.preview.skipped.length}</small></div>
             <div className={styles.previewRow}><span>Invalid Records</span><small>{classification.preview.invalid.length}</small></div>
             {records.map((record) => (
               <div key={`${record.id || ''}-${record.slug}`} className={styles.previewRow}>

@@ -13,8 +13,15 @@ const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 async function readCategory(category) {
   const fileName = getCatalogFileForCategory(category);
   if (!fileName) throw new Error(`No catalog file is mapped for category "${category}"`);
-  const contents = await fs.readFile(path.join(TOOLS_DIR, fileName), 'utf8');
-  return JSON.parse(contents);
+  try {
+    const contents = await fs.readFile(path.join(TOOLS_DIR, fileName), 'utf8');
+    return JSON.parse(contents);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
+  }
 }
 
 async function writeCategory(category, records) {
@@ -63,7 +70,9 @@ export async function POST(request) {
       }
     }
 
-    const findToolLocation = (id, slug) => {
+
+
+  const findToolLocation = (id, slug) => {
       for (const [catSlug, catRecords] of categoryMap.entries()) {
         if (id) {
           const idx = catRecords.findIndex((t) => t.id === id);
@@ -150,7 +159,7 @@ export async function POST(request) {
     });
   }
 
-  const mode = payload.mode || 'upsert';
+  const mode = 'import-new'; // Hardcode skip-duplicates per requirements
   if (!['update-existing', 'import-new', 'upsert'].includes(mode)) {
     return NextResponse.json({ error: 'Invalid import mode' }, { status: 400 });
   }
@@ -159,9 +168,8 @@ export async function POST(request) {
     .concat(classification.newTools.filter(() => mode !== 'update-existing').map((item) => ({ ...item, action: 'add' })));
 
   const preview = {
-    added: selected.filter((item) => item.action === 'add'),
-    updated: selected.filter((item) => item.action === 'update'),
-    skipped: mode === 'update-existing' ? classification.newTools : mode === 'import-new' ? classification.existingTools : [],
+    added: classification.newTools,
+    skipped: classification.existingTools,
     invalid: classification.invalidRecords,
   };
 
@@ -172,11 +180,9 @@ export async function POST(request) {
       imageUpdates: classification.imageUpdates || [],
       preview,
       summary: {
-        existing: classification.existingTools.length,
-        new: classification.newTools.length,
+        added: classification.newTools.length,
+        skipped: classification.existingTools.length,
         invalid: classification.invalidRecords.length,
-        conflicts: classification.conflicts.length,
-        imageUpdates: classification.imageUpdates?.length || 0,
       }
     });
   }
@@ -207,6 +213,26 @@ export async function POST(request) {
     return null;
   };
 
+  const findToolLocationByUrl = (url) => {
+    const normalized = url ? url.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '') : null;
+    if (!normalized) return null;
+    for (const [catSlug, catRecords] of categoryMap.entries()) {
+      const idx = catRecords.findIndex((t) => t.website && t.website.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '') === normalized);
+      if (idx !== -1) return { category: catSlug, index: idx, tool: catRecords[idx] };
+    }
+    return null;
+  };
+
+  const findToolLocationByName = (name) => {
+    const normalized = name ? name.toLowerCase().replace(/[^a-z0-9]/g, '') : null;
+    if (!normalized) return null;
+    for (const [catSlug, catRecords] of categoryMap.entries()) {
+      const idx = catRecords.findIndex((t) => t.name && t.name.toLowerCase().replace(/[^a-z0-9]/g, '') === normalized);
+      if (idx !== -1) return { category: catSlug, index: idx, tool: catRecords[idx] };
+    }
+    return null;
+  };
+
   let updatedCount = 0;
   let importedCount = 0;
   let skippedCount = 0;
@@ -221,7 +247,7 @@ export async function POST(request) {
       return;
     }
 
-    const match = findToolLocation(record.id, record.slug);
+    const match = findToolLocation(record.id, record.slug) || (record.website ? findToolLocationByUrl(record.website) : null) || (record.name ? findToolLocationByName(record.name) : null);
 
     if (match) {
       if (mode === 'import-new') {
@@ -290,9 +316,9 @@ export async function POST(request) {
 
   return NextResponse.json({
     success: true,
-    imported: importedCount,
-    updated: updatedCount,
-    skipped: skippedCount,
+    added: importedCount,
+    skipped: classification.existingTools.length + classification.invalidRecords.length,
+    invalid: classification.invalidRecords.length,
     categories: Array.from(touchedCategories),
     preview
   });

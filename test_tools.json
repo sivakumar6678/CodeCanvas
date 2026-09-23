@@ -1,0 +1,58 @@
+[
+  {
+    "id": "poxima",
+    "name": "Poxima",
+    "slug": "poxima",
+    "category": "development",
+    "subCategory": "not_publicly_available",
+    "description": "not_publicly_available",
+    "fullOverview": "not_publicly_available",
+    "website": "not_publicly_available",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [],
+    "pros": [],
+    "cons": [],
+    "pricingModel": "not_publicly_available",
+    "platforms": [],
+    "tags": [],
+    "useCases": [],
+    "bestFor": [],
+    "featured": false,
+    "new": false,
+    "verified": false,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  },
+  {
+    "id": "kantix-ai",
+    "name": "Kentrix AI",
+    "slug": "kentrix-ai",
+    "category": "marketing",
+    "subCategory": "business-intelligence",
+    "description": "Data and AI-powered GTM platform for India, helping businesses plan smarter market entry, target the right consumers, and optimize operations.",
+    "fullOverview": "Kentrix AI is a data and AI-powered GTM platform for India...",
+    "website": "https://kentrix.ai",
+    "logoImageUrl": "",
+    "bannerImageUrl": "",
+    "keyFeatures": [
+      "Geomarketeer — AI-led location intelligence for store planning and catchment analysis"
+    ],
+    "pros": [
+      "Proprietary building-level consumer dataset for India"
+    ],
+    "cons": [
+      "Pricing is custom/quoted based on engagement"
+    ],
+    "pricingModel": "Contact for pricing",
+    "platforms": ["Web"],
+    "tags": ["data", "ai", "gtm", "business-intelligence"],
+    "useCases": ["Market entry planning"],
+    "bestFor": ["Consumer brands"],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z"
+  }
+]

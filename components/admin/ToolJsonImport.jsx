@@ -14,8 +14,8 @@ REQUIRED CANONICAL FIELD NAMES:
   "id": "unique-tool-id-string",
   "name": "Tool Name",
   "slug": "tool-name-lowercase-hyphenated",
-  "category": "category-name-lowercase",
-  "subCategory": "subcategory or empty string",
+  "category": "mandatory-category-slug (e.g. data-ai, security-ai, devops-ai, audio-ai, video-ai, research-ai, ai-development, business-ai, etc.)",
+  "subCategory": "optional subcategory string or empty string",
   "description": "Short 1-2 sentence description for cards",
   "fullOverview": "Complete overview and details for the tool detail page",
   "website": "https://exact-url.com",
@@ -40,7 +40,7 @@ CRITICAL RULES:
 - Use ONLY the field names listed above. No aliases like 'logo', 'banner', 'features', 'pricing', 'freeTrial', 'platform', or other variants.
 - Preserve original tool names and website URLs exactly.
 - Generate unique lowercase hyphenated slugs and unique string IDs.
-- Use category/subCategory values from supported categories only; do not invent new ones.
+- Category is strictly mandatory and extensible. Subcategory is entirely optional (leave empty if not needed).
 - For array fields (keyFeatures, pros, cons, platforms, tags, useCases, bestFor): return [] if information is not available.
 - Do not invent logos, banners, features, pricing details, or URLs. Leave imageUrl fields empty string "" if unknown.
 - Use pricingModel values ONLY from: Free, Freemium, Free / Freemium, Paid, Contact for pricing.
@@ -115,7 +115,7 @@ export default function ToolJsonImport({ categories }) {
     const result = await response.json().catch(() => ({}));
     setLoading(false);
     if (!response.ok) { setErrors(result.errors || [result.error || 'Import failed.']); return; }
-    setMessage(`Imported ${result.imported} tool${result.imported === 1 ? '' : 's'} into ${result.categories.join(', ')}.`);
+    setMessage(`Imported ${result.added || 0} tool(s); ${result.skipped || 0} skipped.`);
     setRecords([]);
   }
 
