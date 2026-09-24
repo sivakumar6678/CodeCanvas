@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { FiCheck, FiCopy, FiDownload, FiImage, FiUpload, FiX } from 'react-icons/fi';
 import styles from './ToolJsonImport.module.scss';
 
-const SCHEMA_PROMPT = `Convert this tool list into CodeCraft JSON. Return only a valid JSON array using the canonical schema: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate. Category is strictly mandatory (e.g. data-ai, security-ai, devops-ai, audio-ai, video-ai, research-ai, ai-development). Subcategory is entirely optional—only use it if it provides highly specific value; otherwise omit it or leave null. Preserve names and URLs, generate unique string IDs and lowercase hyphenated slugs, generate tags, platforms, and useCases only from supplied information, and leave empty optional values instead of inventing facts.`;
+const SCHEMA_PROMPT = `Convert this tool list into CodeCraft JSON. Return only a valid JSON array using the canonical schema: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate. Category is mandatory and must be a normalized meaningful main-category slug. Reuse an existing category when it accurately fits; create a new meaningful main category only when no existing category fits. Do not force an unrelated category. Subcategory is optional and may be omitted or null. Use tags and useCases for additional classification. Preserve names and URLs, generate unique string IDs and lowercase hyphenated slugs, generate tags, platforms, and useCases only from supplied information, and leave empty optional values instead of inventing facts.`;
 
 export default function BulkToolJsonImport({ categories, onImportComplete }) {
   const [text, setText] = useState('');
   const [records, setRecords] = useState([]);
   const [classification, setClassification] = useState(null);
+  const [decisions, setDecisions] = useState({});
   const [mode, setMode] = useState('upsert');
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState('');
@@ -46,6 +47,7 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
     setErrors([]);
     setMessage('');
     setClassification(null);
+    setDecisions({});
     setSelectedImages({});
     setBrokenImages({});
 
@@ -105,7 +107,7 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
       const response = await fetch('/api/admin/tools/import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'apply', records, mode })
+        body: JSON.stringify({ action: 'apply', records, decisions, mode })
       });
 
       const result = await response.json().catch(() => ({}));
@@ -115,9 +117,10 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
         return;
       }
 
-      setMessage(`Applied changes: ${result.added} added; ${result.skipped || 0} skipped.`);
+      setMessage(`Import complete: ${result.added || 0} added, ${result.updated || 0} updated/merged, ${result.conflicts || 0} conflicts, ${result.skipped || 0} skipped, ${result.invalid || 0} invalid, ${result.duplicates || 0} duplicates.`);
       setClassification(null);
       setRecords([]);
+      setDecisions({});
       setSelectedImages({});
 
       if (typeof onImportComplete === 'function') {
@@ -190,6 +193,29 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
   }
 
   const summary = classification?.summary;
+  const conflictRecords = classification?.conflictRecords || [];
+  const unresolvedConflicts = conflictRecords.filter((conflict) => !decisions[conflict.recordIndex]);
+
+  function setConflictAction(recordIndex, action) {
+    setDecisions((current) => ({
+      ...current,
+      [recordIndex]: {
+        ...(current[recordIndex] || {}),
+        action,
+      },
+    }));
+  }
+
+  function setManualField(recordIndex, field, source) {
+    setDecisions((current) => ({
+      ...current,
+      [recordIndex]: {
+        ...(current[recordIndex] || { action: 'manual-merge', fields: {} }),
+        action: 'manual-merge',
+        fields: { ...(current[recordIndex]?.fields || {}), [field]: source },
+      },
+    }));
+  }
 
   const currentStep = message && message.startsWith('Applied')
     ? 5
@@ -296,11 +322,64 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
         </div>
       )}
 
+      {classification?.invalidRecords?.length > 0 && (
+        <div className={styles.invalidDetails}>
+          <strong>Invalid tools and field errors</strong>
+          {classification.invalidRecords.map((item) => (
+            <div key={item.recordIndex} className={styles.invalidRecord}>
+              <strong>{item.record?.name || `Record ${item.recordIndex + 1}`}</strong>
+              <ul>
+                {item.details?.map((detail) => (
+                  <li key={`${item.recordIndex}-${detail.field}-${detail.code}`}>
+                    <b>{detail.field || 'record'}</b>: {detail.message}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+
       {summary && (
         <div className={styles.summary}>
           <div><strong>{summary.added}</strong><span>Added</span></div>
-          <div><strong>{summary.skipped}</strong><span>Skipped as duplicate</span></div>
-          <div><strong>{summary.invalid}</strong><span>Invalid/failed</span></div>
+          <div><strong>{summary.updated || 0}</strong><span>Updated / merged</span></div>
+          <div><strong>{summary.conflicts || 0}</strong><span>Conflicts</span></div>
+          <div><strong>{summary.skipped || 0}</strong><span>Skipped</span></div>
+          <div><strong>{summary.invalid || 0}</strong><span>Invalid</span></div>
+          <div><strong>{summary.duplicates || 0}</strong><span>Duplicates</span></div>
+        </div>
+      )}
+
+      {conflictRecords.length > 0 && (
+        <div className={styles.conflictReview}>
+          <div className={styles.previewHeader}>
+            <strong>Conflict Review ({conflictRecords.length})</strong>
+            <span>{unresolvedConflicts.length} decision{unresolvedConflicts.length === 1 ? '' : 's'} remaining</span>
+          </div>
+          {conflictRecords.map((conflict) => {
+            const decision = decisions[conflict.recordIndex];
+            const fields = [...new Set([...Object.keys(conflict.existing || {}), ...Object.keys(conflict.record || {})])]
+              .filter((field) => !['createdDate'].includes(field));
+            return (
+              <div key={conflict.recordIndex} className={styles.conflictReviewCard}>
+                <div className={styles.conflictReviewHeader}>
+                  <div><strong>{conflict.record?.name || 'Unnamed tool'}</strong><small>Matched by {conflict.matchedBy}</small></div>
+                  <select value={decision?.action || ''} onChange={(event) => setConflictAction(conflict.recordIndex, event.target.value)}>
+                    <option value="">Choose action...</option>
+                    <option value="keep-existing">Keep Existing</option>
+                    <option value="use-new">Use New</option>
+                    <option value="skip">Skip</option>
+                    <option value="manual-merge">Manual Merge</option>
+                  </select>
+                </div>
+                <div className={styles.conflictColumns}>
+                  <div><h4>Existing</h4>{fields.map((field) => <p key={`old-${field}`}><b>{field}</b><span>{String(conflict.existing?.[field] ?? '') || 'empty'}</span></p>)}</div>
+                  <div><h4>New</h4>{fields.map((field) => <p key={`new-${field}`}><b>{field}</b><span>{String(conflict.record?.[field] ?? '') || 'empty'}</span>{decision?.action === 'manual-merge' && <select value={decision.fields?.[field] || 'existing'} onChange={(event) => setManualField(conflict.recordIndex, field, event.target.value)}><option value="existing">Keep existing</option><option value="new">Use new</option></select>}</p>)}</div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -327,13 +406,14 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
         <div className={styles.preview}>
           <div className={styles.previewHeader}>
             <strong>Ready to apply changes safely:</strong>
-            <button type="button" onClick={apply} disabled={loading} className={styles.confirm}>
+            <button type="button" onClick={apply} disabled={loading || unresolvedConflicts.length > 0} className={styles.confirm}>
               {loading ? 'Importing...' : 'Confirm & Apply Changes'}
             </button>
           </div>
           <div className={styles.previewList}>
             <div className={styles.previewRow}><span>Added (New Tools)</span><small>{classification.preview.added.length}</small></div>
-            <div className={styles.previewRow}><span>Skipped (Existing)</span><small>{classification.preview.skipped.length}</small></div>
+            <div className={styles.previewRow}><span>Conflict Review</span><small>{classification.preview.conflicts.length}</small></div>
+            <div className={styles.previewRow}><span>Duplicate Upload Records</span><small>{classification.preview.duplicates.length}</small></div>
             <div className={styles.previewRow}><span>Invalid Records</span><small>{classification.preview.invalid.length}</small></div>
             {records.map((record) => (
               <div key={`${record.id || ''}-${record.slug}`} className={styles.previewRow}>

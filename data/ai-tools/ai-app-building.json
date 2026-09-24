@@ -336,7 +336,7 @@
     "description": "AI-assisted visual development platform generating semantic HTML/CSS structures, CMS items, and localized variations.",
     "fullOverview": "Webflow AI integrates generative capabilities directly into the Webflow Designer, allowing developers to generate layouts, write copy, populate CMS collections, and translate content across multiple locales with enterprise security.",
     "website": "https://webflow.com",
-    "logoImageUrl": "https://assets-global.website-files.com/6009ec8cda7f305645c9d91b/62b0e6308c3d526e08212e03_favicon.png",
+    "logoImageUrl": "https://cmscritic.com/ms-content/uploads/2023/10/webflow-icon-new-2023.jpg",
     "bannerImageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "AI-powered component generation",
@@ -379,7 +379,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "wix-studio-ai",
@@ -390,7 +391,7 @@
     "description": "Agency-grade web creation platform with AI responsive layout generation, text & image synthesis, and code assistants.",
     "fullOverview": "Wix Studio AI provides advanced web creators with intelligent tools including automated responsive section adjustments, AI-assisted code writing in Velo, smart image background removal, and prompt-driven layout scaffolding.",
     "website": "https://www.wix.com/studio",
-    "logoImageUrl": "https://static.parastorage.com/services/wix-studio-homepage/1.1215.0/assets/favicon.ico",
+    "logoImageUrl": "https://pbs.twimg.com/profile_images/1777769994421456896/1sye-2cB_400x400.jpg",
     "bannerImageUrl": "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Responsive AI layout engine",
@@ -433,7 +434,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "dora-ai",
@@ -444,7 +446,7 @@
     "description": "Next-generation 3D web builder generating interactive 3D landing pages and spatial animations from natural language.",
     "fullOverview": "Dora AI allows creators to build immersive, animated 3D websites directly from natural language prompts. It transforms 2D web mockups into interactive 3D environments with scroll-driven parallax animations without requiring WebGL programming.",
     "website": "https://www.dora.run",
-    "logoImageUrl": "https://www.dora.run/favicon.ico",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVRILa4g3wOGroG2wQ2qWEj8N7DH0gQ24jRUMKxnLLsg&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Text-to-3D website generation",
@@ -487,7 +489,8 @@
     "new": true,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "relume",
@@ -498,7 +501,7 @@
     "description": "AI website architecture builder generating complete site maps, wireframes, and component-based layouts for Figma and Webflow.",
     "fullOverview": "Relume AI accelerates website discovery and wireframing by generating comprehensive sitemaps and wireframes from simple business descriptions. It exports wireframes directly into Figma or Webflow components using the industry-standard Client-First design system.",
     "website": "https://www.relume.io",
-    "logoImageUrl": "https://assets-global.website-files.com/624380709031623b4792ec06/62438070903162124592ec79_relume-icon.png",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr6i8g-xGX2869iFGMaW_HaCiatSUV7-26-Kz9axoUZQ&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "AI sitemap and wireframe generator",
@@ -541,7 +544,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "10web",
@@ -552,7 +556,7 @@
     "description": "AI website builder and WordPress platform that recreates, hosts, and generates full WordPress sites with Google Cloud speed.",
     "fullOverview": "10Web AI generates tailored WordPress websites with automated copy, high-resolution imagery, and Elementor-based drag-and-drop customization. It includes automated PageSpeed 90+ optimization, Google Cloud hosting, and AI URL-recreation.",
     "website": "https://10web.io",
-    "logoImageUrl": "https://10web.io/wp-content/themes/10web/images/favicon.ico",
+    "logoImageUrl": "https://www.toolpilot.ai/cdn/shop/files/10web.jpg?v=1687696674",
     "bannerImageUrl": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "AI WordPress site generator",
@@ -595,7 +599,8 @@
     "new": false,
     "verified": true,
     "hasFree": false,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "flutterflow-ai",
@@ -606,7 +611,7 @@
     "description": "Low-code native iOS, Android, and web app builder with AI page generation, code assistant, and Firestore integration.",
     "fullOverview": "FlutterFlow AI accelerates mobile and web app creation by generating responsive screens, backend logic, Custom Dart code, and database schemas from natural language. It exports clean Flutter source code with zero vendor lock-in.",
     "website": "https://flutterflow.io",
-    "logoImageUrl": "https://assets-global.website-files.com/605b9b8b08269e061a9d0ee4/613b94236cf54e0c4013baef_flutterflow-icon.png",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1djXOaYcb3-xh8UOpZpJN_BEWEtkX2rpR_xEOrvELWVVeSgjZz79PGqdf&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "AI screen and UI component generator",
@@ -651,7 +656,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "base44",
@@ -824,7 +830,7 @@
     "description": "No-code portal and internal tools builder powered by Airtable and Google Sheets with AI prompt-to-app generator.",
     "fullOverview": "Softr AI turns Airtable bases and Google Sheets into client portals, member directories, and internal dashboards in seconds. Its AI app generator designs the database schema, sets up role-based access rules, and styles pre-built responsive blocks.",
     "website": "https://www.softr.io",
-    "logoImageUrl": "https://assets-global.website-files.com/5f70a4848396c21e51b68903/617a9437142436d4f647c211_favicon.png",
+    "logoImageUrl": "https://cdn.prod.website-files.com/6772e8855f7859bc8df95c78/6a21475ec7ab9fa1462a1790_Logomarkx1024h.png",
     "bannerImageUrl": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Prompt-to-portal app generator",
@@ -867,7 +873,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "glide-ai",
@@ -878,7 +885,7 @@
     "description": "Enterprise no-code app builder with built-in AI column computations, OCR document scanning, and mobile app generation.",
     "fullOverview": "Glide AI enables business teams to create powerful mobile and web apps on top of existing databases like SQL, BigQuery, and Excel. Its native AI columns automatically categorize data, transcribe audio, extract text from receipts, and synthesize unstructured text.",
     "website": "https://www.glideapps.com",
-    "logoImageUrl": "https://assets-global.website-files.com/6178385311e51703213ec551/6233519890a563ec0478ebc6_favicon.png",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSEjONbWC5ZDGO0RSOY_oJ80Sxq4QOXI81iT5mWOvNph4W47EpB864OHo&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "AI columns for automatic data processing",
@@ -923,7 +930,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "uizard",
@@ -988,7 +996,7 @@
     "description": "Design-to-code platform converting Figma and Adobe XD designs into pixel-perfect React, Next.js, Vue, and Flutter code.",
     "fullOverview": "Locofy.ai accelerates frontend engineering by converting static Figma designs into clean, production-ready frontend code. Its Large Design Model (LDM) understands visual hierarchies, tags interactive elements, configures responsiveness, and integrates state management.",
     "website": "https://www.locofy.ai",
-    "logoImageUrl": "https://assets-global.website-files.com/62495d4d38c6428a2a514d43/624a9e5db1e21b76df479b18_favicon.png",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nlWNNlDCapApQHcw_0UJQGii4rC6JOhtYPDqsPZ84VWR8S01HnAYyGQh&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Figma to React, Next.js, and Flutter code",
@@ -1032,7 +1040,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "teleporthq",
@@ -1043,7 +1052,7 @@
     "description": "Visual UI builder and code generation platform converting OpenAI vision prompts and wireframes into clean React and Vue code.",
     "fullOverview": "TeleportHQ is a collaborative visual builder powered by an open-source code generation engine. It lets developers visually design complex web applications and export production-quality code in React, Next.js, Vue, Nuxt, and HTML/CSS.",
     "website": "https://teleporthq.io",
-    "logoImageUrl": "https://teleporthq.io/static/favicons/favicon.ico",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWAx_TeortCjPT2FhXVV-Nf-W1e2pS54KQ7AmCucmgnSE0nNuRVxFwxw3P&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Vision AI screenshot to web page converter",
@@ -1086,6 +1095,7 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   }
 ]

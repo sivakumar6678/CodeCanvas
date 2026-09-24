@@ -244,5 +244,11 @@
     "name": "HR & Recruiting",
     "slug": "hr-recruiting-ai",
     "description": "Resume screening, automated outreach, and talent management solutions."
+  },
+  {
+    "id": "cat-marketing",
+    "name": "Marketing",
+    "slug": "marketing",
+    "description": "Catalog category created from an approved import."
   }
 ]

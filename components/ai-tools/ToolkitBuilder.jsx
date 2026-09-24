@@ -1,667 +1,230 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import {
-  FiArrowRight,
   FiArrowLeft,
+  FiArrowRight,
+  FiBookmark,
   FiCheck,
-  FiCheckCircle,
+  FiExternalLink,
+  FiLayers,
   FiRefreshCw,
   FiShare2,
-  FiBookmark,
-  FiZap,
-  FiLayers,
-  FiStar,
-  FiUser,
-  FiCode,
-  FiDollarSign,
-  FiMonitor,
-  FiTag,
+  FiSliders,
+  FiTrash2,
 } from 'react-icons/fi';
 import BookmarkButton, { invalidateBookmarksCache } from './BookmarkButton';
 import {
-  buildToolkitRecommendations,
-  TOOLKIT_GOALS,
-  TOOLKIT_ROLES,
-  TOOLKIT_EXPERIENCE_OPTIONS,
+  buildToolkitWorkflow,
   TOOLKIT_BUDGET_OPTIONS,
-  TOOLKIT_TECHNOLOGIES,
+  TOOLKIT_EXPERIENCE_OPTIONS,
+  TOOLKIT_GOALS,
   TOOLKIT_PLATFORMS,
-  TOOLKIT_INTERESTS,
+  TOOLKIT_ROLES,
+  TOOLKIT_TECHNOLOGIES,
 } from '../../lib/toolkit-recommender';
 import styles from './ToolkitBuilder.module.scss';
 
 const STEPS = [
-  { id: 'goal', label: '1. What are you building?', icon: FiZap },
-  { id: 'role', label: '2. Your Role & Experience', icon: FiUser },
-  { id: 'tech', label: '3. Technologies & Stack', icon: FiCode },
-  { id: 'budget', label: '4. Budget & Platforms', icon: FiDollarSign },
+  { id: 'goal', label: 'Goal' },
+  { id: 'context', label: 'Context' },
+  { id: 'workflow', label: 'Workflow' },
+  { id: 'tools', label: 'Tool Selection' },
+  { id: 'review', label: 'Review Kit' },
 ];
 
-function deriveInitialGoal(userProfile, paramGoal) {
-  if (paramGoal) return paramGoal;
-  if (userProfile?.goals && Array.isArray(userProfile.goals) && userProfile.goals.length > 0) {
-    const gText = userProfile.goals.join(' ').toLowerCase();
-    if (gText.includes('saas') || gText.includes('mvp')) return 'build-saas';
-    if (gText.includes('agent') || gText.includes('ai')) return 'build-ai-app';
-    if (gText.includes('ui') || gText.includes('design')) return 'design-ui';
-    if (gText.includes('automate')) return 'automate-workflows';
-  }
-  return 'build-website';
+function deriveGoal(profile, paramGoal) {
+  if (paramGoal && TOOLKIT_GOALS.some((goal) => goal.id === paramGoal)) return paramGoal;
+  const profileGoals = Array.isArray(profile?.goals) ? profile.goals.join(' ').toLowerCase() : '';
+  if (profileGoals.includes('saas') || profileGoals.includes('mvp')) return 'build-saas';
+  if (profileGoals.includes('design') || profileGoals.includes('ui')) return 'design-ui';
+  if (profileGoals.includes('automate')) return 'automate-workflows';
+  return '';
 }
 
-function TierBadge({ tier = 'exact' }) {
-  if (tier === 'exact') {
-    return (
-      <span className={`${styles.tierBadge} ${styles.tierExact}`}>
-        <FiCheckCircle aria-hidden="true" /> Exact Match
-      </span>
-    );
-  }
-  if (tier === 'tag') {
-    return (
-      <span className={`${styles.tierBadge} ${styles.tierTag}`}>
-        <FiTag aria-hidden="true" /> Tag Match
-      </span>
-    );
-  }
-  if (tier === 'category') {
-    return (
-      <span className={`${styles.tierBadge} ${styles.tierCategory}`}>
-        <FiLayers aria-hidden="true" /> Category Match
-      </span>
-    );
-  }
-  return (
-    <span className={`${styles.tierBadge} ${styles.tierPopular}`}>
-      <FiStar aria-hidden="true" /> Popular Tool
-    </span>
-  );
-}
-
-function RecommendationCard({ tool = {} }) {
+function ToolOption({ tool, selected, onSelect }) {
   const logo = tool.logoImageUrl || tool.logo;
-
   return (
-    <article className={styles.toolCard}>
-      <div className={styles.toolHeader}>
-        <div className={styles.toolIdentity}>
-          {logo ? (
-            <img
-              src={logo}
-              alt={`${tool.name || 'Tool'} logo`}
-              className={styles.logo}
-              loading="lazy"
-              decoding="async"
-              referrerPolicy="no-referrer"
-            />
-          ) : (
-            <span className={styles.logoFallback}>{(tool.name || 'T').charAt(0)}</span>
-          )}
-          <div>
-            <div className={styles.titleRow}>
-              <h3>{tool.name}</h3>
-              <TierBadge tier={tool.tier} />
-            </div>
-            <span className={styles.subCat}>
-              {tool.category?.replace(/^ai-/, '')} &bull; {tool.subCategory?.replace(/-/g, ' ')}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <p className={styles.reason}>{tool.fitReason}</p>
-
-      {Array.isArray(tool.matchHighlights) && tool.matchHighlights.length > 0 && (
-        <div className={styles.highlights}>
-          {tool.matchHighlights.map((hl) => (
-            <span key={hl} className={styles.highlightPill}>
-              {hl}
-            </span>
-          ))}
-          <span className={styles.pricingPill}>{tool.pricingModel}</span>
-        </div>
-      )}
-
-      <div className={styles.toolActions}>
-        <Link href={`/ai-tools/tool/${tool.slug}`} className={styles.detailsLink}>
-          View details <FiArrowRight aria-hidden="true" />
-        </Link>
-        <BookmarkButton slug={tool.slug} showLabel />
-      </div>
+    <article className={`${styles.kitToolOption} ${selected ? styles.kitToolSelected : ''}`}>
+      <button type="button" className={styles.kitToolSelect} onClick={() => onSelect(tool.slug)} aria-pressed={selected}>
+        <span className={styles.kitToolCheck}>{selected ? <FiCheck aria-hidden="true" /> : null}</span>
+        {logo ? <img src={logo} alt="" className={styles.kitToolLogo} loading="lazy" referrerPolicy="no-referrer" /> : <span className={styles.kitToolFallback}>{(tool.name || 'T').charAt(0)}</span>}
+        <span className={styles.kitToolCopy}>
+          <strong>{tool.name}</strong>
+          <small>{tool.pricingModel || tool.pricing || 'Catalog tool'}</small>
+        </span>
+      </button>
+      <p>{tool.fitReason || 'Matches the metadata for this workflow stage.'}</p>
+      <Link href={`/ai-tools/tool/${tool.slug}`} className={styles.kitViewLink}>View <FiExternalLink aria-hidden="true" /></Link>
     </article>
   );
 }
 
-export default function ToolkitBuilder({
-  tools = [],
-  userProfile = null,
-  savedToolSlugs = [],
-}) {
+export default function ToolkitBuilder({ tools = [], userProfile = null }) {
   const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const initialGoal = deriveInitialGoal(userProfile, searchParams.get('goal'));
-  const initialCurrentGoal = searchParams.get('goalText') || '';
-  const initialRole = searchParams.get('role') || userProfile?.role || 'Developer';
-  const initialExperience = searchParams.get('exp') || (userProfile?.experience_level || 'intermediate').toLowerCase();
-  const initialBudget = searchParams.get('budget') || userProfile?.preferred_pricing || 'any';
-  const initialInterests = useMemo(() => {
-    const paramInterests = searchParams.get('interests');
-    if (paramInterests) return paramInterests.split(',');
-    if (userProfile?.interests && Array.isArray(userProfile.interests)) {
-      return userProfile.interests;
-    }
-    return [];
-  }, [searchParams, userProfile]);
-
-  const initialTechnologies = useMemo(() => {
-    const paramTech = searchParams.get('tech');
-    if (paramTech) return paramTech.split(',');
-    if (userProfile?.technologies && Array.isArray(userProfile.technologies)) {
-      return userProfile.technologies;
-    }
-    return ['React / Next.js', 'VS Code'];
-  }, [searchParams, userProfile]);
-
-  const initialPlatforms = useMemo(() => {
-    const paramPlat = searchParams.get('plat');
-    if (paramPlat) return paramPlat.split(',');
-    if (userProfile?.preferred_platforms && Array.isArray(userProfile.preferred_platforms)) {
-      return userProfile.preferred_platforms;
-    }
-    return ['Web'];
-  }, [searchParams, userProfile]);
-
-  const [selection, setSelection] = useState({
-    goalId: initialGoal,
-    currentGoal: initialCurrentGoal,
-    role: initialRole,
-    experience: initialExperience,
-    interests: initialInterests,
-    technologies: initialTechnologies,
-    budget: initialBudget,
-    platforms: initialPlatforms,
-  });
-
   const [step, setStep] = useState(0);
-  const [shareToast, setShareToast] = useState('');
-  const [savingBatch, setSavingBatch] = useState(false);
+  const [goalId, setGoalId] = useState(deriveGoal(userProfile, searchParams.get('goal')));
+  const [customGoal, setCustomGoal] = useState(searchParams.get('goalText') || '');
+  const [context, setContext] = useState({
+    role: userProfile?.role || 'Developer',
+    experience: (userProfile?.experience_level || 'intermediate').toLowerCase(),
+    budget: userProfile?.preferred_pricing || 'any',
+    platforms: Array.isArray(userProfile?.preferred_platforms) ? userProfile.preferred_platforms : ['Web'],
+    technologies: Array.isArray(userProfile?.technologies) ? userProfile.technologies : [],
+    priority: 'quality',
+  });
+  const [workflow, setWorkflow] = useState(null);
+  const [selectedByStage, setSelectedByStage] = useState({});
+  const [skippedStages, setSkippedStages] = useState([]);
+  const [notice, setNotice] = useState('');
 
-  // Recommendations calculated via deterministic rule-based engine
-  const recommendations = useMemo(() => {
-    return buildToolkitRecommendations(tools, selection);
-  }, [tools, selection]);
+  const selection = useMemo(() => ({ goalId, currentGoal: customGoal, ...context }), [goalId, customGoal, context]);
+  const selectedTools = useMemo(() => workflow?.stages
+    .filter((stage) => !skippedStages.includes(stage.id))
+    .map((stage) => stage.alternatives.find((tool) => tool.slug === selectedByStage[stage.id]))
+    .filter(Boolean) || [], [workflow, selectedByStage, skippedStages]);
 
-  const currentStep = STEPS[step] || STEPS[0];
+  const updateContext = (key, value) => setContext((current) => ({ ...current, [key]: value }));
+  const toggleContextItem = (key, value) => setContext((current) => {
+    const values = current[key] || [];
+    return { ...current, [key]: values.includes(value) ? values.filter((item) => item !== value) : [...values, value] };
+  });
+  const chooseTool = (stageId, slug) => setSelectedByStage((current) => ({ ...current, [stageId]: slug }));
+  const toggleStage = (stageId) => setSkippedStages((current) => current.includes(stageId) ? current.filter((id) => id !== stageId) : [...current, stageId]);
 
-  const updateField = (key, value) => {
-    setSelection((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const toggleArrayItem = (key, item) => {
-    setSelection((prev) => {
-      const currentList = prev[key] || [];
-      const exists = currentList.includes(item);
-      const updated = exists
-        ? currentList.filter((x) => x !== item)
-        : [...currentList, item];
-      return { ...prev, [key]: updated };
-    });
-  };
-
-  const resetToDefaults = () => {
-    setSelection({
-      goalId: 'build-website',
-      currentGoal: '',
-      role: 'Developer',
-      experience: 'intermediate',
-      interests: [],
-      budget: 'any',
-      technologies: ['React / Next.js', 'VS Code'],
-      platforms: ['Web'],
-    });
-    setStep(0);
-    router.push('/build-toolkit', { scroll: false });
-  };
-
-  const resetToProfile = () => {
-    if (!userProfile) return;
-    setSelection({
-      goalId: deriveInitialGoal(userProfile, null),
-      currentGoal: '',
-      role: userProfile.role || 'Developer',
-      experience: (userProfile.experience_level || 'intermediate').toLowerCase(),
-      interests: Array.isArray(userProfile.interests) ? userProfile.interests : [],
-      budget: userProfile.preferred_pricing || 'any',
-      technologies: Array.isArray(userProfile.technologies) && userProfile.technologies.length > 0
-        ? userProfile.technologies
-        : ['React / Next.js'],
-      platforms: Array.isArray(userProfile.preferred_platforms) && userProfile.preferred_platforms.length > 0
-        ? userProfile.preferred_platforms
-        : ['Web'],
-    });
-    setShareToast('Reset criteria to your profile preferences!');
-    setTimeout(() => setShareToast(''), 3000);
-  };
-
-  const handleShareStack = () => {
-    const params = new URLSearchParams();
-    if (selection.goalId) params.set('goal', selection.goalId);
-    if (selection.currentGoal) params.set('goalText', selection.currentGoal);
-    if (selection.role) params.set('role', selection.role);
-    if (selection.experience) params.set('exp', selection.experience);
-    if (selection.interests?.length) params.set('interests', selection.interests.join(','));
-    if (selection.technologies?.length) params.set('tech', selection.technologies.join(','));
-    if (selection.budget) params.set('budget', selection.budget);
-    if (selection.platforms?.length) params.set('plat', selection.platforms.join(','));
-
-    const shareUrl = `${window.location.origin}/build-toolkit?${params.toString()}`;
-    navigator.clipboard.writeText(shareUrl).then(() => {
-      setShareToast('Shareable stack link copied to clipboard!');
-      setTimeout(() => setShareToast(''), 3000);
-    });
-  };
-
-  const handleSaveEntireStack = async () => {
-    if (savingBatch || !recommendations.matchingTools || recommendations.matchingTools.length === 0) return;
-    setSavingBatch(true);
-    const slugsToSave = recommendations.matchingTools.map((t) => t.slug);
-
-    try {
-      await Promise.all(
-        slugsToSave.map((slug) =>
-          fetch('/api/user/bookmarks', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tool_slug: slug, action: 'save' }),
-          })
-        )
-      );
-      invalidateBookmarksCache();
-      setShareToast(`Successfully saved all ${slugsToSave.length} tools to your profile!`);
-      setTimeout(() => setShareToast(''), 3000);
-    } catch (err) {
-      console.error('Failed to save stack batch:', err);
-    } finally {
-      setSavingBatch(false);
+  const continueFromGoal = () => {
+    if (!goalId && !customGoal.trim()) {
+      setNotice('Choose a goal or enter a specific use case to continue.');
+      return;
     }
+    setNotice('');
+    setStep(1);
   };
+
+  const generateWorkflow = () => {
+    setWorkflow(buildToolkitWorkflow(tools, selection));
+    setSelectedByStage({});
+    setSkippedStages([]);
+    setNotice('');
+    setStep(2);
+  };
+
+  const reset = () => {
+    setStep(0);
+    setGoalId('');
+    setCustomGoal('');
+    setWorkflow(null);
+    setSelectedByStage({});
+    setSkippedStages([]);
+    setNotice('');
+  };
+
+  const saveKit = async () => {
+    if (!selectedTools.length) return;
+    await Promise.all(selectedTools.map((tool) => fetch('/api/user/bookmarks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tool_slug: tool.slug, action: 'save' }),
+    })));
+    invalidateBookmarksCache();
+    setNotice(`Saved ${selectedTools.length} tool${selectedTools.length === 1 ? '' : 's'} to your profile.`);
+  };
+
+  const shareKit = () => {
+    const params = new URLSearchParams();
+    if (goalId) params.set('goal', goalId);
+    if (customGoal) params.set('goalText', customGoal);
+    navigator.clipboard.writeText(`${window.location.origin}/build-toolkit?${params.toString()}`);
+    setNotice('Kit link copied to your clipboard.');
+  };
+
+  const compareHref = selectedTools.length > 1
+    ? `/ai-tools/compare?tools=${selectedTools.map((tool) => tool.slug).join(',')}`
+    : '/ai-tools/compare';
 
   return (
     <main className={styles.page}>
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
-          <div className={styles.eyebrowRow}>
-            <span className={styles.eyebrow}>Deterministic Recommendation Engine</span>
-            {userProfile && (
-              <span className={styles.profileBadge}>
-                <FiCheck aria-hidden="true" /> Profile Synced
-              </span>
-            )}
-          </div>
-          <h1>Build Your Toolkit</h1>
-          <p>
-            Assemble a focused set of AI and developer tools tailored to your exact goal, role, and stack.
-            Our rule-based engine matches direct use cases first, followed by category and versatile fallbacks.
-          </p>
+          <span className={styles.eyebrow}>Build Your Kit</span>
+          <h1>A practical stack for the work ahead.</h1>
+          <p>Choose a goal, shape the workflow, and select the tools that belong in your kit. Recommendations stay deterministic, transparent, and grounded in the catalog.</p>
         </div>
-        <div className={styles.heroMark} aria-hidden="true">01</div>
+        <div className={styles.heroMark} aria-hidden="true">KIT</div>
       </header>
 
-      <div className={styles.workspace}>
-        {/* Left Column: Interactive Stepper Controls */}
-        <section className={styles.builder} aria-labelledby="builder-title">
-          <div className={styles.sectionHeader}>
-            <div>
-              <span className={styles.stepCount}>Step {step + 1} of {STEPS.length}</span>
-              <h2 id="builder-title">{currentStep.label}</h2>
-            </div>
-            <div className={styles.headerActions}>
-              {userProfile && (
-                <button
-                  type="button"
-                  className={styles.profileSyncBtn}
-                  onClick={resetToProfile}
-                  title="Reload preferences from profile"
-                >
-                  Sync Profile
-                </button>
-              )}
-              <button
-                type="button"
-                className={styles.resetButton}
-                onClick={resetToDefaults}
-                title="Start over with defaults"
-              >
-                <FiRefreshCw aria-hidden="true" /> Reset
-              </button>
-            </div>
-          </div>
-
-          <div className={styles.progress} aria-label={`Step ${step + 1} of ${STEPS.length}`}>
-            {STEPS.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`${styles.progressStep} ${index <= step ? styles.progressActive : ''}`}
-                onClick={() => setStep(index)}
-                title={`Jump to ${item.label}`}
-              />
-            ))}
-          </div>
-
-          {/* STEP 1: Goal / Work Type */}
-          {step === 0 && (
-            <div className={styles.stepContent}>
-              <div className={styles.goalGrid} role="radiogroup" aria-label="Project Goal">
-                {TOOLKIT_GOALS.map((goal) => {
-                  const isSelected = selection.goalId === goal.id;
-                  return (
-                    <button
-                      key={goal.id}
-                      type="button"
-                      className={`${styles.goalCard} ${isSelected ? styles.goalSelected : ''}`}
-                      onClick={() => updateField('goalId', goal.id)}
-                      aria-checked={isSelected}
-                      role="radio"
-                    >
-                      <div className={styles.goalHeader}>
-                        <span className={styles.goalTitle}>{goal.label}</span>
-                        {isSelected && <FiCheck className={styles.checkIcon} aria-hidden="true" />}
-                      </div>
-                      <p className={styles.goalDesc}>{goal.description}</p>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className={styles.customGoalSection}>
-                <label className={styles.fieldLabel} htmlFor="custom-work-goal">
-                  Current Work Goal / Specific Use Case (Optional)
-                </label>
-                <div className={styles.inputWrapper}>
-                  <input
-                    id="custom-work-goal"
-                    type="text"
-                    className={styles.goalInput}
-                    placeholder="e.g. Automated customer support bot with LangChain and Next.js..."
-                    value={selection.currentGoal || ''}
-                    onChange={(e) => updateField('currentGoal', e.target.value)}
-                  />
-                  {selection.currentGoal && (
-                    <button
-                      type="button"
-                      className={styles.clearBtn}
-                      onClick={() => updateField('currentGoal', '')}
-                      aria-label="Clear custom goal"
-                    >
-                      &times;
-                    </button>
-                  )}
-                </div>
-                <p className={styles.inputHint}>
-                  Directly targets tools matching this specific use case and keywords across the catalog.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 2: Role & Experience */}
-          {step === 1 && (
-            <div className={styles.stepContent}>
-              <div className={styles.fieldSection}>
-                <label className={styles.fieldLabel}>Primary Role</label>
-                <div className={styles.pillsGrid}>
-                  {TOOLKIT_ROLES.map((r) => {
-                    const isSelected = selection.role.toLowerCase() === r.id.toLowerCase();
-                    return (
-                      <button
-                        key={r.id}
-                        type="button"
-                        className={`${styles.pillBtn} ${isSelected ? styles.pillSelected : ''}`}
-                        onClick={() => updateField('role', r.id)}
-                      >
-                        {r.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className={styles.fieldSection}>
-                <label className={styles.fieldLabel}>Experience Level</label>
-                <div className={styles.optionsList}>
-                  {TOOLKIT_EXPERIENCE_OPTIONS.map((opt) => {
-                    const isSelected = selection.experience === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        className={`${styles.optionRow} ${isSelected ? styles.optionSelected : ''}`}
-                        onClick={() => updateField('experience', opt.id)}
-                      >
-                        <div>
-                          <div className={styles.optionTitle}>{opt.label}</div>
-                          {opt.desc && <div className={styles.optionDesc}>{opt.desc}</div>}
-                        </div>
-                        {isSelected && <FiCheck className={styles.checkIcon} aria-hidden="true" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className={styles.fieldSection}>
-                <label className={styles.fieldLabel}>Areas of Interest</label>
-                <div className={styles.pillsGrid}>
-                  {TOOLKIT_INTERESTS.map((interest) => {
-                    const isSelected = (selection.interests || []).includes(interest);
-                    return (
-                      <button
-                        key={interest}
-                        type="button"
-                        className={`${styles.pillBtn} ${isSelected ? styles.pillSelected : ''}`}
-                        onClick={() => toggleArrayItem('interests', interest)}
-                      >
-                        {isSelected && <FiCheck className={styles.checkInline} />} {interest}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 3: Technologies & Stack */}
-          {step === 2 && (
-            <div className={styles.stepContent}>
-              <p className={styles.stepHint}>
-                Select technologies you plan to use. Direct matches will receive top priority in your toolkit.
-              </p>
-              <div className={styles.pillsGrid}>
-                {TOOLKIT_TECHNOLOGIES.map((tech) => {
-                  const isSelected = selection.technologies.includes(tech);
-                  return (
-                    <button
-                      key={tech}
-                      type="button"
-                      className={`${styles.pillBtn} ${isSelected ? styles.pillSelected : ''}`}
-                      onClick={() => toggleArrayItem('technologies', tech)}
-                    >
-                      {isSelected && <FiCheck className={styles.checkInline} />} {tech}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* STEP 4: Budget & Platforms */}
-          {step === 3 && (
-            <div className={styles.stepContent}>
-              <div className={styles.fieldSection}>
-                <label className={styles.fieldLabel}>Budget & Pricing Preference</label>
-                <div className={styles.optionsList}>
-                  {TOOLKIT_BUDGET_OPTIONS.map((opt) => {
-                    const isSelected = selection.budget === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        className={`${styles.optionRow} ${isSelected ? styles.optionSelected : ''}`}
-                        onClick={() => updateField('budget', opt.id)}
-                      >
-                        <div>
-                          <div className={styles.optionTitle}>{opt.label}</div>
-                          {opt.desc && <div className={styles.optionDesc}>{opt.desc}</div>}
-                        </div>
-                        {isSelected && <FiCheck className={styles.checkIcon} aria-hidden="true" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className={styles.fieldSection}>
-                <label className={styles.fieldLabel}>Target Platforms</label>
-                <div className={styles.pillsGrid}>
-                  {TOOLKIT_PLATFORMS.map((plat) => {
-                    const isSelected = selection.platforms.includes(plat);
-                    return (
-                      <button
-                        key={plat}
-                        type="button"
-                        className={`${styles.pillBtn} ${isSelected ? styles.pillSelected : ''}`}
-                        onClick={() => toggleArrayItem('platforms', plat)}
-                      >
-                        {isSelected && <FiCheck className={styles.checkInline} />} {plat}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className={styles.navigation}>
-            <button
-              type="button"
-              className={styles.backButton}
-              onClick={() => setStep((current) => Math.max(0, current - 1))}
-              disabled={step === 0}
-            >
-              <FiArrowLeft aria-hidden="true" /> Back
-            </button>
-            {step < STEPS.length - 1 ? (
-              <button
-                type="button"
-                className={styles.nextButton}
-                onClick={() => setStep((current) => current + 1)}
-              >
-                Continue <FiArrowRight aria-hidden="true" />
-              </button>
-            ) : (
-              <a href="#recommendations" className={styles.nextButton}>
-                See My Toolkit <FiArrowRight aria-hidden="true" />
-              </a>
-            )}
-          </div>
-        </section>
-
-        {/* Right Column: Recommendations & Results */}
-        <section className={styles.results} id="recommendations" aria-live="polite">
-          <div className={styles.resultsHeader}>
-            <div className={styles.resultsTopRow}>
-              <div>
-                <span className={styles.eyebrow}>Curated Workflow Stack</span>
-                <h2>{recommendations.ready ? recommendations.selectedGoal?.label : 'Your toolkit'}</h2>
-              </div>
-
-              {recommendations.ready && recommendations.matchingTools?.length > 0 && (
-                <div className={styles.batchActions}>
-                  <button
-                    type="button"
-                    onClick={handleShareStack}
-                    className={styles.actionBtnSecondary}
-                    title="Copy shareable link"
-                  >
-                    <FiShare2 /> Share Stack
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleSaveEntireStack}
-                    disabled={savingBatch}
-                    className={styles.actionBtnPrimary}
-                    title="Save all recommended tools to bookmarks"
-                  >
-                    <FiBookmark /> {savingBatch ? 'Saving...' : 'Save All Tools'}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {shareToast && (
-              <div className={styles.toastSuccess}>
-                ✓ {shareToast}
-              </div>
-            )}
-
-            <p className={styles.summaryText}>{recommendations.summary}</p>
-
-            {/* Active criteria chips */}
-            <div className={styles.activeCriteria}>
-              <span className={styles.criteriaChip}>Role: {selection.role}</span>
-              <span className={styles.criteriaChip}>Level: {selection.experience}</span>
-              <span className={styles.criteriaChip}>Budget: {selection.budget}</span>
-              {selection.currentGoal && (
-                <span className={styles.criteriaChip}>
-                  Goal: {selection.currentGoal.length > 20 ? `${selection.currentGoal.slice(0, 18)}...` : selection.currentGoal}
-                </span>
-              )}
-              {selection.interests?.slice(0, 2).map((i) => (
-                <span key={i} className={styles.criteriaChip}>{i}</span>
-              ))}
-              {selection.technologies.slice(0, 3).map((t) => (
-                <span key={t} className={styles.criteriaChip}>{t}</span>
-              ))}
-            </div>
-          </div>
-
-          {!recommendations.ready ? (
-            <div className={styles.emptyState}>Choose a project above to start shaping your toolkit.</div>
-          ) : recommendations.groups.length === 0 ? (
-            <div className={styles.emptyState}>
-              <h3>No matching tools found</h3>
-              <p>No tools in the catalog matched the combination of constraints. Try broadening your budget or platform filters.</p>
-              <Link href="/ai-tools" className={styles.catalogLink}>
-                Browse the full directory <FiArrowRight aria-hidden="true" />
-              </Link>
-            </div>
-          ) : (
-            <div className={styles.groups}>
-              {recommendations.groups.map((group, index) => (
-                <div key={group.purpose} className={styles.group}>
-                  <div className={styles.groupHeading}>
-                    <span className={styles.groupNumber}>{String(index + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3>{group.title}</h3>
-                      <p>{group.description}</p>
-                    </div>
-                  </div>
-                  <div className={styles.toolList}>
-                    {group.tools.map((tool) => (
-                      <RecommendationCard key={tool.slug} tool={tool} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+      <div className={styles.kitStepper} aria-label="Build Your Kit steps">
+        {STEPS.map((item, index) => (
+          <button
+            type="button"
+            key={item.id}
+            className={`${styles.kitStep} ${index === step ? styles.kitStepActive : ''} ${index < step ? styles.kitStepDone : ''}`}
+            onClick={() => index <= step && setStep(index)}
+          >
+            <span>{index < step ? <FiCheck /> : index + 1}</span>
+            {item.label}
+          </button>
+        ))}
       </div>
+
+      {notice && <div className={styles.toastSuccess} role="status">{notice}</div>}
+
+      <section className={styles.kitPanel}>
+        {step === 0 && (
+          <div className={styles.kitStepContent}>
+            <div className={styles.kitHeading}><span className={styles.stepCount}>Step 1 of 5</span><h2>What are you trying to accomplish?</h2><p>Start with the outcome. You can refine the details next.</p></div>
+            <div className={styles.kitGoalGrid}>
+              {TOOLKIT_GOALS.map((goal) => (
+                <button type="button" key={goal.id} className={`${styles.goalCard} ${goalId === goal.id ? styles.goalSelected : ''}`} onClick={() => { setGoalId(goal.id); setCustomGoal(''); }}>
+                  <strong>{goal.label}</strong><span>{goal.description}</span>
+                </button>
+              ))}
+            </div>
+            <label className={styles.kitField}><span>Or describe your own goal</span><input value={customGoal} onChange={(event) => { setCustomGoal(event.target.value); setGoalId(''); }} placeholder="e.g. Launch a client portal with automated onboarding" /></label>
+          </div>
+        )}
+
+        {step === 1 && (
+          <div className={styles.kitStepContent}>
+            <div className={styles.kitHeading}><span className={styles.stepCount}>Step 2 of 5</span><h2>What context should shape the kit?</h2><p>Everything here is optional. Use only what matters for this project.</p></div>
+            <div className={styles.kitFormGrid}>
+              <label className={styles.kitField}><span>Role</span><select value={context.role} onChange={(event) => updateContext('role', event.target.value)}>{TOOLKIT_ROLES.map((role) => <option key={role.id} value={role.id}>{role.label}</option>)}</select></label>
+              <label className={styles.kitField}><span>Experience</span><select value={context.experience} onChange={(event) => updateContext('experience', event.target.value)}>{TOOLKIT_EXPERIENCE_OPTIONS.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}</select></label>
+              <label className={styles.kitField}><span>Budget</span><select value={context.budget} onChange={(event) => updateContext('budget', event.target.value)}>{TOOLKIT_BUDGET_OPTIONS.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}</select></label>
+              <label className={styles.kitField}><span>Priority</span><select value={context.priority} onChange={(event) => updateContext('priority', event.target.value)}><option value="speed">Speed</option><option value="quality">Quality</option><option value="simplicity">Simplicity</option></select></label>
+            </div>
+            <div className={styles.kitChoiceSection}><span>Platforms</span><div className={styles.pillsGrid}>{TOOLKIT_PLATFORMS.map((platform) => <button type="button" key={platform} className={`${styles.pillBtn} ${context.platforms.includes(platform) ? styles.pillSelected : ''}`} onClick={() => toggleContextItem('platforms', platform)}>{context.platforms.includes(platform) && <FiCheck />} {platform}</button>)}</div></div>
+            <div className={styles.kitChoiceSection}><span>Technologies</span><div className={styles.pillsGrid}>{TOOLKIT_TECHNOLOGIES.map((technology) => <button type="button" key={technology} className={`${styles.pillBtn} ${context.technologies.includes(technology) ? styles.pillSelected : ''}`} onClick={() => toggleContextItem('technologies', technology)}>{context.technologies.includes(technology) && <FiCheck />} {technology}</button>)}</div></div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className={styles.kitStepContent}>
+            <div className={styles.kitHeading}><span className={styles.stepCount}>Step 3 of 5</span><h2>Your workflow</h2><p>These stages are generated from your goal and catalog metadata. Nothing is selected yet.</p></div>
+            {!workflow?.stages?.length ? <div className={styles.emptyState}><FiSliders /><h3>No clear stages yet</h3><p>Try a more specific goal or broaden the context filters.</p></div> : <div className={styles.workflowList}>{workflow.stages.map((stage, index) => <article key={stage.id} className={`${styles.workflowCard} ${skippedStages.includes(stage.id) ? styles.workflowSkipped : ''}`}><div><span className={styles.groupNumber}>{String(index + 1).padStart(2, '0')}</span><div><h3>{stage.title}</h3><p>{stage.description}</p><small>{stage.alternatives.length} catalog alternative{stage.alternatives.length === 1 ? '' : 's'}</small></div></div><button type="button" className={styles.cardAction} onClick={() => toggleStage(stage.id)}>{skippedStages.includes(stage.id) ? 'Include stage' : 'Skip stage'}</button></article>)}</div>}
+          </div>
+        )}
+
+        {step === 3 && (
+          <div className={styles.kitStepContent}>
+            <div className={styles.kitHeading}><span className={styles.stepCount}>Step 4 of 5</span><h2>Choose tools for each stage</h2><p>Select one alternative per included stage. You can edit these choices again in the review.</p></div>
+            <div className={styles.workflowList}>{workflow?.stages.filter((stage) => !skippedStages.includes(stage.id)).map((stage) => <article key={stage.id} className={styles.selectionStage}><div className={styles.selectionStageHeader}><div><h3>{stage.title}</h3><p>{stage.description}</p></div><span>{selectedByStage[stage.id] ? 'Selected' : 'Choose one'}</span></div><div className={styles.toolOptionGrid}>{stage.alternatives.map((tool) => <ToolOption key={tool.slug} tool={tool} selected={selectedByStage[stage.id] === tool.slug} onSelect={(slug) => chooseTool(stage.id, slug)} />)}</div></article>)}</div>
+            {workflow?.stages.every((stage) => skippedStages.includes(stage.id)) && <div className={styles.emptyState}><FiLayers /><h3>All stages are skipped</h3><p>Go back to Workflow and include at least one stage to build a kit.</p></div>}
+          </div>
+        )}
+
+        {step === 4 && (
+          <div className={styles.kitStepContent}>
+            <div className={styles.kitHeading}><span className={styles.stepCount}>Step 5 of 5</span><h2>Your kit is ready to review</h2><p>{selectedTools.length ? 'Here is the workflow you assembled.' : 'Your kit is empty. Return to Tool Selection to choose alternatives.'}</p></div>
+            {selectedTools.length ? <div className={styles.reviewKit}>{workflow.stages.filter((stage) => selectedTools.some((tool) => stage.alternatives.some((candidate) => candidate.slug === tool.slug))).map((stage) => { const tool = selectedTools.find((item) => stage.alternatives.some((candidate) => candidate.slug === item.slug)); return <article key={stage.id} className={styles.reviewStage}><div><span className={styles.groupNumber}>{stage.title.slice(0, 2).toUpperCase()}</span><div><h3>{stage.title}</h3><p>{tool.fitReason}</p></div></div><div className={styles.reviewTool}><strong>{tool.name}</strong><Link href={`/ai-tools/tool/${tool.slug}`}><FiExternalLink /></Link><button type="button" onClick={() => setStep(3)} title="Edit tool selection"><FiRefreshCw /></button><button type="button" onClick={() => setSelectedByStage((current) => { const next = { ...current }; delete next[stage.id]; return next; })} title="Remove tool"><FiTrash2 /></button></div></article>; })}</div> : <div className={styles.emptyState}><FiLayers /><h3>Nothing selected yet</h3><button type="button" className={styles.nextButton} onClick={() => setStep(3)}>Choose tools</button></div>}
+            <div className={styles.reviewActions}><button type="button" className={styles.actionBtnSecondary} onClick={shareKit}><FiShare2 /> Share</button><Link href={compareHref} className={styles.actionBtnSecondary}><FiSliders /> Compare</Link><button type="button" className={styles.actionBtnPrimary} onClick={saveKit} disabled={!selectedTools.length}><FiBookmark /> Save selected tools</button><button type="button" className={styles.resetButton} onClick={reset}><FiRefreshCw /> Start over</button></div>
+          </div>
+        )}
+
+        <div className={styles.navigation}><button type="button" className={styles.backButton} onClick={() => setStep((current) => Math.max(0, current - 1))} disabled={step === 0}><FiArrowLeft /> Back</button>{step === 0 && <button type="button" className={styles.nextButton} onClick={continueFromGoal}>Continue to Context <FiArrowRight /></button>}{step === 1 && <button type="button" className={styles.nextButton} onClick={generateWorkflow}>Generate Workflow <FiArrowRight /></button>}{step === 2 && <button type="button" className={styles.nextButton} onClick={() => setStep(3)} disabled={!workflow?.stages?.some((stage) => !skippedStages.includes(stage.id))}>Choose Tools <FiArrowRight /></button>}{step === 3 && <button type="button" className={styles.nextButton} onClick={() => setStep(4)}>Review Kit <FiArrowRight /></button>}{step === 4 && <button type="button" className={styles.nextButton} onClick={() => setStep(3)}><FiSliders /> Edit Kit</button>}</div>
+      </section>
     </main>
   );
 }

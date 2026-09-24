@@ -1,0 +1,57 @@
+[
+  {
+    "id": "kantix-ai",
+    "name": "Kentrix AI",
+    "slug": "kentrix-ai",
+    "category": "marketing",
+    "subCategory": "business-intelligence",
+    "description": "Data and AI-powered GTM platform for India, helping businesses plan smarter market entry, target the right consumers, and optimize operations.",
+    "fullOverview": "Kentrix AI is a data and AI-powered GTM platform for India, helping businesses plan smarter market entry, target the right consumers, and optimize operations, all backed by granular consumer intelligence built for the Indian market[reference:21]. Founded in 2021 by Rahoul Anders and Divyansh Raghuvanshi, the company is based in Mumbai and has been profitable since inception, closing FY25 with revenue exceeding $1 million and a net profit margin of 24%[reference:22]. The platform operates on a proprietary dataset of 920 million+ Indian consumer profiles mapped to the building level, with a 90%+ accuracy benchmark that carries no PII and is DPDPA compliant[reference:23]. The platform offers three products: Geomarketeer (AI-led location intelligence), Persona 360 (discovering high-intent audiences on digital platforms), and Karma (customer enrichment and AI-powered product recommendation engine)[reference:24]. Clients include McDonald's (HRPL), Croma, IKEA, Yes Bank, Axis Bank, Parle, Chaayos, and Ugaoo[reference:25].",
+    "website": "https://kentrix.ai",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkPyvNcP98Abf7xtb7SYU9VzOSARi4jiBKevyzRruPyxgWfy31mAug54Gq&s=10",
+    "bannerImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkPyvNcP98Abf7xtb7SYU9VzOSARi4jiBKevyzRruPyxgWfy31mAug54Gq&s=10",
+    "keyFeatures": [
+      "Geomarketeer — AI-led location intelligence for store planning and catchment analysis",
+      "Persona 360 — high-intent audience discovery on digital platforms",
+      "Karma — customer enrichment and AI-powered product recommendation engine",
+      "Proprietary dataset of 920M+ Indian consumer profiles",
+      "Lifestyle Segmentation of India (LSI) framework",
+      "Activates 545M+ digitally targetable Indian profiles on Meta, DV360, and programmatic channels"
+    ],
+    "pros": [
+      "Proprietary building-level consumer dataset for India",
+      "Profitable since inception with 24% net profit margin",
+      "90%+ data accuracy and DPDPA compliant"
+    ],
+    "cons": [
+      "Pricing is custom/quoted based on engagement"
+    ],
+    "pricingModel": "Contact for pricing",
+    "platforms": [
+      "Web"
+    ],
+    "tags": [
+      "data",
+      "ai",
+      "gtm",
+      "business-intelligence"
+    ],
+    "useCases": [
+      "Market entry planning",
+      "Consumer targeting",
+      "Store planning",
+      "Customer retention"
+    ],
+    "bestFor": [
+      "Consumer brands",
+      "Retail companies",
+      "Marketing teams"
+    ],
+    "featured": false,
+    "new": false,
+    "verified": true,
+    "hasFree": false,
+    "createdDate": "2026-09-23T00:00:00.000Z",
+    "status": "active"
+  }
+]

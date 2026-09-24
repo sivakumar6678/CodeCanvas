@@ -13,8 +13,9 @@ Optional fields include: logo, banner, overview, features, pros, cons, subCatego
 Rules:
 - Preserve original tool names and website URLs exactly.
 - Generate a unique string id and lowercase hyphenated slug for every tool.
-- Use only the supported categories supplied by the application.
-- Generate consistent subcategories, tags, and useCases from the source information.
+- Use an existing category supplied by the application when it accurately fits; otherwise use one meaningful normalized main-category slug instead of forcing an unrelated category.
+- Category is required. Subcategory is optional and may be empty or null.
+- Use tags and useCases for additional classification.
 - Do not invent unknown logos, features, pricing, platforms, claims, or URLs.
 - Use pricing values only from: Free, Freemium, Free / Freemium, Paid, Contact for pricing.
 - Return only a valid JSON array matching the schema.

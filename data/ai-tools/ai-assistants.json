@@ -452,7 +452,7 @@
     "description": "Everyday AI companion powered by OpenAI models integrated across Bing search, Windows, and Microsoft 365.",
     "fullOverview": "Microsoft Copilot provides real-time web-grounded reasoning, image creation via DALL-E, document synthesis, and deep productivity integration across Windows, Microsoft 365 apps, and Microsoft Edge browser.",
     "website": "https://copilot.microsoft.com",
-    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Microsoft_365_Copilot_Icon.svg",
+    "logoImageUrl": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/microsoft-copilot.png",
     "bannerImageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "GPT-4o reasoning with Bing web search grounding",
@@ -499,7 +499,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "poe",
@@ -624,7 +625,7 @@
     "description": "Empathetic, highly conversational personal AI designed for friendly dialogue, self-reflection, and spoken guidance.",
     "fullOverview": "Pi, created by Inflection AI, is designed as a supportive, empathetic conversational companion. It stands out with natural, human-like voice synthesis, deep conversational recall within sessions, and active listening capabilities.",
     "website": "https://pi.ai",
-    "logoImageUrl": "https://pi.ai/favicon.ico",
+    "logoImageUrl": "https://framerusercontent.com/images/2WXkbBg4VU1zmzxgdmcfavqpeg.png?width=2319&height=1962",
     "bannerImageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Industry-leading realistic spoken voice synthesis",
@@ -669,7 +670,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "le-chat-mistral",
@@ -896,8 +898,8 @@
     "description": "Smart citation platform that classifies citations as supporting, mentioning, or contrasting research findings.",
     "fullOverview": "Scite.ai introduces Smart Citations, allowing researchers to see how a publication has been cited by providing the context of the citation and a classification indicating whether it provides supporting or contrasting evidence for the cited claim.",
     "website": "https://scite.ai",
-    "logoImageUrl": "https://scite.ai/favicon.ico",
-    "bannerImageUrl": "https://images.unsplash.com/photo-1507842229451-7f01be637a5f?w=1200&auto=format&fit=crop&q=80",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOwzMgVWPsQc-JSHAv2a6L_dWJjWO3-kyz0EXQZmFl6URw5Txg7GEthQc&s=10",
+    "bannerImageUrl": "https://www.ariessys.com/wp-content/uploads/scite.ai-logo.jpeg",
     "keyFeatures": [
       "Smart Citations categorizing supporting vs contrasting evidence",
       "Scite Assistant for cited question answering",
@@ -940,7 +942,8 @@
     "new": false,
     "verified": true,
     "hasFree": false,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "phind",
@@ -951,7 +954,7 @@
     "description": "Intelligent search engine optimized specifically for developers, technical documentation, and complex coding questions.",
     "fullOverview": "Phind is an answer engine tailored for software engineers. It indexes official documentation, GitHub repositories, and Stack Overflow, providing instant answers accompanied by executable code snippets, compiler links, and technical explanations.",
     "website": "https://www.phind.com",
-    "logoImageUrl": "https://www.phind.com/favicon.ico",
+    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM6-fKRNdJe6NuwQ97WaQapN19zkaR5cobtuNZg_pryQ&s=10",
     "bannerImageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Developer-optimized search index and technical citations",
@@ -995,7 +998,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "writesonic",
@@ -1006,7 +1010,7 @@
     "description": "AI writing and SEO content platform for long-form articles, ad copy, and brand voice automation.",
     "fullOverview": "Writesonic provides generative writing tools tuned for marketing teams, copywriters, and content agencies. It includes Article Writer 6 for SEO-optimized long-form blog posts, Chatsonic for real-time web chat, and Photosonic for marketing imagery.",
     "website": "https://writesonic.com",
-    "logoImageUrl": "https://assets-global.website-files.com/6009ec8cda7f305645c9d91b/62b0e6308c3d526e08212e03_favicon.png",
+    "logoImageUrl": "https://ps.w.org/writesonic/assets/icon.svg?rev=3468078",
     "bannerImageUrl": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Article Writer for 3,000+ word SEO blog posts",
@@ -1050,7 +1054,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "copy-ai",
@@ -1061,7 +1066,7 @@
     "description": "AI copywriting and sales workflow automation platform helping marketing and GTM teams scale content.",
     "fullOverview": "Copy.ai has evolved from a simple copywriting assistant into an enterprise GTM AI platform. It connects large language models to automated workflows that generate outbound sales sequences, blog posts, social campaigns, and product collateral.",
     "website": "https://www.copy.ai",
-    "logoImageUrl": "https://assets-global.website-files.com/628288c5cd3e8411b90d3670/628288c5cd3e8460ca0d36d2_Favicon.png",
+    "logoImageUrl": "https://img.icons8.com/fluent/1200/copy-ai.jpg",
     "bannerImageUrl": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Workflows for multi-step content automation",
@@ -1104,6 +1109,7 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   }
 ]

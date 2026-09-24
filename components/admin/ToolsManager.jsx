@@ -18,7 +18,8 @@ import {
   FiExternalLink,
   FiChevronLeft,
   FiChevronRight,
-  FiCheck
+  FiCheck,
+  FiCopy
 } from 'react-icons/fi';
 import styles from './ToolsManager.module.scss';
 import ToolJsonImport from './BulkToolJsonImport';
@@ -35,6 +36,9 @@ export default function ToolsManager({ initialTools, categories = [] }) {
 
   // UI State
   const [showImport, setShowImport] = useState(false);
+  const [showDuplicateScanner, setShowDuplicateScanner] = useState(false);
+  const [duplicateGroups, setDuplicateGroups] = useState([]);
+  const [duplicateSelections, setDuplicateSelections] = useState({});
   const [drawerTool, setDrawerTool] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTool, setCurrentTool] = useState(null);
@@ -76,6 +80,51 @@ export default function ToolsManager({ initialTools, categories = [] }) {
     } catch (e) {
       console.error('Failed to refresh tools catalog:', e);
       setFeedback({ type: 'error', message: 'Network error while refreshing tools catalog.' });
+    }
+  };
+
+  const scanDuplicates = async () => {
+    setLoading(true);
+    setFeedback(null);
+    try {
+      const response = await fetch('/api/admin/tools/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'duplicate-scan' }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Duplicate scan failed.');
+      setDuplicateGroups(result.groups || []);
+      setDuplicateSelections(Object.fromEntries((result.groups || []).map((group) => [group.id, group.matches.map((_, index) => index)])));
+      setShowDuplicateScanner(true);
+    } catch (error) {
+      setFeedback({ type: 'error', message: error.message || 'Duplicate scan failed.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resolveDuplicateGroup = async (group, resolution) => {
+    const selectedIndexes = duplicateSelections[group.id] || [];
+    const selected = selectedIndexes.map((index) => group.matches[index]?.tool).filter(Boolean);
+    if (selected.length === 0) return;
+    const keep = selected[0];
+    setLoading(true);
+    try {
+      const response = await fetch('/api/admin/tools/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'duplicate-resolve', resolution, selected, keep }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Duplicate resolution failed.');
+      setDuplicateGroups((groups) => groups.filter((item) => item.id !== group.id));
+      await refreshCatalog();
+      setFeedback({ type: 'success', message: `${resolution === 'merge' ? 'Merged' : resolution === 'keep' ? 'Kept one' : 'Deleted'} selected duplicate records.` });
+    } catch (error) {
+      setFeedback({ type: 'error', message: error.message || 'Duplicate resolution failed.' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -556,6 +605,9 @@ export default function ToolsManager({ initialTools, categories = [] }) {
           <button onClick={() => setShowImport(!showImport)} className={styles.secondaryBtn}>
             <FiUpload /> JSON Import
           </button>
+          <button onClick={scanDuplicates} className={styles.secondaryBtn} disabled={loading}>
+            <FiCopy /> Check Duplicates
+          </button>
           <button onClick={exportJson} className={styles.secondaryBtn} title="Export filtered or selected tools as JSON">
             <FiDownload /> Export JSON
           </button>
@@ -582,6 +634,36 @@ export default function ToolsManager({ initialTools, categories = [] }) {
             setShowImport(false);
           }}
         />
+      )}
+
+      {showDuplicateScanner && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal} style={{ maxWidth: '980px' }}>
+            <div className={styles.modalHeader}>
+              <div><h3>Duplicate Review</h3><p>{duplicateGroups.length} duplicate group{duplicateGroups.length === 1 ? '' : 's'} found. No records are changed automatically.</p></div>
+              <button onClick={() => setShowDuplicateScanner(false)} className={styles.closeBtn}><FiX /></button>
+            </div>
+            {duplicateGroups.length === 0 ? <p>No exact or likely duplicate groups found.</p> : duplicateGroups.map((group) => (
+              <div key={group.id} style={{ borderTop: '1px solid var(--border-subtle)', padding: '16px 0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
+                  <strong>{group.kind === 'exact' ? 'Exact duplicate' : 'Likely duplicate'} group</strong>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className={styles.secondaryBtn} onClick={() => resolveDuplicateGroup(group, 'keep')} disabled={loading}>Keep first</button>
+                    <button className={styles.secondaryBtn} onClick={() => resolveDuplicateGroup(group, 'merge')} disabled={loading}>Merge into first</button>
+                    <button className={`${styles.primaryBtn} ${styles.danger}`} onClick={() => resolveDuplicateGroup(group, 'delete')} disabled={loading}>Delete selected</button>
+                  </div>
+                </div>
+                {group.matches.map((match, index) => {
+                  const selected = (duplicateSelections[group.id] || []).includes(index);
+                  return <label key={`${group.id}-${match.tool.id || match.tool.slug}`} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '10px 0' }}>
+                    <input type="checkbox" checked={selected} onChange={() => setDuplicateSelections((current) => ({ ...current, [group.id]: selected ? current[group.id].filter((item) => item !== index) : [...(current[group.id] || []), index] }))} />
+                    <span><b>{match.tool.name}</b><small style={{ display: 'block', color: 'var(--text-muted)' }}>{match.tool.slug} | {match.matchedBy.join(', ')}</small></span>
+                  </label>;
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
       )}
 
       {/* CATALOG HEALTH CARDS */}

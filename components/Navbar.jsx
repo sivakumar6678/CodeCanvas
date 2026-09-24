@@ -12,6 +12,7 @@ import {
   FaLightbulb, 
   FaInfoCircle, 
   FaUser, 
+  FaUsers,
   FaSignOutAlt, 
   FaSignInAlt 
 } from 'react-icons/fa';
@@ -112,6 +113,7 @@ const Navbar = () => {
     { name: 'AI Knowledge', path: '/ai-knowledge', icon: <FaLightbulb /> },
     { name: 'Contribute', path: '/contribute', icon: <FaTools /> },
     { name: 'About', path: '/about', icon: <FaInfoCircle /> },
+    { name: 'Users', path: '/users', icon: <FaUsers /> },
     ...(authReady && user
       ? [{ name: 'Profile', path: '/profile', icon: <FaUser />, authVariant: 'profile' }]
       : authReady ? [{ name: 'Login', path: '/login', icon: <FaSignInAlt />, authVariant: 'login' }] : []),

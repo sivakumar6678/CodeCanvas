@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  padding: 40px 20px 96px;
+  padding: 28px 20px 96px;
   color: var(--text-main);
 }
 
@@ -14,8 +14,8 @@
   display: flex;
   justify-content: space-between;
   gap: 32px;
-  padding: 40px 48px;
-  background: var(--bg-header-gradient);
+  padding: 36px 44px;
+  background: linear-gradient(120deg, var(--bg-surface) 0%, var(--primary-light) 100%);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
 }
@@ -76,8 +76,8 @@
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.25fr);
-  gap: 28px;
+  grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.4fr);
+  gap: 20px;
   margin-top: 28px;
   align-items: start;
 }
@@ -87,7 +87,7 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 24px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -727,6 +727,36 @@
   border-top: 1px solid var(--border-subtle);
 }
 
+.cardAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover { border-color: var(--primary); color: var(--primary); }
+}
+
+.replacePicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  select { flex: 1; min-height: 34px; padding: 5px 8px; border: 1px solid var(--border-medium); border-radius: var(--radius-sm); background: var(--bg-surface); color: var(--text-main); font: inherit; }
+}
+
 .detailsLink,
 .catalogLink {
   display: inline-flex;
@@ -758,6 +788,105 @@
   p {
     margin: 0 0 16px;
   }
+}
+
+.kitStepper {
+  max-width: var(--container-max-width);
+  margin: 18px auto 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.kitStep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.kitStep span {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--bg-muted);
+  font-size: 0.7rem;
+}
+
+.kitStepActive { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+.kitStepDone { color: var(--text-secondary); }
+.kitStepDone span { background: var(--success-light); color: var(--success); }
+
+.kitPanel {
+  max-width: var(--container-max-width);
+  margin: 18px auto 0;
+  padding: 30px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.kitStepContent { min-height: 430px; }
+.kitHeading { max-width: 720px; margin-bottom: 24px; }
+.kitHeading h2 { margin: 6px 0; font-size: 1.7rem; }
+.kitHeading p { margin: 0; color: var(--text-secondary); line-height: 1.55; }
+.kitGoalGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.kitGoalGrid .goalCard { min-height: 112px; }
+.goalCard span { display: block; margin-top: 6px; color: var(--text-muted); font-size: 0.8rem; line-height: 1.4; }
+.kitField { display: grid; gap: 7px; color: var(--text-secondary); font-size: 0.8rem; font-weight: 800; }
+.kitField input, .kitField select { min-height: 42px; padding: 9px 12px; border: 1px solid var(--border-medium); border-radius: var(--radius-sm); background: var(--bg-surface); color: var(--text-main); font: inherit; font-weight: 400; }
+.kitStepContent > .kitField { max-width: 680px; margin-top: 18px; }
+.kitFormGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 720px; margin-bottom: 22px; }
+.kitChoiceSection { display: grid; gap: 8px; margin-top: 18px; color: var(--text-secondary); font-size: 0.8rem; font-weight: 800; }
+.workflowList { display: grid; gap: 12px; }
+.workflowCard, .selectionStage, .reviewStage { padding: 18px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-muted); }
+.workflowCard { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.workflowCard > div, .reviewStage > div:first-child { display: flex; align-items: flex-start; gap: 14px; }
+.workflowCard h3, .selectionStage h3, .reviewStage h3 { margin: 0 0 5px; font-size: 1rem; }
+.workflowCard p, .selectionStage p, .reviewStage p { margin: 0; color: var(--text-secondary); font-size: 0.84rem; line-height: 1.45; }
+.workflowCard small { display: block; margin-top: 8px; color: var(--primary); font-size: 0.74rem; font-weight: 700; }
+.workflowSkipped { opacity: 0.55; }
+.selectionStageHeader { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.selectionStageHeader > span { color: var(--primary); font-size: 0.75rem; font-weight: 800; white-space: nowrap; }
+.toolOptionGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.kitToolOption { position: relative; padding: 13px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface); }
+.kitToolSelected { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.kitToolSelect { display: flex; align-items: center; gap: 9px; width: 100%; padding: 0; border: 0; background: transparent; color: var(--text-main); text-align: left; cursor: pointer; }
+.kitToolCheck { display: grid; place-items: center; width: 20px; height: 20px; border: 1px solid var(--border-medium); border-radius: 50%; color: #fff; font-size: 0.75rem; }
+.kitToolSelected .kitToolCheck { border-color: var(--primary); background: var(--primary); }
+.kitToolLogo, .kitToolFallback { width: 34px; height: 34px; border-radius: 8px; object-fit: contain; background: var(--bg-muted); }
+.kitToolFallback { display: grid; place-items: center; color: var(--primary); font-weight: 800; }
+.kitToolCopy { display: grid; gap: 3px; min-width: 0; }
+.kitToolCopy strong { overflow: hidden; font-size: 0.86rem; text-overflow: ellipsis; white-space: nowrap; }
+.kitToolCopy small { color: var(--text-muted); font-size: 0.72rem; }
+.kitToolOption p { min-height: 36px; margin: 10px 0 8px; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.4; }
+.kitViewLink { display: inline-flex; align-items: center; gap: 5px; color: var(--primary); font-size: 0.76rem; font-weight: 700; text-decoration: none; }
+.reviewKit { display: grid; gap: 10px; }
+.reviewStage { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.reviewTool { display: flex; align-items: center; gap: 10px; color: var(--text-main); }
+.reviewTool a, .reviewTool button { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--border-medium); border-radius: var(--radius-sm); background: var(--bg-surface); color: var(--primary); cursor: pointer; }
+.reviewActions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.reviewActions .resetButton { margin-left: auto; }
+
+@media (max-width: 760px) {
+  .kitPanel { padding: 20px; }
+  .kitStepper { grid-template-columns: 1fr; }
+  .kitStep { justify-content: flex-start; padding: 0 12px; }
+  .kitGoalGrid, .kitFormGrid, .toolOptionGrid { grid-template-columns: 1fr; }
+  .workflowCard, .reviewStage { align-items: flex-start; flex-direction: column; }
+  .reviewTool { width: 100%; justify-content: space-between; }
+  .reviewActions .resetButton { margin-left: 0; }
 }
 
 @media (max-width: 900px) {
