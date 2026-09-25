@@ -1,7 +1,8 @@
 import { getAllTools, getCategories, getFeaturedTools } from '../../lib/data-fetchers';
-import { filterTools, getAvailableFilterOptions } from '../../lib/catalog-filtering';
+import { CATALOG_PAGE_SIZE_OPTIONS, filterTools, getAvailableFilterOptions, paginateTools } from '../../lib/catalog-filtering';
 import AIToolCard from '../../components/ai-tools/AIToolCard';
 import CategoryFilter from '../../components/ai-tools/CategoryFilter';
+import CatalogPagination from '../../components/ai-tools/CatalogPagination';
 import SearchBar from '../../components/ai-tools/SearchBar';
 import ToolFilterBar from '../../components/ai-tools/ToolFilterBar';
 import styles from './page.module.scss';
@@ -24,6 +25,9 @@ export default async function AIToolsPage({ searchParams }) {
   const useCase = searchParamsObj?.useCase?.toLowerCase()?.trim() || '';
   const tag = searchParamsObj?.tag?.toLowerCase()?.trim() || '';
   const sort = searchParamsObj?.sort?.toLowerCase()?.trim() || 'featured';
+  const page = Number.parseInt(searchParamsObj?.page, 10) || 1;
+  const requestedPageSize = Number.parseInt(searchParamsObj?.pageSize, 10);
+  const pageSize = CATALOG_PAGE_SIZE_OPTIONS.includes(requestedPageSize) ? requestedPageSize : undefined;
   
   const availableFilters = getAvailableFilterOptions(allTools);
 
@@ -36,6 +40,7 @@ export default async function AIToolsPage({ searchParams }) {
     tag,
     sort,
   });
+  const pagination = paginateTools(displayTools, page, pageSize);
 
   return (
     <div className={styles.container}>
@@ -65,33 +70,37 @@ export default async function AIToolsPage({ searchParams }) {
         </section>
       )}
 
-      <section className={styles.allToolsSection}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>
-            {query ? `Search results for "${query}"` : 'All Tools'}
-          </h2>
+      <section className={styles.catalogLayout}>
+        <CategoryFilter categories={categories} />
+        <div className={styles.allToolsSection}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>
+              {query ? `Search results for "${query}"` : 'All Tools'}
+            </h2>
+          </div>
+
+          <ToolFilterBar
+            totalCount={displayTools.length}
+            categories={categories}
+            availableFilters={availableFilters}
+          />
+
+          {displayTools.length > 0 ? (
+            <>
+              <div className={styles.grid}>
+                {pagination.items.map(tool => (
+                  <AIToolCard key={tool.id} tool={tool} />
+                ))}
+              </div>
+              <CatalogPagination {...pagination} />
+            </>
+          ) : (
+            <div className={styles.emptyState}>
+              <h3>No tools found</h3>
+              <p>Try adjusting your search query or filter options.</p>
+            </div>
+          )}
         </div>
-        
-        {!query && <CategoryFilter categories={categories} />}
-
-        <ToolFilterBar
-          totalCount={displayTools.length}
-          categories={categories}
-          availableFilters={availableFilters}
-        />
-
-        {displayTools.length > 0 ? (
-          <div className={styles.grid}>
-            {displayTools.map(tool => (
-              <AIToolCard key={tool.id} tool={tool} />
-            ))}
-          </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <h3>No tools found</h3>
-            <p>Try adjusting your search query or filter options.</p>
-          </div>
-        )}
       </section>
     </div>
   );

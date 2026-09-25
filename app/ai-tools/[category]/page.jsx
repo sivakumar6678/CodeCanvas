@@ -1,7 +1,8 @@
 import { getCategories, getToolsByCategory } from '../../../lib/data-fetchers';
-import { filterTools, getAvailableFilterOptions } from '../../../lib/catalog-filtering';
+import { CATALOG_PAGE_SIZE_OPTIONS, filterTools, getAvailableFilterOptions, paginateTools } from '../../../lib/catalog-filtering';
 import AIToolCard from '../../../components/ai-tools/AIToolCard';
 import CategoryFilter from '../../../components/ai-tools/CategoryFilter';
+import CatalogPagination from '../../../components/ai-tools/CatalogPagination';
 import ToolFilterBar from '../../../components/ai-tools/ToolFilterBar';
 import TrackCategoryView from '../../../components/ai-tools/TrackCategoryView';
 import { notFound } from 'next/navigation';
@@ -38,6 +39,9 @@ export default async function CategoryPage({ params, searchParams }) {
   const useCase = searchParamsObj?.useCase?.toLowerCase()?.trim() || '';
   const tag = searchParamsObj?.tag?.toLowerCase()?.trim() || '';
   const sort = searchParamsObj?.sort?.toLowerCase()?.trim() || 'featured';
+  const page = Number.parseInt(searchParamsObj?.page, 10) || 1;
+  const requestedPageSize = Number.parseInt(searchParamsObj?.pageSize, 10);
+  const pageSize = CATALOG_PAGE_SIZE_OPTIONS.includes(requestedPageSize) ? requestedPageSize : undefined;
 
   const availableFilters = getAvailableFilterOptions(tools, categorySlug);
 
@@ -50,6 +54,7 @@ export default async function CategoryPage({ params, searchParams }) {
     tag,
     sort,
   });
+  const pagination = paginateTools(displayTools, page, pageSize);
 
   return (
     <div className={styles.container}>
@@ -59,32 +64,36 @@ export default async function CategoryPage({ params, searchParams }) {
         <p className={styles.subtitle}>{category.description}</p>
       </header>
 
-      <section className={styles.allToolsSection}>
+      <section className={styles.catalogLayout}>
         <CategoryFilter categories={categories} />
+        <div className={styles.allToolsSection}>
+          <ToolFilterBar
+            totalCount={displayTools.length}
+            currentCategory={categorySlug}
+            categories={categories}
+            availableFilters={availableFilters}
+          />
 
-        <ToolFilterBar
-          totalCount={displayTools.length}
-          currentCategory={categorySlug}
-          categories={categories}
-          availableFilters={availableFilters}
-        />
-
-        {displayTools.length > 0 ? (
-          <div className={styles.grid}>
-            {displayTools.map(tool => (
-              <AIToolCard key={tool.id} tool={tool} />
-            ))}
-          </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <h3>No tools found</h3>
-            <p>
-              {pricing || subCategory || platform || useCase || tag
-                ? 'No tools match the selected filter combination in this category.'
-                : 'We are still adding tools to this category.'}
-            </p>
-          </div>
-        )}
+          {displayTools.length > 0 ? (
+            <>
+              <div className={styles.grid}>
+                {pagination.items.map(tool => (
+                  <AIToolCard key={tool.id} tool={tool} />
+                ))}
+              </div>
+              <CatalogPagination {...pagination} />
+            </>
+          ) : (
+            <div className={styles.emptyState}>
+              <h3>No tools found</h3>
+              <p>
+                {pricing || subCategory || platform || useCase || tag
+                  ? 'No tools match the selected filter combination in this category.'
+                  : 'We are still adding tools to this category.'}
+              </p>
+            </div>
+          )}
+        </div>
       </section>
     </div>
   );

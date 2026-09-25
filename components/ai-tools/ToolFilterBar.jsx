@@ -51,6 +51,9 @@ export default function ToolFilterBar({
 
   const updateParam = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
+    if (key !== 'page') {
+      params.delete('page');
+    }
     if (value) {
       params.set(key, value);
     } else {

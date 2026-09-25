@@ -17,6 +17,7 @@ export default function SearchBar({ placeholder = "Search AI tools..." }) {
     } else {
       current.delete('q');
     }
+    current.delete('page');
     const search = current.toString();
     const queryStr = search ? `?${search}` : '';
     router.push(`/ai-tools${queryStr}`);

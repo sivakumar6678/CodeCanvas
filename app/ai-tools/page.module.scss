@@ -1,7 +1,8 @@
 .container {
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: 40px 20px 80px;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  padding: 40px clamp(16px, 2.5vw, 40px) 80px;
   color: var(--text-main);
   min-height: 100vh;
 }
@@ -84,7 +85,29 @@
 }
 
 .featuredSection {
-  margin-bottom: 60px;
+  margin-bottom: 44px;
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+.catalogLayout {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+}
+
+.allToolsSection {
+  min-width: 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .grid {
@@ -109,4 +132,22 @@
   p {
     color: var(--text-muted);
   }
+}
+
+@media (max-width: 900px) {
+  .catalogLayout { grid-template-columns: 1fr; }
+
+  .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .container { padding: 24px 14px 56px; }
+
+  .header { padding: 28px 14px; }
+
+  .title { font-size: 2.15rem; }
+
+  .subtitle { font-size: 0.98rem; }
+
+  .grid { grid-template-columns: 1fr; gap: 16px; }
 }
