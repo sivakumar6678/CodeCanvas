@@ -8,6 +8,36 @@
   border-top: 1px solid var(--border-subtle);
 }
 
+.sidePagination {
+  position: sticky;
+  top: calc(var(--navbar-height) + 20px);
+  z-index: 2;
+  align-self: start;
+
+  .controls {
+    flex-direction: column;
+    gap: 4px;
+    padding: 5px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: var(--bg-surface);
+    box-shadow: 0 8px 24px rgb(15 23 42 / 9%);
+  }
+
+  .pageButton {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+
+  .ellipsis {
+    min-width: 32px;
+    min-height: 18px;
+    line-height: 18px;
+  }
+}
+
 .meta {
   display: flex;
   align-items: center;
@@ -102,4 +132,8 @@
   }
 
   .controls { justify-content: flex-start; }
+}
+
+@media (max-width: 1200px) {
+  .sidePagination { display: none; }
 }

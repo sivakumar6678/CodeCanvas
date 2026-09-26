@@ -99,6 +99,11 @@
   gap: 28px;
 }
 
+.catalogLayoutWithPagination {
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) 42px;
+  gap: 20px;
+}
+
 .allToolsSection {
   min-width: 0;
 }
@@ -137,7 +142,15 @@
 @media (max-width: 900px) {
   .catalogLayout { grid-template-columns: 1fr; }
 
+  .catalogLayoutWithPagination { grid-template-columns: 1fr; }
+
   .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+
+@media (max-width: 1200px) and (min-width: 901px) {
+  .catalogLayoutWithPagination {
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 560px) {

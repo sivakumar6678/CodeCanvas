@@ -64,7 +64,7 @@ export default async function CategoryPage({ params, searchParams }) {
         <p className={styles.subtitle}>{category.description}</p>
       </header>
 
-      <section className={styles.catalogLayout}>
+      <section className={`${styles.catalogLayout} ${pagination.totalPages > 1 ? styles.catalogLayoutWithPagination : ''}`}>
         <CategoryFilter categories={categories} />
         <div className={styles.allToolsSection}>
           <ToolFilterBar
@@ -94,6 +94,9 @@ export default async function CategoryPage({ params, searchParams }) {
             </div>
           )}
         </div>
+        {displayTools.length > 0 && pagination.totalPages > 1 && (
+          <CatalogPagination {...pagination} variant="side" />
+        )}
       </section>
     </div>
   );
