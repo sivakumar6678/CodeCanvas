@@ -216,7 +216,7 @@ export default function OnboardingPage() {
               />
             </div>
           </div>
-          <h1 className={styles.title}>Personalize Your CodeCraft Experience</h1>
+          <h1 className={styles.title}>Personalize Your CodeCanvas Experience</h1>
           <p className={styles.subtitle}>
             Help us tailor AI tool suggestions, workflow blueprints, and catalog recommendations for you.
           </p>

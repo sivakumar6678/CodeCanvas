@@ -52,9 +52,9 @@ export default function PublicUsersDirectory({ users = [] }) {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.eyebrow}><FiUsers aria-hidden="true" /> CodeCraft Community</div>
+        <div className={styles.eyebrow}><FiUsers aria-hidden="true" /> CodeCanvas Community</div>
         <h1>Meet the builders</h1>
-        <p>Explore the people shaping better workflows with CodeCraft.</p>
+        <p>Explore the people shaping better workflows with CodeCanvas.</p>
       </header>
 
       <section className={styles.directory} aria-label="Users directory">
@@ -82,7 +82,7 @@ export default function PublicUsersDirectory({ users = [] }) {
                   <UserAvatar avatarUrl={user.avatar_url} avatarId={user.avatar_id} username={label} size="lg" />
                   <div className={styles.userInfo}>
                     <h2>{label}</h2>
-                    <p>{user.username ? `@${user.username}` : 'CodeCraft member'}</p>
+                    <p>{user.username ? `@${user.username}` : 'CodeCanvas member'}</p>
                     <span>{displayRole(user.role)}</span>
                   </div>
                 </article>

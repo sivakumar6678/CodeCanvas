@@ -3,9 +3,14 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 export const metadata = {
-  title: 'CodeCraft | AI-Powered Developer Tools',
-  description: 'Boost your productivity with AI-driven code generation, design tools, and project brainstorming.',
+  title: 'CodeCanvas | Your AI & Developer Toolkit',
+  description: 'Your AI & Developer Toolkit. Discover. Build. Learn with AI tools, developer utilities, and curated resources.',
   keywords: ['AI', 'Developer Tools', 'Code Generation', 'Design', 'Next.js'],
+  openGraph: {
+    title: 'CodeCanvas | Your AI & Developer Toolkit',
+    description: 'Discover. Build. Learn with AI tools, developer utilities, and curated resources.',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }) {

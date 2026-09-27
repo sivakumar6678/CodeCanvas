@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import '../app/footer.scss';
 
 const Footer = () => {
@@ -14,20 +14,14 @@ const Footer = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/yourusername',
+      url: '',
       color: '#333333'
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://linkedin.com/in/yourusername',
+      url: '',
       color: '#0077B5'
-    },
-    {
-      name: 'Twitter',
-      icon: FaTwitter,
-      url: 'https://twitter.com/yourusername',
-      color: '#1DA1F2'
     }
   ];
 
@@ -38,8 +32,8 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>CodeCraft</h3>
-            <p>AI-powered developer tools and curated resources to accelerate your workflow.</p>
+            <h3>CodeCanvas</h3>
+            <p>Your AI &amp; Developer Toolkit. Discover. Build. Learn.</p>
           </div>
           
           <div className="footer-section">
@@ -56,17 +50,29 @@ const Footer = () => {
               {socialLinks.map((link, index) => {
                 const IconComponent = link.icon;
                 return (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    style={{ '--icon-color': link.color }}
-                    aria-label={link.name}
-                  >
-                    <IconComponent />
-                  </a>
+                  link.url ? (
+                    <a
+                      key={index}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="social-link"
+                      style={{ '--icon-color': link.color }}
+                      aria-label={link.name}
+                    >
+                      <IconComponent />
+                    </a>
+                  ) : (
+                    <span
+                      key={index}
+                      className="social-link social-link-placeholder"
+                      style={{ '--icon-color': link.color }}
+                      aria-label={`${link.name} profile coming soon`}
+                      title={`${link.name} profile coming soon`}
+                    >
+                      <IconComponent />
+                    </span>
+                  )
                 );
               })}
             </div>
@@ -74,7 +80,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} CodeCraft. All rights reserved.</p>
+          <p>&copy; {currentYear} CodeCanvas. All rights reserved.</p>
           <p className="developer">Developed with ❤️ by C. Sivakumar</p>
         </div>
       </div>

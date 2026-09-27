@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from './page.module.scss';
 
 export const metadata = {
-  title: 'Access Denied | CodeCraft',
+  title: 'Access Denied | CodeCanvas',
   description: 'You do not have permission to access this page.',
 };
 

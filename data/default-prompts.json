@@ -20,7 +20,7 @@
       "tailwind"
     ],
     "description": "Scaffolds a robust Next.js 16 component with server actions and TypeScript types.",
-    "display_name": "CodeCraft Team",
+    "display_name": "CodeCanvas Team",
     "is_anonymous": false,
     "created_date": "2026-08-28"
   },
@@ -46,7 +46,7 @@
       "security"
     ],
     "description": "Generates secure, idempotent Row-Level Security policies and indexes for PostgreSQL/Supabase tables.",
-    "display_name": "CodeCraft Security",
+    "display_name": "CodeCanvas Security",
     "is_anonymous": false,
     "created_date": "2026-09-02"
   },
@@ -71,7 +71,7 @@
       "validation"
     ],
     "description": "Creates exhaustive Zod validation schemas and TypeScript type contracts for client-server API boundaries.",
-    "display_name": "CodeCraft Team",
+    "display_name": "CodeCanvas Team",
     "is_anonymous": false,
     "created_date": "2026-09-03"
   },
@@ -122,7 +122,7 @@
       "jose"
     ],
     "description": "Implements low-latency Edge Middleware JWT validation and secure header forwarding.",
-    "display_name": "CodeCraft Team",
+    "display_name": "CodeCanvas Team",
     "is_anonymous": false,
     "created_date": "2026-08-29"
   },
@@ -223,7 +223,7 @@
       "qa"
     ],
     "description": "Instant command to scaffold native Node.js test suites with happy-path and defensive edge cases.",
-    "display_name": "CodeCraft QA",
+    "display_name": "CodeCanvas QA",
     "is_anonymous": false,
     "created_date": "2026-09-06"
   },
@@ -248,7 +248,7 @@
       "cursor"
     ],
     "description": "Triggers a focused, single-file refactoring pass that cleans code smells without breaking signatures.",
-    "display_name": "CodeCraft Team",
+    "display_name": "CodeCanvas Team",
     "is_anonymous": false,
     "created_date": "2026-09-06"
   },

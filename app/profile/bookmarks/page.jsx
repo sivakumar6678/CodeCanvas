@@ -5,7 +5,7 @@ import SavedToolsSection from '../../../components/user/SavedToolsSection';
 import styles from './page.module.scss';
 
 export const metadata = {
-  title: 'My Saved Tools | CodeCraft',
+  title: 'My Saved Tools | CodeCanvas',
   description: 'View and manage your saved AI productivity tools.',
 };
 

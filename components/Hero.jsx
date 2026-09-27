@@ -80,9 +80,9 @@ const Hero = () => {
             </motion.div>
 
             <h1>
-              Build Faster with
+              Your AI &amp;
               <br />
-              <span className="hero-highlight">AI-Powered Tools</span>
+              <span className="hero-highlight">Developer Toolkit</span>
             </h1>
 
             <div className="typewriter-container">
@@ -105,8 +105,8 @@ const Hero = () => {
             </div>
 
             <p className="hero-description">
-              Supercharge your development workflow with intelligent design tools,
-              AI code generators, and a curated collection of 50+ external resources.
+              Discover. Build. Learn. Supercharge your workflow with intelligent design tools,
+              AI code generators, and a curated collection of external resources.
             </p>
 
             <div className="hero-buttons">

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import '../app/contact-section.scss';
 
 const ContactSection = () => {
@@ -52,20 +52,14 @@ const ContactSection = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/yourusername',
+      url: '',
       color: '#333333'
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://linkedin.com/in/yourusername',
+      url: '',
       color: '#0077B5'
-    },
-    {
-      name: 'Twitter',
-      icon: FaTwitter,
-      url: 'https://twitter.com/yourusername',
-      color: '#1DA1F2'
     }
   ];
 
@@ -98,27 +92,7 @@ const ContactSection = () => {
               </div>
               <div className="info-content">
                 <h3>Email</h3>
-                <p>your.email@example.com</p>
-              </div>
-            </div>
-
-            <div className="info-card">
-              <div className="info-icon">
-                <FaMapMarkerAlt />
-              </div>
-              <div className="info-content">
-                <h3>Location</h3>
-                <p>Your City, Country</p>
-              </div>
-            </div>
-
-            <div className="info-card">
-              <div className="info-icon">
-                <FaPhone />
-              </div>
-              <div className="info-content">
-                <h3>Phone</h3>
-                <p>+1 (234) 567-8900</p>
+                <p><a href="mailto:chandragarisivakumar@gmail.com">chandragarisivakumar@gmail.com</a></p>
               </div>
             </div>
 
@@ -127,19 +101,29 @@ const ContactSection = () => {
               <div className="social-links">
                 {socialLinks.map((link) => {
                   const IconComponent = link.icon;
-                  return (
-                    <a
-                      key={link.name}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="social-link"
-                      style={{ '--icon-color': link.color }}
-                      aria-label={link.name}
-                    >
-                      <IconComponent />
-                    </a>
-                  );
+                  return link.url ? (
+                      <a
+                        key={link.name}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-link"
+                        style={{ '--icon-color': link.color }}
+                        aria-label={link.name}
+                      >
+                        <IconComponent />
+                      </a>
+                    ) : (
+                      <span
+                        key={link.name}
+                        className="social-link social-link-placeholder"
+                        style={{ '--icon-color': link.color }}
+                        aria-label={`${link.name} profile coming soon`}
+                        title={`${link.name} profile coming soon`}
+                      >
+                        <IconComponent />
+                        </span>
+                      );
                 })}
               </div>
             </div>

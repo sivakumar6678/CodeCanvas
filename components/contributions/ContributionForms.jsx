@@ -523,7 +523,7 @@ export default function ContributionForms({ categories = [] }) {
             <div className={styles.authNoticeCard}>
               <FiClock className={styles.authNoticeIcon} />
               <h4>Sign in to view your submissions</h4>
-              <p>Sign in with your CodeCraft account to track moderation progress and edit pending contributions.</p>
+              <p>Sign in with your CodeCanvas account to track moderation progress and edit pending contributions.</p>
               <Link href="/login?next=/contribute" className={styles.loginBtn}>
                 Sign In &rarr;
               </Link>

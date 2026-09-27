@@ -126,7 +126,7 @@ export default function CommunitySubmissionModal({ isOpen, onClose }) {
     <div className={styles.overlay} onClick={handleResetAndClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2>Submit to CodeCraft</h2>
+          <h2>Submit to CodeCanvas</h2>
           <button
             type="button"
             onClick={handleResetAndClose}

@@ -5,7 +5,7 @@ import UpvoteButton from './UpvoteButton';
 import BookmarkButton from './BookmarkButton';
 import styles from './AIToolCard.module.scss';
 
-export default function AIToolCard({ tool = {} }) {
+export default function AIToolCard({ tool = {}, isFeatured = false }) {
   // Support both canonical and legacy field names
   const logoUrl = tool?.logoImageUrl || tool?.logo;
   const pricingModel = tool?.pricingModel || tool?.pricing;
@@ -21,7 +21,7 @@ export default function AIToolCard({ tool = {} }) {
           )}
         </div>
         <div className={styles.badges}>
-          {tool.featured && <span className={styles.badgeFeatured}>Featured</span>}
+          {isFeatured && <span className={styles.badgeFeatured}>Featured</span>}
           {tool.new && <span className={styles.badgeNew}>New</span>}
           <span className={styles.badgePricing}>{pricingModel}</span>
         </div>

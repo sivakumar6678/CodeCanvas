@@ -121,7 +121,7 @@ ${idea.techStack.map((t) => `- ${t}`).join('\n')}
 ${idea.challenges.map((c) => `- ⚠️ ${c}`).join('\n')}
 
 ---
-*Generated with CodeCraft Project Ideation Canvas*
+*Generated with CodeCanvas Project Ideation Canvas*
 `;
 
     const blob = new Blob([mdContent], { type: 'text/markdown' });

@@ -1,4 +1,4 @@
-import { getCategories, getToolsByCategory } from '../../../lib/data-fetchers';
+import { getCategories, getFeaturedTools, getToolsByCategory } from '../../../lib/data-fetchers';
 import { CATALOG_PAGE_SIZE_OPTIONS, filterTools, getAvailableFilterOptions, paginateTools } from '../../../lib/catalog-filtering';
 import AIToolCard from '../../../components/ai-tools/AIToolCard';
 import CategoryFilter from '../../../components/ai-tools/CategoryFilter';
@@ -31,6 +31,8 @@ export default async function CategoryPage({ params, searchParams }) {
   }
 
   const tools = await getToolsByCategory(categorySlug);
+  const featuredTools = await getFeaturedTools();
+  const featuredSlugs = featuredTools.map((tool) => tool.slug);
   const searchParamsObj = await searchParams;
   const query = searchParamsObj?.q?.toLowerCase()?.trim() || '';
   const subCategory = searchParamsObj?.subCategory?.toLowerCase()?.trim() || '';
@@ -52,6 +54,7 @@ export default async function CategoryPage({ params, searchParams }) {
     platform,
     useCase,
     tag,
+    featuredSlugs,
     sort,
   });
   const pagination = paginateTools(displayTools, page, pageSize);
@@ -77,8 +80,8 @@ export default async function CategoryPage({ params, searchParams }) {
           {displayTools.length > 0 ? (
             <>
               <div className={styles.grid}>
-                {pagination.items.map(tool => (
-                  <AIToolCard key={tool.id} tool={tool} />
+                {pagination.items.map((tool) => (
+                  <AIToolCard key={tool.id} tool={tool} isFeatured={featuredSlugs.includes(tool.slug)} />
                 ))}
               </div>
               <CatalogPagination {...pagination} />

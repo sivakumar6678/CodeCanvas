@@ -132,7 +132,7 @@ const Navbar = () => {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isOpen ? 'nav-open' : ''}`}>
       <div className="nav-container">
         <Link href="/" className="nav-logo">
-          Dev<span>Tools</span>
+          Code<span>Canvas</span>
         </Link>
 
         <button 

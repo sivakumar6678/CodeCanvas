@@ -121,7 +121,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
     use_case: '',
     tags: '',
     description: '',
-    display_name: 'CodeCraft Team',
+    display_name: 'CodeCanvas Team',
     is_anonymous: false,
     status: 'published',
   });
@@ -245,7 +245,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `codecraft-ai-knowledge-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `codecanvas-ai-knowledge-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -288,7 +288,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
       use_case: useCasesStr,
       tags: Array.isArray(item.tags) ? item.tags.join(', ') : item.tags || '',
       description: item.description || '',
-      display_name: item.display_name || 'CodeCraft Team',
+      display_name: item.display_name || 'CodeCanvas Team',
       is_anonymous: Boolean(item.is_anonymous),
       status: item.status || 'published',
     });
@@ -349,7 +349,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
           use_case: '',
           tags: '',
           description: '',
-          display_name: 'CodeCraft Team',
+          display_name: 'CodeCanvas Team',
           is_anonymous: false,
           status: 'published',
         });
@@ -883,7 +883,7 @@ export default function KnowledgeManager({ initialItems = [] }) {
                   <label>Contributor</label>
                   <input
                     type="text"
-                    placeholder="e.g. CodeCraft Team, @alex, Community"
+                    placeholder="e.g. CodeCanvas Team, @alex, Community"
                     value={formData.display_name}
                     onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
                   />

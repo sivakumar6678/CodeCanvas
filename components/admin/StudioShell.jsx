@@ -34,11 +34,11 @@ export default function StudioShell({ children, email }) {
 
   return <div className={styles.adminLayout}>
     <aside className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ''}`} aria-label="Studio navigation">
-      <div className={styles.sidebarTop}><Link href="/studio" className={styles.brand} onClick={closeMenu}><span className={styles.brandMark}>C</span><span>CodeCraft <strong>Studio</strong></span></Link><button type="button" className={styles.closeMenu} onClick={closeMenu} aria-label="Close menu"><FiX /></button></div>
+      <div className={styles.sidebarTop}><Link href="/studio" className={styles.brand} onClick={closeMenu}><span className={styles.brandMark}>C</span><span>CodeCanvas <strong>Studio</strong></span></Link><button type="button" className={styles.closeMenu} onClick={closeMenu} aria-label="Close menu"><FiX /></button></div>
       <nav className={styles.nav}><p className={styles.navLabel}>Workspace</p>{navigation.map(({ href, label, icon: Icon, exact }) => <Link key={href} href={href} className={`${styles.navItem} ${isActive({ href, exact }) ? styles.active : ''}`} onClick={closeMenu}><Icon aria-hidden="true" /><span>{label}</span></Link>)}</nav>
       <div className={styles.sidebarBottom}><div className={styles.userSummary} title={email}><span className={styles.avatar}>{email?.charAt(0)?.toUpperCase() || 'A'}</span><span><strong>Administrator</strong><small>{email}</small></span></div><button type="button" onClick={handleLogout} disabled={loggingOut} className={styles.logoutBtn}><FiLogOut /> {loggingOut ? 'Logging out…' : 'Logout'}</button></div>
     </aside>
     {menuOpen && <button type="button" aria-label="Close menu" className={styles.backdrop} onClick={closeMenu} />}
-    <section className={styles.contentArea}><header className={styles.adminHeader}><button type="button" className={styles.menuButton} onClick={() => setMenuOpen(true)} aria-label="Open menu"><FiMenu /></button><div><p className={styles.eyebrow}>Administration</p><p className={styles.headerTitle}>CodeCraft Studio</p></div><Link href="/" className={styles.siteLink}>View site</Link></header><main className={styles.mainContent}>{children}</main></section>
+    <section className={styles.contentArea}><header className={styles.adminHeader}><button type="button" className={styles.menuButton} onClick={() => setMenuOpen(true)} aria-label="Open menu"><FiMenu /></button><div><p className={styles.eyebrow}>Administration</p><p className={styles.headerTitle}>CodeCanvas Studio</p></div><Link href="/" className={styles.siteLink}>View site</Link></header><main className={styles.mainContent}>{children}</main></section>
   </div>;
 }

@@ -453,7 +453,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `codecraft_tools_export_${new Date().toISOString().split('T')[0]}.json`);
+    link.setAttribute('download', `codecanvas_tools_export_${new Date().toISOString().split('T')[0]}.json`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -490,7 +490,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `codecraft_tools_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `codecanvas_tools_export_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

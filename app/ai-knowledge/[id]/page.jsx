@@ -40,13 +40,13 @@ export async function generateMetadata({ params }) {
   const item = await fetchKnowledgeItem(id);
 
   if (!item) {
-    return { title: 'AI Knowledge Item Not Found | CodeCraft' };
+    return { title: 'AI Knowledge Item Not Found | CodeCanvas' };
   }
 
   const typeLabel = KNOWLEDGE_TYPE_LABELS[item.type] || 'Prompt';
   return {
     title: `${item.title} | ${typeLabel} | AI Knowledge`,
-    description: item.description || `Explore "${item.title}" in CodeCraft AI Knowledge base.`,
+    description: item.description || `Explore "${item.title}" in the CodeCanvas AI Knowledge base.`,
   };
 }
 
@@ -140,7 +140,7 @@ export default async function KnowledgeDetailPage({ params }) {
           <span>
             Contributed by{' '}
             <strong>
-              {item.is_anonymous ? 'Anonymous contributor' : (item.display_name || 'CodeCraft Team')}
+              {item.is_anonymous ? 'Anonymous contributor' : (item.display_name || 'CodeCanvas Team')}
             </strong>
           </span>
           <span>Added {item.created_date || 'recently'}</span>

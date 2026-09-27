@@ -106,7 +106,7 @@ export default function LoginPage() {
       <div className={styles.loginBox}>
         <div className={styles.header}>
           <h2>{isSignup ? 'Create Your Account' : 'Welcome Back'}</h2>
-          <p>{isSignup ? 'Create a CodeCraft profile to save tools and participate in the community.' : 'Sign in to access your profile, saved tools, and any permitted workspace areas.'}</p>
+          <p>{isSignup ? 'Create a CodeCanvas profile to save tools and participate in the community.' : 'Sign in to access your profile, saved tools, and any permitted workspace areas.'}</p>
         </div>
 
         {error && <div className={styles.errorAlert}>{error}</div>}

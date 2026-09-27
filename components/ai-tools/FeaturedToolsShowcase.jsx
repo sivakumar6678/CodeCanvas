@@ -5,7 +5,7 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import AIToolCard from './AIToolCard';
 import styles from './FeaturedToolsShowcase.module.scss';
 
-export default function FeaturedToolsShowcase({ tools = [] }) {
+export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }) {
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -72,7 +72,7 @@ export default function FeaturedToolsShowcase({ tools = [] }) {
       >
         {tools.map((tool) => (
           <div className={styles.card} key={tool.id}>
-            <AIToolCard tool={tool} />
+            <AIToolCard tool={tool} isFeatured={featuredSlugs.includes(tool.slug)} />
           </div>
         ))}
       </div>

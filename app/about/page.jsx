@@ -4,18 +4,18 @@ import { FaRocket, FaTools, FaShieldAlt, FaCode, FaArrowRight } from 'react-icon
 import styles from './page.module.scss';
 
 export const metadata = {
-  title: 'About CodeCraft | The Developer Productivity Platform',
-  description: 'Learn about CodeCraft mission to streamline web development with intelligent tools and curated AI productivity resources.',
+  title: 'About CodeCanvas | Your AI & Developer Toolkit',
+  description: 'Learn about CodeCanvas and its mission to streamline web development with intelligent tools and curated AI productivity resources.',
 };
 
 export default function AboutPage() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <span className={styles.badge}>About CodeCraft</span>
+        <span className={styles.badge}>About CodeCanvas</span>
         <h1 className={styles.title}>Supercharging Developer Workflows</h1>
         <p className={styles.subtitle}>
-          CodeCraft is a high-performance directory and suite of developer utilities designed to accelerate visual styling, code generation, and AI tool discovery.
+          CodeCanvas is your AI and developer toolkit for visual styling, code generation, and AI tool discovery.
         </p>
       </div>
 

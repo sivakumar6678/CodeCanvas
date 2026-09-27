@@ -17,6 +17,7 @@ export default async function AIToolsPage({ searchParams }) {
   const allTools = await getAllTools();
   const categories = await getCategories();
   const featuredTools = await getFeaturedTools();
+  const featuredSlugs = featuredTools.map((tool) => tool.slug);
   
   const searchParamsObj = await searchParams;
   const query = searchParamsObj?.q?.toLowerCase()?.trim() || '';
@@ -39,6 +40,7 @@ export default async function AIToolsPage({ searchParams }) {
     platform,
     useCase,
     tag,
+    featuredSlugs,
     sort,
   });
   const pagination = paginateTools(displayTools, page, pageSize);
@@ -63,7 +65,7 @@ export default async function AIToolsPage({ searchParams }) {
       {!query && featuredTools.length > 0 && !subCategory && !pricing && !platform && !useCase && !tag && (
         <section className={styles.featuredSection}>
           <h2 className={styles.sectionTitle}>Featured Tools</h2>
-          <FeaturedToolsShowcase tools={featuredTools} />
+          <FeaturedToolsShowcase tools={featuredTools} featuredSlugs={featuredSlugs} />
         </section>
       )}
 
@@ -85,8 +87,8 @@ export default async function AIToolsPage({ searchParams }) {
           {displayTools.length > 0 ? (
             <>
               <div className={styles.grid}>
-                {pagination.items.map(tool => (
-                  <AIToolCard key={tool.id} tool={tool} />
+                {pagination.items.map((tool) => (
+                  <AIToolCard key={tool.id} tool={tool} isFeatured={featuredSlugs.includes(tool.slug)} />
                 ))}
               </div>
               <CatalogPagination {...pagination} />

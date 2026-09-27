@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FiCheck, FiCopy, FiDownload, FiUpload, FiX } from 'react-icons/fi';
 import styles from './ToolJsonImport.module.scss';
 
-const GENERATOR_PROMPT = `Convert the following list of AI tools into the exact JSON schema used by CodeCraft.
+const GENERATOR_PROMPT = `Convert the following list of AI tools into the exact JSON schema used by CodeCanvas.
 
 Return only valid JSON: an array of tool objects, with no markdown fences or explanation.
 Each object MUST use these EXACT canonical field names: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate.

@@ -463,7 +463,7 @@ export default function ProfileDashboard({ initialData }) {
 
               {/* Bio */}
               <p className={styles.bioText}>
-                {user.bio || 'No bio added yet. Tell the CodeCraft community about what you are building.'}
+                {user.bio || 'No bio added yet. Tell the CodeCanvas community about what you are building.'}
               </p>
 
               {/* Tags/Pills */}
@@ -865,7 +865,7 @@ export default function ProfileDashboard({ initialData }) {
                   <div>
                     <h2 className={styles.sectionTitle}>Community Contributions</h2>
                     <p className={styles.sectionDescription}>
-                      Track the status of AI tools and prompts you have submitted to the CodeCraft catalog.
+                      Track the status of AI tools and prompts you have submitted to the CodeCanvas catalog.
                     </p>
                   </div>
                   <Link href="/contribute" className={styles.toolkitBuilderBtn}>

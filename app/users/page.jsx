@@ -2,8 +2,8 @@ import { createClient } from '../../lib/supabase/server';
 import PublicUsersDirectory from '../../components/user/PublicUsersDirectory';
 
 export const metadata = {
-  title: 'CodeCraft Users',
-  description: 'Explore the CodeCraft community of builders, designers, researchers, and creators.',
+  title: 'CodeCanvas Users',
+  description: 'Explore the CodeCanvas community of builders, designers, researchers, and creators.',
 };
 
 export const dynamic = 'force-dynamic';

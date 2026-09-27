@@ -1,6 +1,6 @@
-# CodeCraft — AI Developer Tools Directory & Platform
+# CodeCanvas — Your AI & Developer Toolkit
 
-CodeCraft is an AI-powered developer tools directory, interactive workspace, and community prompt platform built with Next.js 16 (App Router), React, Supabase, and SCSS modules.
+CodeCanvas is an AI-powered developer tools directory, interactive workspace, and community prompt platform built with Next.js 16 (App Router), React, Supabase, and SCSS modules.
 
 ---
 
@@ -23,7 +23,7 @@ CodeCraft is an AI-powered developer tools directory, interactive workspace, and
 4. **Built-in Developer & Design Workspace (`/tools`)**:
    - In-browser productivity tools: Color Palette Generator, Gradient Generator, Box Shadow Generator, Image Optimizer, Code Snippets, Project Suggestions, and Brainstorming canvas.
 
-5. **CodeCraft Studio Administration (`/studio`)**:
+5. **CodeCanvas Studio Administration (`/studio`)**:
    - **Tools Manager (`/studio/tools`)**: JSON-backed CRUD operations, schema validation, and atomic category writes.
    - **JSON Importer**: Safe bulk JSON import with conflict resolution, canonical schema mapping, and a selective side-by-side **Image Review & Update** workflow.
    - **Suggestions Review Queue (`/studio/suggestions`)**: Moderate community tool suggestions and prompt submissions with one-click approval and canonical catalog publishing.
@@ -135,4 +135,4 @@ node --test lib/*.test.js
 ---
 
 ## License
-MIT License. Created for the CodeCraft Platform.
+MIT License. Created for the CodeCanvas Platform.

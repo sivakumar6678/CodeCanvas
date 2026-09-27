@@ -5,8 +5,8 @@ import CommunityPageClient from '../../components/community/CommunityPageClient'
 import styles from './page.module.scss';
 
 export const metadata = {
-  title: 'Developer Community | CodeCraft',
-  description: 'Join the CodeCraft developer community. Discover curated AI stacks, share workflows, and connect with creators.',
+  title: 'Developer Community | CodeCanvas',
+  description: 'Join the CodeCanvas developer community. Discover curated AI stacks, share workflows, and connect with creators.',
 };
 
 export default function CommunityPage() {
@@ -102,7 +102,7 @@ export default function CommunityPage() {
         <h2>Want to contribute or share your workflow?</h2>
         <p>Sign up to upvote your favorite tools, write reviews, and save personalized toolkits.</p>
         <Link href="/login" className={styles.ctaBtn}>
-          Join CodeCraft Community
+          Join CodeCanvas Community
         </Link>
       </section>
     </div>

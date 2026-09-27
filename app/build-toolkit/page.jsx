@@ -3,7 +3,7 @@ import ToolkitBuilder from '../../components/ai-tools/ToolkitBuilder';
 import { createClient } from '../../lib/supabase/server';
 
 export const metadata = {
-  title: 'Build Your Toolkit - CodeCraft',
+  title: 'Build Your Toolkit - CodeCanvas',
   description: 'Find a practical, deterministic set of AI tools tailored to your role, stack, and goals.',
 };
 

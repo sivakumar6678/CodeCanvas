@@ -2,7 +2,7 @@ import PromptLibrary from '../../components/prompts/PromptLibrary';
 import styles from '../prompts/page.module.scss';
 
 export const metadata = {
-  title: 'AI Knowledge | CodeCraft',
+  title: 'AI Knowledge | CodeCanvas',
   description: 'Explore curated AI knowledge: prompts, tricks, shortcuts, slash commands, and prompting techniques.',
 };
 
