@@ -3,6 +3,7 @@ import { CATALOG_PAGE_SIZE_OPTIONS, filterTools, getAvailableFilterOptions, pagi
 import AIToolCard from '../../components/ai-tools/AIToolCard';
 import CategoryFilter from '../../components/ai-tools/CategoryFilter';
 import CatalogPagination from '../../components/ai-tools/CatalogPagination';
+import FeaturedToolsShowcase from '../../components/ai-tools/FeaturedToolsShowcase';
 import SearchBar from '../../components/ai-tools/SearchBar';
 import ToolFilterBar from '../../components/ai-tools/ToolFilterBar';
 import styles from './page.module.scss';
@@ -62,11 +63,7 @@ export default async function AIToolsPage({ searchParams }) {
       {!query && featuredTools.length > 0 && !subCategory && !pricing && !platform && !useCase && !tag && (
         <section className={styles.featuredSection}>
           <h2 className={styles.sectionTitle}>Featured Tools</h2>
-          <div className={styles.grid}>
-            {featuredTools.map(tool => (
-              <AIToolCard key={tool.id} tool={tool} />
-            ))}
-          </div>
+          <FeaturedToolsShowcase tools={featuredTools} />
         </section>
       )}
 
