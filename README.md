@@ -90,7 +90,7 @@ codecraft/
 ### 2. Installation
 ```bash
 git clone <repository-url>
-cd codecraft
+cd codecanvas
 npm install
 ```
 
