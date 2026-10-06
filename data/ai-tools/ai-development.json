@@ -1235,7 +1235,7 @@
     "description": "AI coding assistant powered by Sourcegraph's code graph, bringing comprehensive context across massive codebases.",
     "fullOverview": "Sourcegraph Cody uses comprehensive code graph context to write, explain, and fix code. By understanding all symbols, repositories, and historical changes in your company's code graph, Cody generates answers that strictly respect internal architecture and design patterns.",
     "website": "https://sourcegraph.com/cody",
-    "logoImageUrl": "https://sourcegraph.com/favicon.ico",
+    "logoImageUrl": "https://backend.aionlinecourse.com/uploads/ai_software/image/2023/10/sourcegraph-cody.png",
     "bannerImageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&auto=format&fit=crop&q=80",
     "keyFeatures": [
       "Code graph context indexing across multi-repo organizations",
@@ -1280,7 +1280,8 @@
     "new": false,
     "verified": true,
     "hasFree": true,
-    "createdDate": "2026-09-09T00:00:00.000Z"
+    "createdDate": "2026-09-09T00:00:00.000Z",
+    "status": "active"
   },
   {
     "id": "aider",

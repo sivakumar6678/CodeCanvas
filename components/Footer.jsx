@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaBriefcase } from 'react-icons/fa';
 import '../app/footer.scss';
 
 const Footer = () => {
@@ -14,14 +14,20 @@ const Footer = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: '',
+      url: 'https://github.com/sivakumar6678',
       color: '#333333'
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: '',
+      url: 'https://www.linkedin.com/in/sivakumar-chandragari/  ',
       color: '#0077B5'
+    },
+    {
+      name: 'Portfolio',
+      icon: FaBriefcase,
+      url: 'https://sivakumar6678.github.io/Portfolio/',
+      color: '#1DA1F2'
     }
   ];
 

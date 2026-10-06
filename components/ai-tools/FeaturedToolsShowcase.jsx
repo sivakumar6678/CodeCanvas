@@ -23,10 +23,17 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
     updateScrollControls();
     track.addEventListener('scroll', updateScrollControls, { passive: true });
     window.addEventListener('resize', updateScrollControls);
+    const resizeObserver = new ResizeObserver(updateScrollControls);
+    resizeObserver.observe(track);
+    const frameId = requestAnimationFrame(updateScrollControls);
+    const timeoutId = window.setTimeout(updateScrollControls, 250);
 
     return () => {
       track.removeEventListener('scroll', updateScrollControls);
       window.removeEventListener('resize', updateScrollControls);
+      resizeObserver.disconnect();
+      cancelAnimationFrame(frameId);
+      window.clearTimeout(timeoutId);
     };
   }, [tools.length]);
 

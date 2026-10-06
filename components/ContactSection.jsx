@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaBriefcase } from 'react-icons/fa';
 import '../app/contact-section.scss';
 
 const ContactSection = () => {
@@ -50,17 +50,23 @@ const ContactSection = () => {
 
   const socialLinks = [
     {
-      name: 'GitHub',
-      icon: FaGithub,
-      url: '',
-      color: '#333333'
-    },
-    {
-      name: 'LinkedIn',
-      icon: FaLinkedin,
-      url: '',
-      color: '#0077B5'
-    }
+         name: 'GitHub',
+         icon: FaGithub,
+         url: 'https://github.com/sivakumar6678',
+         color: '#333333'
+       },
+       {
+         name: 'LinkedIn',
+         icon: FaLinkedin,
+         url: 'https://www.linkedin.com/in/sivakumar-chandragari/  ',
+         color: '#0077B5'
+       },
+       {
+         name: 'Portfolio',
+         icon: FaBriefcase,
+         url: 'https://sivakumar6678.github.io/Portfolio/',
+         color: '#1DA1F2'
+       }
   ];
 
   return (
