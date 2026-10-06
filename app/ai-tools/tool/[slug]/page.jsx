@@ -10,6 +10,8 @@ import ReviewsSection from '../../../../components/ai-tools/ReviewsSection';
 import CommentsSection from '../../../../components/ai-tools/CommentsSection';
 import styles from './page.module.scss';
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://codecraft.dev').replace(/\/$/, '');
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const tool = await getToolBySlug(slug);
@@ -32,7 +34,7 @@ export async function generateMetadata({ params }) {
       images: tool.banner ? [tool.banner] : [],
     },
     alternates: {
-      canonical: `https://yourplatform.com/ai-tools/tool/${tool.slug}`,
+      canonical: `${siteUrl}/ai-tools/tool/${tool.slug}`,
     },
   };
 }
@@ -55,7 +57,6 @@ export default async function ToolDetailPage({ params }) {
     { label: tool.name },
   ];
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://codecraft.dev';
   const toolJsonLd = generateToolSchema(tool, siteUrl);
   const breadcrumbJsonLd = generateBreadcrumbSchema(
     [
@@ -93,4 +94,3 @@ export default async function ToolDetailPage({ params }) {
     </div>
   );
 }
-

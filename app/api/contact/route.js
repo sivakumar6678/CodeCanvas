@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
 
-// Simple contact form handler
-// In production, you may want to integrate with email service like SendGrid, Resend, or similar
-
 export async function POST(request) {
   try {
     const { name, email, message } = await request.json();
@@ -34,18 +31,9 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Message must not exceed 5000 characters' }, { status: 400 });
     }
 
-    // TODO: Integrate with email service (SendGrid, Resend, etc.)
-    // For now, log to console (in production, send email)
-    console.log('[contact] Submission received:', {
-      name: name.trim(),
-      email: email.trim(),
-      timestamp: new Date().toISOString(),
-    });
-
-    // Return success response
     return NextResponse.json(
-      { success: true, message: 'Thank you for your message. We will get back to you soon.' },
-      { status: 200 }
+      { error: 'Direct contact form delivery is not configured. Please use the email link on this page.' },
+      { status: 503 }
     );
   } catch (error) {
     console.error('[contact] Error processing request:', error);

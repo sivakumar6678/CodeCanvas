@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server';
 const API_KEY = process.env.GEMINI_API_KEY;
 const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 const REQUEST_TIMEOUT_MS = 15000;
+const MAX_PROMPT_LENGTH = 12000;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const requestBuckets = new Map();
 
 // Map Gemini API error codes to user-readable messages
 const GEMINI_ERROR_MESSAGES = {
@@ -16,7 +20,24 @@ const GEMINI_ERROR_MESSAGES = {
 
 export async function POST(request) {
   try {
-    const { prompt, config } = await request.json();
+    const clientId = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+      || request.headers.get('x-real-ip')
+      || 'unknown';
+    const now = Date.now();
+    const bucket = (requestBuckets.get(clientId) || []).filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
+    if (bucket.length >= RATE_LIMIT_MAX_REQUESTS) {
+      return NextResponse.json({ error: 'Too many AI requests. Please wait a minute and try again.', retryable: true }, { status: 429 });
+    }
+    bucket.push(now);
+    requestBuckets.set(clientId, bucket);
+
+    const { prompt } = await request.json().catch(() => ({}));
+    if (typeof prompt !== 'string' || !prompt.trim()) {
+      return NextResponse.json({ error: 'A prompt is required.', retryable: false }, { status: 400 });
+    }
+    if (prompt.length > MAX_PROMPT_LENGTH) {
+      return NextResponse.json({ error: 'Prompt is too long.', retryable: false }, { status: 400 });
+    }
 
     if (!API_KEY) {
       return NextResponse.json(
@@ -35,8 +56,8 @@ export async function POST(request) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          ...config,
+          contents: [{ parts: [{ text: prompt.trim() }] }],
+          generationConfig: { maxOutputTokens: 2048, temperature: 0.7 },
         }),
         signal: controller.signal,
       });

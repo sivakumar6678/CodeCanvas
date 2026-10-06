@@ -71,6 +71,26 @@ create policy "CodeCraft users delete own profile"
     on public.user_profiles for delete to authenticated
     using (auth.uid() = id);
 
+-- RLS is row based, so also protect the authorization field from direct
+-- PostgREST writes. Trusted service/SQL operations have no end-user auth.uid().
+create or replace function public.prevent_user_profile_role_changes()
+returns trigger as $$
+begin
+  if auth.uid() is not null and (
+    (tg_op = 'INSERT' and coalesce(new.role, '') <> '') or
+    (tg_op = 'UPDATE' and new.role is distinct from old.role)
+  ) then
+    raise exception 'Profile roles can only be assigned by an administrator';
+  end if;
+  return new;
+end;
+$$ language plpgsql security definer set search_path = public;
+
+drop trigger if exists prevent_user_profile_role_changes on public.user_profiles;
+create trigger prevent_user_profile_role_changes
+  before insert or update on public.user_profiles
+  for each row execute function public.prevent_user_profile_role_changes();
+
 -- 5. Automatic Profile Provisioning Trigger for New Auth Users
 create or replace function public.handle_new_user()
 returns trigger as $$
@@ -97,4 +117,3 @@ create trigger on_auth_user_created
 -- Notifies PostgREST to reload its schema cache so newly added columns
 -- (like experience_level, role, interests, avatar_id) are recognized immediately without server restart.
 notify pgrst, 'reload schema';
-

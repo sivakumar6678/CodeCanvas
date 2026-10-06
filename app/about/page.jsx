@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaRocket, FaTools, FaShieldAlt, FaCode, FaArrowRight } from 'react-icons/fa';
+import { FaRocket, FaTools, FaCode, FaArrowRight } from 'react-icons/fa';
 import styles from './page.module.scss';
 
 export const metadata = {
   title: 'About CodeCanvas | Your AI & Developer Toolkit',
-  description: 'Learn about CodeCanvas and its mission to streamline web development with intelligent tools and curated AI productivity resources.',
+  description: 'CodeCanvas is your AI & Developer Toolkit for discovering tools, building practical workflows, and learning faster.',
 };
 
 export default function AboutPage() {
@@ -13,9 +13,9 @@ export default function AboutPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.badge}>About CodeCanvas</span>
-        <h1 className={styles.title}>Supercharging Developer Workflows</h1>
+        <h1 className={styles.title}>Your AI &amp; Developer Toolkit</h1>
         <p className={styles.subtitle}>
-          CodeCanvas is your AI and developer toolkit for visual styling, code generation, and AI tool discovery.
+          Discover. Build. Learn. CodeCanvas helps developers find useful tools, shape practical workflows, and keep learning.
         </p>
       </div>
 
@@ -24,9 +24,9 @@ export default function AboutPage() {
           <div className={styles.iconWrapper}>
             <FaTools />
           </div>
-          <h3>Built-in Utilities</h3>
+          <h3>Discover and Compare</h3>
           <p>
-            Instant in-browser generators for CSS glassmorphism, box shadows, gradients, and image compression—no installs or API keys required.
+            Browse a curated directory of AI and developer tools, filter by what matters, compare options, and save the tools you want to revisit.
           </p>
         </div>
 
@@ -34,26 +34,26 @@ export default function AboutPage() {
           <div className={styles.iconWrapper}>
             <FaRocket />
           </div>
-          <h3>Curated AI Directory</h3>
+          <h3>Build Your Kit</h3>
           <p>
-            Explore and compare top-tier AI coding assistants, UI generators, and developer productivity tools with community ratings and upvotes.
+            Turn a goal and a little context into a considered workflow, with recommendations and alternatives you can review before choosing.
           </p>
         </div>
 
         <div className={styles.card}>
           <div className={styles.iconWrapper}>
-            <FaShieldAlt />
+            <FaCode />
           </div>
-          <h3>Privacy & Speed</h3>
+          <h3>Learn with the Community</h3>
           <p>
-            Client-side browser processing ensures zero data retention for your code snippets and image files while maintaining sub-millisecond execution.
+            Explore AI Knowledge, contribute useful tools and learning resources, and use built-in developer utilities for everyday tasks.
           </p>
         </div>
       </div>
 
       <div className={styles.ctaCard}>
-        <h2>Ready to boost your coding efficiency?</h2>
-        <p>Explore our full library of interactive developer tools and AI resources.</p>
+        <h2>Built for developers who want to move with more clarity.</h2>
+        <p>CodeCanvas brings curated discovery, practical building tools, and shared knowledge into one place.</p>
         <div className={styles.ctaButtons}>
           <Link href="/tools" className="btn-primary">
             Explore Utilities <FaArrowRight />

@@ -49,3 +49,17 @@ create policy "CodeCraft admin reads analytics events" on public.analytics_event
         )
     );
 
+-- Legacy tool analytics are private to Studio administrators.
+drop policy if exists "CodeCraft authenticated view reads" on public.analytics_tool_views;
+drop policy if exists "CodeCraft admins read view analytics" on public.analytics_tool_views;
+create policy "CodeCraft admins read view analytics" on public.analytics_tool_views
+    for select to authenticated using (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );
+
+drop policy if exists "CodeCraft authenticated click reads" on public.analytics_tool_clicks;
+drop policy if exists "CodeCraft admins read click analytics" on public.analytics_tool_clicks;
+create policy "CodeCraft admins read click analytics" on public.analytics_tool_clicks
+    for select to authenticated using (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );

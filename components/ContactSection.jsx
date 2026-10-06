@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaBriefcase } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import '../app/contact-section.scss';
 
 const ContactSection = () => {
@@ -25,48 +25,26 @@ const ContactSection = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
-      setSubmitStatus({ type: 'success', message: 'Thank you! Your message has been sent successfully.' });
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
-    } finally {
-      setIsSubmitting(false);
-    }
+    const subject = encodeURIComponent(`CodeCanvas enquiry from ${formData.name.trim()}`);
+    const body = encodeURIComponent(`Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\n${formData.message.trim()}`);
+    window.location.href = `mailto:chandragarisivakumar@gmail.com?subject=${subject}&body=${body}`;
+    setSubmitStatus({ type: 'success', message: 'Your email app has been opened. Send the drafted message to get in touch.' });
+    setIsSubmitting(false);
   };
 
   const socialLinks = [
     {
          name: 'GitHub',
          icon: FaGithub,
-         url: 'https://github.com/sivakumar6678',
+         url: '',
          color: '#333333'
        },
        {
          name: 'LinkedIn',
          icon: FaLinkedin,
-         url: 'https://www.linkedin.com/in/sivakumar-chandragari/  ',
+         url: '',
          color: '#0077B5'
        },
-       {
-         name: 'Portfolio',
-         icon: FaBriefcase,
-         url: 'https://sivakumar6678.github.io/Portfolio/',
-         color: '#1DA1F2'
-       }
   ];
 
   return (
@@ -80,7 +58,7 @@ const ContactSection = () => {
           transition={{ duration: 0.6 }}
         >
           <h2>Get In Touch</h2>
-          <p>Have a question or want to collaborate? I'd love to hear from you.</p>
+          <p>Have a question or want to collaborate? Send an email and I’ll get back to you.</p>
         </motion.div>
 
         <div className="contact-grid">
@@ -193,7 +171,7 @@ const ContactSection = () => {
               )}
 
               <button type="submit" className="submit-btn" disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? 'Opening email...' : 'Email Me'}
                 <span>→</span>
               </button>
             </form>

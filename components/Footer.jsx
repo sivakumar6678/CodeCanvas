@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaGithub, FaLinkedin, FaBriefcase } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import '../app/footer.scss';
 
 const Footer = () => {
@@ -14,21 +14,15 @@ const Footer = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/sivakumar6678',
+      url: '',
       color: '#333333'
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://www.linkedin.com/in/sivakumar-chandragari/  ',
+      url: '',
       color: '#0077B5'
     },
-    {
-      name: 'Portfolio',
-      icon: FaBriefcase,
-      url: 'https://sivakumar6678.github.io/Portfolio/',
-      color: '#1DA1F2'
-    }
   ];
 
   if (pathname.startsWith('/studio')) return null;

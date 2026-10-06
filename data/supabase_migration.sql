@@ -282,8 +282,11 @@ drop policy if exists "CodeCraft prompt events are insertable" on public.analyti
 create policy "CodeCraft prompt events are insertable" on public.analytics_prompt_events
     for insert to anon, authenticated with check (true);
 drop policy if exists "CodeCraft authenticated prompt event reads" on public.analytics_prompt_events;
-create policy "CodeCraft authenticated prompt event reads" on public.analytics_prompt_events
-    for select to authenticated using (true);
+drop policy if exists "CodeCraft admins read prompt analytics" on public.analytics_prompt_events;
+create policy "CodeCraft admins read prompt analytics" on public.analytics_prompt_events
+    for select to authenticated using (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );
 
 -- Profiles are displayed next to public reviews/comments; mutations remain owner-only.
 drop policy if exists "CodeCraft profiles are publicly readable" on public.user_profiles;
@@ -298,6 +301,26 @@ create policy "CodeCraft users update own profile" on public.user_profiles
 drop policy if exists "CodeCraft users delete own profile" on public.user_profiles;
 create policy "CodeCraft users delete own profile" on public.user_profiles
     for delete to authenticated using (auth.uid() = id);
+
+-- RLS is row based, so also protect the authorization field from direct
+-- PostgREST writes. Trusted service/SQL operations have no end-user auth.uid().
+create or replace function public.prevent_user_profile_role_changes()
+returns trigger as $$
+begin
+  if auth.uid() is not null and (
+    (tg_op = 'INSERT' and coalesce(new.role, '') <> '') or
+    (tg_op = 'UPDATE' and new.role is distinct from old.role)
+  ) then
+    raise exception 'Profile roles can only be assigned by an administrator';
+  end if;
+  return new;
+end;
+$$ language plpgsql security definer set search_path = public;
+
+drop trigger if exists prevent_user_profile_role_changes on public.user_profiles;
+create trigger prevent_user_profile_role_changes
+  before insert or update on public.user_profiles
+  for each row execute function public.prevent_user_profile_role_changes();
 
 -- Automatic Profile Provisioning Trigger for New Auth Users
 create or replace function public.handle_new_user()
@@ -400,15 +423,17 @@ drop policy if exists "CodeCraft anonymous view inserts" on public.analytics_too
 create policy "CodeCraft anonymous view inserts" on public.analytics_tool_views
     for insert to anon, authenticated with check (true);
 drop policy if exists "CodeCraft authenticated view reads" on public.analytics_tool_views;
-create policy "CodeCraft authenticated view reads" on public.analytics_tool_views
-    for select to authenticated using (true);
+drop policy if exists "CodeCraft admins read view analytics" on public.analytics_tool_views;
+create policy "CodeCraft admins read view analytics" on public.analytics_tool_views
+    for select to authenticated using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
 
 drop policy if exists "CodeCraft anonymous click inserts" on public.analytics_tool_clicks;
 create policy "CodeCraft anonymous click inserts" on public.analytics_tool_clicks
     for insert to anon, authenticated with check (true);
 drop policy if exists "CodeCraft authenticated click reads" on public.analytics_tool_clicks;
-create policy "CodeCraft authenticated click reads" on public.analytics_tool_clicks
-    for select to authenticated using (true);
+drop policy if exists "CodeCraft admins read click analytics" on public.analytics_tool_clicks;
+create policy "CodeCraft admins read click analytics" on public.analytics_tool_clicks
+    for select to authenticated using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
 
 drop policy if exists "CodeCraft analytics events are insertable" on public.analytics_events;
 create policy "CodeCraft analytics events are insertable" on public.analytics_events
@@ -447,4 +472,3 @@ create policy "CodeCraft users delete own recently viewed" on public.recently_vi
 
 -- Reload PostgREST schema cache
 notify pgrst, 'reload schema';
-

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
-import { recordAnalyticsEvent } from '../../../../lib/analytics';
+import { isSafeAnalyticsSlug, recordAnalyticsEvent } from '../../../../lib/analytics';
 
 export async function POST(request) {
   try {
@@ -8,8 +8,8 @@ export async function POST(request) {
     const { slug } = await request.json();
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
-    if (!slug) {
-      return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
+    if (!isSafeAnalyticsSlug(slug)) {
+      return NextResponse.json({ error: 'A valid tool slug is required' }, { status: 400 });
     }
 
     // 1. Insert into legacy analytics_tool_clicks
