@@ -536,7 +536,7 @@ export default function ContributionForms({ categories = [] }) {
             <div className={styles.emptySubmissions}>
               <FiLayers className={styles.emptyIcon} />
               <h4>No {statusFilter === 'all' ? '' : statusFilter} submissions found</h4>
-              <p>You haven't submitted any contributions under this filter yet.</p>
+              <p>You haven&apos;t submitted any contributions under this filter yet.</p>
               <button
                 type="button"
                 className={styles.newContributionBtn}

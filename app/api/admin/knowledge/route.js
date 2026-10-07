@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 import { normalizeKnowledgeItem, validateKnowledgeItem } from '../../../../lib/knowledge-schema';
+import { createClient } from '../../../../lib/supabase/server';
+import { deleteKnowledgeItem, persistenceConfigured, readPersistedKnowledge, upsertKnowledgeItems } from '../../../../lib/catalog-persistence';
 
 const PROMPTS_FILE = path.join(process.cwd(), 'data', 'default-prompts.json');
 
@@ -31,7 +33,7 @@ export async function GET(request) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-    const items = await readPromptsFile();
+    const items = persistenceConfigured() ? await readPersistedKnowledge(await createClient(), { includeDrafts: true }) : await readPromptsFile();
     return NextResponse.json(items);
   } catch (error) {
     console.error('Admin GET knowledge error:', error);
@@ -52,13 +54,17 @@ export async function POST(request) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const items = await readPromptsFile();
+    const items = persistenceConfigured() ? await readPersistedKnowledge(await createClient(), { includeDrafts: true }) : await readPromptsFile();
     const existingIndex = items.findIndex((i) => i.id === normalized.id);
     if (existingIndex !== -1) {
       // Append random suffix if ID collision
       normalized.id = `${normalized.id}-${Math.floor(Math.random() * 1000)}`;
     }
 
+    if (persistenceConfigured()) {
+      await upsertKnowledgeItems(await createClient(), [normalized]);
+      return NextResponse.json({ success: true, item: normalized }, { status: 201 });
+    }
     items.unshift(normalized);
     await writePromptsFile(items);
 
@@ -82,7 +88,7 @@ export async function PUT(request) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const items = await readPromptsFile();
+    const items = persistenceConfigured() ? await readPersistedKnowledge(await createClient(), { includeDrafts: true }) : await readPromptsFile();
     const targetId = body.originalId || normalized.id;
     const index = items.findIndex((i) => i.id === targetId);
 
@@ -90,6 +96,11 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Knowledge item not found' }, { status: 404 });
     }
 
+    if (persistenceConfigured()) {
+      if (targetId !== normalized.id) await deleteKnowledgeItem(await createClient(), targetId);
+      await upsertKnowledgeItems(await createClient(), [normalized]);
+      return NextResponse.json({ success: true, item: normalized });
+    }
     items[index] = normalized;
     await writePromptsFile(items);
 
@@ -110,7 +121,7 @@ export async function DELETE(request) {
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
 
-    let items = await readPromptsFile();
+    let items = persistenceConfigured() ? await readPersistedKnowledge(await createClient(), { includeDrafts: true }) : await readPromptsFile();
     const initialLen = items.length;
     items = items.filter((i) => String(i.id) !== String(id));
 
@@ -118,6 +129,10 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'Knowledge item not found' }, { status: 404 });
     }
 
+    if (persistenceConfigured()) {
+      await deleteKnowledgeItem(await createClient(), id);
+      return NextResponse.json({ success: true, deletedId: id });
+    }
     await writePromptsFile(items);
     return NextResponse.json({ success: true, deletedId: id });
   } catch (error) {
@@ -136,7 +151,7 @@ export async function PATCH(request) {
     const { id, action, status } = body;
     if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
 
-    const items = await readPromptsFile();
+    const items = persistenceConfigured() ? await readPersistedKnowledge(await createClient(), { includeDrafts: true }) : await readPromptsFile();
     const index = items.findIndex((i) => String(i.id) === String(id));
     if (index === -1) {
       return NextResponse.json({ error: 'Knowledge item not found' }, { status: 404 });
@@ -151,6 +166,10 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'Valid action or status is required' }, { status: 400 });
     }
 
+    if (persistenceConfigured()) {
+      await upsertKnowledgeItems(await createClient(), [items[index]]);
+      return NextResponse.json({ success: true, item: items[index] });
+    }
     await writePromptsFile(items);
     return NextResponse.json({ success: true, item: items[index] });
   } catch (error) {

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../../lib/supabase/server';
 import defaultPrompts from '../../../../../data/default-prompts.json';
-import { recordAnalyticsEvent } from '../../../../../lib/analytics';
+import { recordAnalyticsEvent, recordPromptAnalyticsEvent } from '../../../../../lib/analytics';
 
 export async function POST(request, { params }) {
   const supabase = await createClient();
@@ -14,7 +14,9 @@ export async function POST(request, { params }) {
   try {
     const { data } = await supabase.from('prompt_submissions').select('id').eq('id', id).eq('status', 'approved').maybeSingle();
     prompt = data;
-  } catch (err) {}
+  } catch (_err) {
+    // Fall back to default prompts
+  }
 
   if (!prompt) {
     prompt = defaultPrompts.find((p) => String(p.id) === String(id)) || null;
@@ -36,11 +38,11 @@ export async function POST(request, { params }) {
   }
 
   if (action === 'copy' || action === 'view' || action === 'save') {
-    try {
-      await supabase.from('analytics_prompt_events').insert({ prompt_id: id, event_type: action, user_id: user?.id || null });
-    } catch (err) {
-      // Non-blocking telemetry
-    }
+    recordPromptAnalyticsEvent(supabase, {
+      prompt_id: id,
+      event_type: action,
+      user_id: user?.id || null,
+    }).catch(() => {});
     const mappedType = action === 'copy' ? 'knowledge_copy' : action === 'view' ? 'knowledge_view' : 'knowledge_save';
     recordAnalyticsEvent(supabase, {
       event_type: mappedType,

@@ -16,21 +16,16 @@ function displayRole(role) {
 
 export default function PublicUsersDirectory({ users = [] }) {
   const [query, setQuery] = useState('');
-  const [role, setRole] = useState('all');
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [page, setPage] = useState(1);
-
-  const roles = useMemo(() => {
-    return [...new Set(users.map((user) => user.role).filter(Boolean))].sort();
-  }, [users]);
 
   const filteredUsers = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return users.filter((user) => {
-      const searchable = `${user.username || ''} ${user.full_name || ''} ${user.role || ''}`.toLowerCase();
-      return (!normalizedQuery || searchable.includes(normalizedQuery)) && (role === 'all' || user.role === role);
+      const searchable = `${user.username || ''}`.toLowerCase();
+      return !normalizedQuery || searchable.includes(normalizedQuery);
     });
-  }, [query, role, users]);
+  }, [query, users]);
 
   const totalPages = Math.max(1, Math.ceil(filteredUsers.length / pageSize));
   const visibleUsers = useMemo(() => {
@@ -40,7 +35,7 @@ export default function PublicUsersDirectory({ users = [] }) {
 
   useEffect(() => {
     setPage(1);
-  }, [query, role, pageSize]);
+  }, [query, pageSize]);
 
   useEffect(() => {
     setPage((currentPage) => Math.min(currentPage, totalPages));
@@ -64,26 +59,19 @@ export default function PublicUsersDirectory({ users = [] }) {
             <span className={styles.visuallyHidden}>Search users</span>
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name or username" />
           </label>
-          <label className={styles.selectLabel}>
-            <span>Role</span>
-            <select value={role} onChange={(event) => setRole(event.target.value)}>
-              <option value="all">All roles</option>
-              {roles.map((item) => <option key={item} value={item}>{displayRole(item)}</option>)}
-            </select>
-          </label>
         </div>
 
         {visibleUsers.length > 0 ? (
           <div className={styles.grid}>
             {visibleUsers.map((user, index) => {
-              const label = user.full_name || user.username || 'Community member';
+              const label = user.username || 'Community member';
               return (
                 <article key={`${user.username || 'user'}-${index}`} className={styles.userCard}>
                   <UserAvatar avatarUrl={user.avatar_url} avatarId={user.avatar_id} username={label} size="lg" />
                   <div className={styles.userInfo}>
                     <h2>{label}</h2>
                     <p>{user.username ? `@${user.username}` : 'CodeCanvas member'}</p>
-                    <span>{displayRole(user.role)}</span>
+                    <span>Community member</span>
                   </div>
                 </article>
               );

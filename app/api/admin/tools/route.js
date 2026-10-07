@@ -5,6 +5,8 @@ import { getAllTools } from '../../../../lib/data-fetchers';
 import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 import { normalizeToolToCanonical, toCanonicalNames, ALLOWED_PRICING } from '../../../../lib/canonical-tool-schema';
 import { getCatalogFileForCategory } from '../../../../lib/catalog-categories';
+import { createClient } from '../../../../lib/supabase/server';
+import { deleteCatalogTool, persistenceConfigured, upsertCatalogTools } from '../../../../lib/catalog-persistence';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
@@ -107,6 +109,15 @@ export async function POST(request) {
     }
 
     const categoryFilePath = categoryPath(categorySlug);
+
+    if (persistenceConfigured()) {
+      const existing = await getAllTools();
+      if (existing.some((tool) => tool.slug === newTool.slug)) {
+        return NextResponse.json({ error: 'A tool with this slug already exists' }, { status: 409 });
+      }
+      await upsertCatalogTools(await createClient(), [newTool]);
+      return NextResponse.json({ success: true, tool: newTool });
+    }
     
     let categoryTools = [];
     categoryTools = await readToolsFile(categoryFilePath);
@@ -146,6 +157,19 @@ export async function PUT(request) {
     }
     if (!SAFE_SLUG.test(oldSlug) || !SAFE_SLUG.test(oldCategory)) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
+    }
+
+    if (persistenceConfigured()) {
+      const tools = await getAllTools();
+      const existing = tools.find((tool) => tool.slug === oldSlug);
+      if (!existing) return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
+      if (oldSlug !== updatedTool.slug && tools.some((tool) => tool.slug === updatedTool.slug)) {
+        return NextResponse.json({ error: 'A tool with this slug already exists' }, { status: 409 });
+      }
+      const supabase = await createClient();
+      if (oldSlug !== updatedTool.slug) await deleteCatalogTool(supabase, oldSlug);
+      await upsertCatalogTools(supabase, [updatedTool]);
+      return NextResponse.json({ success: true, tool: updatedTool });
     }
 
     // If category changed, we need to remove from old file and add to new file
@@ -216,6 +240,12 @@ export async function DELETE(request) {
     const filePath = categoryPath(category);
     if (!filePath || !SAFE_SLUG.test(slug)) {
       return NextResponse.json({ error: 'Invalid slug or category' }, { status: 400 });
+    }
+    if (persistenceConfigured()) {
+      const tools = await getAllTools();
+      if (!tools.some((tool) => tool.slug === slug)) return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
+      await deleteCatalogTool(await createClient(), slug);
+      return NextResponse.json({ success: true });
     }
     let tools = await readToolsFile(filePath);
     const nextTools = tools.filter((tool) => tool.slug !== slug);

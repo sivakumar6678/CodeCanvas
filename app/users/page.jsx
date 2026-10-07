@@ -14,8 +14,8 @@ export default async function UsersPage() {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
-      .from('user_profiles')
-      .select('username, full_name, avatar_url, avatar_id, role, created_at')
+      .from('public_user_profiles')
+      .select('username, avatar_url, avatar_id, created_at')
       .order('created_at', { ascending: false });
 
     if (!error && Array.isArray(data)) {

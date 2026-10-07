@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getCurrentUserWithProfile } from '../../../../../lib/auth/server';
 import { normalizeKnowledgeItem, validateKnowledgeItem } from '../../../../../lib/knowledge-schema';
+import { createClient } from '../../../../../lib/supabase/server';
+import { persistenceConfigured, readPersistedKnowledge, upsertKnowledgeItems } from '../../../../../lib/catalog-persistence';
 
 const PROMPTS_FILE = path.join(process.cwd(), 'data', 'default-prompts.json');
 
@@ -38,7 +40,9 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No knowledge items provided for import.' }, { status: 400 });
     }
 
-    const currentCatalog = await readPromptsFile();
+    const currentCatalog = persistenceConfigured()
+      ? await readPersistedKnowledge(await createClient(), { includeDrafts: true })
+      : await readPromptsFile();
     const existingById = new Map(currentCatalog.map((i) => [String(i.id).toLowerCase(), i]));
     const existingByTitle = new Map(currentCatalog.map((i) => [i.title.toLowerCase().trim(), i]));
 
@@ -115,7 +119,11 @@ export async function POST(request) {
         }
       });
 
-      await writePromptsFile(updatedCatalog);
+      if (persistenceConfigured()) {
+        await upsertKnowledgeItems(await createClient(), updatedCatalog);
+      } else {
+        await writePromptsFile(updatedCatalog);
+      }
 
       return NextResponse.json({
         success: true,

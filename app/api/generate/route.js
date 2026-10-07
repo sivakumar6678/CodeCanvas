@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import { consumeRateLimit } from '../../../lib/rate-limit.js';
+
 const API_KEY = process.env.GEMINI_API_KEY;
 const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 const REQUEST_TIMEOUT_MS = 15000;
@@ -20,16 +22,25 @@ const GEMINI_ERROR_MESSAGES = {
 
 export async function POST(request) {
   try {
-    const clientId = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-      || request.headers.get('x-real-ip')
-      || 'unknown';
-    const now = Date.now();
-    const bucket = (requestBuckets.get(clientId) || []).filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
-    if (bucket.length >= RATE_LIMIT_MAX_REQUESTS) {
-      return NextResponse.json({ error: 'Too many AI requests. Please wait a minute and try again.', retryable: true }, { status: 429 });
+    const rateLimitResult = consumeRateLimit(request, requestBuckets, {
+      windowMs: RATE_LIMIT_WINDOW_MS,
+      maxRequests: RATE_LIMIT_MAX_REQUESTS,
+    });
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        {
+          error: 'Too many AI requests. Please wait a minute and try again.',
+          retryable: true,
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(Math.max(1, Math.ceil(rateLimitResult.retryAfterMs / 1000))),
+          },
+        }
+      );
     }
-    bucket.push(now);
-    requestBuckets.set(clientId, bucket);
 
     const { prompt } = await request.json().catch(() => ({}));
     if (typeof prompt !== 'string' || !prompt.trim()) {

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
+import { recordPromptAnalyticsEvent } from '../../../../lib/analytics';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,13 +64,11 @@ export async function POST(request) {
       }
 
       // Track analytics save event (non-blocking)
-      try {
-        await supabase
-          .from('analytics_prompt_events')
-          .insert({ prompt_id: String(prompt_id), event_type: 'save', user_id: user.id });
-      } catch (e) {
-        console.warn('Could not record prompt analytics event:', e?.message || e);
-      }
+      recordPromptAnalyticsEvent(supabase, {
+        prompt_id: String(prompt_id),
+        event_type: 'save',
+        user_id: user.id,
+      }).catch(() => {});
     } else if (action === 'remove') {
       const { error } = await supabase
         .from('saved_prompts')

@@ -151,7 +151,7 @@ const Hero = () => {
                     <span className="code-keyword">const</span>
                     <span className="code-function"> tools</span>
                     <span className="code-operator"> = </span>
-                    <span className="code-string">'AI-Powered'</span>
+                    <span className="code-string">&apos;AI-Powered&apos;</span>
                   </div>
                   <div className="code-line">
                     <span className="code-keyword">const</span>
@@ -162,7 +162,7 @@ const Hero = () => {
                   <div className="code-line">
                     <span className="code-function">build</span>
                     <span className="code-punctuation">(</span>
-                    <span className="code-string">'amazing'</span>
+                    <span className="code-string">&apos;amazing&apos;</span>
                     <span className="code-punctuation">)</span>
                   </div>
                 </div>

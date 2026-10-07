@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../lib/supabase/server';
-import { validateAnalyticsPayload, recordAnalyticsEvent } from '../../../lib/analytics';
+import { validateAnalyticsPayload, recordAnalyticsEvent, getAnalyticsWriteClient } from '../../../lib/analytics';
 
 export async function POST(request) {
   try {
@@ -49,18 +49,21 @@ export async function POST(request) {
       // Anonymous user
     }
 
-    await recordAnalyticsEvent(supabase, {
-      ...validation.sanitized,
-      user_id: userId,
-    });
+    const analyticWriteClient = getAnalyticsWriteClient(supabase);
+    if (analyticWriteClient) {
+      await recordAnalyticsEvent(analyticWriteClient, {
+        ...validation.sanitized,
+        user_id: userId,
+      });
 
-    // Dual-write to legacy tables for backwards compatibility with existing views/clicks counters
-    if (eventType === 'tool_view' && entityId) {
-      const userAgent = request.headers.get('user-agent') || 'unknown';
-      supabase.from('analytics_tool_views').insert({ tool_slug: entityId, user_agent: userAgent }).catch(() => {});
-    } else if (eventType === 'tool_click' && entityId) {
-      const userAgent = request.headers.get('user-agent') || 'unknown';
-      supabase.from('analytics_tool_clicks').insert({ tool_slug: entityId, user_agent: userAgent }).catch(() => {});
+      // Dual-write to legacy tables for backwards compatibility with existing views/clicks counters
+      if (eventType === 'tool_view' && entityId) {
+        const userAgent = request.headers.get('user-agent') || 'unknown';
+        analyticWriteClient.from('analytics_tool_views').insert({ tool_slug: entityId, user_agent: userAgent }).catch(() => {});
+      } else if (eventType === 'tool_click' && entityId) {
+        const userAgent = request.headers.get('user-agent') || 'unknown';
+        analyticWriteClient.from('analytics_tool_clicks').insert({ tool_slug: entityId, user_agent: userAgent }).catch(() => {});
+      }
     }
 
     return NextResponse.json({ success: true, event: validation.sanitized.event_type });

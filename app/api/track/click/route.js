@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '../../../../lib/supabase/server';
-import { isSafeAnalyticsSlug, recordAnalyticsEvent } from '../../../../lib/analytics';
+import { isSafeAnalyticsSlug, recordAnalyticsEvent, getAnalyticsWriteClient } from '../../../../lib/analytics';
 
 export async function POST(request) {
   try {
@@ -12,33 +12,38 @@ export async function POST(request) {
       return NextResponse.json({ error: 'A valid tool slug is required' }, { status: 400 });
     }
 
-    // 1. Insert into legacy analytics_tool_clicks
-    const { error } = await supabase
-      .from('analytics_tool_clicks')
-      .insert([
-        { tool_slug: slug, user_agent: userAgent }
-      ]);
+    const analyticsWriteClient = getAnalyticsWriteClient(supabase);
+    if (analyticsWriteClient) {
+      // 1. Insert into legacy analytics_tool_clicks
+      const { error } = await analyticsWriteClient
+        .from('analytics_tool_clicks')
+        .insert([
+          { tool_slug: slug, user_agent: userAgent }
+        ]);
 
-    if (error) {
-      console.warn('Error tracking click in analytics_tool_clicks:', error.message);
+      if (error) {
+        console.warn('Error tracking click in analytics_tool_clicks:', error.message);
+      }
+
+      // 2. Insert into unified analytics_events
+      let userId = null;
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        userId = user?.id || null;
+      } catch (_e) {
+        userId = null;
+      }
+
+      await recordAnalyticsEvent(analyticsWriteClient, {
+        event_type: 'tool_click',
+        entity_type: 'tool',
+        entity_id: slug,
+        user_id: userId,
+      });
     }
 
-    // 2. Insert into unified analytics_events
-    let userId = null;
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      userId = user?.id || null;
-    } catch {}
-
-    await recordAnalyticsEvent(supabase, {
-      event_type: 'tool_click',
-      entity_type: 'tool',
-      entity_id: slug,
-      user_id: userId,
-    });
-
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } catch (_err) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

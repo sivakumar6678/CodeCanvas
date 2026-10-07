@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { createClient } from '../../../lib/supabase/server';
 import PromptCustomizer from '../../../components/prompts/PromptCustomizer';
 import SavePromptButton from '../../../components/prompts/SavePromptButton';
-import { generatePromptSchema } from '../../../lib/seo-schema';
+import { generatePromptSchema, serializeJsonLd } from '../../../lib/seo-schema';
 import styles from '../../prompts/[id]/page.module.scss';
 
 import defaultPrompts from '../../../data/default-prompts.json';
@@ -22,7 +22,9 @@ export async function generateMetadata({ params }) {
       .maybeSingle();
 
     if (data?.title) title = `${data.title} | AI Knowledge`;
-  } catch (e) {}
+  } catch (_err) {
+    // Fall back to static JSON definitions
+  }
 
   if (title === 'Content Not Found') {
     const fallback = defaultPrompts.find((p) => String(p.id) === String(id));
@@ -45,7 +47,9 @@ export default async function PromptDetailPage({ params }) {
       .eq('status', 'approved')
       .maybeSingle();
     prompt = data;
-  } catch (e) {}
+  } catch (_err) {
+    // Fall back to static JSON definitions
+  }
 
   if (!prompt) {
     prompt = defaultPrompts.find((p) => String(p.id) === String(id)) || null;
@@ -60,7 +64,7 @@ export default async function PromptDetailPage({ params }) {
     <main className={styles.page}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <Link href="/ai-knowledge" className={styles.back}>

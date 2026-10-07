@@ -38,11 +38,12 @@ export default function CommunitySubmissionModal({ isOpen, onClose }) {
   const [kind, setKind] = useState('tool');
   const [toolForm, setToolForm] = useState({
     tool_name: '',
-    website: '',
+    website_url: '',
     category: DEFAULT_CATEGORIES[0],
     description: '',
     pricing: 'Free',
     tags: '',
+    recommendation_reason: '',
   });
 
   const [promptForm, setPromptForm] = useState({
@@ -51,6 +52,7 @@ export default function CommunitySubmissionModal({ isOpen, onClose }) {
     ai_model: AI_MODELS[0],
     category: DEFAULT_CATEGORIES[0],
     type: 'prompt',
+    use_case: '',
     description: '',
     display_name: '',
     is_anonymous: false,
@@ -196,8 +198,8 @@ export default function CommunitySubmissionModal({ isOpen, onClose }) {
                     type="url"
                     required
                     placeholder="https://example.com"
-                    value={toolForm.website}
-                    onChange={(e) => setToolForm({ ...toolForm, website: e.target.value })}
+                    value={toolForm.website_url}
+                    onChange={(e) => setToolForm({ ...toolForm, website_url: e.target.value })}
                   />
                 </div>
 

@@ -16,7 +16,7 @@ export async function GET(request, { params }) {
       .from('tool_reviews')
       .select(`
         *,
-        user_profiles (
+        user_profiles:public_user_profiles (
           username,
           avatar_url
         )

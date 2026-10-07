@@ -16,7 +16,7 @@ export async function GET(request, { params }) {
       .from('comments')
       .select(`
         *,
-        user_profiles (username, avatar_url)
+        user_profiles:public_user_profiles (username, avatar_url)
       `)
       .eq('tool_slug', slug)
       .order('created_at', { ascending: true });
@@ -66,7 +66,7 @@ export async function POST(request, { params }) {
       })
       .select(`
         *,
-        user_profiles (username, avatar_url)
+        user_profiles:public_user_profiles (username, avatar_url)
       `)
       .single();
 

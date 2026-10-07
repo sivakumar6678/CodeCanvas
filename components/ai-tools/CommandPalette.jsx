@@ -150,7 +150,7 @@ export default function CommandPalette() {
               {loading ? (
                 <div className={styles.statusMsg}>Searching platform...</div>
               ) : results.length === 0 ? (
-                <div className={styles.statusMsg}>No results matching "{query}"</div>
+                <div className={styles.statusMsg}>No results matching &quot;{query}&quot;</div>
               ) : (
                 results.map((item, idx) => (
                   <div

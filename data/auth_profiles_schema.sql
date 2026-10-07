@@ -42,12 +42,19 @@ alter table public.user_profiles add column if not exists created_at timestamp w
 alter table public.user_profiles enable row level security;
 
 -- 4. Row Level Security Policies
--- Public read access allows community display of usernames/avatars for comments & reviews
+-- Keep full profiles private; expose only display fields through a public view.
 drop policy if exists "Authenticated users can view profiles" on public.user_profiles;
 drop policy if exists "CodeCraft profiles are publicly readable" on public.user_profiles;
-create policy "CodeCraft profiles are publicly readable"
-    on public.user_profiles for select
-    using (true);
+drop policy if exists "Users can view own profile" on public.user_profiles;
+drop policy if exists "CodeCraft users view own profile" on public.user_profiles;
+create policy "CodeCraft users view own profile"
+  on public.user_profiles for select to authenticated
+  using (auth.uid() = id);
+
+create or replace view public.public_user_profiles as
+  select id, username, avatar_url, avatar_id, created_at
+  from public.user_profiles;
+grant select on public.public_user_profiles to anon, authenticated;
 
 -- User insert access restricted to own user ID
 drop policy if exists "Users can insert own profile" on public.user_profiles;

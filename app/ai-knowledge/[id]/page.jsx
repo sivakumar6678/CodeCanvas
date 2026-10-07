@@ -5,7 +5,7 @@ import { createClient } from '../../../lib/supabase/server';
 import PromptCustomizer from '../../../components/prompts/PromptCustomizer';
 import SavePromptButton from '../../../components/prompts/SavePromptButton';
 import TrackKnowledgeView from '../../../components/prompts/TrackKnowledgeView';
-import { generatePromptSchema } from '../../../lib/seo-schema';
+import { generatePromptSchema, serializeJsonLd } from '../../../lib/seo-schema';
 import { KNOWLEDGE_TYPE_LABELS } from '../../../lib/knowledge-schema';
 import styles from './page.module.scss';
 import defaultPrompts from '../../../data/default-prompts.json';
@@ -73,7 +73,7 @@ export default async function KnowledgeDetailPage({ params }) {
       <TrackKnowledgeView id={item.id} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
       <div className={styles.topBar}>
@@ -133,7 +133,7 @@ export default async function KnowledgeDetailPage({ params }) {
         </div>
 
         <div className={styles.tipBox}>
-          <strong>Usage Tip:</strong> Replace any template placeholders (like <code>{'{{variable}}'}</code>) above with your project's specific context. When working with AI coding assistants (like Claude Code, Cursor, or Windsurf), pair this pattern with relevant file references for maximum accuracy.
+          <strong>Usage Tip:</strong> Replace any template placeholders (like <code>{'{{variable}}'}</code>) above with your project&apos;s specific context. When working with AI coding assistants (like Claude Code, Cursor, or Windsurf), pair this pattern with relevant file references for maximum accuracy.
         </div>
 
         <div className={styles.footer}>

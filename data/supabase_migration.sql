@@ -189,6 +189,31 @@ create table if not exists public.recently_viewed_tools (
     primary key (user_id, tool_slug)
 );
 
+-- Durable Studio catalog storage. `data` preserves the existing JSON shapes so
+-- the public UI and import validators can migrate without a destructive rewrite.
+create table if not exists public.catalog_tools (
+    id uuid default gen_random_uuid() primary key,
+    tool_id text not null,
+    slug text not null unique,
+    category text not null,
+    published boolean default true not null,
+    data jsonb not null,
+    created_at timestamptz default timezone('utc'::text, now()) not null,
+    updated_at timestamptz default timezone('utc'::text, now()) not null
+);
+
+create table if not exists public.knowledge_items (
+    id text primary key,
+    published boolean default true not null,
+    data jsonb not null,
+    created_at timestamptz default timezone('utc'::text, now()) not null,
+    updated_at timestamptz default timezone('utc'::text, now()) not null
+);
+
+create index if not exists catalog_tools_category_idx on public.catalog_tools(category);
+create index if not exists catalog_tools_published_idx on public.catalog_tools(published);
+create index if not exists knowledge_items_published_idx on public.knowledge_items(published);
+
 create index if not exists tool_reviews_slug_idx on public.tool_reviews(tool_slug);
 create index if not exists comments_slug_idx on public.comments(tool_slug);
 create index if not exists saved_tools_user_idx on public.saved_tools(user_id);
@@ -225,6 +250,8 @@ alter table public.saved_prompts enable row level security;
 alter table public.analytics_prompt_events enable row level security;
 alter table public.analytics_events enable row level security;
 alter table public.recently_viewed_tools enable row level security;
+alter table public.catalog_tools enable row level security;
+alter table public.knowledge_items enable row level security;
 
 drop policy if exists "CodeCraft users view own tool suggestions" on public.tool_suggestions;
 create policy "CodeCraft users view own tool suggestions" on public.tool_suggestions
@@ -280,7 +307,9 @@ create policy "CodeCraft approved prompts are publicly readable" on public.promp
 
 drop policy if exists "CodeCraft prompt events are insertable" on public.analytics_prompt_events;
 create policy "CodeCraft prompt events are insertable" on public.analytics_prompt_events
-    for insert to anon, authenticated with check (true);
+    for insert to authenticated with check (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );
 drop policy if exists "CodeCraft authenticated prompt event reads" on public.analytics_prompt_events;
 drop policy if exists "CodeCraft admins read prompt analytics" on public.analytics_prompt_events;
 create policy "CodeCraft admins read prompt analytics" on public.analytics_prompt_events
@@ -290,8 +319,11 @@ create policy "CodeCraft admins read prompt analytics" on public.analytics_promp
 
 -- Profiles are displayed next to public reviews/comments; mutations remain owner-only.
 drop policy if exists "CodeCraft profiles are publicly readable" on public.user_profiles;
-create policy "CodeCraft profiles are publicly readable" on public.user_profiles
-    for select using (true);
+drop policy if exists "Authenticated users can view profiles" on public.user_profiles;
+drop policy if exists "Users can view own profile" on public.user_profiles;
+drop policy if exists "CodeCraft users view own profile" on public.user_profiles;
+create policy "CodeCraft users view own profile" on public.user_profiles
+    for select to authenticated using (auth.uid() = id);
 drop policy if exists "CodeCraft users insert own profile" on public.user_profiles;
 create policy "CodeCraft users insert own profile" on public.user_profiles
     for insert to authenticated with check (auth.uid() = id);
@@ -301,6 +333,11 @@ create policy "CodeCraft users update own profile" on public.user_profiles
 drop policy if exists "CodeCraft users delete own profile" on public.user_profiles;
 create policy "CodeCraft users delete own profile" on public.user_profiles
     for delete to authenticated using (auth.uid() = id);
+
+create or replace view public.public_user_profiles as
+    select id, username, avatar_url, avatar_id, created_at
+    from public.user_profiles;
+grant select on public.public_user_profiles to anon, authenticated;
 
 -- RLS is row based, so also protect the authorization field from direct
 -- PostgREST writes. Trusted service/SQL operations have no end-user auth.uid().
@@ -419,17 +456,21 @@ drop policy if exists "CodeCraft users remove own upvotes" on public.tool_upvote
 create policy "CodeCraft users remove own upvotes" on public.tool_upvotes
     for delete to authenticated using (auth.uid() = user_id);
 
-drop policy if exists "CodeCraft anonymous view inserts" on public.analytics_tool_views;
-create policy "CodeCraft anonymous view inserts" on public.analytics_tool_views
-    for insert to anon, authenticated with check (true);
+drop policy if exists "CodeCraft admin view inserts" on public.analytics_tool_views;
+create policy "CodeCraft admin view inserts" on public.analytics_tool_views
+    for insert to authenticated with check (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );
 drop policy if exists "CodeCraft authenticated view reads" on public.analytics_tool_views;
 drop policy if exists "CodeCraft admins read view analytics" on public.analytics_tool_views;
 create policy "CodeCraft admins read view analytics" on public.analytics_tool_views
     for select to authenticated using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
 
-drop policy if exists "CodeCraft anonymous click inserts" on public.analytics_tool_clicks;
-create policy "CodeCraft anonymous click inserts" on public.analytics_tool_clicks
-    for insert to anon, authenticated with check (true);
+drop policy if exists "CodeCraft admin click inserts" on public.analytics_tool_clicks;
+create policy "CodeCraft admin click inserts" on public.analytics_tool_clicks
+    for insert to authenticated with check (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );
 drop policy if exists "CodeCraft authenticated click reads" on public.analytics_tool_clicks;
 drop policy if exists "CodeCraft admins read click analytics" on public.analytics_tool_clicks;
 create policy "CodeCraft admins read click analytics" on public.analytics_tool_clicks
@@ -437,7 +478,9 @@ create policy "CodeCraft admins read click analytics" on public.analytics_tool_c
 
 drop policy if exists "CodeCraft analytics events are insertable" on public.analytics_events;
 create policy "CodeCraft analytics events are insertable" on public.analytics_events
-    for insert to anon, authenticated with check (true);
+    for insert to authenticated with check (
+      exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin')
+    );
 drop policy if exists "CodeCraft admin reads analytics events" on public.analytics_events;
 create policy "CodeCraft admin reads analytics events" on public.analytics_events
     for select to authenticated
@@ -469,6 +512,24 @@ drop policy if exists "CodeCraft users delete own recently viewed" on public.rec
 create policy "CodeCraft users delete own recently viewed" on public.recently_viewed_tools
     for delete to authenticated
     using (auth.uid() = user_id);
+
+drop policy if exists "CodeCanvas public reads published catalog tools" on public.catalog_tools;
+create policy "CodeCanvas public reads published catalog tools" on public.catalog_tools
+    for select using (published = true);
+drop policy if exists "CodeCanvas admins manage catalog tools" on public.catalog_tools;
+create policy "CodeCanvas admins manage catalog tools" on public.catalog_tools
+    for all to authenticated
+    using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'))
+    with check (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
+
+drop policy if exists "CodeCanvas public reads published knowledge" on public.knowledge_items;
+create policy "CodeCanvas public reads published knowledge" on public.knowledge_items
+    for select using (published = true);
+drop policy if exists "CodeCanvas admins manage knowledge" on public.knowledge_items;
+create policy "CodeCanvas admins manage knowledge" on public.knowledge_items
+    for all to authenticated
+    using (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'))
+    with check (exists (select 1 from public.user_profiles where id = auth.uid() and role = 'admin'));
 
 -- Reload PostgREST schema cache
 notify pgrst, 'reload schema';

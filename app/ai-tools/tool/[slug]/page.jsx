@@ -1,6 +1,6 @@
 import { getToolBySlug, getRelatedTools, getCategories } from '../../../../lib/data-fetchers';
 import { notFound } from 'next/navigation';
-import { generateToolSchema, generateBreadcrumbSchema } from '../../../../lib/seo-schema';
+import { generateToolSchema, generateBreadcrumbSchema, serializeJsonLd } from '../../../../lib/seo-schema';
 import TrackView from '../../../../components/ai-tools/TrackView';
 import Breadcrumb from '../../../../components/ai-tools/Breadcrumb';
 import ToolHero from '../../../../components/ai-tools/ToolHero';
@@ -72,11 +72,11 @@ export default async function ToolDetailPage({ params }) {
     <div className={styles.container}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(toolJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(toolJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
       />
       <TrackView slug={tool.slug} />
       

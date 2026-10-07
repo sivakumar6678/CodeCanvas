@@ -31,11 +31,17 @@ create index if not exists analytics_events_user_idx on public.analytics_events(
 -- Enable Row Level Security
 alter table public.analytics_events enable row level security;
 
--- Anonymous and authenticated inserts allowed (non-blocking client/server telemetry)
+-- Analytics writes must run through the service role or admin-only paths.
 drop policy if exists "CodeCraft analytics events are insertable" on public.analytics_events;
 create policy "CodeCraft analytics events are insertable" on public.analytics_events
-    for insert
-    with check (true);
+    for insert to authenticated
+    with check (
+        exists (
+            select 1 from public.user_profiles
+            where user_profiles.id = auth.uid()
+              and user_profiles.role = 'admin'
+        )
+    );
 
 -- Only Studio Administrators can read all analytics events
 drop policy if exists "CodeCraft admin reads analytics events" on public.analytics_events;

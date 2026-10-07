@@ -84,7 +84,8 @@ const Brainstorming = () => {
   // Enhanced language detection with more languages
   const detectLanguage = (text) => {
     // Check for non-Latin characters
-    const hasNonLatin = /[^\u0000-\u007F]/.test(text);
+    const hasNonLatin = /[^\x20-\x7E]/.test(text);
+    if (!hasNonLatin) return 'en';
     
     // Check for specific language patterns
     if (/[\u4E00-\u9FFF]/.test(text)) return 'zh'; // Chinese
@@ -611,6 +612,27 @@ const Brainstorming = () => {
     setExportOptions(exportOptions);
   };
 
+  // Generate recommended tools based on project context
+  const generateRecommendedTools = (context) => {
+    const tools = [];
+    const tech = (context?.techStack || '').toLowerCase();
+    const type = (context?.projectType || '').toLowerCase();
+
+    if (tech.includes('react') || tech.includes('next') || type.includes('web')) {
+      tools.push({ name: 'v0 by Vercel', category: 'UI Generator', purpose: 'Rapid UI prototyping' });
+      tools.push({ name: 'Cursor', category: 'AI Code Assistant', purpose: 'AI-first code editing' });
+    }
+    if (tech.includes('ai') || tech.includes('python')) {
+      tools.push({ name: 'Claude Code', category: 'AI Assistant', purpose: 'Agentic coding & workflows' });
+      tools.push({ name: 'Hugging Face', category: 'Models & Datasets', purpose: 'Model hosting & inference' });
+    }
+    if (tools.length === 0) {
+      tools.push({ name: 'Cursor', category: 'AI Code Assistant', purpose: 'Full-stack AI development' });
+      tools.push({ name: 'Claude 3.5 Sonnet', category: 'LLM', purpose: 'Architecture and problem solving' });
+    }
+    return tools;
+  };
+
   // Generate timeline based on project complexity
   const generateTimeline = (context) => {
     const features = context.features?.length || 0;
@@ -832,7 +854,7 @@ const Brainstorming = () => {
             )}
             {correction && (
               <div className="correction-message">
-                <p>Did you mean: "{correction.corrected}"?</p>
+                <p>Did you mean: &quot;{correction.corrected}&quot;?</p>
                 <div className="correction-buttons">
                   <button onClick={() => handleCorrection(true)}>Yes</button>
                   <button onClick={() => handleCorrection(false)}>No</button>
