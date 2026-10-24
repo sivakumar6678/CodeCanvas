@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "predev": "rm -rf .next",
+    "predev": "node -e \"require('node:fs').rmSync('.next', { recursive: true, force: true })\"",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
