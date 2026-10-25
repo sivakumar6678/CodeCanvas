@@ -118,12 +118,27 @@
 }
 
 body {
+  min-width: 0;
+  overflow-x: hidden;
   font-family: var(--font-primary);
   background: var(--bg-app);
   color: var(--text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+img,
+video,
+canvas {
+  height: auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -146,6 +161,13 @@ button {
   background: none;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 // Container Utility
 .container {
   width: 100%;
@@ -157,6 +179,12 @@ button {
 @media (max-width: 768px) {
   .container {
     padding: 0 var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--space-sm);
   }
 }
 

@@ -41,30 +41,69 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  table-layout: fixed;
 
   th, td {
     padding: 20px 24px;
     border-bottom: 1px solid var(--border-subtle);
     vertical-align: top;
+    overflow: hidden;
   }
 
   tr:last-child td {
     border-bottom: none;
   }
+
+  @media (max-width: 768px) {
+    th, td { padding: 14px 16px; }
+  }
+
+  @media (max-width: 480px) {
+    th, td { padding: 10px 12px; }
+  }
 }
 
 .featureCol {
-  width: 220px;
+  width: 180px;
+  min-width: 140px;
+  max-width: 220px;
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-main);
   background: var(--bg-muted);
+
+  @media (max-width: 768px) {
+    width: 140px;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
 }
 
 .toolCol {
-  min-width: 280px;
+  min-width: 200px;
+  flex: 1;
   background: var(--bg-surface);
+
+  @media (max-width: 768px) {
+    min-width: 160px;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 140px;
+  }
+}
+
+.cellText {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-transform: capitalize;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .toolHeaderControl {
@@ -178,6 +217,9 @@
   color: var(--text-secondary);
   font-size: 0.95rem;
   background: var(--bg-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cellText {
@@ -185,6 +227,9 @@
   font-size: 0.95rem;
   line-height: 1.6;
   text-transform: capitalize;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 .cellList {

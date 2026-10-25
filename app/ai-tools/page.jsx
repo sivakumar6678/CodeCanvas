@@ -16,7 +16,7 @@ export const metadata = {
 export default async function AIToolsPage({ searchParams }) {
   const allTools = await getAllTools();
   const categories = await getCategories();
-  const featuredTools = await getFeaturedTools();
+  const featuredTools = await getFeaturedTools(allTools);
   const featuredSlugs = featuredTools.map((tool) => tool.slug);
   
   const searchParamsObj = await searchParams;

@@ -100,6 +100,7 @@ export default async function ProfilePage() {
       avatar_id: profile?.avatar_id || (profile?.avatar_url?.startsWith('avatar-') ? profile.avatar_url : ''),
       bio: profile?.bio || '',
       role: profile?.role || '',
+      primary_role: profile?.primary_role || '',
       experience_level: profile?.experience_level || '',
       interests: Array.isArray(profile?.interests) ? profile.interests : [],
       technologies: Array.isArray(profile?.technologies) ? profile.technologies : [],

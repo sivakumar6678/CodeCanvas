@@ -85,6 +85,7 @@
 }
 
 .pill {
+  min-height: 36px;
   padding: 6px 14px;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-medium);
@@ -145,6 +146,7 @@
 }
 
 .toolkitBtn {
+  min-height: 36px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -289,6 +291,28 @@
   }
 
   .toolkitBtn { order: 3; }
+}
+
+@media (max-width: 480px) {
+  .leftControls,
+  .rightControls {
+    gap: 8px;
+  }
+
+  .pricingPills {
+    width: 100%;
+  }
+
+  .pill {
+    flex: 1 1 44%;
+    justify-content: center;
+  }
+
+  .filterSelect,
+  .sortSelect {
+    flex: 1 1 100%;
+    max-width: none;
+  }
 }
 
 

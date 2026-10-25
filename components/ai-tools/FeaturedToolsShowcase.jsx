@@ -9,6 +9,7 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [hasMeasuredScroll, setHasMeasuredScroll] = useState(false);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -18,6 +19,7 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
       const maxScrollLeft = track.scrollWidth - track.clientWidth;
       setCanScrollLeft(track.scrollLeft > 0);
       setCanScrollRight(track.scrollLeft < maxScrollLeft - 1);
+      setHasMeasuredScroll(true);
     };
 
     updateScrollControls();
@@ -54,7 +56,7 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
           type="button"
           className={styles.control}
           onClick={() => scrollShowcase(-1)}
-          disabled={!canScrollLeft}
+          disabled={!hasMeasuredScroll || !canScrollLeft}
           aria-label="Scroll featured tools left"
           title="Scroll featured tools left"
         >
@@ -64,7 +66,7 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
           type="button"
           className={styles.control}
           onClick={() => scrollShowcase(1)}
-          disabled={!canScrollRight}
+          disabled={!hasMeasuredScroll || !canScrollRight}
           aria-label="Scroll featured tools right"
           title="Scroll featured tools right"
         >

@@ -92,6 +92,7 @@ export async function GET(request) {
         avatar_id: profile?.avatar_id || (isValidAvatarId(profile?.avatar_url) ? profile.avatar_url : ''),
         bio: profile?.bio || '',
         role: profile?.role || '',
+        primary_role: profile?.primary_role || '',
         experience_level: profile?.experience_level || '',
         interests: Array.isArray(profile?.interests) ? profile.interests : [],
         technologies: Array.isArray(profile?.technologies) ? profile.technologies : [],
@@ -137,6 +138,7 @@ export async function PUT(request) {
       avatar_id,
       avatarId,
       bio,
+      primary_role,
       // role is intentionally not destructured — users cannot self-set it (admin escalation vector)
       experience_level,
       interests,
@@ -162,6 +164,9 @@ export async function PUT(request) {
     const normalizedBio = bio !== undefined
       ? (typeof bio === 'string' ? bio.trim() : '')
       : (existingProfile?.bio || '');
+    const normalizedPrimaryRole = primary_role !== undefined
+      ? String(primary_role || '').trim().slice(0, 80)
+      : (existingProfile?.primary_role || '');
 
     // Allow 2-50 chars: letters, numbers, spaces, dots, dashes, underscores
     if (!/^[a-zA-Z0-9_.\- ]{2,50}$/.test(normalizedUsername)) {
@@ -204,6 +209,7 @@ export async function PUT(request) {
       avatar_url: normalizedAvatar,
       bio: normalizedBio,
       // role is intentionally omitted — preserves existing DB value, cannot be user-set
+      primary_role: normalizedPrimaryRole,
       experience_level: experienceVal,
       interests: interestsVal,
       technologies: technologiesVal,

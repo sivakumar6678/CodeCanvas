@@ -150,10 +150,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding-top: var(--space-md);
   border-top: 1px solid var(--border-subtle);
   margin-top: auto;
   gap: var(--space-sm);
+  row-gap: var(--space-xs);
 
   .detailsBtn {
     display: flex;

@@ -183,6 +183,39 @@ export async function resendConfirmation(formData) {
   }
 }
 
+export async function requestPasswordReset(formData) {
+  const email = formData.get('email')?.toString().trim();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '');
+
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+    return { error: 'Enter a valid email address.' };
+  }
+
+  if (!siteUrl) {
+    return { error: 'Password recovery is not configured. Please contact support.' };
+  }
+
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${siteUrl}/auth/callback?next=/reset-password`,
+    });
+    if (error) {
+      console.error('[auth] password-reset:request-rejected', {
+        code: error.code,
+        status: error.status,
+        message: error.message,
+      });
+      return { error: 'Unable to send a password reset link right now. Please try again.' };
+    }
+
+    return { success: 'If an account exists for that email, a password reset link has been sent.' };
+  } catch (error) {
+    console.error('[auth] password-reset:request-failed', { name: error?.name, message: error?.message });
+    return { error: 'Unable to send a password reset link right now. Please try again.' };
+  }
+}
+
 export async function logout() {
   const supabase = await createClient();
   try {

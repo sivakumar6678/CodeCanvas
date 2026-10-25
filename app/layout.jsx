@@ -2,11 +2,15 @@ import '../app/global.scss';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://codecraft.dev').replace(/\/$/, '');
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'CodeCanvas | Your AI & Developer Toolkit',
   description: 'Your AI & Developer Toolkit. Discover. Build. Learn with AI tools, developer utilities, and curated resources.',
   keywords: ['AI', 'Developer Tools', 'Code Generation', 'Design', 'Next.js'],
   openGraph: {
+    url: siteUrl,
     title: 'CodeCanvas | Your AI & Developer Toolkit',
     description: 'Discover. Build. Learn with AI tools, developer utilities, and curated resources.',
     type: 'website',

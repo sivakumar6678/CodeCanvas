@@ -1,7 +1,6 @@
 .container {
-  width: 100vw;
+  width: 100%;
   max-width: none;
-  margin-left: calc(50% - 50vw);
   padding: 40px clamp(16px, 2.5vw, 40px) 80px;
   color: var(--text-main);
   min-height: 100vh;
@@ -90,13 +89,13 @@
 
 .catalogLayout {
   display: grid;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
   align-items: start;
-  gap: 28px;
+  gap: 24px;
 }
 
 .catalogLayoutWithPagination {
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) 42px;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) 42px;
   gap: 20px;
 }
 
@@ -109,44 +108,39 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .emptyState {
   text-align: center;
-  padding: 80px 20px;
+  padding: 60px 20px;
   background: var(--bg-surface);
   border: 1px dashed var(--border-medium);
   border-radius: var(--radius-lg);
-  
+
   h3 {
     font-size: 1.35rem;
     margin-bottom: 10px;
     color: var(--text-main);
   }
-  
+
   p {
     color: var(--text-muted);
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .catalogLayout { grid-template-columns: 1fr; }
 
   .catalogLayoutWithPagination { grid-template-columns: 1fr; }
 
-  .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-}
-
-@media (max-width: 1200px) and (min-width: 901px) {
-  .catalogLayoutWithPagination {
-    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
-  }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 }
 
 @media (max-width: 560px) {
@@ -158,5 +152,11 @@
 
   .subtitle { font-size: 0.98rem; }
 
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+
+  .sectionHeader { align-items: flex-start; }
+}
+
+@media (max-width: 375px) {
   .grid { grid-template-columns: 1fr; gap: 16px; }
 }

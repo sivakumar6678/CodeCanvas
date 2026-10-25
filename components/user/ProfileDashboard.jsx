@@ -130,7 +130,7 @@ export default function ProfileDashboard({ initialData }) {
     avatar_url: user.avatar_url || user.avatar_id || '',
     avatar_id: user.avatar_id || user.avatar_url || '',
     bio: user.bio || '',
-    role: user.role || '',
+    role: user.primary_role || '',
     experience_level: user.experience_level || '',
   });
   const [saving, setSaving] = useState(false);
@@ -138,7 +138,7 @@ export default function ProfileDashboard({ initialData }) {
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Personalization Preferences State
-  const [prefRole, setPrefRole] = useState(user.role || '');
+  const [prefRole, setPrefRole] = useState(user.primary_role || '');
   const [prefExp, setPrefExp] = useState(user.experience_level || '');
   const [prefInterests, setPrefInterests] = useState(user.interests || []);
   const [prefTech, setPrefTech] = useState(user.technologies || []);
@@ -269,7 +269,7 @@ export default function ProfileDashboard({ initialData }) {
       avatar_url: user.avatar_url || user.avatar_id || '',
       avatar_id: user.avatar_id || user.avatar_url || '',
       bio: user.bio || '',
-      role: user.role || '',
+      role: user.primary_role || '',
       experience_level: user.experience_level || '',
     });
     setSaveError(null);
@@ -314,7 +314,7 @@ export default function ProfileDashboard({ initialData }) {
           avatar_url: formData.avatar_url,
           avatar_id: formData.avatar_id || formData.avatar_url,
           bio: formData.bio,
-          role: formData.role,
+          primary_role: formData.role,
           experience_level: formData.experience_level,
         }),
       });
@@ -323,7 +323,7 @@ export default function ProfileDashboard({ initialData }) {
 
       if (res.ok && data.profile) {
         setUser((prev) => ({ ...prev, ...data.profile }));
-        if (data.profile.role !== undefined) setPrefRole(data.profile.role);
+        if (data.profile.primary_role !== undefined) setPrefRole(data.profile.primary_role);
         if (data.profile.experience_level !== undefined) setPrefExp(data.profile.experience_level);
         setSaveSuccess(true);
         router.refresh();
@@ -377,7 +377,7 @@ export default function ProfileDashboard({ initialData }) {
         method: 'PUT',
         headers,
         body: JSON.stringify({
-          role: prefRole,
+          primary_role: prefRole,
           experience_level: prefExp,
           interests: prefInterests,
           technologies: prefTech,
@@ -441,7 +441,7 @@ export default function ProfileDashboard({ initialData }) {
               <div className={styles.titleLine}>
                 <h1 className={styles.displayName}>{user.username}</h1>
                 <span className={styles.roleTag}>
-                  <FiAward /> {user.role || 'Member'}
+                  <FiAward /> {user.primary_role || 'Member'}
                 </span>
               </div>
 
@@ -811,7 +811,7 @@ export default function ProfileDashboard({ initialData }) {
                 <div>
                   <h2 className={styles.sectionTitle}>Personalized AI Recommendations</h2>
                   <p className={styles.sectionDescription}>
-                    Tailored tools matched dynamically to your role (<strong>{user.role || 'Developer'}</strong>), experience (<strong>{user.experience_level || 'Intermediate'}</strong>), and active stack focus.
+                    Tailored tools matched dynamically to your role (<strong>{user.primary_role || 'Developer'}</strong>), experience (<strong>{user.experience_level || 'Intermediate'}</strong>), and active stack focus.
                   </p>
                 </div>
                 <Link href="/build-toolkit" className={styles.toolkitBuilderBtn}>

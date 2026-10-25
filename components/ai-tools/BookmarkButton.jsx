@@ -5,21 +5,30 @@ import { FiBookmark } from 'react-icons/fi';
 import { FaBookmark } from 'react-icons/fa';
 import styles from './BookmarkButton.module.scss';
 import { usePathname, useRouter } from 'next/navigation';
+import { createClient } from '../../lib/supabase/client';
 
 let bookmarksCachePromise = null;
 let cachedBookmarks = null;
+let cachedBookmarksUserId = null;
 
 export function invalidateBookmarksCache() {
   bookmarksCachePromise = null;
   cachedBookmarks = null;
+  cachedBookmarksUserId = null;
 }
 
-async function fetchUserBookmarks() {
-  if (cachedBookmarks !== null) {
+async function fetchUserBookmarks(session) {
+  const userId = session?.user?.id || null;
+  if (!userId) return [];
+
+  if (cachedBookmarks !== null && cachedBookmarksUserId === userId) {
     return cachedBookmarks;
   }
-  if (!bookmarksCachePromise) {
-    bookmarksCachePromise = fetch('/api/user/bookmarks')
+  if (!bookmarksCachePromise || cachedBookmarksUserId !== userId) {
+    cachedBookmarksUserId = userId;
+    bookmarksCachePromise = fetch('/api/user/bookmarks', {
+      headers: session.access_token ? { Authorization: `Bearer ${session.access_token}` } : {},
+    })
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         cachedBookmarks = Array.isArray(data) ? data : [];
@@ -42,10 +51,11 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
   const [error, setError] = useState('');
   const router = useRouter();
   const pathname = usePathname();
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
     let isMounted = true;
-    fetchUserBookmarks().then((bookmarks) => {
+    supabase.auth.getSession().then(({ data: { session } }) => fetchUserBookmarks(session)).then((bookmarks) => {
       if (isMounted) {
         setIsSaved(bookmarks.some((b) => b.tool_slug === slug));
         setLoading(false);
@@ -55,7 +65,7 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
     return () => {
       isMounted = false;
     };
-  }, [slug]);
+  }, [slug, supabase]);
 
   const toggleBookmark = async () => {
     if (isUpdating) return;
@@ -65,12 +75,16 @@ export default function BookmarkButton({ slug, showLabel = false, className = ''
     const action = previousSavedState ? 'remove' : 'save';
     setPendingAction(action);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
       // Optimistic UI update
       setIsSaved(!previousSavedState);
 
       const res = await fetch('/api/user/bookmarks', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({ tool_slug: slug, action })
       });
 

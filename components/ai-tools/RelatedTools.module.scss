@@ -26,3 +26,15 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
 }
+
+@media (max-width: 560px) {
+  .section {
+    margin-top: 52px;
+    padding-top: 40px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

@@ -75,6 +75,17 @@
   text-decoration: underline;
 }
 
+.forgotPasswordLink {
+  display: block;
+  width: fit-content;
+  margin: 14px auto 0;
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .form {
   display: flex;
   flex-direction: column;

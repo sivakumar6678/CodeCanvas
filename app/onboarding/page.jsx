@@ -115,7 +115,7 @@ export default function OnboardingPage() {
         if (res.ok) {
           const { user: profile } = await res.json();
           if (profile.avatar_id || profile.avatar_url) setAvatarId(profile.avatar_id || profile.avatar_url);
-          if (profile.role) setRole(profile.role);
+          if (profile.primary_role) setRole(profile.primary_role);
           if (profile.experience_level) setExperienceLevel(profile.experience_level);
           if (profile.interests?.length) setSelectedInterests(profile.interests);
           if (profile.technologies?.length) setSelectedTechnologies(profile.technologies);
@@ -159,7 +159,7 @@ export default function OnboardingPage() {
         : {
             avatar_id: avatarId || undefined,
             avatar_url: avatarId || undefined,
-            role,
+            primary_role: role,
             experience_level: experienceLevel,
             interests: selectedInterests,
             technologies: selectedTechnologies,

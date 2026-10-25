@@ -14,6 +14,7 @@ create table if not exists public.user_profiles (
     avatar_id text,
     bio text,
     role text,
+    primary_role text,
     experience_level text,
     interests text[] default '{}'::text[],
     technologies text[] default '{}'::text[],
@@ -29,6 +30,7 @@ alter table public.user_profiles add column if not exists avatar_url text;
 alter table public.user_profiles add column if not exists avatar_id text;
 alter table public.user_profiles add column if not exists bio text;
 alter table public.user_profiles add column if not exists role text;
+alter table public.user_profiles add column if not exists primary_role text;
 alter table public.user_profiles add column if not exists experience_level text;
 alter table public.user_profiles add column if not exists interests text[] default '{}'::text[];
 alter table public.user_profiles add column if not exists technologies text[] default '{}'::text[];

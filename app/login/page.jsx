@@ -6,6 +6,7 @@ import { resendConfirmation } from './actions';
 import { createClient } from '../../lib/supabase/client';
 import { isSafeRedirectPath } from '../../lib/auth/access';
 import { FiLock, FiMail } from 'react-icons/fi';
+import Link from 'next/link';
 import styles from './page.module.scss';
 
 export default function LoginPage() {
@@ -64,7 +65,31 @@ export default function LoginPage() {
       } else {
         const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
         const safeDestination = (nextPath && isSafeRedirectPath(nextPath)) ? nextPath : '/profile';
-        result = loginError ? { error: loginError.message } : { success: 'Signed in successfully.', redirectTo: safeDestination };
+        if (loginError) {
+          result = { error: loginError.message };
+        } else {
+          // Sign-in is intentionally performed by the browser client so its session
+          // and the shared navigation update immediately. Ensure a profile exists
+          // before visiting profile-dependent routes; the API only ever upserts the
+          // authenticated user's own record.
+          try {
+            const profileResponse = await fetch('/api/user/profile', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({}),
+            });
+
+            if (!profileResponse.ok) {
+              console.warn('[auth] login:profile-provisioning-unavailable', {
+                status: profileResponse.status,
+              });
+            }
+          } catch (profileError) {
+            console.warn('[auth] login:profile-provisioning-failed', profileError);
+          }
+
+          result = { success: 'Signed in successfully.', redirectTo: safeDestination };
+        }
       }
     } catch (submitError) {
       console.error('Authentication form failed:', submitError);
@@ -80,6 +105,7 @@ export default function LoginPage() {
       if (result.redirectTo) {
         setIsRedirecting(true);
         router.replace(result.redirectTo);
+        router.refresh();
       } else {
         setConfirmationEmail(submittedEmail);
         setLoading(false);
@@ -147,6 +173,11 @@ export default function LoginPage() {
             {isRedirecting ? 'Redirecting...' : loading ? (isSignup ? 'Creating account...' : 'Signing in...') : (isSignup ? 'Create Account' : 'Sign In')}
           </button>
         </form>
+        {!isSignup && (
+          <Link href="/forgot-password" className={styles.forgotPasswordLink}>
+            Forgot your password?
+          </Link>
+        )}
         <button type="button" className={styles.toggleModeBtn} onClick={() => { setIsSignup(!isSignup); setError(null); setMessage(null); }}>
           {isSignup ? 'Already have an account? Sign in' : 'Need an account? Create one'}
         </button>

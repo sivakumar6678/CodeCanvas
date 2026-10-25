@@ -7,11 +7,31 @@ export const dynamic = 'force-dynamic';
 
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+async function resolveAuthenticatedUser(supabase, request) {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) return user;
+  } catch {
+    // Fall back to the browser session token below.
+  }
+
+  const authorization = request.headers.get('authorization');
+  if (authorization?.startsWith('Bearer ')) {
+    const token = authorization.slice('Bearer '.length).trim();
+    if (token) {
+      const { data: { user } } = await supabase.auth.getUser(token);
+      if (user) return user;
+    }
+  }
+
+  return null;
+}
+
 export async function GET(request) {
   const supabase = await createClient();
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await resolveAuthenticatedUser(supabase, request);
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -47,7 +67,7 @@ export async function POST(request) {
   const supabase = await createClient();
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = await resolveAuthenticatedUser(supabase, request);
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
