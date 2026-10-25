@@ -180,3 +180,29 @@
   }
 }
 
+@media (max-width: 480px) {
+  .customizerSection {
+    padding: 14px;
+  }
+
+  .fieldsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionBtns {
+    flex-direction: column;
+
+    .primaryCopyBtn,
+    .secondaryCopyBtn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .codeView {
+    padding: 14px;
+    font-size: 0.82rem;
+  }
+}
+
+

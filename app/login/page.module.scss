@@ -186,3 +186,23 @@
     cursor: not-allowed;
   }
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 12px;
+  }
+
+  .loginBox {
+    padding: 24px 18px;
+    border-radius: var(--radius-lg);
+  }
+
+  .header {
+    margin-bottom: 24px;
+
+    h2 {
+      font-size: 1.65rem;
+    }
+  }
+}
+

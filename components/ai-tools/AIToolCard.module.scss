@@ -200,3 +200,27 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .card {
+    padding: var(--space-md);
+  }
+
+  .logoContainer {
+    width: 48px;
+    height: 48px;
+  }
+
+  .cardFooter {
+    .websiteBtn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .detailsBtn {
+      font-size: 0.8rem;
+    }
+  }
+}
+

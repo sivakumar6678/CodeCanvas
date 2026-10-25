@@ -90,7 +90,7 @@
   background: var(--bg-surface);
   color: var(--text-main);
   font-size: 0.88rem;
-  min-width: 220px;
+  min-width: min(220px, 100%);
   outline: none;
   transition: all 0.2s ease;
 

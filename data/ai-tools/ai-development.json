@@ -274,60 +274,6 @@
     "status": "active"
   },
   {
-    "id": "claude-code",
-    "name": "Claude Code",
-    "slug": "claude-code",
-    "category": "ai-development",
-    "subCategory": "terminal-cli-agents",
-    "description": "Anthropic's AI coding agent, included with Claude subscriptions for terminal-based development.",
-    "fullOverview": "Claude Code is Anthropic's terminal-based AI coding agent, included with Claude Pro ($20/mo), Max 5x ($100/mo), and Max 20x ($200/mo) subscriptions. Features agentic workflows, multi-session parallelism, and team capabilities.",
-    "website": "https://claude.ai",
-    "logoImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqbvbRghexC3HjKB-d3J73bbMR4tUVJTdRbrtHK4aD_zJOaqEQmN5JbQk&s=10",
-    "bannerImageUrl": "https://www.searchyour.ai/archivos/claude-code-ai-logo.jpg",
-    "keyFeatures": [
-      "Terminal-based agent",
-      "Agentic workflows",
-      "Multi-session parallelism",
-      "Team capabilities"
-    ],
-    "pros": [
-      "Included with Claude subscription",
-      "Terminal-native",
-      "Strong reasoning"
-    ],
-    "cons": [
-      "Requires Claude subscription",
-      "Terminal-only"
-    ],
-    "pricingModel": "Freemium",
-    "platforms": [
-      "Terminal",
-      "CLI"
-    ],
-    "tags": [
-      "coding",
-      "claude",
-      "agent",
-      "terminal"
-    ],
-    "useCases": [
-      "Terminal-based development",
-      "Automated coding",
-      "Agentic workflows"
-    ],
-    "bestFor": [
-      "Developers",
-      "Power users",
-      "Teams"
-    ],
-    "featured": false,
-    "new": false,
-    "verified": true,
-    "hasFree": false,
-    "createdDate": "2026-08-29T00:00:00.000Z",
-    "status": "active"
-  },
-  {
     "id": "cursor",
     "name": "Cursor",
     "slug": "cursor",
@@ -602,62 +548,6 @@
     ],
     "featured": false,
     "new": true,
-    "verified": true,
-    "hasFree": false,
-    "createdDate": "2026-08-29T00:00:00.000Z"
-  },
-  {
-    "id": "codex",
-    "name": "OpenAI Codex",
-    "slug": "openai-codex",
-    "category": "ai-development",
-    "subCategory": "coding-agents",
-    "description": "OpenAI's coding agent integrated into ChatGPT, available across all subscription tiers.",
-    "fullOverview": "Codex is OpenAI's AI coding agent, integrated into ChatGPT across Free, Go, Plus, Pro, Business, and Enterprise plans. Features CLI access, file uploads, and supports GPT-5.4 Pro with usage-based pricing.",
-    "website": "https://chatgpt.com",
-    "logoImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
-    "bannerImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg",
-    "keyFeatures": [
-      "Integrated in ChatGPT",
-      "CLI access",
-      "File uploads",
-      "GPT-5.4 Pro",
-      "Usage-based pricing"
-    ],
-    "pros": [
-      "Seamless ChatGPT integration",
-      "Multiple pricing tiers",
-      "CLI access"
-    ],
-    "cons": [
-      "Requires ChatGPT subscription",
-      "Higher tiers expensive"
-    ],
-    "pricingModel": "Freemium",
-    "platforms": [
-      "Web",
-      "CLI",
-      "API"
-    ],
-    "tags": [
-      "coding",
-      "openai",
-      "agent",
-      "developer-tools"
-    ],
-    "useCases": [
-      "Software development",
-      "Code generation",
-      "Debugging",
-      "Learning"
-    ],
-    "bestFor": [
-      "Developers",
-      "ChatGPT users",
-      "Teams"
-    ],
-    "featured": false,
-    "new": false,
     "verified": true,
     "hasFree": false,
     "createdDate": "2026-08-29T00:00:00.000Z"

@@ -85,3 +85,9 @@
     flex-basis: min(84vw, 330px);
   }
 }
+
+@media (max-width: 375px) {
+  .card {
+    flex-basis: min(90vw, 300px);
+  }
+}

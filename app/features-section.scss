@@ -163,6 +163,23 @@
   }
 }
 
+@media (max-width: 768px) {
+  .features-section {
+    padding: 4rem 0;
+
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .section-header {
+      h2 {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
 @media (max-width: 640px) {
   .features-section {
     padding: 4rem 0;

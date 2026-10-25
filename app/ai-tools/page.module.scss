@@ -141,6 +141,8 @@
   .catalogLayoutWithPagination { grid-template-columns: 1fr; }
 
   .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+  .title { font-size: 2.4rem; }
 }
 
 @media (max-width: 560px) {

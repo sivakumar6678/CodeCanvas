@@ -30,3 +30,33 @@
   line-height: 1.6;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 16px 64px;
+  }
+
+  .header {
+    padding: 28px 16px;
+    margin-bottom: 32px;
+  }
+
+  .title {
+    font-size: 1.85rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px 12px 48px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+

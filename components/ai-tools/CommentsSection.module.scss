@@ -275,3 +275,63 @@
   text-align: center;
   padding: 32px;
 }
+
+@media (max-width: 640px) {
+  .container {
+    margin-top: 40px;
+    padding-top: 40px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .postForm {
+    padding: 16px;
+  }
+
+  .postForm .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .commentCard {
+    padding: 14px;
+  }
+
+  .commentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .replyCard {
+    margin-left: 12px;
+    gap: 8px;
+  }
+
+  .replyIcon {
+    margin-top: 14px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .replyCard {
+    margin-left: 6px;
+  }
+
+  .replyActions {
+    flex-direction: column;
+
+    .cancelBtn,
+    .submitBtn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+  }
+}
+

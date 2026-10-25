@@ -4,3 +4,4 @@
 .intro h1 { font-size: clamp(2.2rem, 5vw, 4rem); margin: 10px 0 14px; }
 .intro p { color: var(--text-secondary); font-size: 1.08rem; }
 @media (max-width: 640px) { .page { padding: 96px 16px 48px; } }
+@media (max-width: 480px) { .page { padding: 76px 12px 36px; } }

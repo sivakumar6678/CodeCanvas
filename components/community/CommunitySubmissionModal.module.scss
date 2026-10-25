@@ -171,8 +171,22 @@
 }
 
 @media (max-width: 540px) {
+  .overlay {
+    padding: 12px;
+  }
+
+  .modal {
+    padding: 18px 14px;
+    max-height: 94vh;
+  }
+
   .formRow {
     grid-template-columns: 1fr;
+  }
+
+  .kindSelector {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
 

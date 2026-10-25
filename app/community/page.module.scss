@@ -257,3 +257,79 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .heroSection {
+    margin-bottom: var(--space-2xl);
+
+    .title {
+      font-size: 2.1rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .statsSection {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .discussionsSection {
+    margin-bottom: var(--space-2xl);
+
+    .sectionHeader h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  .ctaCard {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .heroSection {
+    .title {
+      font-size: 1.75rem;
+    }
+
+    .heroActions {
+      flex-direction: column;
+
+      .primaryBtn,
+      .secondaryBtn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  .statsSection .statsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .discussionsSection .discussionsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .ctaCard {
+    padding: var(--space-lg) var(--space-sm);
+
+    .ctaBtn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+

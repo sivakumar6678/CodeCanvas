@@ -639,5 +639,39 @@
     .hero {
       padding: 100px 0 60px;
     }
+
+    .hero-visual {
+      max-width: 300px;
+    }
+
+    .visual-card.code-card {
+      width: 200px;
+    }
+
+    .visual-card.color-card {
+      width: 155px;
+    }
+
+    .visual-card.gradient-card {
+      width: 175px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .hero-visual {
+      max-width: 260px;
+    }
+
+    .visual-card.code-card {
+      width: 170px;
+    }
+
+    .visual-card.color-card {
+      width: 130px;
+    }
+
+    .visual-card.gradient-card {
+      width: 150px;
+    }
   }
 }

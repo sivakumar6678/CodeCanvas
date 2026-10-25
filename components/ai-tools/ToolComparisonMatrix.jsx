@@ -66,6 +66,10 @@ export default function ToolComparisonMatrix({ allTools = [], initialSlugs = ['c
         )}
       </div>
 
+      <div className={styles.scrollHint} aria-hidden="true">
+        <span>↔ Scroll horizontally to compare</span>
+      </div>
+
       <div className={styles.tableContainer}>
         <table className={styles.matrixTable}>
           <thead>

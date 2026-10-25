@@ -216,7 +216,7 @@
 
 .searchInput {
   flex: 1;
-  min-width: 240px;
+  min-width: min(240px, 100%);
   display: flex;
   align-items: center;
   background: var(--bg-muted);

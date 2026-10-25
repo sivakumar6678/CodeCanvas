@@ -1,5 +1,5 @@
 .container {
-  max-width: 1200px;
+  max-width: var(--container-max-width, 1200px);
   margin: 0 auto;
   padding: var(--space-2xl) var(--space-lg);
   min-height: 80vh;
@@ -55,3 +55,33 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emptyState {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
+
