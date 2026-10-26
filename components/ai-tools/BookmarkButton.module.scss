@@ -47,6 +47,11 @@
     }
   }
 
+  &.withLabel {
+    padding: 0 1rem;
+    gap: 0.6rem;
+  }
+
   &.loading {
     animation: pulse 1.5s infinite;
     cursor: default;

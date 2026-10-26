@@ -7,6 +7,7 @@ import { createClient } from '../../lib/supabase/client';
 import { isSafeRedirectPath } from '../../lib/auth/access';
 import { FiLock, FiMail } from 'react-icons/fi';
 import Link from 'next/link';
+import BrandLogo from '../../components/ui/BrandLogo';
 import styles from './page.module.scss';
 
 export default function LoginPage() {
@@ -130,6 +131,9 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <div className={styles.loginBox}>
+        <div className={styles.logoRow}>
+          <BrandLogo size="lg" />
+        </div>
         <div className={styles.header}>
           <h2>{isSignup ? 'Create Your Account' : 'Welcome Back'}</h2>
           <p>{isSignup ? 'Create a CodeCanvas profile to save tools and participate in the community.' : 'Sign in to access your profile, saved tools, and any permitted workspace areas.'}</p>

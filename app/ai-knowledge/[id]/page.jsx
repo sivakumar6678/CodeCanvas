@@ -24,7 +24,7 @@ async function fetchKnowledgeItem(id) {
         .maybeSingle();
       item = data;
     }
-  } catch (e) {
+  } catch {
     // Supabase unavailable or table empty
   }
 
@@ -93,7 +93,7 @@ export default async function KnowledgeDetailPage({ params }) {
           <span className={styles.current}>{item.title}</span>
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className={styles.topBarActions}>
           <Link href="/ai-knowledge" className={styles.back}>
             <FiArrowLeft /> Back to AI Knowledge
           </Link>

@@ -17,6 +17,12 @@
   box-shadow: var(--shadow-lg);
 }
 
+.logoRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
 .header {
   text-align: center;
   margin-bottom: 32px;

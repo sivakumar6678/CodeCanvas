@@ -33,6 +33,8 @@ dist-ssr
 
 .next/*
 .next
+.claude/
+.claude
 
 # Qoder agent files
 .qoder

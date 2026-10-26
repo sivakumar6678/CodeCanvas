@@ -1,0 +1,131 @@
+.brandLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    opacity: 0.95;
+  }
+}
+
+.logoMarkWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.logoImage {
+  object-fit: contain;
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+.brandText {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.brandName {
+  font-family: var(--font-display, inherit);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.accent {
+  color: var(--primary);
+  font-weight: 900;
+}
+
+.brandSubtitle {
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light, rgba(59, 130, 246, 0.12));
+  padding: 2px 7px;
+  border-radius: var(--radius-xs, 4px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+/* Sizing Modifiers */
+.sizeSm {
+  gap: 8px;
+
+  .logoImage {
+    max-width: 28px;
+    max-height: 28px;
+  }
+
+  .brandName {
+    font-size: 1.15rem;
+  }
+}
+
+.sizeMd {
+  gap: 10px;
+
+  .logoImage {
+    max-width: 36px;
+    max-height: 36px;
+  }
+
+  .brandName {
+    font-size: 1.3rem;
+  }
+}
+
+.sizeLg {
+  gap: 12px;
+
+  .logoImage {
+    max-width: 48px;
+    max-height: 48px;
+  }
+
+  .brandName {
+    font-size: 1.55rem;
+  }
+}
+
+.sizeXl {
+  gap: 14px;
+
+  .logoImage {
+    max-width: 64px;
+    max-height: 64px;
+  }
+
+  .brandName {
+    font-size: 1.9rem;
+  }
+}
+
+.sizeFull {
+  display: flex;
+  width: 100%;
+  max-width: 420px;
+  justify-content: center;
+
+  .logoMarkWrapper {
+    width: 100%;
+  }
+
+  .logoImage {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+  }
+}

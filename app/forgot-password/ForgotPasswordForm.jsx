@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { FiMail } from 'react-icons/fi';
 import { requestPasswordReset } from '../login/actions';
+import BrandLogo from '../../components/ui/BrandLogo';
 import styles from '../login/page.module.scss';
 
 export default function ForgotPasswordForm() {
@@ -31,6 +32,9 @@ export default function ForgotPasswordForm() {
   return (
     <div className={styles.container}>
       <div className={styles.loginBox}>
+        <div className={styles.logoRow}>
+          <BrandLogo size="lg" />
+        </div>
         <div className={styles.header}>
           <h2>Reset your password</h2>
           <p>Enter your account email and we&apos;ll send a secure reset link.</p>

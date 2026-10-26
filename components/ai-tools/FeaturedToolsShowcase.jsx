@@ -56,7 +56,8 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
           type="button"
           className={styles.control}
           onClick={() => scrollShowcase(-1)}
-          disabled={!hasMeasuredScroll || !canScrollLeft}
+          disabled={Boolean(!hasMeasuredScroll || !canScrollLeft)}
+          suppressHydrationWarning
           aria-label="Scroll featured tools left"
           title="Scroll featured tools left"
         >
@@ -66,7 +67,8 @@ export default function FeaturedToolsShowcase({ tools = [], featuredSlugs = [] }
           type="button"
           className={styles.control}
           onClick={() => scrollShowcase(1)}
-          disabled={!hasMeasuredScroll || !canScrollRight}
+          disabled={Boolean(!hasMeasuredScroll || !canScrollRight)}
+          suppressHydrationWarning
           aria-label="Scroll featured tools right"
           title="Scroll featured tools right"
         >

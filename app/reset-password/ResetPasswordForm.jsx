@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiLock } from 'react-icons/fi';
 import { createClient } from '../../lib/supabase/client';
+import BrandLogo from '../../components/ui/BrandLogo';
 import styles from '../login/page.module.scss';
 
 export default function ResetPasswordForm() {
@@ -74,6 +75,9 @@ export default function ResetPasswordForm() {
   return (
     <div className={styles.container}>
       <div className={styles.loginBox}>
+        <div className={styles.logoRow}>
+          <BrandLogo size="lg" />
+        </div>
         <div className={styles.header}>
           <h2>Choose a new password</h2>
           <p>Use at least 8 characters.</p>

@@ -1,14 +1,17 @@
 .container {
   display: grid;
   gap: 20px;
+  width: 100%;
+  min-width: 0;
 }
 
 .customizerSection {
   background: var(--bg-surface);
   border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: 20px;
   box-shadow: var(--shadow-xs);
+  min-width: 0;
 }
 
 .customizerHeader {
@@ -16,6 +19,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .titleRow {
@@ -24,7 +29,8 @@
   gap: 8px;
 
   h3 {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    font-weight: 700;
     color: var(--text-main);
     margin: 0;
   }
@@ -39,6 +45,7 @@
   color: var(--text-secondary);
   font-size: 0.86rem;
   margin: 0 0 16px;
+  line-height: 1.5;
 }
 
 .resetBtn {
@@ -51,32 +58,41 @@
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
-}
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
 
-.resetBtn:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .fieldsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  width: 100%;
 }
 
 .fieldLabel {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 6px;
+  min-width: 0;
 
   span {
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   input {
     width: 100%;
+    min-height: 40px;
     padding: 8px 12px;
     background: var(--bg-muted);
     border: 1px solid var(--border-medium);
@@ -84,7 +100,8 @@
     color: var(--text-main);
     font-size: 0.88rem;
     outline: none;
-    transition: border-color 0.15s ease;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease;
 
     &:focus {
       border-color: var(--primary);
@@ -96,8 +113,11 @@
 .previewBox {
   background: var(--bg-muted);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .boxHeader {
@@ -110,34 +130,42 @@
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-secondary);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .actionBtns {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .primaryCopyBtn,
 .secondaryCopyBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  min-height: 38px;
   padding: 8px 14px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .primaryCopyBtn {
   background: var(--primary);
   color: #fff;
   border: 1px solid var(--primary);
+  box-shadow: var(--shadow-xs);
 
   &:hover {
-    filter: brightness(1.1);
+    background: var(--primary-hover, #2563eb);
+    transform: translateY(-1px);
   }
 }
 
@@ -158,51 +186,58 @@
 .codeView {
   padding: 20px;
   margin: 0;
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--text-main);
   white-space: pre-wrap;
   word-break: break-word;
-  max-height: 450px;
+  overflow-wrap: anywhere;
+  max-height: 480px;
   overflow-y: auto;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .customizerSection {
+    padding: 16px;
+  }
+
   .boxHeader {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
   }
+
   .actionBtns {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
+  }
+
+  .codeView {
+    padding: 16px;
+    font-size: 0.85rem;
   }
 }
 
 @media (max-width: 480px) {
-  .customizerSection {
-    padding: 14px;
-  }
-
   .fieldsGrid {
     grid-template-columns: 1fr;
   }
 
   .actionBtns {
     flex-direction: column;
+    width: 100%;
 
     .primaryCopyBtn,
     .secondaryCopyBtn {
       width: 100%;
-      justify-content: center;
     }
   }
 
   .codeView {
-    padding: 14px;
+    padding: 14px 12px;
     font-size: 0.82rem;
   }
 }
-
-

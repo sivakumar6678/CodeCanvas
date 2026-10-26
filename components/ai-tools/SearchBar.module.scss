@@ -24,6 +24,7 @@
 
 .searchInput {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
   color: var(--text-main);
@@ -42,6 +43,8 @@
   color: var(--text-muted);
   cursor: pointer;
   padding: 8px;
+  min-width: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +59,8 @@
   background: var(--primary);
   color: var(--text-inverse);
   border: none;
-  padding: 10px 20px;
+  min-height: 44px;
+  padding: 10px 16px;
   border-radius: var(--radius-sm);
   font-weight: 600;
   cursor: pointer;

@@ -3,19 +3,20 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
-import { 
-  FaBars, 
-  FaTimes, 
-  FaHome, 
-  FaTools, 
+import {
+  FaBars,
+  FaTimes,
+  FaHome,
+  FaTools,
   FaSlidersH,
-  FaLightbulb, 
-  FaInfoCircle, 
-  FaUser, 
+  FaLightbulb,
+  FaInfoCircle,
+  FaUser,
   FaUsers,
-  FaSignOutAlt, 
-  FaSignInAlt 
+  FaSignOutAlt,
+  FaSignInAlt
 } from 'react-icons/fa';
+import BrandLogo from './ui/BrandLogo';
 import { createClient } from '../lib/supabase/client';
 import '../app/navbar.scss';
 
@@ -40,7 +41,7 @@ const Navbar = () => {
     };
 
     const handleResize = () => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > 1100) {
         setIsOpen(false);
       }
     };
@@ -131,11 +132,9 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${isOpen ? 'nav-open' : ''}`}>
       <div className="nav-container">
-        <Link href="/" className="nav-logo">
-          Code<span>Canvas</span>
-        </Link>
+        <BrandLogo size="sm" priority onClick={() => setIsOpen(false)} />
 
-        <button 
+        <button
           className="nav-toggle" 
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle navigation"

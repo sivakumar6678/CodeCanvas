@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import BrandLogo from './ui/BrandLogo';
 import '../app/footer.scss';
 
 const Footer = () => {
@@ -32,7 +33,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>CodeCanvas</h3>
+            <BrandLogo size="md" href="/" />
             <p>Your AI &amp; Developer Toolkit. Discover. Build. Learn.</p>
           </div>
           

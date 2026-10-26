@@ -50,6 +50,8 @@ $transition:     all 0.22s ease;
 .tools {
   min-height: 100vh;
   background: $bg-page;
+  box-sizing: border-box;
+  overflow-x: hidden;
   // IMPORTANT: no overflow: hidden here — sticky needs free overflow flow
 }
 
@@ -64,6 +66,7 @@ $transition:     all 0.22s ease;
   position: relative;
   z-index: 1;
   border-bottom: 1px solid var(--border-subtle);
+  box-sizing: border-box;
 
   @media (max-width: 768px) { padding: 2.5rem 1.5rem 2.5rem; }
   @media (max-width: 480px) { padding: 2rem 1rem 2rem; }
@@ -86,6 +89,7 @@ $transition:     all 0.22s ease;
     color: var(--text-main);
     font-family: var(--font-display);
     margin: 0 0 0.5rem;
+    word-break: break-word;
 
     @media (max-width: 768px) { font-size: 2rem; }
     @media (max-width: 480px) { font-size: 1.75rem; }
@@ -153,12 +157,14 @@ $transition:     all 0.22s ease;
   width: 100%;
   padding: 2.5rem 1rem 4rem;
   position: relative;  // for mobile overlay
+  box-sizing: border-box;
+  min-width: 0;
 
   @media (min-width: 640px)  { padding: 2.5rem 1.5rem 4rem; }
   @media (min-width: 1024px) { padding: 2.5rem 2.5rem 4rem; }
   @media (min-width: 1280px) { padding: 2.5rem 4rem 4rem; }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     flex-direction: column;
     gap: 1.25rem;
     padding: 1.5rem 1rem 3rem;
@@ -193,8 +199,8 @@ $transition:     all 0.22s ease;
   &::-webkit-scrollbar-track   { background: transparent; }
   &::-webkit-scrollbar-thumb   { background: $primary; border-radius: 4px; }
 
-  // Mobile: hidden by default, drawer on open
-  @media (max-width: 768px) {
+  // Mobile/Tablet: drawer on open
+  @media (max-width: 900px) {
     position: fixed;
     top: 0;
     left: -100%;
@@ -208,6 +214,7 @@ $transition:     all 0.22s ease;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 1.25rem;
     overflow-y: auto;
+    box-sizing: border-box;
 
     &.mobile-open {
       left: 0;
@@ -219,7 +226,7 @@ $transition:     all 0.22s ease;
 .mobile-sidebar-overlay {
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: block;
     position: fixed;
     inset: 0;
@@ -237,6 +244,7 @@ $transition:     all 0.22s ease;
   box-shadow: $shadow-card;
   border: 1px solid rgba(102, 126, 234, 0.12);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  box-sizing: border-box;
 
   &:hover {
     box-shadow: $shadow-hover;
@@ -244,7 +252,7 @@ $transition:     all 0.22s ease;
   }
 
   // On mobile, sidebar-card is just a flat container (sidebar itself is the card)
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     background: transparent;
     border: none;
     box-shadow: none;
@@ -297,7 +305,7 @@ $transition:     all 0.22s ease;
 
   &:hover { color: $gray-800; background: $gray-100; }
 
-  @media (max-width: 768px) { display: flex; align-items: center; }
+  @media (max-width: 900px) { display: flex; align-items: center; }
 }
 
 // ── Sidebar flat items (All Categories + orphans) ──
@@ -316,6 +324,7 @@ $transition:     all 0.22s ease;
   transition: $transition;
   text-align: left;
   margin-bottom: 2px;
+  box-sizing: border-box;
 
   &:hover {
     background: $gray-50;
@@ -365,6 +374,7 @@ $transition:     all 0.22s ease;
   cursor: pointer;
   text-align: left;
   transition: $transition;
+  box-sizing: border-box;
 
   &:hover {
     background: $gray-50;
@@ -420,6 +430,7 @@ $transition:     all 0.22s ease;
   cursor: pointer;
   text-align: left;
   transition: $transition;
+  box-sizing: border-box;
 
   &:hover {
     background: $gray-50;
@@ -449,13 +460,17 @@ $transition:     all 0.22s ease;
   flex-shrink: 0;
   order: 1;        // ensures it renders BEFORE sidebar (left side)
   min-width: 0; // prevent flex overflow
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 }
 
 // Mobile filter toggle
 .mobile-filter-toggle {
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -471,6 +486,7 @@ $transition:     all 0.22s ease;
     cursor: pointer;
     transition: $transition;
     margin-bottom: 1rem;
+    box-sizing: border-box;
 
     &:hover {
       background: $primary;
@@ -496,6 +512,7 @@ $transition:     all 0.22s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: $transition;
   outline: none;
+  box-sizing: border-box;
 
   &::placeholder { color: #9ca3af; }
 
@@ -522,6 +539,7 @@ $transition:     all 0.22s ease;
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.75rem;
+  min-width: 0;
 
   @media (min-width: 580px)  { grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
   @media (min-width: 1060px) { grid-template-columns: repeat(3, 1fr); gap: 2rem; }

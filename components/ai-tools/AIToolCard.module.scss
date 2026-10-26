@@ -9,14 +9,15 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-sm);
   position: relative;
-  overflow: hidden;
   height: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 
   &:hover {
     transform: translateY(-4px);
     border-color: var(--border-medium);
     box-shadow: var(--shadow-md);
-    
+
     .cardFooter .detailsBtn {
       color: var(--primary);
     }
@@ -27,12 +28,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--space-md);
+  gap: var(--space-sm);
+  min-width: 0;
 }
 
 .logoContainer {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: var(--radius-md);
   background: var(--bg-muted);
   display: flex;
@@ -49,7 +51,7 @@
   }
 
   .placeholderLogo {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--primary);
     text-transform: uppercase;
@@ -58,17 +60,19 @@
 
 .badges {
   display: flex;
-  gap: var(--space-xs);
+  gap: 4px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  min-width: 0;
 
   span {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: var(--radius-full);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .badgeFeatured {
@@ -93,24 +97,27 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  min-width: 0;
 
   .title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--text-main);
     margin: 0;
     display: flex;
     align-items: center;
     gap: var(--space-xs);
+    overflow-wrap: anywhere;
 
     .verifiedIcon {
       color: var(--primary);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
+      flex-shrink: 0;
     }
   }
 
   .description {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: var(--text-secondary);
     line-height: 1.55;
     margin: 0;
@@ -119,24 +126,28 @@
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    overflow-wrap: anywhere;
   }
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: 6px;
   margin-top: auto;
   padding-top: var(--space-sm);
+  min-width: 0;
 
   .tag {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
     background: var(--bg-muted);
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-subtle);
     transition: all 0.2s ease;
+    max-width: 100%;
+    overflow-wrap: anywhere;
 
     &:hover {
       background: var(--primary-light);
@@ -151,18 +162,26 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding-top: var(--space-md);
+  padding-top: var(--space-sm);
   border-top: 1px solid var(--border-subtle);
   margin-top: auto;
-  gap: var(--space-sm);
-  row-gap: var(--space-xs);
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+
+  > button {
+    min-height: 44px;
+  }
 
   .detailsBtn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    min-height: 44px;
+    min-width: 0;
+    padding: 6px 4px;
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.84rem;
     font-weight: 600;
     text-decoration: none;
     transition: color 0.2s ease;
@@ -182,16 +201,18 @@
   .websiteBtn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     background: var(--primary);
     color: var(--text-inverse);
-    padding: 8px 14px;
+    min-height: 44px;
+    padding: 6px 10px;
     border-radius: var(--radius-md);
-    font-size: 0.875rem;
+    font-size: 0.84rem;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
     border: 1px solid transparent;
+    white-space: nowrap;
 
     &:hover {
       background: var(--primary-hover);
@@ -203,24 +224,50 @@
 
 @media (max-width: 480px) {
   .card {
-    padding: var(--space-md);
+    padding: 14px;
+    gap: 10px;
   }
 
   .logoContainer {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .cardBody {
+    gap: 6px;
+    .title {
+      font-size: 1.05rem;
+    }
+    .description {
+      font-size: 0.83rem;
+      line-height: 1.45;
+    }
   }
 
   .cardFooter {
+    gap: 6px;
+    padding-top: 10px;
     .websiteBtn {
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      white-space: nowrap;
+      padding: 6px 8px;
+      font-size: 0.76rem;
     }
 
     .detailsBtn {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
     }
   }
 }
 
+@media (max-width: 360px) {
+  .card {
+    padding: 12px;
+  }
+  .cardBody .title {
+    font-size: 0.98rem;
+  }
+  .cardBody .description {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+}

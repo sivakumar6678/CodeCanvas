@@ -199,3 +199,17 @@
   font-size: 0.875rem;
   margin-bottom: 1rem;
 }
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+

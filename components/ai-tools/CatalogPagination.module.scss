@@ -129,9 +129,22 @@
   .meta {
     justify-content: space-between;
     margin-right: 0;
+    flex-wrap: wrap;
   }
 
-  .controls { justify-content: flex-start; }
+  .controls {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .pageButton {
+    min-width: 40px;
+    height: 40px;
+  }
+
+  .ellipsis {
+    min-width: 18px;
+  }
 }
 
 @media (max-width: 1200px) {

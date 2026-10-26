@@ -1,3 +1,66 @@
-.page { max-width: 1180px; margin: 0 auto; padding: 120px 24px 80px; }.intro { max-width: 720px; margin-bottom: 34px; }.kicker { color: var(--primary); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }.intro h1 { font-size: clamp(2.2rem, 5vw, 4rem); margin: 10px 0 14px; }.intro p { color: var(--text-secondary); font-size: 1.08rem; }
-@media (max-width: 640px) { .page { padding: 96px 16px 48px; } }
-@media (max-width: 480px) { .page { padding: 76px 12px 36px; } }
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 104px 28px 72px;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.intro {
+  max-width: 760px;
+  margin-bottom: 32px;
+}
+
+.kicker {
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.intro h1 {
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 8px 0 14px;
+  color: var(--text-main);
+  overflow-wrap: anywhere;
+}
+
+.intro p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .page {
+    padding: 92px 20px 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 84px 16px 44px;
+  }
+
+  .intro {
+    margin-bottom: 24px;
+  }
+
+  .intro p {
+    font-size: 0.96rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 76px 12px 36px;
+  }
+
+  .intro h1 {
+    font-size: 1.85rem;
+  }
+}

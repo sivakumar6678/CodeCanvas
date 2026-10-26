@@ -979,7 +979,8 @@
    Empty States
    ========================================================================== */
 
-.emptyStateBox {
+.emptyStateBox,
+.emptyStateContainer {
   text-align: center;
   padding: 48px 24px;
   background: var(--bg-muted);
@@ -1018,7 +1019,8 @@
   margin-bottom: 4px;
 }
 
-.primaryActionButton {
+.primaryActionButton,
+.browseToolsBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;

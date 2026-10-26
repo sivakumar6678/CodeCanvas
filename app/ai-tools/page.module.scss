@@ -1,41 +1,50 @@
 .container {
   width: 100%;
   max-width: none;
-  padding: 40px clamp(16px, 2.5vw, 40px) 80px;
+  padding: 32px clamp(12px, 3vw, 40px) 72px;
   color: var(--text-main);
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 40px;
-  padding: 40px 20px;
+  margin-bottom: 32px;
+  padding: 32px 16px;
   background: var(--bg-header-gradient);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border-subtle);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .title {
   font-family: var(--font-display);
-  font-size: 2.75rem;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
   font-weight: 800;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: var(--text-main);
+  word-break: break-word;
 }
 
 .subtitle {
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
   color: var(--text-secondary);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 8px;
 }
 
 .searchWrapper {
   display: flex;
   justify-content: center;
-  padding: 0 20px;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .toolkitCallout {
@@ -50,8 +59,10 @@
   background: var(--bg-surface);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
+  box-sizing: border-box;
+  width: 100%;
 
-  div { display: grid; gap: 2px; }
+  div { display: grid; gap: 2px; min-width: 0; }
   strong { color: var(--text-main); }
   span { color: var(--text-muted); font-size: .85rem; }
   a { color: var(--primary); font-weight: 700; white-space: nowrap; }
@@ -72,6 +83,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+  word-break: break-word;
 
   &::before {
     content: '';
@@ -80,11 +93,15 @@
     height: 22px;
     background: var(--primary);
     border-radius: var(--radius-full);
+    flex-shrink: 0;
   }
 }
 
 .featuredSection {
   margin-bottom: 44px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .catalogLayout {
@@ -92,15 +109,23 @@
   grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
   align-items: start;
   gap: 24px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .catalogLayoutWithPagination {
   grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) 42px;
   gap: 20px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .allToolsSection {
   min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sectionHeader {
@@ -109,12 +134,16 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(14px, 1.5vw, 20px);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .emptyState {
@@ -123,6 +152,8 @@
   background: var(--bg-surface);
   border: 1px dashed var(--border-medium);
   border-radius: var(--radius-lg);
+  box-sizing: border-box;
+  width: 100%;
 
   h3 {
     font-size: 1.35rem;
@@ -135,30 +166,32 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .catalogLayout,
+  .catalogLayoutWithPagination {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+
 @media (max-width: 768px) {
-  .catalogLayout { grid-template-columns: 1fr; }
-
-  .catalogLayoutWithPagination { grid-template-columns: 1fr; }
-
-  .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-
-  .title { font-size: 2.4rem; }
+  .title { font-size: 2.2rem; }
 }
 
-@media (max-width: 560px) {
-  .container { padding: 24px 14px 56px; }
-
-  .header { padding: 28px 14px; }
-
-  .title { font-size: 2.15rem; }
-
-  .subtitle { font-size: 0.98rem; }
-
-  .grid { grid-template-columns: 1fr; gap: 16px; }
-
+@media (max-width: 480px) {
+  .container { padding: 16px 10px 56px; }
+  .header { padding: 24px 12px; margin-bottom: 20px; border-radius: var(--radius-lg); }
+  .title { font-size: 1.75rem; }
+  .subtitle { font-size: 0.9rem; margin-bottom: 20px; }
+  .grid { gap: 14px; }
   .sectionHeader { align-items: flex-start; }
+  .sectionTitle { font-size: 1.25rem; margin-bottom: 16px; }
 }
 
-@media (max-width: 375px) {
-  .grid { grid-template-columns: 1fr; gap: 16px; }
+@media (max-width: 360px) {
+  .container { padding: 10px 6px 40px; }
+  .header { padding: 18px 8px; margin-bottom: 14px; }
+  .title { font-size: 1.55rem; }
+  .subtitle { font-size: 0.85rem; margin-bottom: 12px; }
+  .grid { gap: 10px; }
 }
