@@ -1,10 +1,10 @@
-import { createClient } from '../../lib/supabase/server';
 import { redirect } from 'next/navigation';
 import ProfileDashboard from '../../components/user/ProfileDashboard';
 import { getAllTools } from '../../lib/data-fetchers';
 import { getPersonalizedRecommendations } from '../../lib/recommendations';
 import defaultPrompts from '../../data/default-prompts.json';
 import styles from './page.module.scss';
+import { getCurrentUserWithProfile } from '../../lib/auth/server';
 
 export const metadata = {
   title: 'My Profile & Activity Dashboard',
@@ -13,19 +13,11 @@ export const metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function ProfilePage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { supabase, user, profile, isAdmin } = await getCurrentUserWithProfile();
 
   if (!user) {
     redirect('/login');
   }
-
-  // Fetch initial profile & stats
-  const { data: profile } = await supabase
-    .from('user_profiles')
-    .select('*')
-    .eq('id', user.id)
-    .maybeSingle();
 
   const [
     savedToolsCountRes,
@@ -128,9 +120,7 @@ export default async function ProfilePage() {
 
   return (
     <div className={styles.container}>
-      <ProfileDashboard initialData={initialData} />
+      <ProfileDashboard initialData={initialData} isAdmin={isAdmin} />
     </div>
   );
 }
-
-

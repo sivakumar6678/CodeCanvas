@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaDev, FaMedium, FaGlobe, FaEnvelope } from 'react-icons/fa';
 import '../app/contact-section.scss';
 
 const ContactSection = () => {
@@ -36,14 +36,32 @@ const ContactSection = () => {
     {
          name: 'GitHub',
          icon: FaGithub,
-         url: '',
+         url: 'https://github.com/sivakumar6678',
          color: '#333333'
        },
        {
          name: 'LinkedIn',
          icon: FaLinkedin,
-         url: '',
+         url: 'https://www.linkedin.com/in/sivakumar-chandragari/',
          color: '#0077B5'
+       },
+       {
+         name: 'DEV Community',
+         icon: FaDev,
+         url: 'https://dev.to/sivakumar6678',
+         color: '#0A0A0A'
+       },
+       {
+         name: 'Medium',
+         icon: FaMedium,
+         url: 'https://medium.com/@chandragarisivakumar',
+         color: '#000000'
+       },
+       {
+         name: 'Portfolio',
+         icon: FaGlobe,
+         url: 'https://sivakumar6678.github.io/Portfolio/',
+         color: '#6366f1'
        },
   ];
 
@@ -95,7 +113,8 @@ const ContactSection = () => {
                         style={{ '--icon-color': link.color }}
                         aria-label={link.name}
                       >
-                        <IconComponent />
+                        <IconComponent aria-hidden="true" />
+                        <span className="social-link-label">{link.name}</span>
                       </a>
                     ) : (
                       <span
@@ -105,7 +124,8 @@ const ContactSection = () => {
                         aria-label={`${link.name} profile coming soon`}
                         title={`${link.name} profile coming soon`}
                       >
-                        <IconComponent />
+                        <IconComponent aria-hidden="true" />
+                        <span className="social-link-label">{link.name}</span>
                         </span>
                       );
                 })}

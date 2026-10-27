@@ -11,6 +11,25 @@ import { deleteCatalogTool, persistenceConfigured, upsertCatalogTools } from '..
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const toolCreateLocks = new Map();
+
+async function withToolCreateLock(slug, operation) {
+  const previous = toolCreateLocks.get(slug) || Promise.resolve();
+  let release;
+  const current = new Promise((resolve) => {
+    release = resolve;
+  });
+  const queued = previous.then(() => current);
+  toolCreateLocks.set(slug, queued);
+  await previous;
+
+  try {
+    return await operation();
+  } finally {
+    release();
+    if (toolCreateLocks.get(slug) === queued) toolCreateLocks.delete(slug);
+  }
+}
 
 function validateTool(tool) {
   if (!tool || typeof tool !== 'object' || Array.isArray(tool)) return 'Tool payload must be an object';
@@ -110,22 +129,25 @@ export async function POST(request) {
 
     const categoryFilePath = categoryPath(categorySlug);
 
-    if (persistenceConfigured()) {
+    return await withToolCreateLock(newTool.slug, async () => {
       const existing = await getAllTools();
       if (existing.some((tool) => tool.slug === newTool.slug)) {
         return NextResponse.json({ error: 'A tool with this slug already exists' }, { status: 409 });
       }
-      await upsertCatalogTools(await createClient(), [newTool]);
+
+      if (persistenceConfigured()) {
+        await upsertCatalogTools(await createClient(), [newTool]);
+        return NextResponse.json({ success: true, tool: newTool });
+      }
+
+      const categoryTools = await readToolsFile(categoryFilePath);
+      if (categoryTools.some((tool) => tool.slug === newTool.slug)) {
+        return NextResponse.json({ error: 'A tool with this slug already exists' }, { status: 409 });
+      }
+      categoryTools.push(newTool);
+      await writeToolsFile(categoryFilePath, categoryTools);
       return NextResponse.json({ success: true, tool: newTool });
-    }
-    
-    let categoryTools = [];
-    categoryTools = await readToolsFile(categoryFilePath);
-
-    categoryTools.push(newTool);
-    await writeToolsFile(categoryFilePath, categoryTools);
-
-    return NextResponse.json({ success: true, tool: newTool });
+    });
   } catch (error) {
     console.error('Failed to create tool:', error);
     return NextResponse.json({ error: 'Failed to create tool' }, { status: 500 });

@@ -110,18 +110,24 @@
 
       .social-links {
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         gap: 0.75rem;
 
         .social-link {
-          width: 40px;
-          height: 40px;
-          display: flex;
+          display: inline-flex;
           align-items: center;
           justify-content: center;
+          gap: 0.5rem;
+          min-width: 44px;
+          min-height: 44px;
+          padding: 0.55rem 0.75rem;
+          border: 1px solid var(--border-subtle);
           background: var(--bg-muted);
           color: var(--text-secondary);
           border-radius: var(--radius-md);
           font-size: 1.1rem;
+          text-decoration: none;
           transition: all 0.2s ease;
 
           &:hover {
@@ -130,6 +136,17 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-sm);
           }
+
+          &:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+          }
+        }
+
+        .social-link-label {
+          font-size: 0.82rem;
+          font-weight: 600;
+          white-space: nowrap;
         }
       }
     }

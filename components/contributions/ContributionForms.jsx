@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  FiCheck,
   FiSend,
   FiClock,
   FiCheckCircle,
@@ -13,9 +12,11 @@ import {
   FiExternalLink,
   FiLayers,
   FiSliders,
+  FiImage,
 } from 'react-icons/fi';
 import { createClient } from '../../lib/supabase/client';
 import { CONTRIBUTION_TYPE_LABELS } from '../../lib/contribution-validation';
+import { ALLOWED_PRICING } from '../../lib/canonical-tool-schema';
 import styles from './ContributionForms.module.scss';
 
 const KNOWLEDGE_TYPE_OPTIONS = [
@@ -27,15 +28,22 @@ const KNOWLEDGE_TYPE_OPTIONS = [
 ];
 
 const initialTool = {
-  tool_name: '',
-  website_url: '',
+  name: '',
+  website: '',
   category: '',
-  subcategory: '',
+  subCategory: '',
   description: '',
-  pricing: 'Freemium',
+  fullOverview: '',
+  keyFeatures: '',
+  pros: '',
+  cons: '',
+  pricingModel: 'Freemium',
+  logoImageUrl: '',
+  bannerImageUrl: '',
   platforms: 'Web',
   tags: '',
-  recommendation_reason: '',
+  useCases: '',
+  bestFor: '',
   display_name: '',
   is_anonymous: false,
 };
@@ -70,6 +78,8 @@ export default function ContributionForms({ categories = [] }) {
   const [loadingSubmissions, setLoadingSubmissions] = useState(false);
   const [state, setState] = useState({ loading: false, error: '', success: '' });
   const [actionFeedback, setActionFeedback] = useState('');
+  const submissionInFlight = useRef(false);
+  const toolSubmissionKey = useRef(null);
 
   // Load user session
   useEffect(() => {
@@ -112,33 +122,63 @@ export default function ContributionForms({ categories = [] }) {
     }
   }
 
-  const updateTool = (field, value) => setToolData((prev) => ({ ...prev, [field]: value }));
+  const updateTool = (field, value) => {
+    toolSubmissionKey.current = null;
+    setToolData((prev) => ({ ...prev, [field]: value }));
+  };
   const updateKnowledge = (field, value) => setKnowledgeData((prev) => ({ ...prev, [field]: value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (submissionInFlight.current) return;
+    submissionInFlight.current = true;
+    const submittedKind = kind;
     setState({ loading: true, error: '', success: '' });
 
     if (!user) {
+      setState({ loading: false, error: '', success: '' });
+      submissionInFlight.current = false;
       router.push('/login?next=/contribute');
       return;
     }
 
-    const endpoint = kind === 'tool' ? '/api/contributions/tools' : '/api/contributions/prompts';
-    const payload = kind === 'tool'
-      ? toolData
+    const endpoint = submittedKind === 'tool' ? '/api/contributions/tools' : '/api/contributions/prompts';
+    const payload = submittedKind === 'tool'
+      ? {
+          ...toolData,
+          keyFeatures: splitLines(toolData.keyFeatures),
+          pros: splitLines(toolData.pros),
+          cons: splitLines(toolData.cons),
+          platforms: splitLines(toolData.platforms),
+          tags: toolData.tags.split(',').map((tag) => tag.trim()).filter(Boolean),
+          useCases: splitLines(toolData.useCases),
+          bestFor: splitLines(toolData.bestFor),
+        }
       : { ...knowledgeData, type: knowledgeType };
 
     try {
+      let requestBody;
+      const requestHeaders = {};
+      if (submittedKind === 'tool') {
+        const idempotencyKey = toolSubmissionKey.current || window.crypto.randomUUID();
+        toolSubmissionKey.current = idempotencyKey;
+        requestHeaders['Content-Type'] = 'application/json';
+        requestBody = JSON.stringify({ ...payload, idempotencyKey });
+      } else {
+        requestHeaders['Content-Type'] = 'application/json';
+        requestBody = JSON.stringify(payload);
+      }
+
       const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers: requestHeaders,
+        body: requestBody,
       });
 
       const data = await res.json().catch(() => ({}));
 
       if (res.status === 401) {
+        setState({ loading: false, error: '', success: '' });
         router.push('/login?next=/contribute');
         return;
       }
@@ -154,8 +194,9 @@ export default function ContributionForms({ categories = [] }) {
         success: 'Submitted for review! Our moderation team will review your contribution shortly.',
       });
 
-      if (kind === 'tool') {
+      if (submittedKind === 'tool') {
         setToolData(initialTool);
+        toolSubmissionKey.current = null;
       } else {
         setKnowledgeData(initialKnowledge);
       }
@@ -163,6 +204,8 @@ export default function ContributionForms({ categories = [] }) {
       loadMySubmissions();
     } catch (err) {
       setState({ loading: false, error: 'Network error. Please try again.', success: '' });
+    } finally {
+      submissionInFlight.current = false;
     }
   }
 
@@ -281,17 +324,17 @@ export default function ContributionForms({ categories = [] }) {
                 <>
                   <Field
                     label="Tool Name"
-                    name="tool_name"
-                    value={toolData.tool_name}
+                    name="name"
+                    value={toolData.name}
                     onChange={updateTool}
                     placeholder="e.g. Cursor, v0, Devin"
                     required
                   />
                   <Field
-                    label="Website URL"
-                    name="website_url"
+                    label="Official Website URL"
+                    name="website"
                     type="url"
-                    value={toolData.website_url}
+                    value={toolData.website}
                     onChange={updateTool}
                     placeholder="https://example.com"
                     required
@@ -304,19 +347,33 @@ export default function ContributionForms({ categories = [] }) {
                     options={categories}
                     required
                   />
+                  <ImageUrlField
+                    label="Logo Image URL"
+                    name="logoImageUrl"
+                    value={toolData.logoImageUrl}
+                    disabled={state.loading}
+                    onChange={updateTool}
+                  />
+                  <ImageUrlField
+                    label="Banner Image URL"
+                    name="bannerImageUrl"
+                    value={toolData.bannerImageUrl}
+                    disabled={state.loading}
+                    onChange={updateTool}
+                  />
                   <Field
                     label="Subcategory"
-                    name="subcategory"
-                    value={toolData.subcategory}
+                    name="subCategory"
+                    value={toolData.subCategory}
                     onChange={updateTool}
                     placeholder="e.g. Coding Assistants, UI to Code"
                   />
                   <Select
                     label="Pricing Model"
-                    name="pricing"
-                    value={toolData.pricing}
+                    name="pricingModel"
+                    value={toolData.pricingModel}
                     onChange={updateTool}
-                    options={['Free', 'Freemium', 'Paid', 'Contact for pricing']}
+                    options={ALLOWED_PRICING}
                     required
                   />
                   <Field
@@ -324,7 +381,8 @@ export default function ContributionForms({ categories = [] }) {
                     name="platforms"
                     value={toolData.platforms}
                     onChange={updateTool}
-                    placeholder="Web, Desktop (Mac/Win), VS Code, CLI"
+                    placeholder={'One platform per line, e.g.\nWeb\nVS Code'}
+                    textarea
                   />
                   <Field
                     label="Tags (comma-separated)"
@@ -335,7 +393,7 @@ export default function ContributionForms({ categories = [] }) {
                     wide
                   />
                   <Field
-                    label="One-line Description"
+                    label="Introduction / Short Description"
                     name="description"
                     value={toolData.description}
                     onChange={updateTool}
@@ -344,13 +402,54 @@ export default function ContributionForms({ categories = [] }) {
                     wide
                   />
                   <Field
-                    label="Why do you recommend it? (Key Features & Review)"
-                    name="recommendation_reason"
-                    value={toolData.recommendation_reason}
+                    label="Full Overview"
+                    name="fullOverview"
+                    value={toolData.fullOverview}
                     onChange={updateTool}
-                    placeholder="Explain the unique value, best use cases, and how it improved your workflow..."
+                    placeholder="Describe the tool and its capabilities..."
                     required
                     wide
+                    textarea
+                  />
+                  <Field
+                    label="Key Features (one per line)"
+                    name="keyFeatures"
+                    value={toolData.keyFeatures}
+                    onChange={updateTool}
+                    placeholder="Code completion\nRepository-aware chat"
+                    wide
+                    textarea
+                  />
+                  <Field
+                    label="Pros (one per line)"
+                    name="pros"
+                    value={toolData.pros}
+                    onChange={updateTool}
+                    placeholder="Fast setup\nUseful free tier"
+                    textarea
+                  />
+                  <Field
+                    label="Cons (one per line)"
+                    name="cons"
+                    value={toolData.cons}
+                    onChange={updateTool}
+                    placeholder="Limited integrations"
+                    textarea
+                  />
+                  <Field
+                    label="Use Cases (one per line)"
+                    name="useCases"
+                    value={toolData.useCases}
+                    onChange={updateTool}
+                    placeholder="Code review\nRapid prototyping"
+                    textarea
+                  />
+                  <Field
+                    label="Best For (one per line)"
+                    name="bestFor"
+                    value={toolData.bestFor}
+                    onChange={updateTool}
+                    placeholder="Full-stack developers\nSmall teams"
                     textarea
                   />
                 </>
@@ -451,10 +550,10 @@ export default function ContributionForms({ categories = [] }) {
               </label>
             </div>
 
-            {state.error && <p className={styles.error}><FiAlertCircle /> {state.error}</p>}
+            {state.error && <p className={styles.error} role="alert"><FiAlertCircle /> {state.error}</p>}
             {state.success && (
               <div className={styles.successBox}>
-                <p className={styles.success}><FiCheckCircle /> {state.success}</p>
+                <p className={styles.success} role="status"><FiCheckCircle /> {state.success}</p>
                 <button
                   type="button"
                   className={styles.viewStatusBtn}
@@ -672,6 +771,60 @@ function Field({
       />
     </label>
   );
+}
+
+function ImageUrlField({ label, name, value, disabled, onChange }) {
+  const [previewFailed, setPreviewFailed] = useState(false);
+  const previewable = isHttpUrl(value);
+
+  useEffect(() => {
+    setPreviewFailed(false);
+  }, [value]);
+
+  return (
+    <div className={`${styles.field} ${styles.imageField}`}>
+      <span>{label} <small>(optional)</small></span>
+      <input
+        type="url"
+        name={name}
+        value={value}
+        disabled={disabled}
+        onChange={(event) => onChange(name, event.target.value)}
+        placeholder="https://example.com/image.png"
+        aria-label={label}
+      />
+      {previewable && !previewFailed ? (
+        <div className={styles.imagePreviewWrap}>
+          <div className={`${styles.imagePreview} ${name === 'logoImageUrl' ? styles.logoPreview : styles.bannerPreview}`}>
+            {/* Contributor hosts are dynamic, so they cannot be enumerated in Next Image remotePatterns. */}
+            <img
+              src={value}
+              alt={`${label} preview`}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              onError={() => setPreviewFailed(true)}
+            />
+          </div>
+        </div>
+      ) : (
+        <small className={styles.imageHelp}>
+          <FiImage aria-hidden="true" /> Paste a direct HTTP or HTTPS image URL. No upload required.
+        </small>
+      )}
+    </div>
+  );
+}
+
+function isHttpUrl(value) {
+  try {
+    return ['http:', 'https:'].includes(new URL(value).protocol);
+  } catch {
+    return false;
+  }
+}
+
+function splitLines(value) {
+  return value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean);
 }
 
 function Select({ label, name, value, onChange, options, required }) {

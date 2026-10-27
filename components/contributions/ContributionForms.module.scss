@@ -234,6 +234,56 @@
   }
 }
 
+.imageField {
+  min-width: 0;
+
+  > span small {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+}
+
+.imagePreviewWrap {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-muted);
+}
+
+.imagePreview {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.logoPreview {
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+}
+
+.bannerPreview {
+  width: 100%;
+  aspect-ratio: 16 / 6;
+}
+
+.imageHelp {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
 .contributor {
   display: flex;
   align-items: flex-end;

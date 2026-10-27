@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import {
   FiEdit2,
   FiTrash2,
@@ -33,6 +33,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
   const [tools, setTools] = useState(initialTools || []);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const saveInFlight = useRef(false);
 
   // UI State
   const [showImport, setShowImport] = useState(false);
@@ -530,6 +531,8 @@ export default function ToolsManager({ initialTools, categories = [] }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (saveInFlight.current) return;
+    saveInFlight.current = true;
     setLoading(true);
     setFeedback(null);
 
@@ -569,6 +572,7 @@ export default function ToolsManager({ initialTools, categories = [] }) {
       setFeedback({ type: 'error', message: 'Unable to reach the admin API.' });
     } finally {
       setLoading(false);
+      saveInFlight.current = false;
     }
   };
 

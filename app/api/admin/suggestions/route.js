@@ -8,9 +8,11 @@ import {
   cleanText,
   validatePromptSubmission,
   validateToolSuggestion,
+  mapToolSuggestionToCatalogFields,
+  mapToolSuggestionToDatabase,
   CONTRIBUTION_TYPES,
 } from '../../../../lib/contribution-validation';
-import { getCatalogFileForCategory } from '../../../../lib/catalog-categories';
+import { getCatalogCategorySlugs, getCatalogFileForCategory } from '../../../../lib/catalog-categories';
 import { normalizeToolToCanonical, toCanonicalNames } from '../../../../lib/canonical-tool-schema';
 import { normalizeKnowledgeItem } from '../../../../lib/knowledge-schema';
 import { getCategories } from '../../../../lib/data-fetchers';
@@ -18,6 +20,25 @@ import { getCategories } from '../../../../lib/data-fetchers';
 const DATA_DIR = path.join(process.cwd(), 'data', 'ai-tools');
 const PROMPTS_FILE = path.join(process.cwd(), 'data', 'default-prompts.json');
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const publicationLocks = new Map();
+
+async function withPublicationLock(suggestionId, operation) {
+  const previous = publicationLocks.get(suggestionId) || Promise.resolve();
+  let release;
+  const current = new Promise((resolve) => {
+    release = resolve;
+  });
+  const queued = previous.then(() => current);
+  publicationLocks.set(suggestionId, queued);
+  await previous;
+
+  try {
+    return await operation();
+  } finally {
+    release();
+    if (publicationLocks.get(suggestionId) === queued) publicationLocks.delete(suggestionId);
+  }
+}
 
 function slugify(value) {
   return cleanText(value, 120)
@@ -108,55 +129,73 @@ async function writeCategory(category, tools) {
 }
 
 async function publishTool(suggestion) {
-  const category = slugify(suggestion.category);
-  const fileName = getCatalogFileForCategory(category);
-  if (!fileName) throw new Error(`Category "${suggestion.category}" has no mapped catalog file`);
+  return withPublicationLock(String(suggestion.id), async () => {
+    const catalogFields = mapToolSuggestionToCatalogFields(suggestion);
+    const category = slugify(catalogFields.category);
+    const fileName = getCatalogFileForCategory(category);
+    if (!fileName) throw new Error(`Category "${suggestion.category}" has no mapped catalog file`);
 
-  const tools = await readCategory(category);
-  const baseSlug = slugify(suggestion.tool_name);
-  if (!SAFE_SLUG.test(baseSlug)) throw new Error('Tool name cannot be converted to a valid slug');
+    const catalogCategories = [...new Set(
+      getCatalogCategorySlugs()
+        .filter((slug) => getCatalogFileForCategory(slug) === `${slug}.json`)
+    )];
+    const allRecords = await Promise.all(catalogCategories.map(async (slug) => ({
+      category: slug,
+      tools: await readCategory(slug),
+    })));
+    const existing = allRecords.flatMap(({ category: sourceCategory, tools }) =>
+      tools
+        .map((tool, index) => ({ category: sourceCategory, tool, index }))
+        .filter(({ tool }) =>
+          tool.id === `tool-submission-${suggestion.id}` ||
+          (suggestion.published_slug && tool.slug === suggestion.published_slug)
+        )
+    )[0];
 
-  const slug = tools.some((tool) => tool.slug === baseSlug)
-    ? `${baseSlug}-${Date.now().toString(36)}`
-    : baseSlug;
+    const targetTools = await readCategory(category);
+    const baseSlug = slugify(catalogFields.name);
+    if (!SAFE_SLUG.test(baseSlug)) throw new Error('Tool name cannot be converted to a valid slug');
 
-  const rawTool = {
-    id: `tool-${Date.now()}`,
-    name: suggestion.tool_name,
-    slug,
-    logoImageUrl: suggestion.logoImageUrl || suggestion.logo || '',
-    bannerImageUrl: suggestion.bannerImageUrl || suggestion.banner || '',
-    description: suggestion.description,
-    fullOverview: suggestion.recommendation_reason || suggestion.fullOverview || suggestion.description || '',
-    keyFeatures: Array.isArray(suggestion.keyFeatures) ? suggestion.keyFeatures : [],
-    pros: Array.isArray(suggestion.pros) ? suggestion.pros : [],
-    cons: Array.isArray(suggestion.cons) ? suggestion.cons : [],
-    website: suggestion.website_url || suggestion.website,
-    category,
-    subCategory: suggestion.subcategory || suggestion.subCategory || '',
-    pricingModel: suggestion.pricingModel || suggestion.pricing || 'Free',
-    hasFree:
-      suggestion.hasFree !== undefined
-        ? Boolean(suggestion.hasFree)
-        : suggestion.pricing === 'Free' || suggestion.pricing === 'Freemium',
-    platforms: Array.isArray(suggestion.platforms)
-      ? suggestion.platforms
-      : typeof suggestion.platforms === 'string'
-        ? suggestion.platforms.split(',').map((p) => p.trim()).filter(Boolean)
-        : ['Web'],
-    tags: Array.isArray(suggestion.tags) ? suggestion.tags : cleanTags(suggestion.tags),
-    useCases: Array.isArray(suggestion.useCases) ? suggestion.useCases : [],
-    bestFor: Array.isArray(suggestion.bestFor) ? suggestion.bestFor : [],
-    featured: false,
-    new: true,
-    verified: false,
-    suggestedBy: suggestion.is_anonymous ? null : suggestion.display_name,
-    createdDate: new Date().toISOString(),
-  };
+    const existingSlug = existing?.tool.slug;
+    const slug = existingSlug || (
+      targetTools.some((tool) => tool.slug === baseSlug)
+        ? `${baseSlug}-${String(suggestion.id).replace(/-/g, '').slice(0, 12)}`
+        : baseSlug
+    );
+    const rawTool = {
+      ...existing?.tool,
+      id: `tool-submission-${suggestion.id}`,
+      slug,
+      logoImageUrl: suggestion.logo_image_url || suggestion.logoImageUrl || suggestion.logo || '',
+      bannerImageUrl: suggestion.banner_image_url || suggestion.bannerImageUrl || suggestion.banner || '',
+      category,
+      ...catalogFields,
+      featured: existing?.tool.featured || false,
+      new: existing?.tool.new ?? true,
+      verified: existing?.tool.verified || false,
+      createdDate: existing?.tool.createdDate || new Date().toISOString(),
+    };
 
-  const canonicalTool = toCanonicalNames(normalizeToolToCanonical(rawTool));
-  await writeCategory(category, [...tools, canonicalTool]);
-  return canonicalTool;
+    const canonicalTool = toCanonicalNames(normalizeToolToCanonical(rawTool));
+    if (existing && existing.category !== category) {
+      const oldTools = allRecords.find(({ category: sourceCategory }) => sourceCategory === existing.category)?.tools || [];
+      await writeCategory(
+        existing.category,
+        oldTools.filter((tool) => tool.id !== existing.tool.id && tool.id !== canonicalTool.id)
+      );
+      await writeCategory(category, [...targetTools, canonicalTool]);
+    } else {
+      const nextTools = existing
+        ? targetTools.map((tool) =>
+            tool.id === existing.tool.id || tool.id === canonicalTool.id || tool.slug === existing.tool.slug
+              ? canonicalTool
+              : tool
+          )
+        : [...targetTools, canonicalTool];
+      await writeCategory(category, nextTools);
+    }
+    return canonicalTool;
+  });
 }
 
 async function requireAdmin() {
@@ -277,14 +316,15 @@ export async function PATCH(request) {
 
   const { data: existing, error: findError } = await supabase.from(table).select('*').eq('id', id).single();
   if (findError || !existing) return NextResponse.json({ error: 'Submission not found' }, { status: 404 });
-
   const merged = { ...existing, ...data };
   const validationError = type === 'tool' ? validateToolSuggestion(merged) : validatePromptSubmission(merged);
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
 
   const changes = {
-    ...data,
-    tags: cleanTags(merged.tags),
+    ...(type === 'tool' ? mapToolSuggestionToDatabase(merged) : {
+      ...data,
+      tags: cleanTags(merged.tags),
+    }),
     admin_notes: cleanText(data.admin_notes !== undefined ? data.admin_notes : existing.admin_notes, 1000),
     updated_at: new Date().toISOString(),
   };

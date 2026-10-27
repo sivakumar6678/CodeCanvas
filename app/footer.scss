@@ -86,14 +86,17 @@
 
     .social-links {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.75rem;
 
       .social-link {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        gap: 0.5rem;
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.55rem 0.75rem;
         border: 1px solid var(--border-subtle);
         border-radius: var(--radius-md);
         color: var(--text-secondary);
@@ -107,6 +110,17 @@
           background: var(--primary-light);
           transform: translateY(-2px);
         }
+
+        &:focus-visible {
+          outline: 2px solid var(--primary);
+          outline-offset: 2px;
+        }
+      }
+
+      .social-link-label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        white-space: nowrap;
       }
 
       .social-link-placeholder {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import {
   FiCheck,
   FiEdit2,
@@ -30,6 +30,14 @@ const emptyReview = {
   pricingModel: 'Freemium',
   tags: '',
   recommendation_reason: '',
+  key_features: '',
+  pros: '',
+  cons: '',
+  platforms: '',
+  use_cases: '',
+  best_for: '',
+  logo_image_url: '',
+  banner_image_url: '',
   title: '',
   typeName: 'prompt',
   prompt_content: '',
@@ -62,6 +70,7 @@ export default function ContributionsManager() {
   const [loadError, setLoadError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
+  const actionInFlight = useRef(false);
 
   useEffect(() => {
     load();
@@ -109,12 +118,21 @@ export default function ContributionsManager() {
       id: item.id,
       pricingModel: item.pricing || item.pricingModel || 'Freemium',
       tags: Array.isArray(item.tags) ? item.tags.join(', ') : item.tags || '',
+      key_features: formatList(item.key_features || item.keyFeatures),
+      pros: formatList(item.pros),
+      cons: formatList(item.cons),
+      platforms: formatList(item.platforms),
+      use_cases: formatList(item.use_cases || item.useCases),
+      best_for: formatList(item.best_for || item.bestFor),
+      logo_image_url: item.logo_image_url || item.logoImageUrl || '',
+      banner_image_url: item.banner_image_url || item.bannerImageUrl || '',
       admin_notes: item.admin_notes || '',
     });
   }
 
   async function act(action, target = review) {
-    if (!target) return;
+    if (!target || actionInFlight.current) return;
+    actionInFlight.current = true;
     setSubmitting(true);
     setFeedback('');
 
@@ -132,6 +150,15 @@ export default function ContributionsManager() {
             ? target.tags.split(',').map((t) => t.trim()).filter(Boolean)
             : target.tags || [],
           recommendation_reason: target.recommendation_reason || target.fullOverview || '',
+          full_overview: target.recommendation_reason || target.full_overview || target.fullOverview || '',
+          key_features: splitLines(target.key_features),
+          pros: splitLines(target.pros),
+          cons: splitLines(target.cons),
+          platforms: splitLines(target.platforms),
+          use_cases: splitLines(target.use_cases),
+          best_for: splitLines(target.best_for),
+          logo_image_url: target.logo_image_url || '',
+          banner_image_url: target.banner_image_url || '',
           display_name: target.display_name,
           is_anonymous: target.is_anonymous,
           admin_notes: target.admin_notes || '',
@@ -186,6 +213,7 @@ export default function ContributionsManager() {
       setFeedback('Failed to perform moderation action. Please try again.');
     } finally {
       setSubmitting(false);
+      actionInFlight.current = false;
     }
   }
 
@@ -519,6 +547,24 @@ export default function ContributionsManager() {
                   </label>
 
                   <label>
+                    Logo Image URL
+                    <input
+                      type="url"
+                      value={review.logo_image_url || ''}
+                      onChange={(e) => setReview({ ...review, logo_image_url: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
+                    Banner Image URL
+                    <input
+                      type="url"
+                      value={review.banner_image_url || ''}
+                      onChange={(e) => setReview({ ...review, banner_image_url: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
                     Subcategory
                     <input
                       value={review.subcategory || ''}
@@ -556,11 +602,65 @@ export default function ContributionsManager() {
                   </label>
 
                   <label className={styles.wideField}>
-                    Recommendation Reason / Overview
+                    Full Overview
                     <textarea
                       rows={4}
                       value={review.recommendation_reason || ''}
                       onChange={(e) => setReview({ ...review, recommendation_reason: e.target.value })}
+                    />
+                  </label>
+
+                  <label className={styles.wideField}>
+                    Key Features (one per line)
+                    <textarea
+                      rows={4}
+                      value={review.key_features || ''}
+                      onChange={(e) => setReview({ ...review, key_features: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
+                    Pros (one per line)
+                    <textarea
+                      rows={3}
+                      value={review.pros || ''}
+                      onChange={(e) => setReview({ ...review, pros: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
+                    Cons (one per line)
+                    <textarea
+                      rows={3}
+                      value={review.cons || ''}
+                      onChange={(e) => setReview({ ...review, cons: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
+                    Platforms (one per line)
+                    <textarea
+                      rows={3}
+                      value={review.platforms || ''}
+                      onChange={(e) => setReview({ ...review, platforms: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
+                    Use Cases (one per line)
+                    <textarea
+                      rows={3}
+                      value={review.use_cases || ''}
+                      onChange={(e) => setReview({ ...review, use_cases: e.target.value })}
+                    />
+                  </label>
+
+                  <label>
+                    Best For (one per line)
+                    <textarea
+                      rows={3}
+                      value={review.best_for || ''}
+                      onChange={(e) => setReview({ ...review, best_for: e.target.value })}
                     />
                   </label>
                 </>
@@ -706,4 +806,15 @@ export default function ContributionsManager() {
       )}
     </div>
   );
+}
+
+function formatList(value) {
+  if (Array.isArray(value)) return value.join('\n');
+  return typeof value === 'string' ? value : '';
+}
+
+function splitLines(value) {
+  return typeof value === 'string'
+    ? value.split(/\r?\n/).map((item) => item.trim()).filter(Boolean)
+    : [];
 }

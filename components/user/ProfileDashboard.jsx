@@ -115,11 +115,23 @@ function formatRelativeTime(dateString) {
   return date.toLocaleDateString();
 }
 
-export default function ProfileDashboard({ initialData }) {
+export default function ProfileDashboard({ initialData = {}, isAdmin = false }) {
+  const {
+    user: initialUser = {},
+    stats: initialStats = {},
+    contributions: initialContributions = {},
+    recommendedTools = [],
+    savedTools = [],
+    savedPrompts = [],
+  } = initialData;
+  const contributions = {
+    toolSubmissions: initialContributions.toolSubmissions || [],
+    promptSubmissions: initialContributions.promptSubmissions || [],
+  };
   const router = useRouter();
   const [supabase] = useState(() => createClient());
-  const [user, setUser] = useState(initialData.user);
-  const [stats, setStats] = useState(initialData.stats);
+  const [user, setUser] = useState(initialUser);
+  const [stats, setStats] = useState(initialStats);
   const [activeTab, setActiveTab] = useState('saved');
   const [savedSubTab, setSavedSubTab] = useState('tools');
   const [isEditing, setIsEditing] = useState(false);
@@ -152,8 +164,6 @@ export default function ProfileDashboard({ initialData }) {
   // Notification state
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const contributions = initialData.contributions || { toolSubmissions: [], promptSubmissions: [] };
-  const recommendedTools = initialData.recommendedTools || [];
   const initialSubmissions = [
     ...(contributions.toolSubmissions || []).map((t) => ({ ...t, kind: 'tool' })),
     ...(contributions.promptSubmissions || []).map((p) => ({ ...p, kind: 'prompt' })),
@@ -407,8 +417,8 @@ export default function ProfileDashboard({ initialData }) {
   };
 
   const totalSavedCount =
-    (stats.bookmarksCount ?? initialData.savedTools?.length ?? 0) +
-    (stats.savedPromptsCount ?? initialData.savedPrompts?.length ?? 0);
+    (stats.bookmarksCount ?? savedTools.length) +
+    (stats.savedPromptsCount ?? savedPrompts.length);
   const totalStackPreferencesCount = (prefInterests.length + prefTech.length + prefGoals.length);
 
   return (
@@ -507,9 +517,11 @@ export default function ProfileDashboard({ initialData }) {
               >
                 {copiedLink ? <><FiCheck /> Copied!</> : <><FiShare2 /> Share</>}
               </button>
-              <Link href="/studio" className={styles.studioLink} title="Studio Workspace">
-                <FiCpu /> Studio
-              </Link>
+              {isAdmin && (
+                <Link href="/studio" className={styles.studioLink} title="Studio Workspace">
+                  <FiCpu /> Studio
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -543,7 +555,7 @@ export default function ProfileDashboard({ initialData }) {
             <FiTarget />
           </div>
           <div className={styles.metricInfo}>
-            <span className={styles.metricNumber}>{stats.savedPromptsCount || initialData.savedPrompts?.length || 0}</span>
+            <span className={styles.metricNumber}>{stats.savedPromptsCount || savedPrompts.length || 0}</span>
             <span className={styles.metricTitle}>AI Knowledge</span>
             <span className={styles.metricSubtitle}>Prompts &amp; guides</span>
           </div>
@@ -681,18 +693,18 @@ export default function ProfileDashboard({ initialData }) {
                   className={`${styles.subFilterPill} ${savedSubTab === 'knowledge' ? styles.activeSubFilter : ''}`}
                   onClick={() => setSavedSubTab('knowledge')}
                 >
-                  <FiTarget /> AI Knowledge ({stats.savedPromptsCount || initialData.savedPrompts?.length || 0})
+                  <FiTarget /> AI Knowledge ({stats.savedPromptsCount || savedPrompts.length || 0})
                 </button>
               </div>
 
               {savedSubTab === 'tools' ? (
                 <SavedToolsSection
-                  initialTools={initialData.savedTools}
+                  initialTools={savedTools}
                   onCountChange={handleSavedToolsCountChange}
                 />
               ) : (
                 <SavedKnowledgeSection
-                  initialPrompts={initialData.savedPrompts}
+                  initialPrompts={savedPrompts}
                   onCountChange={handleSavedPromptsCountChange}
                 />
               )}

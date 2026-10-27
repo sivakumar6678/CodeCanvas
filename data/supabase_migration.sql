@@ -104,8 +104,19 @@ create table if not exists public.tool_suggestions (
     category text not null,
     subcategory text,
     description text not null,
+    full_overview text not null default '',
+    key_features text[] default '{}'::text[] not null,
+    pros text[] default '{}'::text[] not null,
+    cons text[] default '{}'::text[] not null,
     pricing text not null,
+    platforms text[] default '{}'::text[] not null,
     tags text[] default '{}'::text[] not null,
+    use_cases text[] default '{}'::text[] not null,
+    best_for text[] default '{}'::text[] not null,
+    logo_image_url text,
+    banner_image_url text,
+    idempotency_key uuid,
+    request_hash text,
     recommendation_reason text not null,
     display_name text not null,
     is_anonymous boolean default false not null,
@@ -115,6 +126,18 @@ create table if not exists public.tool_suggestions (
     created_at timestamptz default timezone('utc'::text, now()) not null,
     updated_at timestamptz default timezone('utc'::text, now()) not null
 );
+
+alter table public.tool_suggestions add column if not exists full_overview text not null default '';
+alter table public.tool_suggestions add column if not exists key_features text[] default '{}'::text[] not null;
+alter table public.tool_suggestions add column if not exists pros text[] default '{}'::text[] not null;
+alter table public.tool_suggestions add column if not exists cons text[] default '{}'::text[] not null;
+alter table public.tool_suggestions add column if not exists platforms text[] default '{}'::text[] not null;
+alter table public.tool_suggestions add column if not exists use_cases text[] default '{}'::text[] not null;
+alter table public.tool_suggestions add column if not exists best_for text[] default '{}'::text[] not null;
+alter table public.tool_suggestions add column if not exists logo_image_url text;
+alter table public.tool_suggestions add column if not exists banner_image_url text;
+alter table public.tool_suggestions add column if not exists idempotency_key uuid;
+alter table public.tool_suggestions add column if not exists request_hash text;
 
 create table if not exists public.prompt_submissions (
     id uuid default gen_random_uuid() primary key,
@@ -225,6 +248,9 @@ create index if not exists analytics_views_slug_idx on public.analytics_tool_vie
 create index if not exists analytics_clicks_slug_idx on public.analytics_tool_clicks(tool_slug);
 create index if not exists tool_suggestions_user_idx on public.tool_suggestions(user_id);
 create index if not exists tool_suggestions_status_idx on public.tool_suggestions(status, created_at desc);
+create unique index if not exists tool_suggestions_user_idempotency_idx
+    on public.tool_suggestions(user_id, idempotency_key)
+    where idempotency_key is not null;
 create index if not exists prompt_submissions_user_idx on public.prompt_submissions(user_id);
 create index if not exists prompt_submissions_status_idx on public.prompt_submissions(status, created_at desc);
 create index if not exists saved_prompts_user_idx on public.saved_prompts(user_id, saved_at desc);
