@@ -8,7 +8,7 @@ const SIZES = {
   md: { img: 36, className: styles.sizeMd },
   lg: { img: 48, className: styles.sizeLg },
   xl: { img: 64, className: styles.sizeXl },
-  full: { img: 1254, className: styles.sizeFull },
+  full: { img: 1536, className: styles.sizeFull },
 };
 
 export default function BrandLogo({
@@ -22,24 +22,25 @@ export default function BrandLogo({
   onClick,
 }) {
   const sizeConfig = SIZES[size] || SIZES.md;
-  const isFullLogo = variant === 'full';
-  const imgPixelSize = isFullLogo ? 1254 : sizeConfig.img;
+  const isWideLogo = variant === 'wide';
+  const imgWidth = isWideLogo ? 1536 : sizeConfig.img;
+  const imgHeight = isWideLogo ? 1024 : sizeConfig.img;
 
   const content = (
     <>
       <span className={styles.logoMarkWrapper}>
         <Image
-          src={isFullLogo ? '/assets/codecanvas-full.png' : '/assets/codecanvas-icon.png'}
-          alt={isFullLogo ? 'CodeCanvas — Your AI & Developer Toolkit. Discover. Build. Learn.' : ''}
-          width={imgPixelSize}
-          height={imgPixelSize}
+          src={isWideLogo ? '/assets/Glossy CodeCanvas Tech Logo.png' : '/assets/codecanvas-icon.png'}
+          alt={isWideLogo ? 'CodeCanvas — Your AI & Developer Toolkit. Discover. Build. Learn.' : ''}
+          width={imgWidth}
+          height={imgHeight}
+          sizes={isWideLogo ? '(max-width: 768px) 100vw, 600px' : undefined}
           priority={priority}
-          unoptimized={isFullLogo}
           className={styles.logoImage}
-          aria-hidden={isFullLogo ? undefined : true}
+          aria-hidden={isWideLogo ? undefined : true}
         />
       </span>
-      {showText && !isFullLogo && (
+      {showText && !isWideLogo && (
         <span className={styles.brandText}>
           <span className={styles.brandName}>
             Code<span className={styles.accent}>Canvas</span>
@@ -56,7 +57,7 @@ export default function BrandLogo({
 
   if (href) {
     return (
-      <Link href={href} className={combinedClass} onClick={onClick} aria-label={!showText || isFullLogo ? 'CodeCanvas' : undefined}>
+      <Link href={href} className={combinedClass} onClick={onClick} aria-label={!showText || isWideLogo ? 'CodeCanvas' : undefined}>
         {content}
       </Link>
     );

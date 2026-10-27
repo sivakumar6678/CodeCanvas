@@ -32,21 +32,24 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-content">
-          <div className="footer-section">
-            <BrandLogo size="md" href="/" />
-            <p>Your AI &amp; Developer Toolkit. Discover. Build. Learn.</p>
-          </div>
-          
-          <div className="footer-section">
-            <h4>Quick Links</h4>
+          <section className="footer-brand" aria-label="About CodeCanvas">
+            <BrandLogo variant="wide" size="full" href="/" />
+          </section>
+
+          <nav className="footer-section" aria-label="Explore CodeCanvas">
+            <h4>Explore</h4>
             <ul>
               <li><Link href="/">Home</Link></li>
               <li><Link href="/tools">Tools</Link></li>
+              <li><Link href="/ai-tools">AI Tools</Link></li>
+              <li><Link href="/ai-knowledge">AI Knowledge</Link></li>
+              <li><Link href="/about">About</Link></li>
             </ul>
-          </div>
+          </nav>
 
-          <div className="footer-section">
+          <section className="footer-section footer-connect">
             <h4>Connect</h4>
+            <p>Follow CodeCanvas on social media.</p>
             <div className="social-links">
               {socialLinks.map((link, index) => {
                 const IconComponent = link.icon;
@@ -77,12 +80,12 @@ const Footer = () => {
                 );
               })}
             </div>
-          </div>
+          </section>
         </div>
 
         <div className="footer-bottom">
           <p>&copy; {currentYear} CodeCanvas. All rights reserved.</p>
-          <p className="developer">Developed with ❤️ by C. Sivakumar</p>
+          <p className="developer">Made with love by C. Sivakumar</p>
         </div>
       </div>
     </footer>

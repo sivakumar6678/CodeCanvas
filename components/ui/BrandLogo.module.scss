@@ -64,6 +64,8 @@
   gap: 8px;
 
   .logoImage {
+    width: 28px;
+    height: 28px;
     max-width: 28px;
     max-height: 28px;
   }
@@ -90,6 +92,8 @@
   gap: 12px;
 
   .logoImage {
+    width: 48px;
+    height: 48px;
     max-width: 48px;
     max-height: 48px;
   }
@@ -114,8 +118,7 @@
 
 .sizeFull {
   display: flex;
-  width: 100%;
-  max-width: 420px;
+  width: min(100%, 560px);
   justify-content: center;
 
   .logoMarkWrapper {
@@ -125,7 +128,6 @@
   .logoImage {
     width: 100%;
     height: auto;
-    max-width: none;
-    max-height: none;
+    max-width: 100%;
   }
 }

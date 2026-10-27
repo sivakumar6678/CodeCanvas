@@ -16,7 +16,7 @@ export const metadata = {
     ],
     shortcut: '/assets/codecanvas-icon-192.png',
     apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-icon.png', sizes: '192x192', type: 'image/png' },
     ],
   },
   manifest: '/manifest.webmanifest',
