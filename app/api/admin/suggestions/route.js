@@ -15,7 +15,19 @@ import {
 import { getCatalogCategorySlugs, getCatalogFileForCategory } from '../../../../lib/catalog-categories';
 import { normalizeToolToCanonical, toCanonicalNames } from '../../../../lib/canonical-tool-schema';
 import { normalizeKnowledgeItem } from '../../../../lib/knowledge-schema';
-import { getCategories } from '../../../../lib/data-fetchers';
+import { getCategories, getFileTools } from '../../../../lib/data-fetchers';
+import {
+  getCatalogMutationClient,
+  loadCatalogForMutation,
+  persistenceConfigured,
+  upsertCatalogTools,
+} from '../../../../lib/catalog-persistence';
+import { findExistingPublishedTool } from '../../../../lib/catalog-publishing';
+import {
+  CATALOG_MUTATION_AUTH_ERROR,
+  catalogDatabaseFailure,
+  logCatalogDatabaseFailure,
+} from '../../../../lib/catalog-errors';
 
 const DATA_DIR = path.join(process.cwd(), 'data', 'ai-tools');
 const PROMPTS_FILE = path.join(process.cwd(), 'data', 'default-prompts.json');
@@ -128,31 +140,44 @@ async function writeCategory(category, tools) {
   await fs.rename(temporaryPath, filePath);
 }
 
-async function publishTool(suggestion) {
+async function publishTool(suggestion, supabase) {
   return withPublicationLock(String(suggestion.id), async () => {
     const catalogFields = mapToolSuggestionToCatalogFields(suggestion);
     const category = slugify(catalogFields.category);
     const fileName = getCatalogFileForCategory(category);
     if (!fileName) throw new Error(`Category "${suggestion.category}" has no mapped catalog file`);
 
+    if (process.env.VERCEL === '1' && !persistenceConfigured()) {
+      throw new Error('Persistent catalog storage is not configured for this deployment.');
+    }
+
+    const persisted = persistenceConfigured();
+    const persistentTools = persisted
+      ? await loadCatalogForMutation(supabase, await getFileTools())
+      : null;
     const catalogCategories = [...new Set(
       getCatalogCategorySlugs()
         .filter((slug) => getCatalogFileForCategory(slug) === `${slug}.json`)
     )];
-    const allRecords = await Promise.all(catalogCategories.map(async (slug) => ({
-      category: slug,
-      tools: await readCategory(slug),
-    })));
-    const existing = allRecords.flatMap(({ category: sourceCategory, tools }) =>
-      tools
-        .map((tool, index) => ({ category: sourceCategory, tool, index }))
-        .filter(({ tool }) =>
-          tool.id === `tool-submission-${suggestion.id}` ||
-          (suggestion.published_slug && tool.slug === suggestion.published_slug)
-        )
-    )[0];
+    const allRecords = persisted
+      ? persistentTools.map((tool) => ({ category: tool.category, tool }))
+      : await Promise.all(catalogCategories.map(async (slug) => ({
+          category: slug,
+          tools: await readCategory(slug),
+        }))).then((records) => records.flatMap(({ category: sourceCategory, tools }) =>
+          tools.map((tool) => ({ category: tool.category || sourceCategory, tool }))
+        ));
+    const existingTool = findExistingPublishedTool(
+      allRecords.map(({ tool }) => tool),
+      suggestion.id,
+      suggestion.published_slug,
+      catalogFields
+    );
+    const existing = allRecords.find(({ tool }) => tool === existingTool);
 
-    const targetTools = await readCategory(category);
+    const targetTools = persisted
+      ? persistentTools.filter((tool) => tool.category === category)
+      : await readCategory(category);
     const baseSlug = slugify(catalogFields.name);
     if (!SAFE_SLUG.test(baseSlug)) throw new Error('Tool name cannot be converted to a valid slug');
 
@@ -164,7 +189,7 @@ async function publishTool(suggestion) {
     );
     const rawTool = {
       ...existing?.tool,
-      id: `tool-submission-${suggestion.id}`,
+      id: existing?.tool.id || `tool-submission-${suggestion.id}`,
       slug,
       logoImageUrl: suggestion.logo_image_url || suggestion.logoImageUrl || suggestion.logo || '',
       bannerImageUrl: suggestion.banner_image_url || suggestion.bannerImageUrl || suggestion.banner || '',
@@ -177,22 +202,29 @@ async function publishTool(suggestion) {
     };
 
     const canonicalTool = toCanonicalNames(normalizeToolToCanonical(rawTool));
-    if (existing && existing.category !== category) {
-      const oldTools = allRecords.find(({ category: sourceCategory }) => sourceCategory === existing.category)?.tools || [];
-      await writeCategory(
-        existing.category,
-        oldTools.filter((tool) => tool.id !== existing.tool.id && tool.id !== canonicalTool.id)
-      );
-      await writeCategory(category, [...targetTools, canonicalTool]);
+    if (persisted) {
+      await upsertCatalogTools(supabase, [canonicalTool]);
     } else {
-      const nextTools = existing
-        ? targetTools.map((tool) =>
-            tool.id === existing.tool.id || tool.id === canonicalTool.id || tool.slug === existing.tool.slug
-              ? canonicalTool
-              : tool
-          )
-        : [...targetTools, canonicalTool];
-      await writeCategory(category, nextTools);
+      const existingFile = existing
+        ? getCatalogFileForCategory(existing.category) || `${existing.category}.json`
+        : null;
+      if (existing && existingFile !== fileName) {
+        const oldTools = await readCategory(existing.category);
+        await writeCategory(
+          existing.category,
+          oldTools.filter((tool) => tool.id !== existing.tool.id && tool.id !== canonicalTool.id)
+        );
+        await writeCategory(category, [...targetTools, canonicalTool]);
+      } else {
+        const nextTools = existing
+          ? targetTools.map((tool) =>
+              tool.id === existing.tool.id || tool.id === canonicalTool.id || tool.slug === existing.tool.slug
+                ? canonicalTool
+                : tool
+            )
+          : [...targetTools, canonicalTool];
+        await writeCategory(category, nextTools);
+      }
     }
     return canonicalTool;
   });
@@ -335,10 +367,22 @@ export async function PATCH(request) {
   }
 
   if (type === 'tool' && (action === 'approve' || action === 'edit-and-approve' || action === 'publish')) {
+    const catalogClient = getCatalogMutationClient(access.auth);
+    if (persistenceConfigured() && !catalogClient) {
+      return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+    }
     try {
-      const publishedTool = await publishTool(merged);
+      const publishedTool = await publishTool(merged, catalogClient || supabase);
       changes.published_slug = publishedTool.slug;
     } catch (error) {
+      if (error?.code) {
+        logCatalogDatabaseFailure('admin contribution publication', error);
+        const failure = catalogDatabaseFailure(error);
+        return NextResponse.json({ error: failure.message }, { status: failure.status });
+      }
+      if (error?.message === 'Persistent catalog storage is not configured for this deployment.') {
+        return NextResponse.json({ error: error.message }, { status: 503 });
+      }
       return NextResponse.json({ error: error.message || 'Unable to publish tool' }, { status: 400 });
     }
   }

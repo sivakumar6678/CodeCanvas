@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { getAllTools } from '../../../../lib/data-fetchers';
+import { getAllTools, getFileTools } from '../../../../lib/data-fetchers';
 import { getCurrentUserWithProfile } from '../../../../lib/auth/server';
 import { normalizeToolToCanonical, toCanonicalNames, ALLOWED_PRICING } from '../../../../lib/canonical-tool-schema';
 import { getCatalogFileForCategory } from '../../../../lib/catalog-categories';
-import { createClient } from '../../../../lib/supabase/server';
-import { deleteCatalogTool, persistenceConfigured, upsertCatalogTools } from '../../../../lib/catalog-persistence';
+import {
+  deleteCatalogTool,
+  getCatalogMutationClient,
+  loadCatalogForMutation,
+  persistenceConfigured,
+  upsertCatalogTools,
+} from '../../../../lib/catalog-persistence';
+import { CATALOG_MUTATION_AUTH_ERROR, catalogDatabaseFailure } from '../../../../lib/catalog-errors';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
@@ -82,6 +88,17 @@ async function writeToolsFile(filePath, tools) {
   await fs.rename(temporaryPath, filePath);
 }
 
+function persistentStorageRequired() {
+  return process.env.VERCEL === '1' && !persistenceConfigured();
+}
+
+function logCatalogMutationFailure(action, error) {
+  console.error(`Failed to ${action} tool:`, {
+    code: error?.code || error?.status || 'UNKNOWN',
+    message: typeof error?.message === 'string' ? error.message.slice(0, 300) : undefined,
+  });
+}
+
 export async function GET() {
   try {
     const { user, isAdmin } = await getCurrentUserWithProfile();
@@ -95,13 +112,15 @@ export async function GET() {
     const allTools = await getAllTools();
     return NextResponse.json(allTools);
   } catch (error) {
+    logCatalogMutationFailure('fetch', error);
     return NextResponse.json({ error: 'Failed to fetch tools' }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
-    const { user, isAdmin } = await getCurrentUserWithProfile();
+    const auth = await getCurrentUserWithProfile();
+    const { user, isAdmin } = auth;
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -130,13 +149,23 @@ export async function POST(request) {
     const categoryFilePath = categoryPath(categorySlug);
 
     return await withToolCreateLock(newTool.slug, async () => {
-      const existing = await getAllTools();
+      if (persistentStorageRequired()) {
+        return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
+      }
+
+      const supabase = persistenceConfigured() ? getCatalogMutationClient(auth) : null;
+      if (persistenceConfigured() && !supabase) {
+        return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+      }
+      const existing = supabase
+        ? await loadCatalogForMutation(supabase, await getFileTools())
+        : await getAllTools();
       if (existing.some((tool) => tool.slug === newTool.slug)) {
         return NextResponse.json({ error: 'A tool with this slug already exists' }, { status: 409 });
       }
 
-      if (persistenceConfigured()) {
-        await upsertCatalogTools(await createClient(), [newTool]);
+      if (supabase) {
+        await upsertCatalogTools(supabase, [newTool]);
         return NextResponse.json({ success: true, tool: newTool });
       }
 
@@ -149,14 +178,16 @@ export async function POST(request) {
       return NextResponse.json({ success: true, tool: newTool });
     });
   } catch (error) {
-    console.error('Failed to create tool:', error);
-    return NextResponse.json({ error: 'Failed to create tool' }, { status: 500 });
+    logCatalogMutationFailure('create', error);
+    const failure = catalogDatabaseFailure(error);
+    return NextResponse.json({ error: failure.message }, { status: failure.status });
   }
 }
 
 export async function PUT(request) {
   try {
-    const { user, isAdmin } = await getCurrentUserWithProfile();
+    const auth = await getCurrentUserWithProfile();
+    const { user, isAdmin } = auth;
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -181,16 +212,23 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
     }
 
+    if (persistentStorageRequired()) {
+      return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
+    }
+
     if (persistenceConfigured()) {
-      const tools = await getAllTools();
+      const supabase = getCatalogMutationClient(auth);
+      if (!supabase) {
+        return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+      }
+      const tools = await loadCatalogForMutation(supabase, await getFileTools());
       const existing = tools.find((tool) => tool.slug === oldSlug);
       if (!existing) return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
       if (oldSlug !== updatedTool.slug && tools.some((tool) => tool.slug === updatedTool.slug)) {
         return NextResponse.json({ error: 'A tool with this slug already exists' }, { status: 409 });
       }
-      const supabase = await createClient();
-      if (oldSlug !== updatedTool.slug) await deleteCatalogTool(supabase, oldSlug);
       await upsertCatalogTools(supabase, [updatedTool]);
+      if (oldSlug !== updatedTool.slug) await deleteCatalogTool(supabase, oldSlug);
       return NextResponse.json({ success: true, tool: updatedTool });
     }
 
@@ -237,14 +275,16 @@ export async function PUT(request) {
 
     return NextResponse.json({ success: true, tool: updatedTool });
   } catch (error) {
-    console.error('Failed to update tool:', error);
-    return NextResponse.json({ error: 'Failed to update tool' }, { status: 500 });
+    logCatalogMutationFailure('update', error);
+    const failure = catalogDatabaseFailure(error);
+    return NextResponse.json({ error: failure.message }, { status: failure.status });
   }
 }
 
 export async function DELETE(request) {
   try {
-    const { user, isAdmin } = await getCurrentUserWithProfile();
+    const auth = await getCurrentUserWithProfile();
+    const { user, isAdmin } = auth;
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -263,10 +303,18 @@ export async function DELETE(request) {
     if (!filePath || !SAFE_SLUG.test(slug)) {
       return NextResponse.json({ error: 'Invalid slug or category' }, { status: 400 });
     }
+    if (persistentStorageRequired()) {
+      return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
+    }
+
     if (persistenceConfigured()) {
-      const tools = await getAllTools();
+      const supabase = getCatalogMutationClient(auth);
+      if (!supabase) {
+        return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+      }
+      const tools = await loadCatalogForMutation(supabase, await getFileTools());
       if (!tools.some((tool) => tool.slug === slug)) return NextResponse.json({ error: 'Tool not found' }, { status: 404 });
-      await deleteCatalogTool(await createClient(), slug);
+      await deleteCatalogTool(supabase, slug);
       return NextResponse.json({ success: true });
     }
     let tools = await readToolsFile(filePath);
@@ -280,7 +328,8 @@ export async function DELETE(request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Failed to delete tool:', error);
-    return NextResponse.json({ error: 'Failed to delete tool' }, { status: 500 });
+    logCatalogMutationFailure('delete', error);
+    const failure = catalogDatabaseFailure(error);
+    return NextResponse.json({ error: failure.message }, { status: failure.status });
   }
 }

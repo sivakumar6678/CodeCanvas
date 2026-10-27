@@ -3,6 +3,20 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getCurrentUserWithProfile } from '../../../../../lib/auth/server';
 import { getCatalogFileForCategory } from '../../../../../lib/catalog-categories';
+import { getFileTools } from '../../../../../lib/data-fetchers';
+import { normalizeToolToCanonical, toCanonicalNames } from '../../../../../lib/canonical-tool-schema';
+import {
+  deleteCatalogTool,
+  getCatalogMutationClient,
+  loadCatalogForMutation,
+  persistenceConfigured,
+  upsertCatalogTools,
+} from '../../../../../lib/catalog-persistence';
+import {
+  CATALOG_MUTATION_AUTH_ERROR,
+  catalogDatabaseFailure,
+  logCatalogDatabaseFailure,
+} from '../../../../../lib/catalog-errors';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const AI_TOOLS_DIR = path.join(DATA_DIR, 'ai-tools');
@@ -35,7 +49,8 @@ async function writeToolsFile(filePath, tools) {
 
 export async function POST(request) {
   try {
-    const { user, isAdmin } = await getCurrentUserWithProfile();
+    const auth = await getCurrentUserWithProfile();
+    const { user, isAdmin } = auth;
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -52,6 +67,45 @@ export async function POST(request) {
 
     if (!['delete', 'update'].includes(action)) {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+    }
+
+    if (persistenceConfigured()) {
+      const supabase = getCatalogMutationClient(auth);
+      if (!supabase) {
+        return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+      }
+      const catalog = await loadCatalogForMutation(supabase, await getFileTools());
+      let updatedCount = 0;
+      const deletedSlugs = new Set();
+
+      for (const item of tools) {
+        const current = catalog.find((tool) => tool.slug === item.slug);
+        if (!current) continue;
+
+        if (action === 'delete') {
+          if (deletedSlugs.has(item.slug)) continue;
+          deletedSlugs.add(item.slug);
+          if (await deleteCatalogTool(supabase, item.slug)) updatedCount += 1;
+          continue;
+        }
+
+        const { slug, category: sourceCategory, newCategory, targetCategory, ...updates } = item;
+        const destinationCategory = newCategory || targetCategory || updates.category || sourceCategory;
+        const updatedTool = toCanonicalNames(normalizeToolToCanonical({
+          ...current,
+          ...updates,
+          slug,
+          category: destinationCategory,
+        }));
+        await upsertCatalogTools(supabase, [updatedTool]);
+        updatedCount += 1;
+      }
+
+      return NextResponse.json({ success: true, updatedCount });
+    }
+
+    if (process.env.VERCEL === '1') {
+      return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
     }
 
     const categoryGroups = {};
@@ -87,7 +141,7 @@ export async function POST(request) {
         for (const item of items) {
           
           const { slug, category: sourceCategory, newCategory, targetCategory, ...updates } = item;
-          const destCategory = newCategory || targetCategory || (updates.category && updates.category !== category ? updates.category : null);
+          const destCategory = newCategory || targetCategory || (sourceCategory !== category ? sourceCategory : null);
 
           if (destCategory && destCategory !== category && SAFE_SLUG.test(destCategory)) {
             const toolIdx = fileTools.findIndex(t => t.slug === slug);
@@ -131,8 +185,8 @@ export async function POST(request) {
 
     return NextResponse.json({ success: true, updatedCount });
   } catch (error) {
-    console.error('Bulk operation failed:', error);
-    return NextResponse.json({ error: 'Bulk operation failed' }, { status: 500 });
+    logCatalogDatabaseFailure('admin bulk catalog operation', error);
+    const failure = catalogDatabaseFailure(error);
+    return NextResponse.json({ error: failure.message }, { status: failure.status });
   }
 }
-

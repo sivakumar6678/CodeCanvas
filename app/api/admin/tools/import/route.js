@@ -1,13 +1,25 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { getCategories, getAllTools } from '../../../../../lib/data-fetchers';
+import { getCategories, getAllTools, getFileTools } from '../../../../../lib/data-fetchers';
 import { getCurrentUserWithProfile } from '../../../../../lib/auth/server';
 import { classifyToolRecords } from '../../../../../lib/tool-json-validation';
 import { normalizeCategorySlug, resolveCategorySlug } from '../../../../../lib/tool-json-validation';
 import { getCatalogCategorySlugs, getCatalogFileForCategory } from '../../../../../lib/catalog-categories';
 import { normalizeToolToCanonical, toCanonicalNames } from '../../../../../lib/canonical-tool-schema';
 import { findDuplicateGroups, mergeToolFields } from '../../../../../lib/catalog-duplicates';
+import {
+  deleteCatalogTool,
+  getCatalogMutationClient,
+  loadCatalogForMutation,
+  persistenceConfigured,
+  upsertCatalogTools,
+} from '../../../../../lib/catalog-persistence';
+import {
+  CATALOG_MUTATION_AUTH_ERROR,
+  catalogDatabaseFailure,
+  logCatalogDatabaseFailure,
+} from '../../../../../lib/catalog-errors';
 
 const TOOLS_DIR = path.join(process.cwd(), 'data', 'ai-tools');
 const SAFE_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -41,15 +53,19 @@ async function writeCategory(category, records) {
   await fs.rename(temporaryPath, filePath);
 }
 
-async function adminOnly() {
+async function getAdminAccess() {
   const auth = await getCurrentUserWithProfile();
-  if (!auth.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!auth.isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  return null;
+  if (!auth.user) {
+    return { auth, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
+  }
+  if (!auth.isAdmin) {
+    return { auth, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
+  }
+  return { auth, response: null };
 }
 
-export async function POST(request) {
-  const denied = await adminOnly();
+async function handlePost(request) {
+  const { auth, response: denied } = await getAdminAccess();
   if (denied) return denied;
   const payload = await request.json().catch(() => null);
   const categories = await getCategories();
@@ -70,6 +86,40 @@ export async function POST(request) {
     const keep = payload.keep;
     if (!['keep', 'merge', 'delete'].includes(action) || selected.length === 0) {
       return NextResponse.json({ error: 'A duplicate resolution and selected tools are required.' }, { status: 400 });
+    }
+
+    if (persistenceConfigured()) {
+      const catalogClient = getCatalogMutationClient(auth);
+      if (!catalogClient) {
+        return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+      }
+      const catalog = await loadCatalogForMutation(catalogClient, await getFileTools());
+      const matches = catalog.filter((tool) =>
+        selected.some((item) => (item.id && item.id === tool.id) || (item.slug && item.slug === tool.slug))
+      );
+      const keeper = matches.find((tool) =>
+        (keep?.id && keep.id === tool.id) || (keep?.slug && keep.slug === tool.slug)
+      ) || matches[0];
+      if (!keeper) return NextResponse.json({ error: 'Selected duplicate tools were not found.' }, { status: 404 });
+
+      const mergedKeeper = action === 'merge'
+        ? toCanonicalNames(matches.filter((tool) => tool !== keeper)
+          .reduce((current, tool) => mergeToolFields(current, tool, Object.keys(tool)), keeper))
+        : keeper;
+      if (action !== 'delete') await upsertCatalogTools(catalogClient, [mergedKeeper]);
+
+      const removed = action === 'delete' ? matches : matches.filter((tool) => tool !== keeper);
+      for (const tool of removed) await deleteCatalogTool(catalogClient, tool.slug);
+      return NextResponse.json({
+        success: true,
+        resolution: action,
+        removed: removed.length,
+        merged: action === 'merge' ? 1 : 0,
+      });
+    }
+
+    if (process.env.VERCEL === '1') {
+      return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
     }
 
     const files = categoryFiles.filter((file) => file.endsWith('.json'));
@@ -105,6 +155,54 @@ export async function POST(request) {
     const updates = Array.isArray(payload.updates) ? payload.updates : [];
     if (updates.length === 0) {
       return NextResponse.json({ success: true, updatedLogos: 0, updatedBanners: 0, toolsAffected: 0, categories: [], message: 'No image updates selected.' });
+    }
+
+    if (persistenceConfigured()) {
+      const catalogClient = getCatalogMutationClient(auth);
+      if (!catalogClient) {
+        return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+      }
+      const catalog = await loadCatalogForMutation(catalogClient, await getFileTools());
+      let updatedLogos = 0;
+      let updatedBanners = 0;
+      let toolsAffected = 0;
+      const touchedCategories = new Set();
+
+      for (const item of updates) {
+        if (!item.replaceLogo && !item.replaceBanner) continue;
+        const tool = catalog.find((candidate) =>
+          (item.id && candidate.id === item.id) || (item.slug && candidate.slug === item.slug)
+        );
+        if (!tool) continue;
+
+        const updated = { ...tool };
+        if (item.replaceLogo && typeof item.newLogo === 'string' && item.newLogo.trim()) {
+          updated.logoImageUrl = item.newLogo.trim();
+          updatedLogos += 1;
+        }
+        if (item.replaceBanner && typeof item.newBanner === 'string' && item.newBanner.trim()) {
+          updated.bannerImageUrl = item.newBanner.trim();
+          updatedBanners += 1;
+        }
+        if (updated.logoImageUrl !== tool.logoImageUrl || updated.bannerImageUrl !== tool.bannerImageUrl) {
+          await upsertCatalogTools(catalogClient, [toCanonicalNames(updated)]);
+          toolsAffected += 1;
+          touchedCategories.add(tool.category);
+        }
+      }
+
+      return NextResponse.json({
+        success: true,
+        updatedLogos,
+        updatedBanners,
+        toolsAffected,
+        categories: Array.from(touchedCategories),
+        message: `Successfully updated ${updatedLogos} logo${updatedLogos === 1 ? '' : 's'} and ${updatedBanners} banner${updatedBanners === 1 ? '' : 's'} across ${toolsAffected} tool${toolsAffected === 1 ? '' : 's'}.`,
+      });
+    }
+
+    if (process.env.VERCEL === '1') {
+      return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
     }
 
     const categorySlugs = getCatalogCategorySlugs();
@@ -244,17 +342,34 @@ export async function POST(request) {
   }
 
   // Action is 'apply' or 'import'
+  if (process.env.VERCEL === '1' && !persistenceConfigured()) {
+    return NextResponse.json({ error: 'Persistent catalog storage is not configured for this deployment.' }, { status: 503 });
+  }
+
   const categorySlugs = [...new Set([
     ...getCatalogCategorySlugs(),
     ...categoryFiles.filter((file) => file.endsWith('.json')).map((file) => file.replace(/\.json$/, '')),
   ])];
   const categoryMap = new Map();
-  for (const slug of categorySlugs) {
-    try {
-      const records = await readCategory(slug);
-      categoryMap.set(slug, Array.isArray(records) ? [...records] : []);
-    } catch {
-      categoryMap.set(slug, []);
+  let catalogClient = null;
+  if (persistenceConfigured()) {
+    catalogClient = getCatalogMutationClient(auth);
+    if (!catalogClient) {
+      return NextResponse.json({ error: CATALOG_MUTATION_AUTH_ERROR }, { status: 403 });
+    }
+    const catalog = await loadCatalogForMutation(catalogClient, await getFileTools());
+    for (const tool of catalog) {
+      if (!categoryMap.has(tool.category)) categoryMap.set(tool.category, []);
+      categoryMap.get(tool.category).push(tool);
+    }
+  } else {
+    for (const slug of categorySlugs) {
+      try {
+        const records = await readCategory(slug);
+        categoryMap.set(slug, Array.isArray(records) ? [...records] : []);
+      } catch {
+        categoryMap.set(slug, []);
+      }
     }
   }
   normalizedRecords.forEach((record) => {
@@ -388,8 +503,13 @@ export async function POST(request) {
     }
   });
 
-  for (const catSlug of touchedCategories) {
-    await writeCategory(catSlug, categoryMap.get(catSlug));
+  if (persistenceConfigured()) {
+    const changedTools = Array.from(touchedCategories).flatMap((category) => categoryMap.get(category) || []);
+    await upsertCatalogTools(catalogClient, changedTools);
+  } else {
+    for (const catSlug of touchedCategories) {
+      await writeCategory(catSlug, categoryMap.get(catSlug));
+    }
   }
 
   const newCategorySlugs = normalizedRecords
@@ -407,7 +527,9 @@ export async function POST(request) {
         slug,
         description: 'Catalog category created from an approved import.',
       }));
-    if (additions.length > 0) await fs.writeFile(categoriesPath, JSON.stringify([...existingCategories, ...additions], null, 2), 'utf8');
+    if (additions.length > 0 && !persistenceConfigured()) {
+      await fs.writeFile(categoriesPath, JSON.stringify([...existingCategories, ...additions], null, 2), 'utf8');
+    }
   }
 
   return NextResponse.json({
@@ -422,4 +544,14 @@ export async function POST(request) {
     categories: Array.from(touchedCategories),
     preview
   });
+}
+
+export async function POST(request) {
+  try {
+    return await handlePost(request);
+  } catch (error) {
+    logCatalogDatabaseFailure('admin tools import', error);
+    const failure = catalogDatabaseFailure(error);
+    return NextResponse.json({ error: failure.message }, { status: failure.status });
+  }
 }
