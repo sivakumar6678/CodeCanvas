@@ -424,31 +424,69 @@
 }
 
 .conflictColumns {
+  overflow-x: auto;
+}
+
+.conflictComparison {
+  min-width: 680px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+
+.conflictColumnHeaders,
+.conflictFieldRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: minmax(130px, 0.7fr) minmax(0, 1.3fr) minmax(0, 1.3fr);
+}
 
-  > div {
-    padding: 12px;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-sm);
+.conflictColumnHeaders {
+  background: var(--bg-muted);
+  color: var(--text-main);
+  font-size: 0.78rem;
+}
+
+.conflictColumnHeaders > *,
+.conflictFieldRow > * {
+  min-width: 0;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.conflictFieldRow {
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+
+  > * + * {
+    border-left: 1px solid var(--border-subtle);
+  }
+
+  > b {
+    color: var(--text-main);
+  }
+
+  > span,
+  .conflictNewValue > span {
+    color: var(--text-secondary);
+  }
+}
+
+.conflictNewValue {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+
+  select {
+    width: 100%;
+    min-height: 30px;
+    padding: 4px 6px;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-xs);
     background: var(--bg-surface);
+    color: var(--text-main);
   }
-
-  h4 { margin-bottom: 8px; }
-
-  p {
-    display: grid;
-    gap: 4px;
-    margin: 0;
-    padding: 7px 0;
-    border-top: 1px solid var(--border-subtle);
-    font-size: 0.78rem;
-    overflow-wrap: anywhere;
-  }
-
-  p span { color: var(--text-secondary); }
-  p select { min-height: 30px; padding: 4px 6px; }
 }
 
 .imageAlert {

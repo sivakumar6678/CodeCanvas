@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FiCheck, FiCopy, FiDownload, FiImage, FiUpload, FiX } from 'react-icons/fi';
+import { formatToolComparisonValue, getToolComparisonFields } from '../../lib/tool-comparison';
 import styles from './ToolJsonImport.module.scss';
 
 const SCHEMA_PROMPT = `Convert this tool list into CodeCanvas JSON. Return only a valid JSON array using the canonical schema: id, name, slug, category, subCategory, description, fullOverview, website, logoImageUrl, bannerImageUrl, keyFeatures, pros, cons, pricingModel, platforms, tags, useCases, bestFor, featured, new, verified, hasFree, createdDate. Category is mandatory and must be a normalized meaningful main-category slug. Reuse an existing category when it accurately fits; create a new meaningful main category only when no existing category fits. Do not force an unrelated category. Subcategory is optional and may be omitted or null. Use tags and useCases for additional classification. Preserve names and URLs, generate unique string IDs and lowercase hyphenated slugs, generate tags, platforms, and useCases only from supplied information, and leave empty optional values instead of inventing facts.`;
@@ -359,8 +360,7 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
           </div>
           {conflictRecords.map((conflict) => {
             const decision = decisions[conflict.recordIndex];
-            const fields = [...new Set([...Object.keys(conflict.existing || {}), ...Object.keys(conflict.record || {})])]
-              .filter((field) => !['createdDate'].includes(field));
+            const fields = getToolComparisonFields(conflict.existing, conflict.record);
             return (
               <div key={conflict.recordIndex} className={styles.conflictReviewCard}>
                 <div className={styles.conflictReviewHeader}>
@@ -374,8 +374,32 @@ export default function BulkToolJsonImport({ categories, onImportComplete }) {
                   </select>
                 </div>
                 <div className={styles.conflictColumns}>
-                  <div><h4>Existing</h4>{fields.map((field) => <p key={`old-${field}`}><b>{field}</b><span>{String(conflict.existing?.[field] ?? '') || 'empty'}</span></p>)}</div>
-                  <div><h4>New</h4>{fields.map((field) => <p key={`new-${field}`}><b>{field}</b><span>{String(conflict.record?.[field] ?? '') || 'empty'}</span>{decision?.action === 'manual-merge' && <select value={decision.fields?.[field] || 'existing'} onChange={(event) => setManualField(conflict.recordIndex, field, event.target.value)}><option value="existing">Keep existing</option><option value="new">Use new</option></select>}</p>)}</div>
+                  <div className={styles.conflictComparison} role="table" aria-label="Existing and new tool fields">
+                    <div className={styles.conflictColumnHeaders} role="row">
+                      <strong role="columnheader">Field</strong>
+                      <strong role="columnheader">Existing</strong>
+                      <strong role="columnheader">New</strong>
+                    </div>
+                    {fields.map((field) => (
+                      <div className={styles.conflictFieldRow} role="row" key={field}>
+                        <b role="rowheader">{field}</b>
+                        <span role="cell">{formatToolComparisonValue(conflict.existing, field)}</span>
+                        <div className={styles.conflictNewValue} role="cell">
+                          <span>{formatToolComparisonValue(conflict.record, field)}</span>
+                          {decision?.action === 'manual-merge' && (
+                            <select
+                              value={decision.fields?.[field] || 'existing'}
+                              onChange={(event) => setManualField(conflict.recordIndex, field, event.target.value)}
+                              aria-label={`Merge choice for ${field}`}
+                            >
+                              <option value="existing">Keep existing</option>
+                              <option value="new">Use new</option>
+                            </select>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             );
