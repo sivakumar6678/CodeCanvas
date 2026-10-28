@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-primary',
+  variable: '--font-inter',
   display: 'swap',
   // Prevent layout shift: size-adjust brings fallback metrics close to Inter
   adjustFontFallback: true,
@@ -15,7 +15,7 @@ const inter = Inter({
 const outfit = Outfit({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-display',
+  variable: '--font-outfit',
   display: 'swap',
   // Prevent layout shift: size-adjust brings fallback metrics close to Outfit
   adjustFontFallback: true,

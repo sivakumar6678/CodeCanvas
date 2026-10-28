@@ -1,52 +1,16 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { Typewriter } from 'react-simple-typewriter';
 import { motion } from 'framer-motion';
 import "../app/hero.scss";
 
-// GSAP and ScrollTrigger are loaded lazily after mount to avoid blocking LCP.
-// Hero text is visible at opacity 1 in CSS; GSAP runs the entrance animation
-// only when it is ready — content is never hidden waiting for the animation.
+// Entrance animations use lightweight Framer Motion declarations,
+// avoiding heavy GSAP/ScrollTrigger runtime scripts and forced reflows.
+// All hero text is rendered immediately in SSR HTML for zero LCP delay.
 const Hero = () => {
-  const heroRef = useRef(null);
-
-  useEffect(() => {
-    // Respect reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    // Lazy-load GSAP only after the page has painted to avoid blocking LCP
-    let active = true;
-    import('gsap').then(({ gsap }) =>
-      import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
-        if (!active) return;
-        gsap.registerPlugin(ScrollTrigger);
-
-        const tl = gsap.timeline({
-          defaults: { ease: 'power3.out' }
-        });
-
-        tl.from('.hero-badge', {
-          opacity: 0,
-          y: 15,
-          duration: 0.4
-        })
-        .from('.hero-visual', {
-          opacity: 0,
-          y: 20,
-          duration: 0.5
-        }, '-=0.2');
-      })
-    );
-
-    return () => {
-      active = false;
-    };
-  }, []);
-
   return (
-    <section className="hero" ref={heroRef} id="hero">
+    <section className="hero" id="hero">
       <div className="hero-background">
         <div className="gradient-orb orb-1"></div>
         <div className="gradient-orb orb-2"></div>
@@ -126,7 +90,12 @@ const Hero = () => {
           </div>
 
           <div className="hero-right">
-            <div className="hero-visual">
+            <motion.div
+              className="hero-visual"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <div className="visual-card code-card">
                 <div className="card-header">
                   <span className="dot red"></span>
@@ -174,7 +143,7 @@ const Hero = () => {
               <div className="floating-icon icon-1">🎨</div>
               <div className="floating-icon icon-2">⚡</div>
               <div className="floating-icon icon-3">🛠️</div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
