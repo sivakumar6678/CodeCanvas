@@ -27,32 +27,32 @@ const Hero = () => {
     });
 
     tl.from('.hero-badge', {
-      opacity: 1,
+      opacity: 0,
       y: 20,
       duration: 0.6
     })
       .from('.hero-content h1', {
-        opacity: 1,
+        opacity: 0,
         y: 30,
         duration: 0.8
       }, '-=0.3')
       .from('.typewriter-container', {
-        opacity: 1,
+        opacity: 0,
         y: 20,
         duration: 0.6
       }, '-=0.4')
       .from('.hero-content p', {
-        opacity: 1,
+        opacity: 0,
         y: 20,
         duration: 0.6
       }, '-=0.3')
       .from('.hero-buttons', {
-        opacity: 1,
+        opacity: 0,
         y: 20,
         duration: 0.6
       }, '-=0.3')
       .from('.hero-stats', {
-        opacity: 1,
+        opacity: 0,
         y: 20,
         duration: 0.6
       }, '-=0.3');
