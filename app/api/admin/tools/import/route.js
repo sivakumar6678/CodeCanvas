@@ -176,11 +176,11 @@ async function handlePost(request) {
         if (!tool) continue;
 
         const updated = { ...tool };
-        if (item.replaceLogo && typeof item.newLogo === 'string' && item.newLogo.trim()) {
+        if (item.replaceLogo && typeof item.newLogo === 'string') {
           updated.logoImageUrl = item.newLogo.trim();
           updatedLogos += 1;
         }
-        if (item.replaceBanner && typeof item.newBanner === 'string' && item.newBanner.trim()) {
+        if (item.replaceBanner && typeof item.newBanner === 'string') {
           updated.bannerImageUrl = item.newBanner.trim();
           updatedBanners += 1;
         }
@@ -246,7 +246,7 @@ async function handlePost(request) {
       let toolModified = false;
       const toolCopy = { ...match.tool };
 
-      if (item.replaceLogo && item.newLogo && typeof item.newLogo === 'string' && item.newLogo.trim()) {
+      if (item.replaceLogo && typeof item.newLogo === 'string') {
         toolCopy.logoImageUrl = item.newLogo.trim();
         delete toolCopy.logo;
         delete toolCopy.logoImage;
@@ -254,7 +254,7 @@ async function handlePost(request) {
         toolModified = true;
       }
 
-      if (item.replaceBanner && item.newBanner && typeof item.newBanner === 'string' && item.newBanner.trim()) {
+      if (item.replaceBanner && typeof item.newBanner === 'string') {
         toolCopy.bannerImageUrl = item.newBanner.trim();
         delete toolCopy.banner;
         delete toolCopy.bannerImage;

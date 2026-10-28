@@ -633,6 +633,9 @@ export default function ToolsManager({ initialTools, categories = [] }) {
       {showImport && (
         <ToolJsonImport
           categories={categories}
+          onImagesUpdated={() => {
+            refreshCatalog();
+          }}
           onImportComplete={() => {
             refreshCatalog();
             setShowImport(false);
