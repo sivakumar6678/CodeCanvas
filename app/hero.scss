@@ -629,9 +629,11 @@
     }
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      padding: 120px 0 80px;
+  @media (prefers-reduced-motion: reduce) {
+    .gradient-orb,
+    .visual-card,
+    .floating-icon {
+      animation: none !important;
     }
   }
 

@@ -13,48 +13,44 @@ const Hero = () => {
   const heroRef = useRef(null);
 
   useEffect(() => {
-    // Animate background gradient
-    gsap.to('.hero', {
-      backgroundPosition: '100% 100%',
-      duration: 20,
-      repeat: -1,
-      ease: 'none'
-    });
+    // Respect reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
-    // Animate hero content with stagger effect
+    // Animate background gradient using transform or GPU properties if needed, or skip background-position
     const tl = gsap.timeline({
       defaults: { ease: 'power3.out' }
     });
 
     tl.from('.hero-badge', {
       opacity: 0,
-      y: 20,
-      duration: 0.6
+      y: 15,
+      duration: 0.5
     })
       .from('.hero-content h1', {
         opacity: 0,
-        y: 30,
-        duration: 0.8
+        y: 20,
+        duration: 0.6
       }, '-=0.3')
       .from('.typewriter-container', {
         opacity: 0,
-        y: 20,
-        duration: 0.6
-      }, '-=0.4')
+        y: 15,
+        duration: 0.5
+      }, '-=0.3')
       .from('.hero-content p', {
         opacity: 0,
-        y: 20,
-        duration: 0.6
+        y: 15,
+        duration: 0.5
       }, '-=0.3')
       .from('.hero-buttons', {
         opacity: 0,
-        y: 20,
-        duration: 0.6
+        y: 15,
+        duration: 0.5
       }, '-=0.3')
       .from('.hero-stats', {
         opacity: 0,
-        y: 20,
-        duration: 0.6
+        y: 15,
+        duration: 0.5
       }, '-=0.3');
   }, []);
 
