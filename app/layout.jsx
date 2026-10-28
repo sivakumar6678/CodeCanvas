@@ -8,6 +8,8 @@ const inter = Inter({
   weight: ['300', '400', '500', '600', '700', '800'],
   variable: '--font-primary',
   display: 'swap',
+  // Prevent layout shift: size-adjust brings fallback metrics close to Inter
+  adjustFontFallback: true,
 });
 
 const outfit = Outfit({
@@ -15,9 +17,11 @@ const outfit = Outfit({
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-display',
   display: 'swap',
+  // Prevent layout shift: size-adjust brings fallback metrics close to Outfit
+  adjustFontFallback: true,
 });
 
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://codecraft.dev').replace(/\/$/, '');
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://code-canvas-steel.vercel.app').replace(/\/$/, '');
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
@@ -43,11 +47,33 @@ export const metadata = {
   },
 };
 
+// Structured data for Agentic Browsing / rich results
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'CodeCanvas',
+  url: siteUrl,
+  description: 'Your AI & Developer Toolkit. Discover. Build. Learn with AI tools, developer utilities, and curated resources.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/tools?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
         {/* Fonts optimized and self-hosted via next/font/google */}
+        {/* Structured data for search engines and Agentic Browsing */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body>
         <div className="main-page">

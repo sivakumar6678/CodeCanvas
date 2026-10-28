@@ -34,8 +34,9 @@ export default function BrandLogo({
           alt={isWideLogo ? 'CodeCanvas — Your AI & Developer Toolkit. Discover. Build. Learn.' : ''}
           width={imgWidth}
           height={imgHeight}
-          sizes={isWideLogo ? '(max-width: 768px) 100vw, 600px' : undefined}
+          sizes={isWideLogo ? '(max-width: 480px) 90vw, (max-width: 768px) 60vw, 460px' : undefined}
           priority={priority}
+          loading={priority ? undefined : 'lazy'}
           className={styles.logoImage}
           aria-hidden={isWideLogo ? undefined : true}
         />

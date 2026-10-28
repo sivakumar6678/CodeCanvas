@@ -3,12 +3,11 @@ import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Typewriter } from 'react-simple-typewriter';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import "../app/hero.scss";
 
-gsap.registerPlugin(ScrollTrigger);
-
+// GSAP and ScrollTrigger are loaded lazily after mount to avoid blocking LCP.
+// Hero text is visible at opacity 1 in CSS; GSAP runs the entrance animation
+// only when it is ready — content is never hidden waiting for the animation.
 const Hero = () => {
   const heroRef = useRef(null);
 
@@ -17,41 +16,33 @@ const Hero = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    // Animate background gradient using transform or GPU properties if needed, or skip background-position
-    const tl = gsap.timeline({
-      defaults: { ease: 'power3.out' }
-    });
+    // Lazy-load GSAP only after the page has painted to avoid blocking LCP
+    let active = true;
+    import('gsap').then(({ gsap }) =>
+      import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+        if (!active) return;
+        gsap.registerPlugin(ScrollTrigger);
 
-    tl.from('.hero-badge', {
-      opacity: 0,
-      y: 15,
-      duration: 0.5
-    })
-      .from('.hero-content h1', {
-        opacity: 0,
-        y: 20,
-        duration: 0.6
-      }, '-=0.3')
-      .from('.typewriter-container', {
-        opacity: 0,
-        y: 15,
-        duration: 0.5
-      }, '-=0.3')
-      .from('.hero-content p', {
-        opacity: 0,
-        y: 15,
-        duration: 0.5
-      }, '-=0.3')
-      .from('.hero-buttons', {
-        opacity: 0,
-        y: 15,
-        duration: 0.5
-      }, '-=0.3')
-      .from('.hero-stats', {
-        opacity: 0,
-        y: 15,
-        duration: 0.5
-      }, '-=0.3');
+        const tl = gsap.timeline({
+          defaults: { ease: 'power3.out' }
+        });
+
+        tl.from('.hero-badge', {
+          opacity: 0,
+          y: 15,
+          duration: 0.4
+        })
+        .from('.hero-visual', {
+          opacity: 0,
+          y: 20,
+          duration: 0.5
+        }, '-=0.2');
+      })
+    );
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -69,10 +60,10 @@ const Hero = () => {
               className="hero-badge"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
               <span className="badge-icon">✨</span>
-              <span className="badge-text">Free & Open Source Developer Tools</span>
+              <span className="badge-text">Free &amp; Open Source Developer Tools</span>
             </motion.div>
 
             <h1>

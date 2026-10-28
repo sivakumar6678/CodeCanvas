@@ -107,7 +107,7 @@ const Navbar = () => {
     router.refresh();
   };
 
-  const navLinks = [
+  const coreNavLinks = [
     { name: 'Home', path: '/', icon: <FaHome /> },
     { name: 'Tools', path: '/tools', icon: <FaTools /> },
     { name: 'AI Tools', path: '/ai-tools', icon: <FaSlidersH /> },
@@ -115,9 +115,6 @@ const Navbar = () => {
     { name: 'Contribute', path: '/contribute', icon: <FaTools /> },
     { name: 'About', path: '/about', icon: <FaInfoCircle /> },
     { name: 'Users', path: '/users', icon: <FaUsers /> },
-    ...(authReady && user
-      ? [{ name: 'Profile', path: '/profile', icon: <FaUser />, authVariant: 'profile' }]
-      : authReady ? [{ name: 'Login', path: '/login', icon: <FaSignInAlt />, authVariant: 'login' }] : []),
   ];
 
   const isLinkActive = (path) => {
@@ -145,13 +142,13 @@ const Navbar = () => {
 
         <div className={`nav-menu ${isOpen ? 'active' : ''}`}>
           <CommandPalette />
-          {navLinks.map((link) => {
+          {coreNavLinks.map((link) => {
             const active = isLinkActive(link.path);
             return (
               <Link
                 key={link.path}
                 href={link.path}
-                className={`nav-link ${active ? 'active' : ''} ${link.authVariant ? `nav-auth-link ${link.authVariant}` : ''}`}
+                className={`nav-link ${active ? 'active' : ''}`}
                 onClick={() => setIsOpen(false)}
               >
                 <span className="nav-icon">{link.icon}</span>
@@ -160,12 +157,39 @@ const Navbar = () => {
             );
           })}
 
-          {user ? (
-            <button onClick={handleLogout} className="nav-link nav-auth-btn logout">
-              <span className="nav-icon"><FaSignOutAlt /></span>
-              <span className="nav-text">Logout</span>
-            </button>
-          ) : null}
+          {/* Auth slot: always render a fixed-width container to prevent layout shift.
+              The inner content swaps between a placeholder, Login, or Profile button
+              after auth resolves — but the outer slot holds its space throughout. */}
+          <div className="nav-auth-slot">
+            {!authReady ? (
+              /* Invisible placeholder matching the Login button dimensions */
+              <span className="nav-auth-placeholder" aria-hidden="true" />
+            ) : user ? (
+              <>
+                <Link
+                  href="/profile"
+                  className={`nav-link nav-auth-link profile${pathname.startsWith('/profile') ? ' active' : ''}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="nav-icon"><FaUser /></span>
+                  <span className="nav-text">Profile</span>
+                </Link>
+                <button onClick={handleLogout} className="nav-link nav-auth-btn logout">
+                  <span className="nav-icon"><FaSignOutAlt /></span>
+                  <span className="nav-text">Logout</span>
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="nav-link nav-auth-link login"
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="nav-icon"><FaSignInAlt /></span>
+                <span className="nav-text">Login</span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </nav>

@@ -1,6 +1,6 @@
 import { getAllPrompts, getAllTools } from '../lib/data-fetchers';
 
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://codecraft.dev').replace(/\/$/, '');
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://code-canvas-steel.vercel.app').replace(/\/$/, '');
 
 export default async function sitemap() {
   const [tools, prompts] = await Promise.all([getAllTools(), getAllPrompts()]);
