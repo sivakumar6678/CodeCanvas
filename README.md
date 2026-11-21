@@ -1,5 +1,11 @@
 # CodeCanvas — Your AI & Developer Toolkit
 
+CodeCanvas helps developers choose tools for a project. Search the catalog by
+use case, pricing, or platform, open a side-by-side comparison, or use the stack
+recommender to build a shortlist.
+
+[Open CodeCanvas](https://code-canvas-steel.vercel.app/)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/sivakumar6678/codecraft/main/public/logo.png" alt="CodeCanvas Logo" width="80" height="80" onerror="this.style.display='none'"/>
 </p>
