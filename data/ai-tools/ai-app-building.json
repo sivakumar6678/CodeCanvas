@@ -988,6 +988,63 @@
     "createdDate": "2026-09-09T00:00:00.000Z"
   },
   {
+    "id": "kite",
+    "name": "Kite",
+    "slug": "kite",
+    "category": "ai-app-building",
+    "subCategory": "ui-to-code",
+    "description": "Collaborative design tool where AI agents draw editable layers through a hosted MCP server.",
+    "fullOverview": "Kite is a design tool your AI agents and your team share. Claude, ChatGPT, Cursor or Codex connect through Kite's hosted MCP server and draw real, editable layers (frames, text, components, auto layout) in the same file the team edits live. Any frame can be copied as HTML, React or Tailwind, or pasted into Figma. The Free plan includes unlimited editors, 3 files and 100 agent actions a day with no AI credits (agents run on your own subscription); Pro is $16 per editor a month billed yearly ($20 monthly).",
+    "website": "https://kite.new",
+    "logoImageUrl": "https://kite.new/apple-icon.png",
+    "bannerImageUrl": "https://kite.new/opengraph-image.png",
+    "keyFeatures": [
+      "Hosted MCP server for Claude, ChatGPT, Cursor and Codex",
+      "Editable layers: frames, text, components, auto layout",
+      "Real-time team editing",
+      "Copy frames as HTML, React or Tailwind",
+      "Copy to Figma"
+    ],
+    "pros": [
+      "Agents and designers work in the same file",
+      "Free plan with unlimited editors",
+      "Mac and Windows apps plus browser"
+    ],
+    "cons": [
+      "Free plan limited to 3 files and 100 agent actions a day",
+      "No built-in AI credits; needs your own agent"
+    ],
+    "pricingModel": "Freemium",
+    "platforms": [
+      "Web",
+      "Mac",
+      "Windows"
+    ],
+    "tags": [
+      "design",
+      "mcp",
+      "ui",
+      "figma-alternative",
+      "collaboration"
+    ],
+    "useCases": [
+      "UI design with AI agents",
+      "Prototyping",
+      "Design-to-code handoff"
+    ],
+    "bestFor": [
+      "Designers",
+      "Developers",
+      "Product teams"
+    ],
+    "featured": false,
+    "new": true,
+    "verified": false,
+    "hasFree": true,
+    "createdDate": "2026-11-25T00:00:00.000Z",
+    "status": "active"
+  },
+  {
     "id": "locofy",
     "name": "Locofy.ai",
     "slug": "locofy",
